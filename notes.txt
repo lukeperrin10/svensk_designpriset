@@ -1,0 +1,27 @@
+start (run) image:
+docker run --name batteri_mysql -e MYSQL_ROOT_PASSWORD=root mysql
+
+
+run bash:
+docker exec -it batteri_mysql bash
+
+run mysql:
+docker exec -it batteri_mysql mysql -u root -p
+
+List (running?) containers:
+docker container ps
+
+designpriset db:
+mysql despri_new -u despri_new -p'dKghik'
+
+ladda ner fil:
+scp root@batteri:/root/designpriset/admin/inc/testdump_batteri.sql . 
+
+dump:
+mysqldump -u root -p[root_password] [database_name] > dumpfilename.sql
+
+stop container:
+docker container stop [namn]
+
+remove container:
+docker container rm [namn]

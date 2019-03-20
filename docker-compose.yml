@@ -1,0 +1,15 @@
+version: "3" 
+services:
+    mysql:
+        command: --default-authentication-plugin=mysql_native_password
+		hostname: mysql
+        env_file:
+            - backend/db/db.env
+        environment:
+            - MYSQL_HOST=   # override from env file to be empty
+        build: ./backend/db
+        volumes:
+            - mysql-data:/var/lib/mysql
+            - ./backend/db/dumps_from_server:/var/dumps_from_server
+volumes: 
+    mysql-data: {}
