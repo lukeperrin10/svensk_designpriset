@@ -2,7 +2,7 @@ version: "3"
 services:
     mysql:
         command: --default-authentication-plugin=mysql_native_password
-		hostname: mysql
+        hostname: mysql
         env_file:
             - backend/db/db.env
         environment:
@@ -11,5 +11,26 @@ services:
         volumes:
             - mysql-data:/var/lib/mysql
             - ./backend/db/dumps_from_server:/var/dumps_from_server
+        expose: 
+            - "3306"
+    apache-server:
+        build: ./public
+        # links:
+        #     - mysql
+        #     - backend
+        ports:
+            - "8011:80"
+        volumes: 
+            - ./public:/app
+    backend:
+        build: ./backend/node
+        # links:
+        #     - mysql
+        ports:
+            - "8001:8001"
+        volumes: 
+            - ./backend/node:/var/app
+        
+        
 volumes: 
     mysql-data: {}

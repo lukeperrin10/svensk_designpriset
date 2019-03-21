@@ -1,6 +1,9 @@
 start (run) image:
 docker run --name batteri_mysql -e MYSQL_ROOT_PASSWORD=root mysql
 
+start image in current folder:
+docker run --rm -it $(docker build -q .)
+
 
 run bash:
 docker exec -it batteri_mysql bash
@@ -25,3 +28,9 @@ docker container stop [namn]
 
 remove container:
 docker container rm [namn]
+
+show images:
+docker image ls
+
+delete inactive images:
+docker system prune
