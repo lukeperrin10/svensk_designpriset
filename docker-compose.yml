@@ -23,13 +23,14 @@ services:
         volumes: 
             - ./public:/app
     backend:
-        build: ./backend/node
+        build: ./backend/server
+        # command: nodemon server.ts
         # links:
         #     - mysql
         ports:
             - "8001:8001"
         volumes: 
-            - ./backend/node:/var/app
+            - ./backend/server:/var/app
         
         
 volumes: 

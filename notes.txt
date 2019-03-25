@@ -34,3 +34,48 @@ docker image ls
 
 delete inactive images:
 docker system prune
+
+To rebuild this image you must use `docker-compose build` or `docker-compose up --build`
+
+change owner, chane modifiers
+chmod (change permissions to file):
+r (4): read
+w (2): write
+x (1): execute
+
+col1: user
+col2: group
+col3: others
+
+ex add permission to all:
+chmod +x [file]
+ex remove permission to all:
+chmod -r [file]
+ex with numbers (rwx):
+
+ex set permissions with number:
+chmod 755 [file]
+(-rwxr-xr-x)
+chmod 644 [file]
+(rw-r--r--)
+
+change user and/or group:
+chown user:group [file]
+ex:
+chown Johan: [file]
+chown :staff [file]
+chown root:everyone [file]
+chown root:everyone [*.sh]
+
+Apache stuff:
+Edit designpriset.se conf (sites-available):
+vim /etc/apache2/sites-available/www.designpriset.se 
+"
+        <Directory /var/www/www.designpriset.se/wwwroot/backend_api>
+ 23         Deny from all
+ 24     </Directory>
+ 25 
+ 26     <Directory /var/www/www.designpriset.se/wwwroot/backend_backup>
+ 27         Deny from all
+ 28     </Directory>
+"

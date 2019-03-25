@@ -9,6 +9,12 @@ RUN echo "deb http://archive.debian.org/debian/ squeeze main non-free contrib" >
     ln -s /var/node-v10.15.3-linux-x64/bin/npm /usr/bin/npm && \
     ln -s /var/node-v10.15.3-linux-x64/bin/node /usr/bin/node && \
     ln -s /var/node-v10.15.3-linux-x64/bin/npx /usr/bin/npx && \
+    npm install -g nodemon && \
+    ln -s /var/node-v10.15.3-linux-x64/bin/nodemon /usr/bin/nodemon && \ 
     mkdir app
 WORKDIR /var/app
-CMD [ "node", "server.js" ]
+
+# RUN npm install -g nodemon
+# RUN export PATH=$PATH:/var/node-v10.15.3-linux-x64/bin
+
+CMD [ "nodemon", "server.ts" ]
