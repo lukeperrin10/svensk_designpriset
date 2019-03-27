@@ -79,3 +79,10 @@ vim /etc/apache2/sites-available/www.designpriset.se
  27         Deny from all
  28     </Directory>
 "
+
+Watch file:
+tail -f [filename]
+Show last 20 rows of file:
+tail -20 [filename]
+Show first 20 rows of file:
+head -20 [filename]

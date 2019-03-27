@@ -3,3 +3,5 @@ package-lock.json
 package.json
 start.sh
 pid
+node_log.log
+node_error.log

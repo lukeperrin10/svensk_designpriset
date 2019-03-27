@@ -24,7 +24,13 @@ services:
             - ./public:/app
     backend:
         build: ./backend/server
-        # command: nodemon server.ts
+        environment:
+            - DP_BACKEND_MYSQL_DATABASE=designpriset 
+            - DP_BACKEND_MYSQL_PASSWORD=secret 
+            - DP_BACKEND_MYSQL_ROOT_PASSWORD=secret 
+            - DP_BACKEND_MYSQL_USER=wopii 
+            - DP_BACKEND_MYSQL_HOST=mysql
+        command: nodemon server.ts
         # links:
         #     - mysql
         ports:
@@ -35,3 +41,5 @@ services:
         
 volumes: 
     mysql-data: {}
+
+
