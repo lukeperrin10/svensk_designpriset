@@ -1,0 +1,23 @@
+export interface IWinner {
+    id: number,
+    profile_id: number,
+    secret: string,
+    entry_name: string,
+    category: string,
+    source: string,
+    designer: string,
+    illustrator: string,
+    leader: string,
+    customer: string,
+    created: string,
+    modified: string,
+    avatar: string,
+    format: string,
+    size: string,
+    webpage: string,
+    is_winner_gold: number,
+    is_winner_silver: number,
+    is_nominated: number,
+    motivation: string,
+    year: string
+}
