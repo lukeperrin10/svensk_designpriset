@@ -2,7 +2,7 @@
   "name": "new_registration",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://myown.se/new_registration/build",
+  "homepage": ".",
   "dependencies": {
     "cross-fetch": "^3.0.2",
     "react": "^16.8.6",

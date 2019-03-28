@@ -10,6 +10,20 @@ const morgan_1 = __importDefault(require("morgan"));
 require("console-stamp")(console, { pattern: "yyyy-mm-dd--HH:MM:ss" });
 // logger.token('date');
 app.use(morgan_1.default('[:date[iso]] [ACCESS] :req[x-forwarded-for] - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
+if (process.env.NODE_ENV === 'development') {
+    app.use((req, res, next) => {
+        // if (config.get<boolean>('allow_all_origins')) {
+        //     res.header("Access-Control-Allow-Origin", req.get('origin'))
+        // } else {
+        //     //Add web domain later
+        res.header("Access-Control-Allow-Origin", '*');
+        // }
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+        res.header("Access-Control-Allow-Credentials", "true");
+        next();
+    });
+}
 const mysql = require('mysql');
 const pool = mysql.createPool({
     connectionLimit: 9,

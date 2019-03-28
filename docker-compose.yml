@@ -30,6 +30,7 @@ services:
             - DP_BACKEND_MYSQL_ROOT_PASSWORD=secret 
             - DP_BACKEND_MYSQL_USER=wopii 
             - DP_BACKEND_MYSQL_HOST=mysql
+            - NODE_ENV=development
         command: nodemon server.ts
         # links:
         #     - mysql
