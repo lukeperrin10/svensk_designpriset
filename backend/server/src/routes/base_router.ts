@@ -24,9 +24,11 @@ export class DPRouter<T> {
     }
 
     protected get() {
-        console.log('DP Router get')
+        
         this.router.get('/', async (req, res) => {
-            res.json(await this.model.get(<T>req.params))
+            console.log('DP Router get')
+            console.log(req.query)
+            res.json(await this.model.get(<T>req.query))
         })
     }
 }
