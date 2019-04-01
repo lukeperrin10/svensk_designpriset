@@ -1,7 +1,7 @@
 version: "3" 
 services:
     mysql:
-        command: --default-authentication-plugin=mysql_native_password
+        command: [ '--default-authentication-plugin=mysql_native_password', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
         hostname: mysql
         env_file:
             - backend/db/db.env
@@ -13,6 +13,8 @@ services:
             - ./backend/db/dumps_from_server:/var/dumps_from_server
         expose: 
             - "3306"
+        ports:
+            - "3306:3306"
     apache-server:
         build: ./public
         # links:
