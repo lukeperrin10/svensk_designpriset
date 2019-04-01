@@ -16,7 +16,7 @@ export function getName() {
 //     return query
 // }
 
-export async function get(args: Request['query']): Promise<Array<Winner>> {
+export async function get(args: Request['query']): Promise<Array<dbtype>> {
     console.log('winner get')
     console.log(args.query)
     const query = await db.query('SELECT * FROM `winner_entries` WHERE `id` = ?', args.id)
