@@ -20,23 +20,13 @@ class Registration extends React.Component<Props, State> {
         didLoad: false
     }
     componentDidMount() {
-        this.props.getWinners()
-        .then(() => {
-            this.setState({didLoad: true})
-            console.log(this.props.winners)
-        })
+       
         
     }
     render() {
         return (
             <div>
-                {this.state.didLoad ? 
-                <div>
-                    Laddade!  
-                </div>
-                : 
-                'laddar'
-                }
+                
             </div>
         )
     }
