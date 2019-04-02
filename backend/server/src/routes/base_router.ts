@@ -45,16 +45,16 @@ export class DPRouter<T> {
     protected put() {
         this.router.put('/:id', async (req, res) => {
             console.log('DP Router put')
-            console.log(req.query)
-            res.json(await this.model.get(<T>req.query))
+            console.log(req.body)
+            res.json(await this.model.update(<T>req.body))
         })
     }
 
     protected post() {
-        this.router.post('/', async (req, res) => {
+        this.router.post('/', async (req, res, next) => {
             console.log('DP Router get post')
-            console.log(req.query)
-            res.json(await this.model.get(<T>req.query))
+            console.log(req.body)
+            res.json(await this.model.create(<T>req.body))
         })
     }
 }

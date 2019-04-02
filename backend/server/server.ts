@@ -3,11 +3,16 @@ const app = express()
 const util = require('util')
 import logger from 'morgan'
 import {initRouter} from './src/router'
+import * as bodyParser from 'body-parser'
 
 require( "console-stamp" )( console, {pattern: "yyyy-mm-dd--HH:MM:ss"} );
 
 // logger.token('date');
 app.use(logger('[:date[iso]] [ACCESS] :req[x-forwarded-for] - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
+app.use(bodyParser.json())                                     
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.text())                            
+app.use(bodyParser.json({ type: 'application/json'}))
 
 if (process.env.NODE_ENV === 'development') {
     app.use((req: any , res:any, next:any) => {
@@ -26,52 +31,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 
-
-
 const port = 8001
 
-// req: any ger SyntaxError: Unexpected token :
-
-// app.get('/', (req: any, res: any) => {
-//     console.log('request')
-//     res.send('Hello World!')
-//     });
-
-// app.get('/winner', (req: any, res: any) => {
-//     // pool.query('select * from winner_entries where id = 29731', (error: any, results: any, fields: any) => {
-//     //     if (error) throw error
-//     //         res.send(results)
-//     // })
-// })
-
-
 initRouter(app)
+
 app.listen(port, () => console.log('Server listening on port 8001!'));
 
-
-function testDatabaseInsert(random_string: any) {
-    // pool.getConnection((err: any, connection: any) => {
-    //     connection.beginTransaction((error: any) => {
-    //         if (error) throw error
-    //         connection.query(
-    //             'INSERT INTO wopii_test_table SET random_string=?', 
-    //             random_string, 
-    //             (err: any, res: any, fields: any) => {
-    //                 if (err) {
-    //                     return pool.rollback(() => {
-    //                         throw err
-    //                     })
-    //                 }
-    //                 connection.commit((error: any) => {
-    //                     if (error) {
-    //                         return pool.rollback(() => {
-    //                             throw error
-    //                         })
-    //                     }
-    //                     console.log('success!')
-    //                 })
-    //         })
-    //     })
-    // })
-}
-// testDatabaseInsert('tjena hejsan')
