@@ -20,6 +20,9 @@ export class DPRouter<T> {
     public activate(): Router {
         console.log('DP Router activate')
         this.get()
+        this.getId()
+        this.put()
+        this.post()
         return this.router
     }
 
@@ -27,6 +30,29 @@ export class DPRouter<T> {
         
         this.router.get('/', async (req, res) => {
             console.log('DP Router get')
+            console.log(req.query)
+            res.json(await this.model.get(<T>req.query))
+        })
+    }
+
+    protected getId() {
+        this.router.get('/:id', async (req, res) => {
+            console.log('DP Router get ID')
+            res.json(await this.model.getId(req.params.id))
+        })
+    }
+    // WARNING: Se över denna och POST
+    protected put() {
+        this.router.put('/:id', async (req, res) => {
+            console.log('DP Router put')
+            console.log(req.query)
+            res.json(await this.model.get(<T>req.query))
+        })
+    }
+
+    protected post() {
+        this.router.post('/', async (req, res) => {
+            console.log('DP Router get post')
             console.log(req.query)
             res.json(await this.model.get(<T>req.query))
         })
