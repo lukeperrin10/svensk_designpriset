@@ -3,7 +3,7 @@ import {Winner as dbtype} from '../types/dbtypes'
 import { Request } from 'express';
 
 
-export interface Winner extends Partial<Winner> {}
+export interface Winner extends Partial<dbtype> {}
 
 export function getName() {
     return 'Winners'
@@ -15,7 +15,7 @@ export async function get(): Promise<Array<Winner>> {
     return query
 }
 
-export async function getId(id: number): Promise<Array<Winner>> {
+export async function getId(id: number): Promise<Winner> {
     console.log('winner get')
     console.log(id)
     const query = await db.query('SELECT * FROM `winner_entries` WHERE `id` = ?', [id])

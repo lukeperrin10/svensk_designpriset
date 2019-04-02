@@ -21,6 +21,22 @@ export interface Winner {
     motivation: string,
     year: string
 }
+// WARNING: Should dates be string?
+export interface Profile {
+    id: number,
+    secret: string,
+    contact: string,
+    company: string,
+    address: string,
+    zip: string,
+    city: string,
+    phone: string,
+    mail: string,
+    homepage: string,
+    created: string,
+    modified: string,
+    invoice_paid: number
+}
 
 export interface Entry {
     id: number,
