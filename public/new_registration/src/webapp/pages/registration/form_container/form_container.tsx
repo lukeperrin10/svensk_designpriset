@@ -71,7 +71,7 @@ class FormContainer extends React.Component<Props, State> {
         savedProfile.secret = `${Md5.hashStr(savedProfile.contact+Date.now())}`
         if (!error) {
             console.log('save profile')
-            // this.props.saveProfile(savedProfile)
+            this.props.saveProfile(savedProfile)
         }
     }
 
@@ -79,21 +79,7 @@ class FormContainer extends React.Component<Props, State> {
         console.log(entry)
     }
 
-    // onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    //     const form = e.currentTarget
-    //     if (form.checkValidity() === false) {
-    //         e.preventDefault()
-    //         e.stopPropagation()
-    //     } else {
-    //         this.saveProfile()
-    //         e.preventDefault()
-            
-    //     }
-        
-    // }
     render() {
-        // const {profileValidated} = this.state
-        // let i = 0
         return (
             <div>
                 <DpForm 
