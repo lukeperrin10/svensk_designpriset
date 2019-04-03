@@ -4,13 +4,16 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "cross-fetch": "^3.0.2",
     "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.6",
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
     "react-scripts-ts": "3.1.0",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "ts-md5": "^1.2.4"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -19,6 +22,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/bootstrap": "^4.3.0",
     "@types/jest": "^24.0.11",
     "@types/node": "^11.12.0",
     "@types/react": "^16.8.10",

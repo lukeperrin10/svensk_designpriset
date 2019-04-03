@@ -1,8 +1,9 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import { IState } from 'src/webapp/model/state';
-import { getWinners } from 'src/webapp/redux/actions/winners';
-import { IWinner } from 'src/webapp/model';
+import { IState } from 'src/webapp/model/state'
+import { getWinners } from 'src/webapp/redux/actions/winners'
+import { IWinner } from 'src/webapp/model'
+import FormContainer from './form_container'
 
 interface ReduxProps {
     winners: IWinner[]
@@ -26,7 +27,7 @@ class Registration extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                
+                <FormContainer />
             </div>
         )
     }
