@@ -100,6 +100,7 @@ function fetchSaveProfile(profile: INewProfile): ThunkAction<Promise<IProfileAct
                 body: JSON.stringify(profile)
             })
             const json = await response.json
+            console.log(json)
             return dispatch(doneSaveProfileAction())
         } catch (error) {
             return dispatch(errorProfile(error))

@@ -1,12 +1,12 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import { IState } from 'src/webapp/model/state'
+import { IState, IWinnerState } from 'src/webapp/model/state'
 import { getWinners } from 'src/webapp/redux/actions/winners'
-import { IWinner } from 'src/webapp/model'
+// import { IWinner } from 'src/webapp/model'
 import FormContainer from './form_container'
 
 interface ReduxProps {
-    winners: IWinner[]
+    winners: IWinnerState
 }
 
 interface DispatchProps {
@@ -22,7 +22,7 @@ class Registration extends React.Component<Props, State> {
     }
     componentDidMount() {
        
-        
+        this.props.getWinners()
     }
     render() {
         return (
@@ -35,7 +35,7 @@ class Registration extends React.Component<Props, State> {
 
 const mapStateToProps = (state: IState) => {
     return {
-        winners: state.winnerState.winners
+        winners: state.winnerState
     }
 }
 

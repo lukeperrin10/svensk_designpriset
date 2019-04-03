@@ -14,6 +14,7 @@ export function initRouter(app: Express) {
         res.send('tjena hejsan')
     })
 
+    
     router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         if (req.app.get('env') !== 'test') {   
             console.error(err)
