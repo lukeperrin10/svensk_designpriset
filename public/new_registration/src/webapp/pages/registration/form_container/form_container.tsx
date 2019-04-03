@@ -1,27 +1,24 @@
 import * as React from 'react'
-import Form from 'react-bootstrap/Form'
-// import Row from 'react-bootstrap/Row'
-// import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/Button'
-import {FORM_PROFILE_LABELS} from '../../../config/text'
+// import Form from 'react-bootstrap/Form'
+// import Button from 'react-bootstrap/Button'
+import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS} from '../../../config/text'
 // import styles from './styles'
 import { FormControlProps } from 'react-bootstrap/FormControl';
-import styles from './styles';
-// import { INewProfile } from 'src/webapp/model';
+// import styles from './styles';
 import {Md5} from 'ts-md5/dist/md5';
 import { INewProfile } from 'src/webapp/model';
 import { IState, IProfileState } from 'src/webapp/model/state';
 import { saveProfile } from 'src/webapp/redux/actions/profile';
 import { connect } from 'react-redux';
+import DpForm from './dp_form';
+import { IEnteredValues } from './dp_form/dp_form';
 
 interface ReduxProps {
     profileState: IProfileState
 }
-
 interface DispatchProps {
     saveProfile: (p: INewProfile) => Promise<any>
 }
-
 type Props = ReduxProps & DispatchProps
 interface State {}
 
@@ -33,8 +30,6 @@ class FormContainer extends React.Component<Props, State> {
     }
     constructor(p: Props) {
         super(p)
-        
-
     }
     componentDidMount() {
         window.addEventListener('beforeunload', (e: Event) => {
@@ -49,59 +44,68 @@ class FormContainer extends React.Component<Props, State> {
         this.setState({newProfile: obj})
     }
 
-    saveProfile() {
-        const {newProfile} = this.state
-        const savedProfile = JSON.parse(JSON.stringify(newProfile)) as INewProfile
+    saveProfile(profile: IEnteredValues) {
+        // const savedProfile = JSON.parse(JSON.stringify(profile)) as INewProfile
+        let error = false
+        const savedProfile: INewProfile = {
+            secret: '',
+            invoice_paid: 0,
+            contact: '',
+            company: '',
+            address: '',
+            zip: '',
+            phone: '',
+            mail: '',
+            homepage: '',
+            city: ''
+        }
+        Object.keys(savedProfile).forEach(key => {
+            if (!(key === 'secret' || key === 'invoice_paid')) {
+                if (key in profile) {
+                    savedProfile[key] = profile[key]
+                } else {
+                    error = true
+                }
+            }
+        })
         savedProfile.secret = `${Md5.hashStr(savedProfile.contact+Date.now())}`
-        savedProfile.invoice_paid = 0
-        this.props.saveProfile(savedProfile)
+        if (!error) {
+            console.log('save profile')
+            // this.props.saveProfile(savedProfile)
+        }
     }
 
-    onSubmit(e: React.FormEvent<HTMLFormElement>) {
-        const form = e.currentTarget
-        if (form.checkValidity() === false) {
-            e.preventDefault()
-            e.stopPropagation()
-        } else {
-            this.saveProfile()
-            e.preventDefault()
-            
-        }
-        
+    saveEntry(entry: IEnteredValues) {
+        console.log(entry)
     }
+
+    // onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    //     const form = e.currentTarget
+    //     if (form.checkValidity() === false) {
+    //         e.preventDefault()
+    //         e.stopPropagation()
+    //     } else {
+    //         this.saveProfile()
+    //         e.preventDefault()
+            
+    //     }
+        
+    // }
     render() {
-        const {profileValidated} = this.state
+        // const {profileValidated} = this.state
         // let i = 0
         return (
             <div>
-                <Form
-                    style={styles.formGroup}
-                    validated={profileValidated}
-                    onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.onSubmit(e)}>
-                        {Object.keys(FORM_PROFILE_LABELS).map(key => {
-                            // i++
-                            const item = FORM_PROFILE_LABELS[key]
-                            return (
-                                <Form.Group key={key}>
-                                    <Form.Control
-                                        style={styles.input} 
-                                        required
-                                        type={item.type}
-                                        placeholder={item.label} 
-                                        defaultValue={this.state.newProfile[key]}
-                                        onChange={this.onControlChange(key)}/>
-                                    {/* <Form.Control.Feedback type="invalid">
-                                        Får inte vara tomt!
-                                    </Form.Control.Feedback> */}
-                                </Form.Group>  
-                            )
-                        })}
-                    <div style={styles.buttonContainer}>
-                        <Button variant="primary" type="submit">
-                            Skicka!
-                        </Button>
-                    </div>
-                </Form>
+                <DpForm 
+                    fields={FORM_PROFILE_LABELS}
+                    buttonText="Nästa"
+                    onSubmit={(e: IEnteredValues) => this.saveProfile(e)}
+                />
+                <DpForm
+                    fields={FORM_ENTRY_LABELS}
+                    buttonText="Lägg till ett till bidrag"
+                    onSubmit={(e: IEnteredValues) => this.saveEntry(e)}
+                />
             </div>
         )
     }

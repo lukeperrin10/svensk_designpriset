@@ -51,6 +51,23 @@ export interface IProfile {
     invoice_paid: number
 }
 
+export interface INewEntry {
+    profile_id: number,
+    entry_name: string,
+    designer: string,
+    illustrator: string,
+    leader: string,
+    customer: string,
+    source: string
+    format: string,
+    size: string,
+    category: string,
+    webpage: string,
+    avatar: string,
+    secret: string,
+    year: string
+}
+
 export interface IEntry {
     id: number,
     profile_id: number,
