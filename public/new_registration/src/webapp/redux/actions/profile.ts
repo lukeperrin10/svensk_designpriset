@@ -29,7 +29,8 @@ interface ISaveProfileAction extends Action {
 }
 
 interface IDoneSaveProfileAction extends Action {
-    type: Types.DONE_SAVE_PROFILE
+    type: Types.DONE_SAVE_PROFILE,
+    id: number
 }
 
 export type IProfileAction = IRequestAction | IReceiveAction | IErrorAction | ICheckAction | ISaveProfileAction | IDoneSaveProfileAction
@@ -60,8 +61,8 @@ const saveProfileAction: ActionCreator<ISaveProfileAction> = () => {
     return {type: Types.SAVE_PROFILE}
 }
 
-const doneSaveProfileAction: ActionCreator<IDoneSaveProfileAction> = () => {
-    return {type: Types.DONE_SAVE_PROFILE}
+const doneSaveProfileAction: ActionCreator<IDoneSaveProfileAction> = (id: number) => {
+    return {type: Types.DONE_SAVE_PROFILE, id: id}
 }
 
 function fetchProfile(id: number): ThunkAction<Promise<IProfileAction>, IState, undefined, IProfileAction> {
@@ -99,9 +100,9 @@ function fetchSaveProfile(profile: INewProfile): ThunkAction<Promise<IProfileAct
                 headers: headers,
                 body: JSON.stringify(profile)
             })
-            const json = await response.json
+            const json = await response.json()
             console.log(json)
-            return dispatch(doneSaveProfileAction())
+            return dispatch(doneSaveProfileAction(json))
         } catch (error) {
             return dispatch(errorProfile(error))
         }

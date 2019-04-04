@@ -91,7 +91,7 @@ class FormContainer extends React.Component<Props, State> {
         const forms = []
         for(let i = 1; i <= numberOfEntries; i++) {
 
-            const form = <div>
+            const form = <div key={i}>
                 {"Bidrag "+i}
                 <DpForm
                 fields={FORM_ENTRY_LABELS}
@@ -105,7 +105,7 @@ class FormContainer extends React.Component<Props, State> {
     }
 
     render() {
-        
+        console.log(this.props.profileState)
         return (
             <div>
                 <DpForm 

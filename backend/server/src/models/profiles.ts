@@ -26,7 +26,7 @@ export async function create(new_profile: Profile): Promise<Profile> {
     const post_profile = create_profile(new_profile)
     const insert = await db.query('INSERT INTO profiles SET ?', [post_profile])
     console.log(insert)
-    return insert
+    return insert.insertId
 }
 
 export async function update(profile: Profile): Promise<Profile> {

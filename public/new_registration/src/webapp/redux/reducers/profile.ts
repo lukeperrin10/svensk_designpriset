@@ -6,7 +6,8 @@ const initialState: IProfileState = {
     didFetch: false,
     dataLoaded: false,
     profile: null,
-    error: null
+    error: null,
+    profileId: null
 }
 
 const profileReducer = (state = initialState, action: any): IProfileState => {
@@ -46,7 +47,8 @@ const profileReducer = (state = initialState, action: any): IProfileState => {
                 ...state,
                 isFetching: false,
                 didFetch: true,
-                dataLoaded: true
+                dataLoaded: true,
+                profileId: action.id
             }
         default:
             return state

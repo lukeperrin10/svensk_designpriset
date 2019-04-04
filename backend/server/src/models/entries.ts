@@ -26,7 +26,7 @@ export async function create(new_entry: Entry): Promise<Entry> {
     const post_entry = create_entry(new_entry)
     const insert = await db.query('INSERT INTO entries SET ?', [post_entry])
     console.log(insert)
-    return insert
+    return insert.insertId
 }
 
 export async function update(entry: Entry): Promise<Entry> {
