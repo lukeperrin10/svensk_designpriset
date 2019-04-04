@@ -29,15 +29,18 @@ class FormContainer extends React.Component<Props, State> {
         profileValidated: false,
         profileErrors: {},
         entries: [],
-        numberOfEntries: 1
+        numberOfEntries: 1,
+        shouldStayOnPage: false
     }
     constructor(p: Props) {
         super(p)
     }
     componentDidMount() {
         window.addEventListener('beforeunload', (e: Event) => {
-            console.log('nu lämnar du, fixa nåt här!')
-            // e.returnValue = true
+            if (this.state.shouldStayOnPage) {
+                e.returnValue = true
+            }
+            
         })
     }
 
@@ -48,20 +51,11 @@ class FormContainer extends React.Component<Props, State> {
     }
 
     saveProfile(profile: IEnteredValues) {
-        // const savedProfile = JSON.parse(JSON.stringify(profile)) as INewProfile
         let error = false
-        const savedProfile: INewProfile = {
-            secret: '',
-            invoice_paid: 0,
-            contact: '',
-            company: '',
-            address: '',
-            zip: '',
-            phone: '',
-            mail: '',
-            homepage: '',
-            city: ''
-        }
+        const savedProfile: INewProfile = {secret: '',invoice_paid: 0,
+            contact: '',company: '',address: '',zip: '',phone: '',mail: '',
+            homepage: '',city: ''}
+
         Object.keys(savedProfile).forEach(key => {
             if (!(key === 'secret' || key === 'invoice_paid')) {
                 if (key in profile) {

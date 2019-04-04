@@ -30,7 +30,7 @@ interface ISaveProfileAction extends Action {
 
 interface IDoneSaveProfileAction extends Action {
     type: Types.DONE_SAVE_PROFILE,
-    id: number
+    profile: IProfile
 }
 
 export type IProfileAction = IRequestAction | IReceiveAction | IErrorAction | ICheckAction | ISaveProfileAction | IDoneSaveProfileAction
@@ -61,8 +61,8 @@ const saveProfileAction: ActionCreator<ISaveProfileAction> = () => {
     return {type: Types.SAVE_PROFILE}
 }
 
-const doneSaveProfileAction: ActionCreator<IDoneSaveProfileAction> = (id: number) => {
-    return {type: Types.DONE_SAVE_PROFILE, id: id}
+const doneSaveProfileAction: ActionCreator<IDoneSaveProfileAction> = (p: IProfile) => {
+    return {type: Types.DONE_SAVE_PROFILE, profile: p}
 }
 
 function fetchProfile(id: number): ThunkAction<Promise<IProfileAction>, IState, undefined, IProfileAction> {
