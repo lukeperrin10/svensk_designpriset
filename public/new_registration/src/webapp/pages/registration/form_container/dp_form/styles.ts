@@ -5,7 +5,8 @@ export default {
         margin: 10
     },
     input: {
-        width: 450,
+        minWidth: 300,
+        width: '40vw'
         
     },
     formGroup: {

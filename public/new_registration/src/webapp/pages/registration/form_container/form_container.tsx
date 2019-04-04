@@ -12,6 +12,7 @@ import { saveProfile } from 'src/webapp/redux/actions/profile';
 import { connect } from 'react-redux';
 import DpForm from './dp_form';
 import { IEnteredValues } from './dp_form/dp_form';
+import Button from 'react-bootstrap/Button'
 
 interface ReduxProps {
     profileState: IProfileState
@@ -26,7 +27,9 @@ class FormContainer extends React.Component<Props, State> {
     state = {
         newProfile: {},
         profileValidated: false,
-        profileErrors: {}
+        profileErrors: {},
+        entries: [],
+        numberOfEntries: 1
     }
     constructor(p: Props) {
         super(p)
@@ -79,19 +82,39 @@ class FormContainer extends React.Component<Props, State> {
         console.log(entry)
     }
 
+    addNewEntryForm() {
+        this.setState({numberOfEntries: this.state.numberOfEntries+1})
+    }
+
+    getEntryForms() {
+        const {numberOfEntries} = this.state
+        const forms = []
+        for(let i = 1; i <= numberOfEntries; i++) {
+
+            const form = <div>
+                {"Bidrag "+i}
+                <DpForm
+                fields={FORM_ENTRY_LABELS}
+                buttonText="Spara"
+                onSubmit={(e: IEnteredValues) => this.saveEntry(e)}/>
+            </div>
+
+            forms.push(form)
+        }
+        return forms
+    }
+
     render() {
+        
         return (
             <div>
                 <DpForm 
                     fields={FORM_PROFILE_LABELS}
-                    buttonText="Nästa"
+                    buttonText="Spara"
                     onSubmit={(e: IEnteredValues) => this.saveProfile(e)}
                 />
-                <DpForm
-                    fields={FORM_ENTRY_LABELS}
-                    buttonText="Lägg till ett till bidrag"
-                    onSubmit={(e: IEnteredValues) => this.saveEntry(e)}
-                />
+                {this.getEntryForms()}
+                <Button onClick={() => this.addNewEntryForm()} variant="primary">Lägg till nytt bidrag</Button>
             </div>
         )
     }
@@ -99,7 +122,7 @@ class FormContainer extends React.Component<Props, State> {
 
 const mapStateToProps = (state: IState) => {
     return {
-        profileState: state.profileState
+        profileState: state.profileState,
     }
 }
 
