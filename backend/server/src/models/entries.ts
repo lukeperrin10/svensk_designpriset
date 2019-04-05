@@ -18,7 +18,7 @@ export async function get(): Promise<Array<dbtype>> {
 export async function getId(id: number): Promise<Entry> {
     console.log('Entries get')
     console.log(id)
-    const query = await db.query('SELECT * FROM `entries` WHERE `id` = ?', [id])
+    const query = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [id])
     return query
 }
 

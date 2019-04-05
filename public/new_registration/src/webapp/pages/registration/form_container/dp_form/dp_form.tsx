@@ -44,11 +44,7 @@ class DpForm extends React.Component<IDpFormProps> {
     getDefaultValue(key: string, inputType: string) {
         const {defaultValue} = this.props
         if (defaultValue) {
-            console.log(key)
-            console.log(defaultValue)
-            console.log(defaultValue[key])
             if (key in defaultValue) {
-                console.log('key exists')
                 switch (inputType) {
                     case "number":
                     return this.formatNumber(defaultValue[key])

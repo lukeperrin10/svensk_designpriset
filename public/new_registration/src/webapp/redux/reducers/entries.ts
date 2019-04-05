@@ -1,39 +1,39 @@
-import {IProfileState} from '../../model/state'
+import {IEntriesState} from '../../model/state'
 import { Types } from '../actions/types';
 
-const initialState: IProfileState = {
+const initialState: IEntriesState = {
     isFetching: false,
     didFetch: false,
     dataLoaded: false,
-    profile: [],
+    entries: [],
     error: null,
 }
 
-const profileReducer = (state = initialState, action: any): IProfileState => {
+const entriesReducer = (state = initialState, action: any): IEntriesState => {
     switch (action.type) {
-        case Types.REQUEST_PROFILE:
+        case Types.REQUEST_ENTRIES:
             return {
                 ...state,
                 isFetching: true,
                 didFetch: false,
                 dataLoaded: false
             }
-        case Types.RECIEVE_PROFILE:
+        case Types.RECIEVE_ENTRIES:
             return {
                 ...state,
                 isFetching: false,
                 didFetch: true,
                 dataLoaded: true,
-                profile: action.profile
+                entries: action.entries
             }
-        case Types.ERROR_PROFILE:
+        case Types.ERROR_ENTRIES:
             return {
                 ...state,
                 isFetching: false,
                 didFetch: true,
                 error: action.error
             }
-        case Types.SAVE_PROFILE:
+        case Types.SAVE_ENTRIES:
             return {
                 ...state,
                 isFetching: true,
@@ -41,17 +41,17 @@ const profileReducer = (state = initialState, action: any): IProfileState => {
                 dataLoaded: false,
                 error: null
             }
-        case Types.DONE_SAVE_PROFILE: 
+        case Types.DONE_SAVE_ENTRIES: 
             return {
                 ...state,
                 isFetching: false,
                 didFetch: true,
                 dataLoaded: true,
-                profile: action.profile
+                entries: action.entries
             }
         default:
             return state
     }
 }
 
-export default profileReducer
+export default entriesReducer
