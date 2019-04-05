@@ -1,6 +1,8 @@
 import * as db from '../db'
 import {Entry as dbtype} from '../types/dbtypes'
 import { Request } from 'express';
+import { packetCallback } from 'mysql';
+import { DetailedPeerCertificate } from 'tls';
 
 
 export interface Entry extends Partial<dbtype> {}
@@ -24,9 +26,31 @@ export async function getId(id: number): Promise<Entry> {
 
 export async function create(new_entry: Entry): Promise<Entry> {
     const post_entry = create_entry(new_entry)
-    const insert = await db.query('INSERT INTO entries SET ?', [post_entry])
+    const insert = db.query('INSERT INTO entries SET ?', [post_entry])
     console.log(insert)
-    return insert.insertId
+    return insert
+}
+
+export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
+    const querys: db.queryObj[] = []
+    new_entries.forEach(entry => {
+        querys.push({
+            query: 'INSERT INTO entries SET ?',
+            args: [create_entry(entry)]
+        })
+    })
+    const batchInsert = await db.batchQuery(querys)
+    const responseQuerys: db.queryObj[] = []
+    batchInsert.forEach((insert: any) => {
+        if (insert.insertId) {
+            responseQuerys.push({
+                query: 'SELECT * FROM `entries` WHERE `id` = ?',
+                args: [insert.insertId]
+            })
+        }
+    })
+    const batchSelect = await db.batchQuery(responseQuerys)
+    return batchSelect
 }
 
 export async function update(entry: Entry): Promise<Entry> {

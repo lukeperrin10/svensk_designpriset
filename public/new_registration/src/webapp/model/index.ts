@@ -58,7 +58,7 @@ export interface INewEntry {
     illustrator: string,
     leader: string,
     customer: string,
-    source: string
+    source: string,
     format: string,
     size: string,
     category: string,
