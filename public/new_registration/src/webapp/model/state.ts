@@ -17,5 +17,4 @@ export interface IWinnerState extends FetchState {
 
 export interface IProfileState extends FetchState {
     profile: interfaces.IProfile | null,
-    profileId: number | null
 }

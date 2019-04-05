@@ -12,13 +12,18 @@ export interface IEnteredValues {
 interface IDpFormProps {
     fields: formItems,
     buttonText: string, 
-    onSubmit: (e: IEnteredValues) => void
+    onSubmit: (e: IEnteredValues) => void,
+    disabled: boolean,
+    title: string,
+    buttonDisabledText?: string
+    defaultValue?: any
 }
 class DpForm extends React.Component<IDpFormProps> {
     state = {
         formValidated: false,
         formInput: {}
     }
+
     onSubmit(e: React.FormEvent<HTMLFormElement>) {
         const form = e.currentTarget
         if (form.checkValidity() === false) {
@@ -36,36 +41,74 @@ class DpForm extends React.Component<IDpFormProps> {
         this.setState({newProfile: obj})
     }
 
+    getDefaultValue(key: string, inputType: string) {
+        const {defaultValue} = this.props
+        if (defaultValue) {
+            console.log(key)
+            console.log(defaultValue)
+            console.log(defaultValue[key])
+            if (key in defaultValue) {
+                console.log('key exists')
+                switch (inputType) {
+                    case "number":
+                    return this.formatNumber(defaultValue[key])
+                    default:
+                    return defaultValue[key]
+                }
+            } else {
+                return undefined
+            }
+        }
+    }
+    // FORTSÄTT HÄR! TAR BORT '0'
+    formatNumber(number: string) {
+        return parseInt(number.replace(/ /g,''))
+    }
+
     render() {
         const {formValidated} = this.state
         const {fields} = this.props
         return (
-            <div>
+            <div style={styles.container}>
+                <h3 style={styles.title}>{this.props.title}</h3>
                 <Form
-                    style={styles.formGroup}
                     validated={formValidated}
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.onSubmit(e)}>
+                    <div style={styles.formGroup}>
                         {Object.keys(fields).map(key => {
                             // i++
                             const item = fields[key]
                             return (
-                                <Form.Group key={key}>
-                                    <Form.Control
-                                        style={styles.input} 
-                                        required
-                                        type={item.type}
-                                        placeholder={item.label} 
-                                        onChange={this.onControlChange(key)}/>
-                                    {/* <Form.Control.Feedback type="invalid">
-                                        Får inte vara tomt!
-                                    </Form.Control.Feedback> */}
-                                </Form.Group>  
+                                <div key={key} style={styles.inputContainer}>
+                                    <Form.Group >
+                                        <Form.Label>{item.label}</Form.Label>
+                                        <Form.Control
+                                            style={styles.input} 
+                                            required
+                                            disabled={this.props.disabled}
+                                            type={item.type}
+                                            placeholder={item.label} 
+                                            defaultValue={this.getDefaultValue(item.key, item.type)}
+                                            onChange={this.onControlChange(key)}/>
+                                        {/* <Form.Control.Feedback type="invalid">
+                                            Får inte vara tomt!
+                                        </Form.Control.Feedback> */}
+                                    </Form.Group>  
+                                </div>
                             )
                         })}
+                    </div>
                     <div style={styles.buttonContainer}>
-                        <Button variant="primary" type="submit">
+                        {this.props.disabled ? 
+                        <Button style={styles.button} variant="primary">
+                            {this.props.buttonDisabledText || this.props.buttonText}
+                        </Button>
+                        :
+                        <Button style={styles.button} variant="primary" type="submit">
                             {this.props.buttonText}
                         </Button>
+                        }
+                        
                     </div>
                 </Form>
             </div>
