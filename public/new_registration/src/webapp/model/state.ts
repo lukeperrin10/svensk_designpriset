@@ -3,7 +3,8 @@ import * as interfaces from './index'
 export interface IState {
     winnerState: IWinnerState,
     profileState: IProfileState,
-    entriesState: IEntriesState
+    entriesState: IEntriesState,
+    categoryState: ICategoryState
 }
 
 interface FetchState {
@@ -22,4 +23,8 @@ export interface IProfileState extends FetchState {
 
 export interface IEntriesState extends FetchState {
     entries: interfaces.IEntry[]
+}
+
+export interface ICategoryState extends FetchState {
+    categories: interfaces.ICategory[]
 }

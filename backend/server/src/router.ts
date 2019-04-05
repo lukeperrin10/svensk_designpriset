@@ -3,6 +3,7 @@ import * as express from 'express'
 import {router as winners} from './routes/winners'
 import {router as entries} from './routes/entries'
 import {router as profiles} from './routes/profiles'
+import {router as categories} from './routes/category'
 
 export function initRouter(app: Express) {
     console.log('init router')
@@ -10,6 +11,7 @@ export function initRouter(app: Express) {
     router.use('/winners', winners)
     router.use('/entries', entries)
     router.use('/profiles', profiles)
+    router.use('/categories', categories)
     router.use('/', (req, res) => {
         res.send('tjena hejsan')
     })

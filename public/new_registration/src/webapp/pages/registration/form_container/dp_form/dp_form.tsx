@@ -78,14 +78,33 @@ class DpForm extends React.Component<IDpFormProps> {
                                 <div key={key} style={styles.inputContainer}>
                                     <Form.Group >
                                         <Form.Label>{item.label}</Form.Label>
-                                        <Form.Control
+                                        {item.type === 'select' ?
+                                            <Form.Control
+                                            as='select'
                                             style={styles.input} 
                                             required
                                             disabled={this.props.disabled}
                                             type={item.type}
                                             placeholder={item.label} 
                                             defaultValue={this.getDefaultValue(item.key, item.type)}
-                                            onChange={this.onControlChange(key)}/>
+                                            onChange={this.onControlChange(key)}>
+                                            {item.selectList ? item.selectList.map(listItem => {
+                                                return (
+                                                    <option key={listItem.id}>{listItem.name}</option>
+                                                )
+                                            }):null}
+                                            </Form.Control>
+                                            :
+                                        
+                                            <Form.Control
+                                                style={styles.input} 
+                                                required
+                                                disabled={this.props.disabled}
+                                                type={item.type}
+                                                placeholder={item.label} 
+                                                defaultValue={this.getDefaultValue(item.key, item.type)}
+                                                onChange={this.onControlChange(key)}/>
+                                        }
                                         {/* <Form.Control.Feedback type="invalid">
                                             Får inte vara tomt!
                                         </Form.Control.Feedback> */}

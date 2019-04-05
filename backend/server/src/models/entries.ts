@@ -1,9 +1,5 @@
 import * as db from '../db'
 import {Entry as dbtype} from '../types/dbtypes'
-import { Request } from 'express';
-import { packetCallback } from 'mysql';
-import { DetailedPeerCertificate } from 'tls';
-
 
 export interface Entry extends Partial<dbtype> {}
 
@@ -79,23 +75,6 @@ function create_entry(entry: Entry): Entry {
         is_winner_silver: entry.is_winner_silver || 0,
         sent_nominee_notification: entry.sent_nominee_notification || "1000-01-01",
         motivation: entry.motivation || "",
-        
     }
     return new_entry
 }
-// profile_id, 
-// entry_name,
-// category,
-// designer,
-// illustrator,
-// leader,
-// format,
-// size,
-// customer,
-// webpage,
-// source, 
-// secret, 
-// avatar, 
-// year
-
-// function translateEntry(entry: Entry)

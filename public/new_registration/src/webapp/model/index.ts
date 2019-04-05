@@ -92,3 +92,9 @@ export interface IEntry {
     motivation: string,
     year: string
 }
+
+export interface ICategory {
+    id: number,
+    name: string,
+    shorttag: string
+}

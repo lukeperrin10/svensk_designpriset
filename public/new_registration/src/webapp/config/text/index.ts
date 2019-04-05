@@ -4,7 +4,7 @@ export interface formItems {
         label: string,
         required: boolean,
         type: string,
-        // controlId: string,
+        selectList?: {id: number,name: string}[]
     }
 }
 

@@ -38,6 +38,12 @@ export interface Profile {
     invoice_paid: number
 }
 
+export interface Category {
+    id: number,
+    name: string,
+    shorttag: string
+}
+
 export interface Entry {
     id: number,
     profile_id: number,

@@ -3,7 +3,7 @@ import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS} from '../../../config/text'
 import styles from './styles'
 import { FormControlProps } from 'react-bootstrap/FormControl';
 import {Md5} from 'ts-md5/dist/md5';
-import { INewProfile, IEntry, INewEntry } from 'src/webapp/model';
+import { INewProfile, IEntry, INewEntry, ICategory } from 'src/webapp/model';
 import { IState, IProfileState } from 'src/webapp/model/state';
 import { saveProfile, getProfile } from 'src/webapp/redux/actions/profile';
 import { connect } from 'react-redux';
@@ -11,16 +11,19 @@ import DpForm from './dp_form';
 import { IEnteredValues } from './dp_form/dp_form';
 import Button from 'react-bootstrap/Button'
 import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
+import { getCategories } from 'src/webapp/redux/actions/categories';
 
 interface ReduxProps {
     profileState: IProfileState,
-    entries: IEntry[]
+    entries: IEntry[],
+    categories: ICategory[]
 }
 interface DispatchProps {
     saveProfile: (p: INewProfile) => Promise<any>,
     getProfile: (i: number) => Promise<any>,
     getEntries: (p: number) => Promise<any>,
-    saveEntries: (e: INewEntry[]) => Promise<any>
+    saveEntries: (e: INewEntry[]) => Promise<any>,
+    getCategories: () => Promise<any>
 }
 type Props = ReduxProps & DispatchProps
 interface State {}
@@ -33,7 +36,9 @@ class FormContainer extends React.Component<Props, State> {
         entries: [],
         numberOfEntries: 1,
         shouldStayOnPage: false,
-        didLoad: true
+        didLoad: true,
+        savedProfile: {},
+        savedEntries: []
     }
     constructor(p: Props) {
         super(p)
@@ -44,6 +49,9 @@ class FormContainer extends React.Component<Props, State> {
                 e.returnValue = true
             }
         })
+        this.props.getCategories()
+        .then(() => this.setState({didLoad: true}))
+
         // this.props.getProfile(268)
         // .then(() => this.setState({didLoad: true}))
         // .then(() => {
@@ -78,11 +86,13 @@ class FormContainer extends React.Component<Props, State> {
         })
         savedProfile.secret = `${Md5.hashStr(savedProfile.contact+Date.now())}`
         if (!error) {
-            this.props.saveProfile(savedProfile)
+            this.setState({savedProfile: savedProfile})
+            // this.props.saveProfile(savedProfile)
         }
     }
 
     saveEntry(entry: IEnteredValues) {
+        console.log(entry)
         let error = false
         const savedEntry: INewEntry = {profile_id: 9999999,entry_name: '',designer: '',
             illustrator: '',leader: '', avatar: '', secret: '', year: '',customer: '',
@@ -92,13 +102,15 @@ class FormContainer extends React.Component<Props, State> {
                 if (key in entry) {
                     savedEntry[key] = entry[key]
                 } else {
+                    console.log(key)
                     error = true
                 }
             }
         })   
-        console.log(savedEntry)
         if (!error) {
-            
+            const arr: any[] = Array.from(this.state.savedEntries)
+            arr.push(savedEntry)
+            this.setState({savedEntries: arr})
         }
     }
 
@@ -108,10 +120,19 @@ class FormContainer extends React.Component<Props, State> {
 
     getEntryForms() {
         const {numberOfEntries} = this.state
-        const {entries} = this.props
+        const {entries, categories} = this.props
         const forms = []
+        const cat: {id:number,name:string}[] = []
+        categories.forEach(c => {
+            cat.push({
+                id: c.id,
+                name: c.name
+            })
+        })
+        if ('category' in FORM_ENTRY_LABELS) {
+            FORM_ENTRY_LABELS['category'].selectList = cat
+        }
         for(let i = 0; i < numberOfEntries; i++) {
-
             const form = <div key={i}>
                 <DpForm
                 fields={FORM_ENTRY_LABELS}
@@ -128,6 +149,8 @@ class FormContainer extends React.Component<Props, State> {
     }
 
     render() {
+        // console.log(this.props.categories)
+        console.log(this.state.savedEntries)
         return (
             <div style={styles.container}>
             {!this.state.didLoad ?
@@ -155,7 +178,8 @@ class FormContainer extends React.Component<Props, State> {
 const mapStateToProps = (state: IState) => {
     return {
         profileState: state.profileState,
-        entries: state.entriesState.entries
+        entries: state.entriesState.entries,
+        categories: state.categoryState.categories
     }
 }
 
@@ -164,7 +188,8 @@ const mapDispatchToProps = (dispatch: Function) => {
         saveProfile: (profile: INewProfile) => dispatch(saveProfile(profile)),
         getProfile: (id: number) => dispatch(getProfile(id)),
         getEntries: (profile_id: number) => dispatch(getEntries(profile_id)),
-        saveEntries: (entries: INewEntry[]) => dispatch(saveEntries(entries))
+        saveEntries: (entries: INewEntry[]) => dispatch(saveEntries(entries)),
+        getCategories: () => dispatch(getCategories())
     }
 }
 
