@@ -16,7 +16,8 @@ interface IDpFormProps {
     disabled: boolean,
     title: string,
     buttonDisabledText?: string
-    defaultValue?: any
+    defaultValue?: any,
+    onValueChange?: Function
 }
 class DpForm extends React.Component<IDpFormProps> {
     state = {
@@ -39,6 +40,9 @@ class DpForm extends React.Component<IDpFormProps> {
         let obj = this.state.formInput
         obj[name] = e.currentTarget.value
         this.setState({newProfile: obj})
+        if(this.props.onValueChange) {
+            this.props.onValueChange(obj)
+        }
     }
 
     getDefaultValue(key: string, inputType: string) {

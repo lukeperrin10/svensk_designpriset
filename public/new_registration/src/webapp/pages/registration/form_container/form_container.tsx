@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS} from '../../../config/text'
 import styles from './styles'
-import { FormControlProps } from 'react-bootstrap/FormControl';
 import {Md5} from 'ts-md5/dist/md5';
 import { INewProfile, IEntry, INewEntry, ICategory } from 'src/webapp/model';
 import { IState, IProfileState } from 'src/webapp/model/state';
@@ -12,6 +11,7 @@ import { IEnteredValues } from './dp_form/dp_form';
 import Button from 'react-bootstrap/Button'
 import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
 import { getCategories } from 'src/webapp/redux/actions/categories';
+import { isEmptyObject } from 'src/webapp/helpers';
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -28,45 +28,90 @@ interface DispatchProps {
 type Props = ReduxProps & DispatchProps
 interface State {}
 
+const CACHED_PROFILE = "CACHED_PROFILE"
+const CACHED_ENTRIES = "CACHED_ENTRIES"
+
 class FormContainer extends React.Component<Props, State> {
     state = {
-        newProfile: {},
-        profileValidated: false,
-        profileErrors: {},
-        entries: [],
         numberOfEntries: 1,
         shouldStayOnPage: false,
         didLoad: true,
         savedProfile: {},
-        savedEntries: []
+        savedEntries: [],
+        tempProfile: {},
+        tempEntries: {},
+        hydradedProfile: {},
+        hydradedEntries: {}
     }
     constructor(p: Props) {
         super(p)
+        // localStorage.clear()
+        
     }
     componentDidMount() {
         window.addEventListener('beforeunload', (e: Event) => {
-            if (this.state.shouldStayOnPage) {
-                e.returnValue = true
-            }
+            this.storeSession()
         })
+        this.hydrateFromLocal()
         this.props.getCategories()
         .then(() => this.setState({didLoad: true}))
 
-        // this.props.getProfile(268)
-        // .then(() => this.setState({didLoad: true}))
-        // .then(() => {
-        //     const {profile} = this.props.profileState
-        //     if (profile !== null) {
-        //         this.props.getEntries(profile[0].id)
-        //         .then(() => console.log(this.props.entries))
-        //     }
-        // })
+        
     }
 
-    onControlChange = (name: string) => (e: React.FormEvent<FormControlProps>)  => {
-        let obj = this.state.newProfile
-        obj[name] = e.currentTarget.value
-        this.setState({newProfile: obj})
+    componentWillUnmount() {
+        window.addEventListener('beforeunload', (e: Event) => {
+            this.storeSession()
+        })
+    }
+
+    storeSession() {
+        localStorage.setItem(CACHED_PROFILE, JSON.stringify(this.state.tempProfile))
+        localStorage.setItem(CACHED_ENTRIES, JSON.stringify(this.state.tempEntries))
+    }
+
+    hydrateFromLocal() {
+        this.setState({
+            tempProfile: localStorage.hasOwnProperty(CACHED_PROFILE) ? 
+            JSON.parse(localStorage.getItem(CACHED_PROFILE) || '') : {}
+        })
+        const entries = localStorage.hasOwnProperty(CACHED_ENTRIES) ? 
+        JSON.parse(localStorage.getItem(CACHED_ENTRIES) || '') : {}
+        if (!isEmptyObject(entries)) {
+            Object.keys(entries).forEach(e => {
+                if (isEmptyObject(entries[e])) {
+                    delete entries[e]
+                    console.log(entries[e])
+                }
+            })
+        }
+        this.setState({tempEntries: entries})
+    }
+
+    onValueChange(form: string, values: IEnteredValues, key?: string) {
+        const {tempProfile, tempEntries} = this.state
+        switch(form) {
+            case 'profile':
+            Object.keys(values).forEach(v => {
+                tempProfile[v] = values[v]
+            })
+            this.setState({tempProfile: tempProfile})
+            break;
+            case 'entry':
+                if(key) {
+                    if(key in tempEntries) {
+                        Object.keys(values).forEach(v => {
+                            tempEntries[key][v] = values[v]
+                        })
+                    } else {
+                        tempEntries[key] = values
+                    }
+                }
+            this.setState({tempEntries: tempEntries})
+            break;
+            default:
+            break;
+        }
     }
 
     saveProfile(profile: IEnteredValues) {
@@ -87,12 +132,13 @@ class FormContainer extends React.Component<Props, State> {
         savedProfile.secret = `${Md5.hashStr(savedProfile.contact+Date.now())}`
         if (!error) {
             this.setState({savedProfile: savedProfile})
+            console.log(savedProfile)
+            localStorage.setItem(CACHED_PROFILE, JSON.stringify(savedProfile))
             // this.props.saveProfile(savedProfile)
         }
     }
 
     saveEntry(entry: IEnteredValues) {
-        console.log(entry)
         let error = false
         const savedEntry: INewEntry = {profile_id: 9999999,entry_name: '',designer: '',
             illustrator: '',leader: '', avatar: '', secret: '', year: '',customer: '',
@@ -115,12 +161,16 @@ class FormContainer extends React.Component<Props, State> {
     }
 
     addNewEntryForm() {
-        this.setState({numberOfEntries: this.state.numberOfEntries+1})
+        const {tempEntries} = this.state
+        const key = `${Object.keys(tempEntries).length}`
+        this.setState({tempEntries: {...tempEntries, [key]: {}}})
+        
     }
 
     getEntryForms() {
-        const {numberOfEntries} = this.state
-        const {entries, categories} = this.props
+        const {tempEntries} = this.state
+        const {categories} = this.props
+        const amountOfForms = isEmptyObject(tempEntries) ? 1 : Object.keys(tempEntries).length
         const forms = []
         const cat: {id:number,name:string}[] = []
         categories.forEach(c => {
@@ -132,14 +182,16 @@ class FormContainer extends React.Component<Props, State> {
         if ('category' in FORM_ENTRY_LABELS) {
             FORM_ENTRY_LABELS['category'].selectList = cat
         }
-        for(let i = 0; i < numberOfEntries; i++) {
+        for(let i = 0; i < amountOfForms; i++) {
             const form = <div key={i}>
                 <DpForm
                 fields={FORM_ENTRY_LABELS}
                 buttonText="Spara"
                 title={"Bidrag "+(i+1)}
                 disabled={false}
-                defaultValue={entries[i] || null}
+                onValueChange={(v: IEnteredValues) => this.onValueChange('entry', v, `${i}`)}
+                defaultValue={tempEntries[`${i}`] || null}
+                
                 onSubmit={(e: IEnteredValues) => this.saveEntry(e)}/>
             </div>
 
@@ -149,8 +201,7 @@ class FormContainer extends React.Component<Props, State> {
     }
 
     render() {
-        // console.log(this.props.categories)
-        console.log(this.state.savedEntries)
+        const {tempProfile} = this.state 
         return (
             <div style={styles.container}>
             {!this.state.didLoad ?
@@ -164,7 +215,8 @@ class FormContainer extends React.Component<Props, State> {
                     disabled={false}
                     title="Allmäna uppgifter"
                     buttonDisabledText="Redigera"
-                    defaultValue={this.props.profileState.profile !== null ? this.props.profileState.profile[0] : null}
+                    onValueChange={(v: IEnteredValues) => this.onValueChange('profile', v)}
+                    defaultValue={!isEmptyObject(tempProfile) ? tempProfile : null}
                 />
                 {this.getEntryForms()}
                 <Button onClick={() => this.addNewEntryForm()} variant="primary">Lägg till nytt bidrag</Button>
