@@ -33,15 +33,11 @@ const CACHED_ENTRIES = "CACHED_ENTRIES"
 
 class FormContainer extends React.Component<Props, State> {
     state = {
-        numberOfEntries: 1,
-        shouldStayOnPage: false,
         didLoad: true,
         savedProfile: {},
         savedEntries: [],
         tempProfile: {},
         tempEntries: {},
-        hydradedProfile: {},
-        hydradedEntries: {}
     }
     constructor(p: Props) {
         super(p)
@@ -54,9 +50,7 @@ class FormContainer extends React.Component<Props, State> {
         })
         this.hydrateFromLocal()
         this.props.getCategories()
-        .then(() => this.setState({didLoad: true}))
-
-        
+        .then(() => this.setState({didLoad: true})) 
     }
 
     componentWillUnmount() {
