@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS} from '../../../config/text'
+import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS, GENERAL_TEXT} from '../../../config/text'
 import styles from './styles'
 import {Md5} from 'ts-md5/dist/md5';
 import { INewProfile, IEntry, INewEntry, ICategory } from 'src/webapp/model';
@@ -13,6 +13,7 @@ import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
 import { getCategories } from 'src/webapp/redux/actions/categories';
 import { isEmptyObject } from 'src/webapp/helpers';
 import DpImageUpload from './dp_image_upload';
+import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -186,7 +187,14 @@ class FormContainer extends React.Component<Props, State> {
                 disabled={false}
                 onValueChange={(v: IEnteredValues) => this.onValueChange('entry', v, `${i}`)}
                 defaultValue={tempEntries[`${i}`] || null}
-                customComponents={[<DpImageUpload key={i} />]}
+                customComponents={[
+                    <DpImageUpload 
+                        onSave={() => {}} 
+                        label={GENERAL_TEXT.thumbnail_label} 
+                        key={i} 
+                        limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}
+                        />
+                ]}
                 onSubmit={(e: IEnteredValues) => this.saveEntry(e)}/>
                 
             </div>

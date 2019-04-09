@@ -42,3 +42,8 @@ export const FORM_ENTRY_LABELS: formItems = {
     category: {key: 'category', label: 'Tävlingskategori', required: true, type: 'select'}
 }
 
+
+export enum GENERAL_TEXT {
+    thumbnail_label = "Bild för tumnagel (rekommenderad storlek – 550px bred/735px hög)",
+}
+

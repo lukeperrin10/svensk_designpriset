@@ -31,6 +31,9 @@ export default {
         width: '40vw',
         
     },
+    customComponentContainer: {
+        
+    },
     inputContainer: {
         width: '50%',
         minWidth: 'fit-content',

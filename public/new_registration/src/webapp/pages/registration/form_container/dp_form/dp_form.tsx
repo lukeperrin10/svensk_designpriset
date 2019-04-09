@@ -119,7 +119,7 @@ class DpForm extends React.Component<IDpFormProps> {
                         })}
                     </div>
                     {this.props.customComponents ?
-                    <div>
+                    <div style={styles.customComponentContainer}>
                         {this.props.customComponents}
                     </div>
                     :null}
