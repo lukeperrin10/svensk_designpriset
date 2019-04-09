@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Button from 'react-bootstrap/Button';
 import fetch from 'cross-fetch'
-import { IMAGE_TEST_URL } from 'src/webapp/config/host';
+import { TEMP_ASSETS_URL } from 'src/webapp/config/host';
 
 
 class DpImageUpload extends React.Component {
@@ -16,9 +16,9 @@ class DpImageUpload extends React.Component {
     saveImage = async () => {
         console.log('save image')
         const formData = new FormData()
-        formData.append('image', this.state.image)
+        formData.append('temp_image', this.state.image)
         try {
-            const res = await fetch(IMAGE_TEST_URL, {
+            const res = await fetch(TEMP_ASSETS_URL, {
                 method: 'POST',
                 body: formData,
             })
