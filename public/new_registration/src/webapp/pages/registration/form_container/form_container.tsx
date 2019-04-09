@@ -14,6 +14,7 @@ import { getCategories } from 'src/webapp/redux/actions/categories';
 import { isEmptyObject } from 'src/webapp/helpers';
 import DpImageUpload from './dp_image_upload';
 import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
+import { ENTRY_MEDIA_URL } from 'src/webapp/config/host';
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -190,6 +191,7 @@ class FormContainer extends React.Component<Props, State> {
                 customComponents={[
                     <DpImageUpload 
                         onSave={() => {}} 
+                        url={ENTRY_MEDIA_URL}
                         label={GENERAL_TEXT.thumbnail_label} 
                         key={i} 
                         limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}

@@ -9,5 +9,6 @@ export const CATEGORY_URL = `${BASE_URL}/categories`
 // export const TEMP_AVATAR_URL = `${FRONTEND_URL}/clone/admin/avatar-temp`
 
 export const IMAGE_TEST_URL = `${BASE_URL}/`
-export const TEMP_ASSETS_URL = `${BASE_URL}/temp_assets`
-export const ASSETS_URL = `${BASE_URL}/assets`
+export const TEMP_AVATAR_URL = `${BASE_URL}/temp_avatar`
+export const AVATAR_URL = `${BASE_URL}/avatar`
+export const ENTRY_MEDIA_URL = `${BASE_URL}/entry_media`

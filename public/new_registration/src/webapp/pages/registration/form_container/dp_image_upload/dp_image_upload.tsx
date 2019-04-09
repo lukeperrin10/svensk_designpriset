@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Button from 'react-bootstrap/Button';
 import fetch from 'cross-fetch'
-import { TEMP_ASSETS_URL } from 'src/webapp/config/host';
 import { getErrorMessage } from 'src/webapp/helpers/errors';
 import Spinner from 'react-bootstrap/Spinner'
 import styles from './styles';
@@ -11,7 +10,8 @@ import check from '../../../../assets/ui/check.png'
 interface IDpImageUpload {
     label: string,
     onSave: (result: string) => any,
-    limits?: LIMIT_EXTENSIONS[]
+    limits?: LIMIT_EXTENSIONS[],
+    url: string
 }
 
 export enum LIMIT_EXTENSIONS {
@@ -60,9 +60,9 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
         } else {
             this.setState({errorUploading: false, isLoading: true})
             const formData = new FormData()
-            formData.append('temp_image', this.state.image)
+            formData.append('media', this.state.image)
             try {
-                const res = await fetch(TEMP_ASSETS_URL, {
+                const res = await fetch(this.props.url, {
                     method: 'POST',
                     body: formData,
                 })
@@ -121,7 +121,6 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                 </div>
                 {didUpLoad ? <img style={styles.checkImg} src={check} /> : null}
             </div>
-            
         )
     }
 }
