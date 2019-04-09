@@ -17,11 +17,18 @@ class DpImageUpload extends React.Component {
         console.log('save image')
         const formData = new FormData()
         formData.append('image', this.state.image)
-        const res = await fetch(IMAGE_TEST_URL, {
-            method: 'POST',
-            body: formData,
-        })
-        console.log(res)
+        try {
+            const res = await fetch(IMAGE_TEST_URL, {
+                method: 'POST',
+                body: formData,
+            })
+            const result = await res.json()
+            console.log(result)
+        } catch (error) {
+            console.log('error')
+            console.log(JSON.parse(error))
+        }
+        
     }
 
     render() {
@@ -29,7 +36,7 @@ class DpImageUpload extends React.Component {
         return (
             <div>
                 <input onChange={
-                    (e: React.ChangeEvent<HTMLInputElement>) => this.setState({image: e.target.files})} 
+                    (e: React.ChangeEvent<HTMLInputElement>) => this.setState({image: (e.target.files as any)[0]})} 
                     type="file" />
                 <Button variant="primary" onClick={() => this.saveImage()}>Ladda upp</Button>    
             </div>

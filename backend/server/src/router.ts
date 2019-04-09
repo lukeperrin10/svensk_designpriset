@@ -30,12 +30,27 @@ export function initRouter(app: Express) {
     
     const multerHandler = multer({
         storage: storage,
-      
+        fileFilter: (req, file, cb) => {
+            if(file.mimetype.startsWith('image'))
+                cb(null, true);
+            else {
+                cb(new Error("NOT_IMAGE"), false);
+            }
+        },
+        limits: {
+            fieldSize: 4194304
+        }
     })
 
-    router.post('/', multerHandler.single('image'), (req: express.Request, res: express.Response) => {
-        console.log(req.body)
-        res.json(req.file)
+    router.post('/', (req: express.Request, res: express.Response) => {
+        multerHandler.single('image')(req, res, (error: Error) => {
+            if (error) {
+                res.status(500).json({error: error.message})
+            } else {
+                res.json(req.file.filename)
+            }
+        })
+        
     })
 
     router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
