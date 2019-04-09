@@ -17,7 +17,8 @@ interface IDpFormProps {
     title: string,
     buttonDisabledText?: string
     defaultValue?: any,
-    onValueChange?: Function
+    onValueChange?: Function,
+    customComponents?: [JSX.Element]
 }
 class DpForm extends React.Component<IDpFormProps> {
     state = {
@@ -117,6 +118,11 @@ class DpForm extends React.Component<IDpFormProps> {
                             )
                         })}
                     </div>
+                    {this.props.customComponents ?
+                    <div>
+                        {this.props.customComponents}
+                    </div>
+                    :null}
                     <div style={styles.buttonContainer}>
                         {this.props.disabled ? 
                         <Button style={styles.button} variant="primary">

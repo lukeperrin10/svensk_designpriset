@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/Button'
 import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
 import { getCategories } from 'src/webapp/redux/actions/categories';
 import { isEmptyObject } from 'src/webapp/helpers';
+import DpImageUpload from './dp_image_upload';
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -185,8 +186,9 @@ class FormContainer extends React.Component<Props, State> {
                 disabled={false}
                 onValueChange={(v: IEnteredValues) => this.onValueChange('entry', v, `${i}`)}
                 defaultValue={tempEntries[`${i}`] || null}
-                
+                customComponents={[<DpImageUpload key={i} />]}
                 onSubmit={(e: IEnteredValues) => this.saveEntry(e)}/>
+                
             </div>
 
             forms.push(form)

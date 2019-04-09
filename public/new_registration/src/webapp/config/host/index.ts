@@ -7,3 +7,5 @@ export const CATEGORY_URL = `${BASE_URL}/categories`
 export const FRONTEND_URL = "http://mywon.se:8011"
 export const AVATAR_URL = `${FRONTEND_URL}/clone/admin/avatars`
 export const TEMP_AVATAR_URL = `${FRONTEND_URL}/clone/admin/avatar-temp`
+
+export const IMAGE_TEST_URL = `${BASE_URL}/`
