@@ -10,6 +10,15 @@ import multer from 'multer'
 
 export function initRouter(app: Express) {
     console.log('init router')
+    const router = express.Router()
+    router.use('/winners', winners)
+    router.use('/entries', entries)
+    router.use('/profiles', profiles)
+    router.use('/categories', categories)
+    // router.use('/', (req, res) => {
+    //     res.send('tjena hejsan')
+    // })
+
     const storage = multer.diskStorage({
         destination: (req, file, cb) => {
             cb(null, './upload_assets/images/')
@@ -19,23 +28,15 @@ export function initRouter(app: Express) {
         }
     })
     
-    const multerHandler = multer({storage})
-    const router = express.Router()
+    const multerHandler = multer({
+        storage: storage,
+      
+    })
+
     router.post('/', multerHandler.single('image'), (req: express.Request, res: express.Response) => {
         console.log(req.body)
         res.json(req.file)
     })
-    router.use('/winners', winners)
-    router.use('/entries', entries)
-    router.use('/profiles', profiles)
-    router.use('/categories', categories)
-    // router.use('/', (req, res) => {
-    //     res.send('tjena hejsan')
-    // })
-
-    
-
-    
 
     router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         if (req.app.get('env') !== 'test') {   
