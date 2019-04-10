@@ -12,3 +12,4 @@ export const IMAGE_TEST_URL = `${BASE_URL}/`
 export const TEMP_AVATAR_URL = `${BASE_URL}/temp_avatar`
 export const AVATAR_URL = `${BASE_URL}/avatar`
 export const ENTRY_MEDIA_URL = `${BASE_URL}/entry_media`
+export const TEMP_ENTRY_MEDIA_URL = `${BASE_URL}/temp_entry_media`

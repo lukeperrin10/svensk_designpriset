@@ -1,8 +1,9 @@
 import * as express from 'express'
 import multer from 'multer'
-import fs from 'fs'
+import fs from 'fs';
+import path from 'path'
 
-const folderPath = './upload_assets/temp_avatars/'
+const folderPath = './upload_assets/temp_media/'
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -26,13 +27,15 @@ const storage = multer.diskStorage({
     }
 })
 
+
 const multerHandler = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
-        if(file.mimetype.startsWith('image'))
+        const ext = path.extname(file.originalname)
+        if(ext === '.pdf')
             cb(null, true);
         else {
-            cb(new Error("NOT_IMAGE"), false);
+            cb(new Error("NOT_PDF"), false);
         }
     },
     limits: {

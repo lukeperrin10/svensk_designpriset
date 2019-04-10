@@ -7,6 +7,7 @@ import {router as categories} from './routes/category'
 import TempAvatar from './file_handlers/temp_avatars'
 import Avatars from './file_handlers/avatars'
 import EntryMedia from './file_handlers/entry_media'
+import TempEntryMedia from './file_handlers/temp_entry_media'
 
 
 
@@ -23,6 +24,7 @@ export function initRouter(app: Express) {
     router.post('/avatar', Avatars)
     router.post('/temp_avatar', TempAvatar)
     router.post('/entry_media', EntryMedia)
+    router.post('/temp_entry_media',TempEntryMedia)
 
     router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         if (req.app.get('env') !== 'test') {   

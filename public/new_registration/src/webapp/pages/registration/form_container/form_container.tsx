@@ -14,7 +14,7 @@ import { getCategories } from 'src/webapp/redux/actions/categories';
 import { isEmptyObject } from 'src/webapp/helpers';
 import DpImageUpload from './dp_image_upload';
 import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
-import { ENTRY_MEDIA_URL } from 'src/webapp/config/host';
+import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL } from 'src/webapp/config/host';
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -164,6 +164,14 @@ class FormContainer extends React.Component<Props, State> {
         
     }
 
+    addMediaToEntry(key: string, type: string, url: string) {
+        const {tempEntries} = this.state
+        if(key in tempEntries) {
+            tempEntries[key][type] = url
+            this.setState({tempEntries: tempEntries})
+        }
+    }
+
     getEntryForms() {
         const {tempEntries} = this.state
         const {categories} = this.props
@@ -190,11 +198,18 @@ class FormContainer extends React.Component<Props, State> {
                 defaultValue={tempEntries[`${i}`] || null}
                 customComponents={[
                     <DpImageUpload 
-                        onSave={() => {}} 
-                        url={ENTRY_MEDIA_URL}
+                        onSave={(url: string) => this.addMediaToEntry(`${i}`, 'avatar', url)} 
+                        url={TEMP_AVATAR_URL}
                         label={GENERAL_TEXT.thumbnail_label} 
-                        key={i} 
+                        key={'avatar'} 
                         limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}
+                        />,
+                    <DpImageUpload 
+                    onSave={(url: string) => this.addMediaToEntry(`${i}`, 'source', url)} 
+                        url={TEMP_ENTRY_MEDIA_URL}
+                        label={GENERAL_TEXT.entry_media} 
+                        key={'media'} 
+                        limits={[LIMIT_EXTENSIONS.PDF]}
                         />
                 ]}
                 onSubmit={(e: IEnteredValues) => this.saveEntry(e)}/>
@@ -208,6 +223,7 @@ class FormContainer extends React.Component<Props, State> {
 
     render() {
         const {tempProfile} = this.state 
+        console.log(this.state.tempEntries)
         return (
             <div style={styles.container}>
             {!this.state.didLoad ?

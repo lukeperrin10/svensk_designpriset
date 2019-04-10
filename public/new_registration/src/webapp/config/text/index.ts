@@ -45,5 +45,6 @@ export const FORM_ENTRY_LABELS: formItems = {
 
 export enum GENERAL_TEXT {
     thumbnail_label = "Bild för tumnagel (rekommenderad storlek – 550px bred/735px hög)",
+    entry_media = "Bifoga pdf-fil för printbidrag, (ej obligatorisk, max filstorlek 5 Mb, undvik ÅÄÖ i filnamn)"
 }
 

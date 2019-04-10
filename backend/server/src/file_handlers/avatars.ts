@@ -2,10 +2,11 @@ import * as express from 'express'
 import multer from 'multer'
 import {Md5} from 'ts-md5/dist/md5'
 
+const folderPath = './upload_assets/avatars/'
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './upload_assets/images/')
+        cb(null, folderPath)
     },
     filename: (req, file, cb) => {
         cb(null, `avatar-x${Md5.hashStr(''+Date.now())}.${file.originalname.toLocaleLowerCase().split('.').pop()}`)

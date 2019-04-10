@@ -18,7 +18,7 @@ interface IDpFormProps {
     buttonDisabledText?: string
     defaultValue?: any,
     onValueChange?: Function,
-    customComponents?: [JSX.Element]
+    customComponents?: JSX.Element[]
 }
 class DpForm extends React.Component<IDpFormProps> {
     state = {

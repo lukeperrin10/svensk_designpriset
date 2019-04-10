@@ -1,6 +1,6 @@
 export default {
     container: {
-        marginTop: 30,
+        marginTop: 50,
         paddingLeft: 50,
         display: 'flex',
         // alignItems: 'center'
