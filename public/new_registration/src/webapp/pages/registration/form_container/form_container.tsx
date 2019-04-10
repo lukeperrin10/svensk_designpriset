@@ -14,7 +14,7 @@ import { getCategories } from 'src/webapp/redux/actions/categories';
 import { isEmptyObject } from 'src/webapp/helpers';
 import DpImageUpload from './dp_image_upload';
 import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
-import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL } from 'src/webapp/config/host';
+import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_SYM } from 'src/webapp/config/host';
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -165,10 +165,21 @@ class FormContainer extends React.Component<Props, State> {
     }
 
     addMediaToEntry(key: string, type: string, url: string) {
-        const {tempEntries} = this.state
-        if(key in tempEntries) {
-            tempEntries[key][type] = url
-            this.setState({tempEntries: tempEntries})
+        const obj = this.state.tempEntries
+        if (key in obj) {
+            obj[key][type] = url
+            this.setState({tempEntries: obj})
+        } else {
+            this.setState({tempEntries: {...this.state.tempEntries, [key]: {[type]: url} }})
+        }
+    }
+
+    // DELETE FILE BACKEND???
+    removeMediaFromEntry(key: string, type: string) {
+        const obj = this.state.tempEntries
+        if (key in obj && type in obj[key]) {
+            delete obj[key][type] 
+            this.setState({tempEntries: obj})
         }
     }
 
@@ -188,6 +199,8 @@ class FormContainer extends React.Component<Props, State> {
             FORM_ENTRY_LABELS['category'].selectList = cat
         }
         for(let i = 0; i < amountOfForms; i++) {
+            const uploadedAvatar = tempEntries[`${i}`] ? tempEntries[`${i}`].avatar || false : false
+            const uploadedMedia = tempEntries[`${i}`] ? tempEntries[`${i}`].source || false : false
             const form = <div key={i}>
                 <DpForm
                 fields={FORM_ENTRY_LABELS}
@@ -203,13 +216,18 @@ class FormContainer extends React.Component<Props, State> {
                         label={GENERAL_TEXT.thumbnail_label} 
                         key={'avatar'} 
                         limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}
+                        uploadedImage={uploadedAvatar ? `${TEMP_AVATAR_SYM}/${tempEntries[`${i}`].avatar}` : undefined}
+                        deleteImage={uploadedAvatar ? () => this.removeMediaFromEntry(`${i}`, 'avatar') : undefined}
                         />,
                     <DpImageUpload 
-                    onSave={(url: string) => this.addMediaToEntry(`${i}`, 'source', url)} 
+                        onSave={(url: string) => this.addMediaToEntry(`${i}`, 'source', url)} 
                         url={TEMP_ENTRY_MEDIA_URL}
                         label={GENERAL_TEXT.entry_media} 
                         key={'media'} 
                         limits={[LIMIT_EXTENSIONS.PDF]}
+                        uploadedImage={uploadedMedia ? `${tempEntries[`${i}`].source}` : undefined}
+                        displayUploadName={true}
+                        deleteImage={uploadedMedia ? () => this.removeMediaFromEntry(`${i}`, 'source') : undefined}
                         />
                 ]}
                 onSubmit={(e: IEnteredValues) => this.saveEntry(e)}/>

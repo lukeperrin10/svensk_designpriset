@@ -11,7 +11,10 @@ interface IDpImageUpload {
     label: string,
     onSave: (result: string) => any,
     limits?: LIMIT_EXTENSIONS[],
-    url: string
+    url: string,
+    uploadedImage?: string,
+    displayUploadName?: boolean,
+    deleteImage?: () => void
 }
 
 export enum LIMIT_EXTENSIONS {
@@ -52,6 +55,10 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
             return true
         }
     }
+
+    deleteImage() {
+        if (this.props.deleteImage) this.props.deleteImage()
+    }
     
     saveImage = async () => {
         this.setState({errorUploading: false, errorMessage: ''})
@@ -88,12 +95,26 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
 
     render() {
         const {isLoading, buttonDisabled, errorUploading, errorMessage, didUpLoad} = this.state
-        const {limits} = this.props
-        const containerStyle = didUpLoad ? {...styles.container, ...styles.okColor} : styles.container
+        const {limits, uploadedImage, displayUploadName} = this.props
+        const containerStyle = didUpLoad || uploadedImage ? {...styles.container, ...styles.okColor} : styles.container
         return (
             <div style={containerStyle}>
-                <div>
+                <div style={styles.labelContainer}>
                     <p style={styles.label}>{this.props.label}</p>
+                </div>
+                {uploadedImage ? 
+                <div>
+                    {displayUploadName ? 
+                        <p style={styles.uploadedFileName}>{uploadedImage}</p>    
+                        :
+                        <img src={uploadedImage} alt='image' style={styles.uploadedImage} />
+                        
+                    }
+                    
+                    <Button onClick={() => this.deleteImage()} style={styles.deleteButton} variant="secondary">Ta bort</Button>
+                </div>
+                :
+                <div>
                     {limits ? 
                     <p style={styles.limits}>Accepterade format:
                     {limits.map(l => ` ${l}  `)}
@@ -116,10 +137,11 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                         : <div>Ladda upp</div> }
                     </Button>    
                 </div>
+                }
                 <div style={styles.errors}>
                     {errorUploading ? errorMessage : null}
                 </div>
-                {didUpLoad ? <img style={styles.checkImg} src={check} /> : null}
+                {didUpLoad || uploadedImage ? <img style={styles.checkImg} src={check} /> : null}
             </div>
         )
     }

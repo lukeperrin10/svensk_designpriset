@@ -24,6 +24,8 @@ services:
             - "8011:80"
         volumes: 
             - ./public:/app
+            - temp_avatars:/app/clone/admin/temp_avatars
+            
     backend:
         build: ./backend/server
         environment:
@@ -40,9 +42,12 @@ services:
             - "8001:8001"
         volumes: 
             - ./backend/server:/var/app
+            - temp_avatars:/var/app/upload_assets/temp_avatars
+            
         
         
 volumes: 
     mysql-data: {}
+    temp_avatars:
 
 
