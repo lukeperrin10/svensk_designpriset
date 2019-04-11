@@ -6,10 +6,11 @@ const valid_params = ['id']
 class EntriesRouter extends DPRouter<model.Entry> {
     post() {
         this.router.post('/', async (req, res) => {
-            if (Array.isArray(req.body)) {
+            console.log(req.body)
+            if (Array.isArray(req.body) && req.body.length > 1) {
                 res.json(await (<typeof model>this.model).batchCreate(req.body))
             } else {
-                res.json(await this.model.create(req.body))
+                res.json(await this.model.create(req.body[0]))
             }
         })
     }

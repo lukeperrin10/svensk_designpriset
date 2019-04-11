@@ -16,17 +16,33 @@ app.use(bodyParser.json({ type: 'application/json'}))
 
 if (process.env.NODE_ENV === 'development') {
     app.use((req: any , res:any, next:any) => {
-        // if (config.get<boolean>('allow_all_origins')) {
-        //     res.header("Access-Control-Allow-Origin", req.get('origin'))
+        // if(req.method === 'OPTIONS') {
+        //     console.log('!OPTIONS');
+        // const headers = {
+        //     ["Access-Control-Allow-Origin"]: "*",
+        //     ["Access-Control-Allow-Methods"]: "POST, GET, PUT, DELETE, OPTIONS",
+        //     ["Access-Control-Allow-Credentials"]: false,
+        //     ["Access-Control-Max-Age"]: '86400', // 24 hours
+        //     ["Access-Control-Allow-Headers"]: "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+        // };
+        // // IE8 does not allow domains to be specified, just the *
+        // // headers["Access-Control-Allow-Origin"] = req.headers.origin;
+        // res.writeHead(200, headers);
+        // res.end();
         // } else {
-        //     //Add web domain later
-        res.header("Access-Control-Allow-Origin", '*')
+                // if (config.get<boolean>('allow_all_origins')) {
+            //     res.header("Access-Control-Allow-Origin", req.get('origin'))
+            // } else {
+            //     //Add web domain later
+            res.header("Access-Control-Allow-Origin", '*')
+            // }
+        
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+            res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS")
+            res.header("Access-Control-Allow-Credentials", "true")
+            next()
         // }
-    
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-        res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS")
-        res.header("Access-Control-Allow-Credentials", "true")
-        next()
+        
     });
 }
 

@@ -69,7 +69,7 @@ function create_entry(entry: Entry): Entry {
         source: entry.source, 
         secret: entry.secret, 
         avatar: entry.avatar, 
-        year: entry.year,
+        year: entry.year || `${new Date().getFullYear()}`,
         is_nominated: entry.is_nominated || 0,
         is_winner_gold: entry.is_winner_gold || 0,
         is_winner_silver: entry.is_winner_silver || 0,

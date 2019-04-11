@@ -92,6 +92,8 @@ function fetchSaveEntries(e: INewEntry[]): ThunkAction<Promise<IEntriesAction>, 
     return async (dispatch) => {
         dispatch(saveEntriesAction())
         try {
+            console.log('fetch save entries')
+            console.log(e)
             const method = "POST"
             const url = host.ENTRIES_URL
             const headers = {"Content-Type": "application/json; charset=utf-8"}

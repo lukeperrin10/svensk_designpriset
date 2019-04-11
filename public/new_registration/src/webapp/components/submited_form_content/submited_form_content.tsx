@@ -1,22 +1,33 @@
 import * as React from 'react'
+import styles from './style'
 
-interface textContent {
+export interface textContent {
     label: string,
     content: string,
-    url?: string
+    imageUrl?: string
 }
 
 interface ISubmitedFormContent {
+    title: string
     content: textContent[],
 }
 
 class SubmitedFormContent extends React.Component<ISubmitedFormContent> {
     render() {
         return (
-            <div>
-                {this.props.content.map(c => {
+            <div style={styles.container}>
+                <h2>{this.props.title}</h2>
+                {this.props.content.map((c, i) => {
                     return (
-                        <p>{c.label}</p>
+                        <div style={styles.contentItem} key={i}>
+                            <p style={{...styles.p, ...styles.label}}>{c.label}:</p>
+                            {c.imageUrl ?
+                            <img style={styles.image} src={c.imageUrl} />
+                            :
+                            <p style={styles.p}>{c.content}</p>
+                            }
+                            
+                        </div>
                     )
                 })}
             </div>

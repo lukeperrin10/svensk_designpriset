@@ -1,42 +1,44 @@
 import * as React from 'react'
-import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS, GENERAL_TEXT} from '../../../config/text'
+import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS, GENERAL_TEXT, formItems} from '../../../config/text'
 import styles from './styles'
 import {Md5} from 'ts-md5/dist/md5';
-import { INewProfile, IEntry, INewEntry, ICategory } from 'src/webapp/model';
-import { IState, IProfileState } from 'src/webapp/model/state';
-import { saveProfile, getProfile } from 'src/webapp/redux/actions/profile';
-import { connect } from 'react-redux';
+import { INewProfile, INewEntry, ICategory } from 'src/webapp/model';
 import DpForm from './dp_form';
 import { IEnteredValues } from './dp_form/dp_form';
 import Button from 'react-bootstrap/Button'
 import OverLay from 'react-bootstrap/OverlayTrigger'
 import ToolTip from 'react-bootstrap/Tooltip'
-import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
-import { getCategories } from 'src/webapp/redux/actions/categories';
 import { isEmptyObject } from 'src/webapp/helpers';
 import DpImageUpload from './dp_image_upload';
 import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
 import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_SYM } from 'src/webapp/config/host';
+import SubmitedFormContent from 'src/webapp/components/submited_form_content';
+import { textContent } from 'src/webapp/components/submited_form_content/submited_form_content';
 
-interface ReduxProps {
-    profileState: IProfileState,
-    entries: IEntry[],
-    categories: ICategory[]
-}
-interface DispatchProps {
-    saveProfile: (p: INewProfile) => Promise<any>,
-    getProfile: (i: number) => Promise<any>,
-    getEntries: (p: number) => Promise<any>,
-    saveEntries: (e: INewEntry[]) => Promise<any>,
-    getCategories: () => Promise<any>
-}
-type Props = ReduxProps & DispatchProps
-interface State {}
+// interface ReduxProps {
+//     profileState: IProfileState,
+//     entries: IEntry[],
+//     categories: ICategory[]
+// }
+// interface DispatchProps {
+//     saveProfile: (p: INewProfile) => Promise<any>,
+//     getProfile: (i: number) => Promise<any>,
+//     getEntries: (p: number) => Promise<any>,
+//     saveEntries: (e: INewEntry[]) => Promise<any>,
+//     getCategories: () => Promise<any>
+// }
+// type Props = ReduxProps & DispatchProps
+// interface State {}
 
 const CACHED_PROFILE = "CACHED_PROFILE"
 const CACHED_ENTRIES = "CACHED_ENTRIES"
 
-class FormContainer extends React.Component<Props, State> {
+interface IFormContainer {
+    categories: ICategory[],
+    saveContent: (profile: INewProfile, entries: INewEntry[]) => void
+}
+
+class FormContainer extends React.Component<IFormContainer> {
     state = {
         didLoad: true,
         savedProfile: {},
@@ -45,9 +47,12 @@ class FormContainer extends React.Component<Props, State> {
         tempEntries: {},
         disabledEntries: {},
         profileDisabled: false,
-        errorEntries: {}
+        errorEntries: {},
+        didSaveProfile: false,
+        didSaveEntry: false,
+        displayReview: false
     }
-    constructor(p: Props) {
+    constructor(p: any) {
         super(p)
         // localStorage.clear()
         
@@ -57,8 +62,8 @@ class FormContainer extends React.Component<Props, State> {
             this.storeSession()
         })
         this.hydrateFromLocal()
-        this.props.getCategories()
-        .then(() => this.setState({didLoad: true})) 
+        // this.props.getCategories()
+        // .then(() => this.setState({didLoad: true})) 
     }
 
     componentWillUnmount() {
@@ -83,7 +88,7 @@ class FormContainer extends React.Component<Props, State> {
             Object.keys(entries).forEach(e => {
                 if (isEmptyObject(entries[e])) {
                     delete entries[e]
-                    console.log(entries[e])
+                    
                 }
             })
         }
@@ -137,7 +142,7 @@ class FormContainer extends React.Component<Props, State> {
         savedProfile.secret = `${Md5.hashStr(savedProfile.contact+Date.now())}`
         
         if (!error) {
-            this.setState({savedProfile: savedProfile, profileDisabled: true})
+            this.setState({savedProfile: savedProfile, profileDisabled: true, didSaveProfile: true})
             localStorage.setItem(CACHED_PROFILE, JSON.stringify(savedProfile))
             // this.props.saveProfile(savedProfile)
         }
@@ -161,7 +166,6 @@ class FormContainer extends React.Component<Props, State> {
                 } else if (entryKey in tempEntries) {
                     savedEntry[key] = tempEntries[entryKey][key]
                 } else {
-                    console.log(key)
                     error = true
                 }
             }
@@ -173,9 +177,13 @@ class FormContainer extends React.Component<Props, State> {
         if (!error) {
             const arr: any[] = Array.from(this.state.savedEntries)
             arr.push(savedEntry)
-            console.log(savedEntry)
-            this.setState({savedEntries: arr, disabledEntries: {...this.state.disabledEntries, [entryKey]: true}})
+            this.setState({savedEntries: arr, disabledEntries: {...this.state.disabledEntries, [entryKey]: true}, didSaveEntry: true})
         }
+    }
+
+    saveContent() {
+        const {savedProfile, savedEntries} = this.state
+        this.props.saveContent(savedProfile as INewProfile, savedEntries as INewEntry[])
     }
 
     addNewEntryForm() {
@@ -232,7 +240,7 @@ class FormContainer extends React.Component<Props, State> {
                 <DpForm
                 fields={FORM_ENTRY_LABELS}
                 disabled={disabledEntries[key]}
-                onDisabled={() => this.setState({disabledEntries: {...this.state.disabledEntries, [key]: false}})}
+                onDisabled={() => this.setState({disabledEntries: {...this.state.disabledEntries, [key]: false}, didSaveEntry: false})}
                 buttonText="Spara"
                 buttonDisabledText="Redigera"
                 title={"Bidrag "+(i+1)}
@@ -272,9 +280,22 @@ class FormContainer extends React.Component<Props, State> {
         return forms
     }
 
+    submitedFormContent(submited: IEnteredValues, exclude: string[], formItems: formItems, imageLabel?: string) {
+        const content : textContent[] = []
+        Object.keys(submited).forEach(item => {
+            if ((exclude.filter((ex) => ex === item))[0] !== item) {
+                content.push({
+                    label: item === 'avatar' ? 'Tummnagel' : formItems[item].label ,
+                    content: submited[item],
+                    imageUrl: imageLabel === item ? `${TEMP_AVATAR_SYM}/${submited[item]}` : undefined
+                })
+            }
+        })
+        return content
+    }
+
     render() {
-        const {tempProfile, profileDisabled} = this.state 
-        console.log(this.state.tempEntries)
+        const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview} = this.state 
         return (
             <div style={styles.container}>
             {!this.state.didLoad ?
@@ -284,7 +305,7 @@ class FormContainer extends React.Component<Props, State> {
                 <DpForm 
                     fields={FORM_PROFILE_LABELS}
                     disabled={profileDisabled}
-                    onDisabled={() => this.setState({profileDisabled: false})}
+                    onDisabled={() => this.setState({profileDisabled: false, didSaveProfile: false})}
                     buttonText="Spara"
                     onSubmit={(e: IEnteredValues) => this.saveProfile(e)}
                     title="Allmäna uppgifter"
@@ -303,30 +324,57 @@ class FormContainer extends React.Component<Props, State> {
                         }>
                         <Button style={styles.addButton} onClick={() => this.addNewEntryForm()} variant="secondary">+</Button>
                     </OverLay>
+                    <OverLay
+                        placement="left"
+                        overlay={
+                            <ToolTip id="hej">
+                                Förhandsgrandsgranskning
+                            </ToolTip>
+                        }>
+                        <Button disabled={(!didSaveProfile || !didSaveEntry)} onClick={() => {this.setState({displayReview: true})}} variant="secondary">Gå vidare</Button>
+                    </OverLay>
                 </div>
             </div>
             }
+            {displayReview ? 
+            <div style={styles.modal}>
+                <SubmitedFormContent 
+                    title="Användaruppgifter" 
+                    content={this.submitedFormContent(tempProfile,['secret', 'invoice_paid'], FORM_PROFILE_LABELS)} />
+                {Object.keys(tempEntries).map((e, i) => {
+                    return (
+                        <SubmitedFormContent 
+                            key={i} 
+                            title={`Bidrag ${i+1}`} 
+                            content={this.submitedFormContent(tempEntries[e], [], FORM_ENTRY_LABELS, 'avatar')} />
+                    )
+                })}
+                <Button onClick={() => this.saveContent()} variant="primary">Skicka in!</Button>
+            </div>
+            : null}
+            
             </div>
         )
     }
 }
 
-const mapStateToProps = (state: IState) => {
-    return {
-        profileState: state.profileState,
-        entries: state.entriesState.entries,
-        categories: state.categoryState.categories
-    }
-}
+// const mapStateToProps = (state: IState) => {
+//     return {
+//         profileState: state.profileState,
+//         entries: state.entriesState.entries,
+//         categories: state.categoryState.categories
+//     }
+// }
 
-const mapDispatchToProps = (dispatch: Function) => {
-    return {
-        saveProfile: (profile: INewProfile) => dispatch(saveProfile(profile)),
-        getProfile: (id: number) => dispatch(getProfile(id)),
-        getEntries: (profile_id: number) => dispatch(getEntries(profile_id)),
-        saveEntries: (entries: INewEntry[]) => dispatch(saveEntries(entries)),
-        getCategories: () => dispatch(getCategories())
-    }
-}
+// const mapDispatchToProps = (dispatch: Function) => {
+//     return {
+//         saveProfile: (profile: INewProfile) => dispatch(saveProfile(profile)),
+//         getProfile: (id: number) => dispatch(getProfile(id)),
+//         getEntries: (profile_id: number) => dispatch(getEntries(profile_id)),
+//         saveEntries: (entries: INewEntry[]) => dispatch(saveEntries(entries)),
+//         getCategories: () => dispatch(getCategories())
+//     }
+// }
 
-export default connect<ReduxProps, DispatchProps, {}, IState>(mapStateToProps, mapDispatchToProps)(FormContainer)
+// export default connect<ReduxProps, DispatchProps, {}, IState>(mapStateToProps, mapDispatchToProps)(FormContainer)
+export default FormContainer

@@ -2,6 +2,8 @@ import * as React from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { FormControlProps } from 'react-bootstrap/FormControl';
+import OverLay from 'react-bootstrap/OverlayTrigger'
+import ToolTip from 'react-bootstrap/Tooltip'
 import styles from './styles'
 import { formItems } from 'src/webapp/config/text';
 
@@ -135,9 +137,19 @@ class DpForm extends React.Component<IDpFormProps> {
                     :null}
                     {!disabled ? 
                     <div style={styles.buttonContainer}>
-                        <Button style={styles.button} variant="primary" type="submit">
-                            {this.props.buttonText}
-                        </Button>
+                    <OverLay
+                        placement="left"
+                        overlay={
+                            <ToolTip id="hej">
+                                Du kan redigera senare
+                            </ToolTip>
+                        }>
+                            <Button style={styles.button} variant="primary" type="submit">
+                                {this.props.buttonText}
+                            </Button>
+                        </OverLay>
+
+                        
                     </div> 
                     :null}
                 </Form>

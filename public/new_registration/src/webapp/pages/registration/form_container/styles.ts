@@ -19,5 +19,14 @@ export default {
     addButtonContainer: {
         width: '100%',
         textAlign: 'right' as 'right'
+    },
+    modal: {
+        width: '100vw',
+        height: '100vh',
+        position: 'absolute' as 'absolute',
+        top: 0,
+        left: 0,
+        backgroundColor: 'white'
+
     }
 }
