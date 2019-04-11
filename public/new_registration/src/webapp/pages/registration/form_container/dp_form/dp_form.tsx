@@ -13,17 +13,19 @@ interface IDpFormProps {
     fields: formItems,
     buttonText: string, 
     onSubmit: (e: IEnteredValues) => void,
-    disabled: boolean,
     title: string,
     buttonDisabledText?: string
     defaultValue?: any,
     onValueChange?: Function,
-    customComponents?: JSX.Element[]
+    customComponents?: JSX.Element[],
+    disabled: boolean,
+    onDisabled: () => void
 }
 class DpForm extends React.Component<IDpFormProps> {
     state = {
         formValidated: false,
-        formInput: {}
+        formInput: {},
+        
     }
 
     onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -46,6 +48,10 @@ class DpForm extends React.Component<IDpFormProps> {
         }
     }
 
+    validateSelect() {
+        
+    }
+
     getDefaultValue(key: string, inputType: string) {
         const {defaultValue} = this.props
         if (defaultValue) {
@@ -61,14 +67,14 @@ class DpForm extends React.Component<IDpFormProps> {
             }
         }
     }
-    // FORTSÄTT HÄR! TAR BORT '0'
+    
     formatNumber(number: string) {
         return parseInt(number.replace(/ /g,''))
     }
-
+    // FORTSÄTT HÄR MED SELECT VALIDERING!
     render() {
-        const {formValidated} = this.state
-        const {fields} = this.props
+        const {formValidated, } = this.state
+        const {fields, disabled} = this.props
         return (
             <div style={styles.container}>
                 <h3 style={styles.title}>{this.props.title}</h3>
@@ -77,7 +83,6 @@ class DpForm extends React.Component<IDpFormProps> {
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.onSubmit(e)}>
                     <div style={styles.formGroup}>
                         {Object.keys(fields).map(key => {
-                            // i++
                             const item = fields[key]
                             return (
                                 <div key={key} style={styles.inputContainer}>
@@ -88,14 +93,19 @@ class DpForm extends React.Component<IDpFormProps> {
                                             as='select'
                                             style={styles.input} 
                                             required
-                                            disabled={this.props.disabled}
+                                            disabled={disabled}
                                             type={item.type}
                                             placeholder={item.label} 
-                                            defaultValue={this.getDefaultValue(item.key, item.type)}
+                                            value={this.getDefaultValue(item.key, item.type) || ''}
+                                            
                                             onChange={this.onControlChange(key)}>
+                                            <option value='' disabled>Välj ett alternativ</option>
                                             {item.selectList ? item.selectList.map(listItem => {
                                                 return (
-                                                    <option key={listItem.id}>{listItem.name}</option>
+                                                    <option
+                                                        value={listItem.name} 
+                                                        key={listItem.id}>{listItem.name}
+                                                    </option>
                                                 )
                                             }):null}
                                             </Form.Control>
@@ -104,7 +114,7 @@ class DpForm extends React.Component<IDpFormProps> {
                                             <Form.Control
                                                 style={styles.input} 
                                                 required
-                                                disabled={this.props.disabled}
+                                                disabled={disabled}
                                                 type={item.type}
                                                 placeholder={item.label} 
                                                 defaultValue={this.getDefaultValue(item.key, item.type)}
@@ -123,19 +133,21 @@ class DpForm extends React.Component<IDpFormProps> {
                         {this.props.customComponents}
                     </div>
                     :null}
+                    {!disabled ? 
                     <div style={styles.buttonContainer}>
-                        {this.props.disabled ? 
-                        <Button style={styles.button} variant="primary">
-                            {this.props.buttonDisabledText || this.props.buttonText}
-                        </Button>
-                        :
                         <Button style={styles.button} variant="primary" type="submit">
                             {this.props.buttonText}
                         </Button>
-                        }
-                        
-                    </div>
+                    </div> 
+                    :null}
                 </Form>
+                {disabled ? 
+                <div style={styles.buttonContainer}>
+                    <Button style={styles.button} variant="primary" onClick={() => this.props.onDisabled()}>
+                        {this.props.buttonDisabledText || this.props.buttonText}
+                    </Button>
+                </div> 
+                :null}
             </div>
         )
     }

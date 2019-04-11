@@ -14,7 +14,9 @@ interface IDpImageUpload {
     url: string,
     uploadedImage?: string,
     displayUploadName?: boolean,
-    deleteImage?: () => void
+    deleteImage?: () => void,
+    displayErrorProps: boolean,
+    errorMessageProps: string
 }
 
 export enum LIMIT_EXTENSIONS {
@@ -95,7 +97,7 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
 
     render() {
         const {isLoading, buttonDisabled, errorUploading, errorMessage, didUpLoad} = this.state
-        const {limits, uploadedImage, displayUploadName} = this.props
+        const {limits, uploadedImage, displayUploadName, errorMessageProps, displayErrorProps} = this.props
         const containerStyle = didUpLoad || uploadedImage ? {...styles.container, ...styles.okColor} : styles.container
         return (
             <div style={containerStyle}>
@@ -108,9 +110,7 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                         <p style={styles.uploadedFileName}>{uploadedImage}</p>    
                         :
                         <img src={uploadedImage} alt='image' style={styles.uploadedImage} />
-                        
                     }
-                    
                     <Button onClick={() => this.deleteImage()} style={styles.deleteButton} variant="secondary">Ta bort</Button>
                 </div>
                 :
@@ -141,6 +141,11 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                 <div style={styles.errors}>
                     {errorUploading ? errorMessage : null}
                 </div>
+                {displayErrorProps ?
+                <div style={styles.errors}>
+                    {errorMessageProps}
+                </div>
+                :null}
                 {didUpLoad || uploadedImage ? <img style={styles.checkImg} src={check} /> : null}
             </div>
         )

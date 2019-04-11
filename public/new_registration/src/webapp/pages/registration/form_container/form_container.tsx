@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import DpForm from './dp_form';
 import { IEnteredValues } from './dp_form/dp_form';
 import Button from 'react-bootstrap/Button'
+import OverLay from 'react-bootstrap/OverlayTrigger'
+import ToolTip from 'react-bootstrap/Tooltip'
 import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
 import { getCategories } from 'src/webapp/redux/actions/categories';
 import { isEmptyObject } from 'src/webapp/helpers';
@@ -41,6 +43,9 @@ class FormContainer extends React.Component<Props, State> {
         savedEntries: [],
         tempProfile: {},
         tempEntries: {},
+        disabledEntries: {},
+        profileDisabled: false,
+        errorEntries: {}
     }
     constructor(p: Props) {
         super(p)
@@ -113,30 +118,39 @@ class FormContainer extends React.Component<Props, State> {
 
     saveProfile(profile: IEnteredValues) {
         let error = false
-        const savedProfile: INewProfile = {secret: '',invoice_paid: 0,
-            contact: '',company: '',address: '',zip: '',phone: '',mail: '',
-            homepage: '',city: ''}
-
+        const {tempProfile} = this.state
+        const savedProfile : INewProfile = {secret: '',invoice_paid: 0,
+        contact: '',company: '',address: '',zip: '',phone: '',mail: '',
+        homepage: '',city: ''}
+           
         Object.keys(savedProfile).forEach(key => {
             if (!(key === 'secret' || key === 'invoice_paid')) {
                 if (key in profile) {
                     savedProfile[key] = profile[key]
+                } else if (key in tempProfile) {
+                    savedProfile[key] = tempProfile[key]
                 } else {
                     error = true
                 }
             }
         })
         savedProfile.secret = `${Md5.hashStr(savedProfile.contact+Date.now())}`
+        
         if (!error) {
-            this.setState({savedProfile: savedProfile})
-            console.log(savedProfile)
+            this.setState({savedProfile: savedProfile, profileDisabled: true})
             localStorage.setItem(CACHED_PROFILE, JSON.stringify(savedProfile))
             // this.props.saveProfile(savedProfile)
         }
     }
 
-    saveEntry(entry: IEnteredValues) {
+    saveEntry(entry: IEnteredValues, entryKey: string) {
         let error = false
+        const {tempEntries, errorEntries} = this.state
+        if (entryKey in errorEntries){
+            const errors = JSON.parse(JSON.stringify(errorEntries))
+            delete errors[entryKey]
+            this.setState({errorEntries: errors})
+        } 
         const savedEntry: INewEntry = {profile_id: 9999999,entry_name: '',designer: '',
             illustrator: '',leader: '', avatar: '', secret: '', year: '',customer: '',
             source: '', format: '', size: '', category: '', webpage: ''}
@@ -144,16 +158,23 @@ class FormContainer extends React.Component<Props, State> {
             if (!(key === 'secret' || key === 'invoice_paid')) {
                 if (key in entry) {
                     savedEntry[key] = entry[key]
+                } else if (entryKey in tempEntries) {
+                    savedEntry[key] = tempEntries[entryKey][key]
                 } else {
                     console.log(key)
                     error = true
                 }
             }
-        })   
+        })  
+        if (!(savedEntry.avatar)) {
+            error = true
+            this.setState({errorEntries: {...this.state.errorEntries, [entryKey]: "Bild saknas"}})
+        }
         if (!error) {
             const arr: any[] = Array.from(this.state.savedEntries)
             arr.push(savedEntry)
-            this.setState({savedEntries: arr})
+            console.log(savedEntry)
+            this.setState({savedEntries: arr, disabledEntries: {...this.state.disabledEntries, [entryKey]: true}})
         }
     }
 
@@ -166,6 +187,11 @@ class FormContainer extends React.Component<Props, State> {
 
     addMediaToEntry(key: string, type: string, url: string) {
         const obj = this.state.tempEntries
+        const errors = JSON.parse(JSON.stringify(this.state.errorEntries))
+        if (key in errors) {
+            delete errors[key] 
+            this.setState({errorEntries: errors})
+        } 
         if (key in obj) {
             obj[key][type] = url
             this.setState({tempEntries: obj})
@@ -174,7 +200,7 @@ class FormContainer extends React.Component<Props, State> {
         }
     }
 
-    // DELETE FILE BACKEND???
+    //WARNING DELETE FILE BACKEND???
     removeMediaFromEntry(key: string, type: string) {
         const obj = this.state.tempEntries
         if (key in obj && type in obj[key]) {
@@ -184,7 +210,7 @@ class FormContainer extends React.Component<Props, State> {
     }
 
     getEntryForms() {
-        const {tempEntries} = this.state
+        const {tempEntries, disabledEntries, errorEntries} = this.state
         const {categories} = this.props
         const amountOfForms = isEmptyObject(tempEntries) ? 1 : Object.keys(tempEntries).length
         const forms = []
@@ -201,36 +227,43 @@ class FormContainer extends React.Component<Props, State> {
         for(let i = 0; i < amountOfForms; i++) {
             const uploadedAvatar = tempEntries[`${i}`] ? tempEntries[`${i}`].avatar || false : false
             const uploadedMedia = tempEntries[`${i}`] ? tempEntries[`${i}`].source || false : false
+            const key = `${i}`
             const form = <div key={i}>
                 <DpForm
                 fields={FORM_ENTRY_LABELS}
+                disabled={disabledEntries[key]}
+                onDisabled={() => this.setState({disabledEntries: {...this.state.disabledEntries, [key]: false}})}
                 buttonText="Spara"
+                buttonDisabledText="Redigera"
                 title={"Bidrag "+(i+1)}
-                disabled={false}
-                onValueChange={(v: IEnteredValues) => this.onValueChange('entry', v, `${i}`)}
-                defaultValue={tempEntries[`${i}`] || null}
+                onValueChange={(v: IEnteredValues) => this.onValueChange('entry', v, key)}
+                defaultValue={tempEntries[key] || null}
                 customComponents={[
                     <DpImageUpload 
-                        onSave={(url: string) => this.addMediaToEntry(`${i}`, 'avatar', url)} 
+                        onSave={(url: string) => this.addMediaToEntry(key, 'avatar', url)} 
                         url={TEMP_AVATAR_URL}
                         label={GENERAL_TEXT.thumbnail_label} 
+                        errorMessageProps={key in errorEntries ? errorEntries[key] : undefined}
+                        displayErrorProps={key in errorEntries}
                         key={'avatar'} 
                         limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}
-                        uploadedImage={uploadedAvatar ? `${TEMP_AVATAR_SYM}/${tempEntries[`${i}`].avatar}` : undefined}
-                        deleteImage={uploadedAvatar ? () => this.removeMediaFromEntry(`${i}`, 'avatar') : undefined}
+                        uploadedImage={uploadedAvatar ? `${TEMP_AVATAR_SYM}/${tempEntries[key].avatar}` : undefined}
+                        deleteImage={uploadedAvatar ? () => this.removeMediaFromEntry(key, 'avatar') : undefined}
                         />,
                     <DpImageUpload 
-                        onSave={(url: string) => this.addMediaToEntry(`${i}`, 'source', url)} 
+                        onSave={(url: string) => this.addMediaToEntry(key, 'source', url)} 
                         url={TEMP_ENTRY_MEDIA_URL}
                         label={GENERAL_TEXT.entry_media} 
                         key={'media'} 
+                        errorMessageProps=""
+                        displayErrorProps={false}
                         limits={[LIMIT_EXTENSIONS.PDF]}
-                        uploadedImage={uploadedMedia ? `${tempEntries[`${i}`].source}` : undefined}
+                        uploadedImage={uploadedMedia ? `${tempEntries[key].source}` : undefined}
                         displayUploadName={true}
-                        deleteImage={uploadedMedia ? () => this.removeMediaFromEntry(`${i}`, 'source') : undefined}
+                        deleteImage={uploadedMedia ? () => this.removeMediaFromEntry(key, 'source') : undefined}
                         />
                 ]}
-                onSubmit={(e: IEnteredValues) => this.saveEntry(e)}/>
+                onSubmit={(e: IEnteredValues) => this.saveEntry(e, key)}/>
                 
             </div>
 
@@ -240,7 +273,7 @@ class FormContainer extends React.Component<Props, State> {
     }
 
     render() {
-        const {tempProfile} = this.state 
+        const {tempProfile, profileDisabled} = this.state 
         console.log(this.state.tempEntries)
         return (
             <div style={styles.container}>
@@ -250,16 +283,27 @@ class FormContainer extends React.Component<Props, State> {
             <div>
                 <DpForm 
                     fields={FORM_PROFILE_LABELS}
+                    disabled={profileDisabled}
+                    onDisabled={() => this.setState({profileDisabled: false})}
                     buttonText="Spara"
                     onSubmit={(e: IEnteredValues) => this.saveProfile(e)}
-                    disabled={false}
                     title="Allmäna uppgifter"
                     buttonDisabledText="Redigera"
                     onValueChange={(v: IEnteredValues) => this.onValueChange('profile', v)}
                     defaultValue={!isEmptyObject(tempProfile) ? tempProfile : null}
                 />
                 {this.getEntryForms()}
-                <Button onClick={() => this.addNewEntryForm()} variant="primary">Lägg till nytt bidrag</Button>
+                <div style={styles.addButtonContainer}>
+                    <OverLay
+                        placement="left"
+                        overlay={
+                            <ToolTip id="hej">
+                                Lägg till bidrag
+                            </ToolTip>
+                        }>
+                        <Button style={styles.addButton} onClick={() => this.addNewEntryForm()} variant="secondary">+</Button>
+                    </OverLay>
+                </div>
             </div>
             }
             </div>

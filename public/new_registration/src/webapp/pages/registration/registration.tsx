@@ -1,16 +1,16 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import { IState, IWinnerState } from 'src/webapp/model/state'
-import { getWinners } from 'src/webapp/redux/actions/winners'
-// import { IWinner } from 'src/webapp/model'
+import { IState} from 'src/webapp/model/state'
 import FormContainer from './form_container'
+import ConfirmationContainer from './confirmation_container'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 interface ReduxProps {
-    winners: IWinnerState
+    
 }
 
 interface DispatchProps {
-    getWinners: () => Promise<any>
+    
 }
 
 type Props = ReduxProps & DispatchProps
@@ -21,27 +21,28 @@ class Registration extends React.Component<Props, State> {
         didLoad: false
     }
     componentDidMount() {
-       
-        this.props.getWinners()
     }
     render() {
         return (
-            <div>
-                <FormContainer />
-            </div>
+            <Router>
+                <Switch>
+                    <Route exact path="/" render={() => (<FormContainer />)}/>
+                    <Route path="/bekrafta" render={() => (<ConfirmationContainer />)} />
+                </Switch>
+            </Router>
         )
     }
 }
 
 const mapStateToProps = (state: IState) => {
     return {
-        winners: state.winnerState
+        
     }
 }
 
 const mapDispatchToProps = (dispatch: Function) => {
     return {
-        getWinners: () => dispatch(getWinners())
+        
     }
 }
 
