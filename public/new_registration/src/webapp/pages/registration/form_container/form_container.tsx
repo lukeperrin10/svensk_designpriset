@@ -14,6 +14,7 @@ import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
 import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_SYM } from 'src/webapp/config/host';
 import SubmitedFormContent from 'src/webapp/components/submited_form_content';
 import { textContent } from 'src/webapp/components/submited_form_content/submited_form_content';
+import Modal from 'react-bootstrap/Modal'
 
 // interface ReduxProps {
 //     profileState: IProfileState,
@@ -336,22 +337,33 @@ class FormContainer extends React.Component<IFormContainer> {
                 </div>
             </div>
             }
-            {displayReview ? 
-            <div style={styles.modal}>
-                <SubmitedFormContent 
-                    title="Användaruppgifter" 
-                    content={this.submitedFormContent(tempProfile,['secret', 'invoice_paid'], FORM_PROFILE_LABELS)} />
-                {Object.keys(tempEntries).map((e, i) => {
-                    return (
-                        <SubmitedFormContent 
-                            key={i} 
-                            title={`Bidrag ${i+1}`} 
-                            content={this.submitedFormContent(tempEntries[e], [], FORM_ENTRY_LABELS, 'avatar')} />
-                    )
-                })}
-                <Button onClick={() => this.saveContent()} variant="primary">Skicka in!</Button>
-            </div>
-            : null}
+            {/* {displayReview ?  */}
+
+            {/* // <div style={styles.modal}> */}
+            <Modal dialogClassName="custom-modal" size="lg" centered show={displayReview} onHide={() => this.setState({displayReview: false})}>
+                <Modal.Header>
+                    <Modal.Title>Bekräfta uppgifter</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <SubmitedFormContent 
+                        title="Användaruppgifter" 
+                        content={this.submitedFormContent(tempProfile,['secret', 'invoice_paid'], FORM_PROFILE_LABELS)} />
+                    {Object.keys(tempEntries).map((e, i) => {
+                        return (
+                            <SubmitedFormContent 
+                                key={i} 
+                                title={`Bidrag ${i+1}`} 
+                                content={this.submitedFormContent(tempEntries[e], [], FORM_ENTRY_LABELS, 'avatar')} />
+                        )
+                    })}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={() => this.setState({displayReview: false})} variant="secondary">Redigera</Button>
+                    <Button onClick={() => this.saveContent()} variant="primary">Skicka in</Button>
+                </Modal.Footer>
+            </Modal>
+            {/* // </div> */}
+            {/* : null} */}
             
             </div>
         )
