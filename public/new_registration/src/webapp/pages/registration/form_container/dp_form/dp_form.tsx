@@ -21,7 +21,8 @@ interface IDpFormProps {
     onValueChange?: Function,
     customComponents?: JSX.Element[],
     disabled: boolean,
-    onDisabled: () => void
+    onDisabled: () => void,
+    onDelete?: () => void
 }
 class DpForm extends React.Component<IDpFormProps> {
     state = {
@@ -52,6 +53,10 @@ class DpForm extends React.Component<IDpFormProps> {
 
     validateSelect() {
         
+    }
+
+    deleteForm() {
+        if(this.props.onDelete) this.props.onDelete()
     }
 
     getDefaultValue(key: string, inputType: string) {
@@ -160,6 +165,14 @@ class DpForm extends React.Component<IDpFormProps> {
                     </Button>
                 </div> 
                 :null}
+                {this.props.onDelete? 
+                <div style={styles.buttonContainer}>
+                    <Button style={styles.button} variant="primary" onClick={() => this.deleteForm()}>
+                        Ta bort
+                    </Button>
+                </div> 
+                :null}
+                
             </div>
         )
     }

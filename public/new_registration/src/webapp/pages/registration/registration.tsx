@@ -66,7 +66,12 @@ class Registration extends React.Component<Props, State> {
                 </div>
                 :
                 <Switch>
-                    <Route exact path="/" render={() => (<FormContainer categories={categories} saveContent={this.postContent} />)}/>
+                    <Route exact path="/" render={() => (
+                        <div>
+                            <FormContainer categories={categories} saveContent={this.postContent} />
+                        </div>
+                        )
+                    }/>
                     <Route path="/bekraftelse" render={() => (<ConfirmationContainer />)} />
                 </Switch>
                 }

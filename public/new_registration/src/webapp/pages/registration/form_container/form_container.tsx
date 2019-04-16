@@ -16,20 +16,6 @@ import SubmitedFormContent from 'src/webapp/components/submited_form_content';
 import { textContent } from 'src/webapp/components/submited_form_content/submited_form_content';
 import Modal from 'react-bootstrap/Modal'
 
-// interface ReduxProps {
-//     profileState: IProfileState,
-//     entries: IEntry[],
-//     categories: ICategory[]
-// }
-// interface DispatchProps {
-//     saveProfile: (p: INewProfile) => Promise<any>,
-//     getProfile: (i: number) => Promise<any>,
-//     getEntries: (p: number) => Promise<any>,
-//     saveEntries: (e: INewEntry[]) => Promise<any>,
-//     getCategories: () => Promise<any>
-// }
-// type Props = ReduxProps & DispatchProps
-// interface State {}
 
 const CACHED_PROFILE = "CACHED_PROFILE"
 const CACHED_ENTRIES = "CACHED_ENTRIES"
@@ -53,7 +39,8 @@ class FormContainer extends React.Component<IFormContainer> {
         didSaveEntry: false,
         displayReview: false,
         shouldScrollToEntry: false,
-        checkShouldClear: false
+        checkShouldClear: false,
+        enableDelete: true
     }
     constructor(p: any) {
         super(p)
@@ -174,7 +161,6 @@ class FormContainer extends React.Component<IFormContainer> {
         if (!error) {
             this.setState({savedProfile: savedProfile, profileDisabled: true, didSaveProfile: true})
             localStorage.setItem(CACHED_PROFILE, JSON.stringify(savedProfile))
-            // this.props.saveProfile(savedProfile)
         }
     }
 
@@ -231,7 +217,7 @@ class FormContainer extends React.Component<IFormContainer> {
     addNewEntryForm() {
         const {tempEntries} = this.state
         const key = `${Object.keys(tempEntries).length}`
-        this.setState({tempEntries: {...tempEntries, [key]: {}}, shouldScrollToEntry: true})
+        this.setState({tempEntries: {...tempEntries, [key]: {}}, shouldScrollToEntry: true}, () => this.setState({shouldScrollToEntry: false}))
     }
 
     addMediaToEntry(key: string, type: string, url: string) {
@@ -259,7 +245,7 @@ class FormContainer extends React.Component<IFormContainer> {
     }
 
     getEntryForms() {
-        const {tempEntries, disabledEntries, errorEntries} = this.state
+        const {tempEntries, disabledEntries, errorEntries, enableDelete} = this.state
         const {categories} = this.props
         const amountOfForms = isEmptyObject(tempEntries) ? 1 : Object.keys(tempEntries).length
         const forms = []
@@ -292,6 +278,7 @@ class FormContainer extends React.Component<IFormContainer> {
                 title={"Bidrag "+(i+1)}
                 onValueChange={(v: IEnteredValues) => this.onValueChange('entry', v, key)}
                 defaultValue={tempEntries[key] || null}
+                onDelete={enableDelete ? () => this.removeEntry(key) : undefined}
                 customComponents={[
                     <DpImageUpload 
                         onSave={(url: string) => this.addMediaToEntry(key, 'avatar', url)} 
