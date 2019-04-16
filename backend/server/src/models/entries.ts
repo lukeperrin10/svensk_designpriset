@@ -1,5 +1,6 @@
 import * as db from '../db'
 import {Entry as dbtype} from '../types/dbtypes'
+import fs from 'fs-extra'
 
 export interface Entry extends Partial<dbtype> {}
 
@@ -22,9 +23,29 @@ export async function getId(id: number): Promise<Entry> {
 
 export async function create(new_entry: Entry): Promise<Entry> {
     const post_entry = create_entry(new_entry)
+    if (post_entry.avatar) await moveAvatar(post_entry.avatar)
+    if (post_entry.source) await moveSource(post_entry.source)
     const insert = db.query('INSERT INTO entries SET ?', [post_entry])
     console.log(insert)
     return insert
+}
+
+async function moveAvatar(filename: string) {
+    const origin = `./upload_assets/temp_avatars/${filename}`
+    const dest = `./upload_assets/avatars/${filename}`
+    return fs.move(origin, dest, (err) => {
+        if (err) throw err
+        console.log('Moved avatar')
+    })
+}
+
+async function moveSource(filename: string) {
+    const origin = `./upload_assets/temp_media/${filename}`
+    const dest = `./upload_assets/media/${filename}`
+    return fs.move(origin, dest, (err) => {
+        if (err) throw err
+        console.log('Moved avatar')
+    })
 }
 
 export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {

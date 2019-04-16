@@ -312,13 +312,13 @@ class FormContainer extends React.Component<IFormContainer> {
         }
         return forms
     }
-
-    submitedFormContent(submited: IEnteredValues, exclude: string[], formItems: formItems, imageLabel?: string) {
+    // WARNING: ERROR when submitting source. source needs label. add sourceLabel?
+    submitedFormContent(submited: IEnteredValues, exclude: string[], formItems: formItems, imageLabel?: string,) {
         const content : textContent[] = []
         Object.keys(submited).forEach(item => {
             if ((exclude.filter((ex) => ex === item))[0] !== item) {
                 content.push({
-                    label: item === 'avatar' ? 'Tummnagel' : formItems[item].label ,
+                    label: item === 'avatar' ? 'Tummnagel' : item === 'source' ? 'Printbidrag' : formItems[item].label ,
                     content: submited[item],
                     imageUrl: imageLabel === item ? `${TEMP_AVATAR_SYM}/${submited[item]}` : undefined
                 })
