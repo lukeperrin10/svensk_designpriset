@@ -178,8 +178,20 @@ class FormContainer extends React.Component<IFormContainer> {
         if (!error) {
             const arr: any[] = Array.from(this.state.savedEntries)
             arr.push(savedEntry)
-            this.setState({savedEntries: arr, disabledEntries: {...this.state.disabledEntries, [entryKey]: true}, didSaveEntry: true})
+            this.setState({savedEntries: arr, disabledEntries: {...this.state.disabledEntries, [entryKey]: true}}, () => this.entriesSaved())
+            
         }
+    }
+
+    entriesSaved() {
+        const {tempEntries, disabledEntries} = this.state
+        let disabled = true
+        Object.keys(tempEntries).forEach(o => {
+            if (!disabledEntries[o]) {
+                disabled = false
+            }
+        })
+        this.setState({didSaveEntry: disabled})
     }
 
     saveContent() {
