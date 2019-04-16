@@ -25,8 +25,8 @@ export default {
     toolbar: {
         width: '100%',
         padding: 10,
-        paddingLeft: 30,
-        paddingRight: 30,
+        paddingLeft: 10,
+        paddingRight: 10,
         backgroundColor: PRIMARY_BACKGROUND_COLOR,
         boxShadow: '0px 0px 5px 2px rgba(0,0,0,0.1',
         position: 'fixed' as 'fixed',
