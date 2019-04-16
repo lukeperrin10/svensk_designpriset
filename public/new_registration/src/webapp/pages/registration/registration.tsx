@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { IState, IProfileState} from 'src/webapp/model/state'
 import FormContainer from './form_container'
 import ConfirmationContainer from './confirmation_container'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import { INewProfile, INewEntry, IEntry, ICategory } from 'src/webapp/model';
 import { saveProfile, getProfile } from 'src/webapp/redux/actions/profile';
 import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
@@ -57,7 +57,7 @@ class Registration extends React.Component<Props, State> {
 
     render() {
         const {categories} = this.props
-        const {didLoad} = this.state
+        const {didLoad, didUpload} = this.state
         return (
             <Router>
                 {!didLoad ?
@@ -69,6 +69,7 @@ class Registration extends React.Component<Props, State> {
                     <Route exact path="/" render={() => (
                         <div>
                             <FormContainer categories={categories} saveContent={this.postContent} />
+                            {didUpload ? <Redirect to='/bekraftelse' /> : null}
                         </div>
                         )
                     }/>
