@@ -84,7 +84,15 @@ class DpForm extends React.Component<IDpFormProps> {
         const {fields, disabled} = this.props
         return (
             <div style={styles.container}>
-                <h3 style={styles.title}>{this.props.title}</h3>
+                <div style={styles.headerContainer}>
+                    <h3 style={styles.title}>{this.props.title}</h3>
+                    {this.props.onDelete? 
+                        <Button variant="outline-secondary" onClick={() => this.deleteForm()}>
+                            Ta bort
+                        </Button>
+                    
+                    :null}
+                </div> 
                 <Form
                     validated={formValidated}
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.onSubmit(e)}>
@@ -165,13 +173,7 @@ class DpForm extends React.Component<IDpFormProps> {
                     </Button>
                 </div> 
                 :null}
-                {this.props.onDelete? 
-                <div style={styles.buttonContainer}>
-                    <Button style={styles.button} variant="primary" onClick={() => this.deleteForm()}>
-                        Ta bort
-                    </Button>
-                </div> 
-                :null}
+                
                 
             </div>
         )

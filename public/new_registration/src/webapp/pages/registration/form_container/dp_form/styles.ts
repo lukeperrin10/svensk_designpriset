@@ -52,6 +52,11 @@ export default {
         padding: 10,
         textAlign: 'right' as 'right'
     },
+    headerContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
     error: {
         color: 'red',
         height: 10
