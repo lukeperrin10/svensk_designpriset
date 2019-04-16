@@ -52,7 +52,8 @@ class FormContainer extends React.Component<IFormContainer> {
         didSaveProfile: false,
         didSaveEntry: false,
         displayReview: false,
-        shouldScrollToEntry: false
+        shouldScrollToEntry: false,
+        checkShouldClear: false
     }
     constructor(p: any) {
         super(p)
@@ -81,6 +82,29 @@ class FormContainer extends React.Component<IFormContainer> {
     storeSession() {
         localStorage.setItem(CACHED_PROFILE, JSON.stringify(this.state.tempProfile))
         localStorage.setItem(CACHED_ENTRIES, JSON.stringify(this.state.tempEntries))
+    }
+
+    checkClearForm() {
+
+    }
+
+    clearForm() {
+        this.setState({savedProfile: {}, tempProfile: {}, savedEntries: {}, tempEntries: {}, checkShouldClear: false}, () => {
+            localStorage.removeItem(CACHED_PROFILE)
+            localStorage.removeItem(CACHED_ENTRIES)
+        })
+    }
+
+    removeEntry(key: string) {
+        const entries = JSON.parse(JSON.stringify(this.state.savedEntries))
+        const temps = JSON.parse(JSON.stringify(this.state.tempEntries))
+
+        if (key in entries) delete entries[key]
+        if (key in temps) delete temps[key]
+        this.setState({saveEntries: entries, tempEntries: temps})
+
+        // Delete from server later
+        // Delete temp assets server?
     }
 
     hydrateFromLocal() {
@@ -322,7 +346,7 @@ class FormContainer extends React.Component<IFormContainer> {
     }
 
     render() {
-        const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview} = this.state 
+        const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview, checkShouldClear} = this.state 
         return (
             <div style={styles.container}>
             {!this.state.didLoad ?
@@ -361,7 +385,7 @@ class FormContainer extends React.Component<IFormContainer> {
                                         Rensa allt innehåll i formuläret
                                     </ToolTip>
                                 }>
-                                <Button style={styles.button} onClick={() => {this.setState({displayReview: true})}} variant="secondary">Rensa formulär</Button>
+                                <Button style={styles.button} onClick={() => {this.setState({checkShouldClear: true})}} variant="secondary">Rensa formulär</Button>
                             </OverLay>
                             <OverLay
                                 placement="left"
@@ -377,9 +401,6 @@ class FormContainer extends React.Component<IFormContainer> {
                 </div>
             </div>
             }
-            {/* {displayReview ?  */}
-
-            {/* // <div style={styles.modal}> */}
             <Modal dialogClassName="custom-modal" size="lg" centered show={displayReview} onHide={() => this.setState({displayReview: false})}>
                 <Modal.Header>
                     <Modal.Title>Bekräfta uppgifter</Modal.Title>
@@ -402,31 +423,21 @@ class FormContainer extends React.Component<IFormContainer> {
                     <Button onClick={() => this.saveContent()} variant="primary">Skicka in</Button>
                 </Modal.Footer>
             </Modal>
-            {/* // </div> */}
-            {/* : null} */}
-            
+            <Modal centered show={checkShouldClear}>
+            <Modal.Header>
+                <Modal.Title>Vill du rensa formuläret?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                    All din data kommer att försvinna
+            </Modal.Body>
+            <Modal.Footer>
+                <Button style={styles.buttonPrimary} variant='primary' onClick={() => this.setState({checkShouldClear: false})}>Avbryt</Button>
+                <Button variant='secondary' onClick={() => this.clearForm()}>Rensa</Button>
+            </Modal.Footer>
+            </Modal>
             </div>
         )
     }
 }
 
-// const mapStateToProps = (state: IState) => {
-//     return {
-//         profileState: state.profileState,
-//         entries: state.entriesState.entries,
-//         categories: state.categoryState.categories
-//     }
-// }
-
-// const mapDispatchToProps = (dispatch: Function) => {
-//     return {
-//         saveProfile: (profile: INewProfile) => dispatch(saveProfile(profile)),
-//         getProfile: (id: number) => dispatch(getProfile(id)),
-//         getEntries: (profile_id: number) => dispatch(getEntries(profile_id)),
-//         saveEntries: (entries: INewEntry[]) => dispatch(saveEntries(entries)),
-//         getCategories: () => dispatch(getCategories())
-//     }
-// }
-
-// export default connect<ReduxProps, DispatchProps, {}, IState>(mapStateToProps, mapDispatchToProps)(FormContainer)
 export default FormContainer
