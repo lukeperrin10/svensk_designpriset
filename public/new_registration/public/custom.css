@@ -1,3 +1,5 @@
 .custom-modal {
-    width: 90%;
+    width: 90vw !important;
+    max-width: 90vw !important;
+    margin: auto;
 }
