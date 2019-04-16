@@ -21,7 +21,7 @@ export default {
     },
     button: {
         backgroundColor: BUTTON_COLOR,
-        borderColor: 'black'
+        borderColor: PRIMARY_BACKGROUND_COLOR
     },
     row: {
         margin: 10

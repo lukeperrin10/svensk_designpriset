@@ -51,7 +51,8 @@ class FormContainer extends React.Component<IFormContainer> {
         errorEntries: {},
         didSaveProfile: false,
         didSaveEntry: false,
-        displayReview: false
+        displayReview: false,
+        shouldScrollToEntry: false
     }
     constructor(p: any) {
         super(p)
@@ -71,6 +72,10 @@ class FormContainer extends React.Component<IFormContainer> {
         window.addEventListener('beforeunload', (e: Event) => {
             this.storeSession()
         })
+    }
+
+    scrollToTop() {
+        window.scrollTo({left: 0, top: document.body.scrollTop, behavior: 'smooth'})
     }
 
     storeSession() {
@@ -202,8 +207,7 @@ class FormContainer extends React.Component<IFormContainer> {
     addNewEntryForm() {
         const {tempEntries} = this.state
         const key = `${Object.keys(tempEntries).length}`
-        this.setState({tempEntries: {...tempEntries, [key]: {}}})
-        
+        this.setState({tempEntries: {...tempEntries, [key]: {}}, shouldScrollToEntry: true})
     }
 
     addMediaToEntry(key: string, type: string, url: string) {
@@ -249,7 +253,12 @@ class FormContainer extends React.Component<IFormContainer> {
             const uploadedAvatar = tempEntries[`${i}`] ? tempEntries[`${i}`].avatar || false : false
             const uploadedMedia = tempEntries[`${i}`] ? tempEntries[`${i}`].source || false : false
             const key = `${i}`
-            const form = <div key={i}>
+            const form = <div key={i} ref={el => {
+                if (!el) return
+                if (this.state.shouldScrollToEntry) {
+                    el.scrollIntoView({behavior: 'smooth'})
+                }
+            }}>
                 <DpForm
                 fields={FORM_ENTRY_LABELS}
                 disabled={disabledEntries[key]}
@@ -307,6 +316,11 @@ class FormContainer extends React.Component<IFormContainer> {
         return content
     }
 
+    onShowConfirmButton() {
+        this.scrollToTop()
+        this.setState({displayReview: true})
+    }
+
     render() {
         const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview} = this.state 
         return (
@@ -327,25 +341,39 @@ class FormContainer extends React.Component<IFormContainer> {
                     defaultValue={!isEmptyObject(tempProfile) ? tempProfile : null}
                 />
                 {this.getEntryForms()}
-                <div style={styles.addButtonContainer}>
-                    <OverLay
-                        placement="left"
-                        overlay={
-                            <ToolTip id="hej">
-                                Lägg till bidrag
-                            </ToolTip>
-                        }>
-                        <Button style={styles.addButton} onClick={() => this.addNewEntryForm()} variant="secondary">+</Button>
-                    </OverLay>
-                    <OverLay
-                        placement="left"
-                        overlay={
-                            <ToolTip id="hej">
-                                Förhandsgrandsgranskning
-                            </ToolTip>
-                        }>
-                        <Button disabled={(!didSaveProfile || !didSaveEntry)} onClick={() => {this.setState({displayReview: true})}} variant="secondary">Gå vidare</Button>
-                    </OverLay>
+            <div style={styles.space}></div>
+                <div style={styles.toolbar}>
+                    <div style={styles.addButtonContainer}>
+                        <OverLay
+                            placement="right"
+                            overlay={
+                                <ToolTip id="hej">
+                                    Lägg till bidrag
+                                </ToolTip>
+                            }>
+                            <Button style={styles.addButton} onClick={() => this.addNewEntryForm()} variant="secondary">Lägg till bidrag</Button>
+                        </OverLay>
+                        <div>
+                            <OverLay
+                                placement="left"
+                                overlay={
+                                    <ToolTip id="hej">
+                                        Rensa allt innehåll i formuläret
+                                    </ToolTip>
+                                }>
+                                <Button style={styles.button} onClick={() => {this.setState({displayReview: true})}} variant="secondary">Rensa formulär</Button>
+                            </OverLay>
+                            <OverLay
+                                placement="left"
+                                overlay={
+                                    <ToolTip id="hej">
+                                        Förhandsgrandsgranskning
+                                    </ToolTip>
+                                }>
+                                <Button style={styles.buttonPrimary} disabled={(!didSaveProfile || !didSaveEntry)} onClick={() => this.onShowConfirmButton()} variant="primary">Gå vidare</Button>
+                            </OverLay>
+                        </div>
+                    </div>
                 </div>
             </div>
             }
