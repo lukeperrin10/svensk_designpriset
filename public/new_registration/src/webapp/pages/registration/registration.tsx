@@ -9,6 +9,8 @@ import { saveProfile, getProfile } from 'src/webapp/redux/actions/profile';
 import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
 import { getCategories } from 'src/webapp/redux/actions/categories';
 import Spinner from 'react-bootstrap/Spinner'
+import { ROOT_URL } from 'src/webapp/config/host';
+import * as queryString from 'query-string'
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -22,18 +24,78 @@ interface DispatchProps {
     saveEntries: (e: INewEntry[]) => Promise<any>,
     getCategories: () => Promise<any>
 }
+
 type Props = ReduxProps & DispatchProps
 interface State {}
 
 class Registration extends React.Component<Props, State> {
     state = {
         didLoad: false,
-        didUpload: false
+        didUpload: false,
+        edit:false,
+        editIsAdmin: false,
+        editId: undefined,
+        editSecret: undefined,
+        editProfile: {},
+        editEntries: []
     }
     constructor(p: Props) {
         super(p)
+        // localStorage.clear()
+    }
+
+    componentDidMount() {
+        this.extractQuery()
         this.props.getCategories()
+        .then(() => this.getContent())
         .then(() => this.setState({didLoad: true}))
+    }
+
+    async getContent() {
+        const query = queryString.parse(location.search)
+        if (('id' in query) && ('secret' in query)) {
+            if (query.id) {
+                const id = parseInt(query.id as string)
+                await this.props.getProfile(id)
+                const profile = this.props.profileState.profile[0]
+                if (profile.secret === query.secret) {
+                    this.setState({edit: true})
+                    await this.props.getEntries(profile.id)
+                }
+            }
+        }
+
+        if ('adm' in query && query['adm'] === 'true') {
+            this.setState({editIsAdmin: true})
+        }
+        
+    }
+
+    getEditContent() {
+        return {
+            profile: this.props.profileState.profile[0],
+            entries: this.props.entries
+        }
+    }
+
+    extractQuery() {
+        const query = queryString.parse(location.search)
+        if (('id' in query) && ('secret' in query)) {
+            this.setState({edit: true})
+        }
+        if ('adm' in query && query['adm'] === 'true') {
+            this.setState({editIsAdmin: true})
+        }
+    }
+
+    generateUserLink(id: number, secret: string) {
+        console.log(`gen user:  id: ${id}, secret: ${secret}`)
+        return `${ROOT_URL}/edit?id=${id}&secret=${secret}`
+    }
+
+    generateAdminLink(id: number, secret: string) {
+        console.log(`gen admin:  id: ${id}, secret: ${secret}`)
+        return `${ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`
     }
     
     postContent = async (profile: INewProfile, entries: INewEntry[]) => {
@@ -43,7 +105,15 @@ class Registration extends React.Component<Props, State> {
         console.log(pId)
         if (pId) {
             await this.props.saveEntries(this.addProfileId(entries, pId))
+            if (this.props.profileState.profile[0]) {
+                const profile = this.props.profileState.profile[0]
+                const userLink = this.generateUserLink(profile.id, profile.secret)
+                const adminLink = this.generateAdminLink(profile.id, profile.secret)
+                console.log(userLink)
+                console.log(adminLink)
+            }
             this.setState({didUpload: true})
+            
         }
     }
 
@@ -57,7 +127,7 @@ class Registration extends React.Component<Props, State> {
 
     render() {
         const {categories} = this.props
-        const {didLoad, didUpload} = this.state
+        const {didLoad, didUpload, edit, editIsAdmin} = this.state
         return (
             <Router>
                 {!didLoad ?
@@ -68,7 +138,14 @@ class Registration extends React.Component<Props, State> {
                 <Switch>
                     <Route exact path="/" render={() => (
                         <div>
-                            <FormContainer categories={categories} saveContent={this.postContent} />
+                            <FormContainer adminMode={false} categories={categories} saveContent={this.postContent} />
+                            {didUpload ? <Redirect to='/bekraftelse' /> : null}
+                        </div>
+                        )
+                    }/>
+                    <Route exact path="/edit" render={() => (
+                        <div>
+                            <FormContainer adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
                             {didUpload ? <Redirect to='/bekraftelse' /> : null}
                         </div>
                         )

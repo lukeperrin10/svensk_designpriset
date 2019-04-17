@@ -2,7 +2,7 @@ import * as React from 'react'
 import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS, GENERAL_TEXT, formItems} from '../../../config/text'
 import styles from './styles'
 import {Md5} from 'ts-md5/dist/md5';
-import { INewProfile, INewEntry, ICategory } from 'src/webapp/model';
+import { INewProfile, INewEntry, ICategory, IProfile, IEntry } from 'src/webapp/model';
 import DpForm from './dp_form';
 import { IEnteredValues } from './dp_form/dp_form';
 import Button from 'react-bootstrap/Button'
@@ -15,14 +15,19 @@ import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_SYM } from 'src/weba
 import SubmitedFormContent from 'src/webapp/components/submited_form_content';
 import { textContent } from 'src/webapp/components/submited_form_content/submited_form_content';
 import Modal from 'react-bootstrap/Modal'
+import {CACHED_ENTRIES, CACHED_PROFILE} from '../../../model/constants'
 
 
-const CACHED_PROFILE = "CACHED_PROFILE"
-const CACHED_ENTRIES = "CACHED_ENTRIES"
+interface existingContent {
+    profile: IProfile,
+    entries: IEntry[]
+}
 
 interface IFormContainer {
     categories: ICategory[],
-    saveContent: (profile: INewProfile, entries: INewEntry[]) => void
+    saveContent: (profile: INewProfile, entries: INewEntry[]) => void,
+    editContent?: existingContent,
+    adminMode: boolean
 }
 
 class FormContainer extends React.Component<IFormContainer> {
@@ -40,25 +45,39 @@ class FormContainer extends React.Component<IFormContainer> {
         displayReview: false,
         shouldScrollToEntry: false,
         checkShouldClear: false,
-        enableDelete: true
+        enableDelete: true,
+        editMode: false,
     }
     constructor(p: any) {
         super(p)
+        
         // localStorage.clear()
         
     }
     componentDidMount() {
         window.addEventListener('beforeunload', (e: Event) => {
-            this.storeSession()
+            if(!this.state.editMode) {
+                this.storeSession()
+            }
+            
         })
-        this.hydrateFromLocal()
-        // this.props.getCategories()
-        // .then(() => this.setState({didLoad: true})) 
+        if (this.props.editContent) {
+            this.setState({
+                tempProfile: this.props.editContent.profile,
+                tempEntries: this.props.editContent.entries,
+                editMode: true,
+                enableDelete: this.props.adminMode
+            })
+        } else {
+            this.hydrateFromLocal()
+        }
     }
 
     componentWillUnmount() {
         window.addEventListener('beforeunload', (e: Event) => {
-            this.storeSession()
+            if(!this.state.editMode) {
+                this.storeSession()
+            }
         })
     }
 
@@ -312,7 +331,7 @@ class FormContainer extends React.Component<IFormContainer> {
         }
         return forms
     }
-    // WARNING: ERROR when submitting source. source needs label. add sourceLabel?
+    
     submitedFormContent(submited: IEnteredValues, exclude: string[], formItems: formItems, imageLabel?: string,) {
         const content : textContent[] = []
         Object.keys(submited).forEach(item => {
@@ -334,6 +353,24 @@ class FormContainer extends React.Component<IFormContainer> {
 
     render() {
         const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview, checkShouldClear} = this.state 
+        const ignoreLabels = [
+            'created', 
+            'id', 
+            'is_winner_gold', 
+            'is_winner_silver', 
+            'is_nominated', 
+            'profile_id', 
+            'secret', 
+            'modified', 
+            'sent_nominee_notification',
+            'created',
+            'year',
+            'motivation',
+            'secret', 
+            'invoice_paid', 
+            'id', 
+            'modified'
+        ]
         return (
             <div style={styles.container}>
             {!this.state.didLoad ?
@@ -395,13 +432,17 @@ class FormContainer extends React.Component<IFormContainer> {
                 <Modal.Body>
                     <SubmitedFormContent 
                         title="Användaruppgifter" 
-                        content={this.submitedFormContent(tempProfile,['secret', 'invoice_paid'], FORM_PROFILE_LABELS)} />
+                        content={this.submitedFormContent(tempProfile,ignoreLabels, FORM_PROFILE_LABELS)} />
                     {Object.keys(tempEntries).map((e, i) => {
                         return (
                             <SubmitedFormContent 
                                 key={i} 
                                 title={`Bidrag ${i+1}`} 
-                                content={this.submitedFormContent(tempEntries[e], [], FORM_ENTRY_LABELS, 'avatar')} />
+                                content={this.submitedFormContent(
+                                    tempEntries[e], 
+                                    ignoreLabels, 
+                                    FORM_ENTRY_LABELS, 'avatar')
+                                } />
                         )
                     })}
                 </Modal.Body>

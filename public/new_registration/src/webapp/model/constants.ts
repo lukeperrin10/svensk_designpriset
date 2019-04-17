@@ -1,0 +1,2 @@
+export const CACHED_PROFILE = "CACHED_PROFILE"
+export const CACHED_ENTRIES = "CACHED_ENTRIES"

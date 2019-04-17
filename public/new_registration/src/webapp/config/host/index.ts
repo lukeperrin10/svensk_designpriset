@@ -16,6 +16,8 @@ export const TEMP_ENTRY_MEDIA_URL = `${BASE_URL}/temp_entry_media`
 
 export const TEMP_AVATAR_SYM = `${FRONTEND_URL}/clone/admin/temp_avatars`
 
+export const ROOT_URL = "http://myown.se:3000"
+
 
 // http://myown.se:8011/clone/admin/temp_avatars/IMG_6578.JPG
 // http://mywon.se:8011/clone/admin/temp_avatars/IMG_6578.JPG

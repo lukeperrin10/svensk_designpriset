@@ -3,6 +3,10 @@ import { GENERAL_TEXT } from 'src/webapp/config/text';
 import styles from './style'
 
 class ConfirmationContainer extends React.Component {
+
+    constructor(p: {}) {
+        super(p)
+    }
     render() {
         return (
             <div style={styles.container}>
