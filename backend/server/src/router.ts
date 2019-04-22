@@ -9,6 +9,7 @@ import Avatars from './file_handlers/avatars'
 import EntryMedia from './file_handlers/entry_media'
 import TempEntryMedia from './file_handlers/temp_entry_media'
 import { Entry } from 'dbtypes';
+import { MFError } from './error';
 
 const tempProfile = {
     id: 1234,
@@ -92,11 +93,17 @@ export function initRouter(app: Express) {
     router.post('/entry_media', EntryMedia)
     router.post('/temp_entry_media',TempEntryMedia)
 
-    router.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-        if (req.app.get('env') !== 'test') {   
+    router.use((err: MFError, req: Request, res: Response, next: NextFunction) => {
+        if (req.app.get('env') !== 'test') {
             console.error(err)
         }
-        // res.status(406 || 500).json(err);
+        /*
+        if (req.app.get('env') !== 'development' && req.app.get('env') !== 'test') {
+            delete err.stack;
+        }
+        */
+        
+        res.status(err.status_code || 500).json(err);
     })
 
     // const test = mail('johan.g.hjalmarsson@gmail.com', 'test mail', 'text', getRegisterMailContent(false, 'en url', tempProfile, tempEntries)).catch(err => console.log(err))

@@ -38,7 +38,7 @@ async function moveAvatar(filename: string) {
     const origin = `./upload_assets/temp_avatars/${filename}`
     const dest = `./upload_assets/avatars/${filename}`
     return fs.move(origin, dest, (err) => {
-        if (err) throw err
+        if (err) console.error(err)
         console.log('Moved avatar')
     })
 }
@@ -47,7 +47,7 @@ async function moveSource(filename: string) {
     const origin = `./upload_assets/temp_media/${filename}`
     const dest = `./upload_assets/media/${filename}`
     return fs.move(origin, dest, (err) => {
-        if (err) throw err
+        if (err) console.error(err)
         console.log('Moved avatar')
     })
 }
@@ -79,8 +79,12 @@ export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
 
 export async function update(entry: Entry): Promise<Entry> {
     const update_entry = create_entry(entry)
-    const update = await db.query('UPDATE entries SET ? WHERE ID = ?', [update_entry, entry.id])
-    return update
+    try {
+        const update =  await db.query('UPDATE entries SET ? WHERE ID = ?', [update_entry, entry.id])
+        return update
+    } catch (error) {
+        return error
+    }
 }
 function create_entry(entry: Entry): Entry {
     const new_entry: Entry = {

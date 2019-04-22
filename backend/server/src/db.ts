@@ -1,8 +1,30 @@
 // const mysql = require('mysql')
 import mysql, { Connection, PoolConnection } from 'mysql'
 import Async, { nextTick, AsyncResultCallback } from 'async'
+import {STR_ID, DBError} from './error'
 
+export interface DBErrorMapping {
+    [key: string]: STR_ID
+}
 
+export function handleDbError(err: Error, map?: Array<DBErrorMapping>) {
+    if (!map) map = []
+    function getFromMap(key: STR_ID) {
+        for (let i = 0 ; i < map.length ; i++) {
+            for (let o in map[i]) {
+                if (o == key) return map[i][o] 
+            }
+        }
+        return key
+    }
+    const code = parseInt((<any>err).code)
+    const new_err = new DBError(err.message, 'DB_ERROR', code)
+    switch (code) {
+        case 23505: new_err.str_id = getFromMap('DUPLICATE_KEY')
+                    new_err.status_code = 400
+    }
+    throw new_err
+}
 
 export const pool = mysql.createPool({
     connectionLimit: 9,
@@ -18,7 +40,7 @@ export async function query(query: string, args?: any[]): Promise<any> {
     return new Promise((resolve, reject) => {
         pool.query(query, args, (error: any, results: any, fields: any) => {
             if (error) {
-                reject(error)
+                handleDbError(error)
             } else {
                 resolve(results)
             }

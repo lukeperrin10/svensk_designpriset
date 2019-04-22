@@ -1,6 +1,7 @@
 import * as express from 'express'
 import multer from 'multer'
 import fs from 'fs'
+import {Md5} from 'ts-md5/dist/md5'
 
 const folderPath = './upload_assets/temp_avatars/'
 
@@ -9,20 +10,7 @@ const storage = multer.diskStorage({
         cb(null, folderPath)
     },
     filename: (req, file, cb) => {
-        const ext = file.originalname.toLocaleLowerCase().split('.').pop()
-        const name = file.originalname.toLocaleLowerCase().split('.')[0]
-        let fileName = file.originalname
-        let exists = true
-        let i = 0
-        while (exists) {
-            if(fs.existsSync(`${folderPath}${fileName}`)) {
-                i++
-                fileName = `${name}_${i}.${ext}`
-            } else {
-                exists = false
-            }
-        }
-        cb(null, fileName)
+        cb(null, `avatar-x${Md5.hashStr(''+Date.now())}.${file.originalname.toLocaleLowerCase().split('.').pop()}`)
     }
 })
 
