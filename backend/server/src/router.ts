@@ -9,8 +9,75 @@ import Avatars from './file_handlers/avatars'
 import EntryMedia from './file_handlers/entry_media'
 import TempEntryMedia from './file_handlers/temp_entry_media'
 import {mail} from './mail_handler/mail_handler'
+import { getRegisterMailContent, getRegisterMailAdminContent } from './mail_handler/mail_content';
+import { Entry } from 'dbtypes';
 
+const tempProfile = {
+    id: 1234,
+    secret: 'secret',
+    contact: 'WOPII TEST',
+    company: 'WOPII TEST',
+    address: 'WOPII TEST',
+    zip: '12345',
+    city: 'WOPII TEST',
+    phone: '00000111122',
+    mail: 'johan.g.hjalmarsson@gmail.com',
+    homepage: 'WOPII TEST',
+    created: 'WOPII TEST',
+    modified: 'WOPII TEST',
+    invoice_paid: 0
+}
 
+const tempEntries : Entry[] = [
+    {
+    id: 121212,
+    profile_id: 1234,
+    secret: 'secret',
+    entry_name: 'WOPII TEST',
+    category: 'WOPII TEST',
+    source: 'WOPII TEST',
+    designer: 'WOPII TEST',
+    illustrator: 'WOPII TEST',
+    leader: 'WOPII TEST',
+    customer: 'WOPII TEST',
+    created: 'WOPII TEST',
+    modified: 'WOPII TEST',
+    avatar: 'WOPII TEST',
+    format: 'WOPII TEST',
+    size: 'WOPII TEST',
+    webpage: 'WOPII TEST',
+    is_winner_gold: 0,
+    is_winner_silver: 0,
+    is_nominated: 0,
+    sent_nominee_notification: 'WOPII TEST',
+    motivation: 'WOPII TEST',
+    year: 'WOPII TEST'
+    },
+    {
+        id: 1212121,
+        profile_id: 1234,
+        secret: 'secret',
+        entry_name: 'WOPII TEST',
+        category: 'WOPII TEST',
+        source: 'WOPII TEST',
+        designer: 'WOPII TEST',
+        illustrator: 'WOPII TEST',
+        leader: 'WOPII TEST',
+        customer: 'WOPII TEST',
+        created: 'WOPII TEST',
+        modified: 'WOPII TEST',
+        avatar: 'WOPII TEST',
+        format: 'WOPII TEST',
+        size: 'WOPII TEST',
+        webpage: 'WOPII TEST',
+        is_winner_gold: 0,
+        is_winner_silver: 0,
+        is_nominated: 0,
+        sent_nominee_notification: 'WOPII TEST',
+        motivation: 'WOPII TEST',
+        year: 'WOPII TEST'
+        }
+]
 
 export function initRouter(app: Express) {
     console.log('init router')
@@ -33,6 +100,10 @@ export function initRouter(app: Express) {
         }
         // res.status(406 || 500).json(err);
     })
+
+    // const test = mail('johan.g.hjalmarsson@gmail.com', 'test mail', 'text', getRegisterMailContent(false, 'en url', tempProfile, tempEntries)).catch(err => console.log(err))
+    // const test = mail('johan.g.hjalmarsson@gmail.com', 'test admin mail', 'text', getRegisterMailAdminContent(false, 'en url', tempProfile, tempEntries)).catch(err => console.log(err))
+    // console.log(test)
     
     app.use(router)
 }
