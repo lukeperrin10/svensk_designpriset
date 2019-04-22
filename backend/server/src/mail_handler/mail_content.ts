@@ -1,6 +1,10 @@
 import { PRICE_PER_ENTRY, CURRENT_YEAR, SITE_URL, REGISTER_DEADLINE_DATE } from "../constants/temp_contants"
 import { Entry, Profile } from "dbtypes";
 
+export function getSubjectRegister(profile: Profile, update: boolean) {
+    return update ? `${profile.company} har uppdaterat sitt bidrag` : `Anmäland Designpriset - ${profile.company}`
+}
+
 
 export function getRegisterMailContent(update: boolean, registerLink: string, profile: Profile, entries: Entry[]) {
     let title
@@ -112,7 +116,7 @@ export function getRegisterMailAdminContent(update: boolean, registerLink: strin
             </table>
         </body>
     </html>`
-    
+
     return mailContent
 }
 

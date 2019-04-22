@@ -1,6 +1,7 @@
 import * as db from '../db'
 import {Entry as dbtype} from '../types/dbtypes'
 import fs from 'fs-extra'
+import { sendRegisterEmails } from '../mail_handler/mail_handler';
 
 export interface Entry extends Partial<dbtype> {}
 
@@ -27,6 +28,9 @@ export async function create(new_entry: Entry): Promise<Entry> {
     if (post_entry.source) await moveSource(post_entry.source)
     const insert = db.query('INSERT INTO entries SET ?', [post_entry])
     console.log(insert)
+    // const profile = await db.query('SELECT * FROM `profiles` WHERE `id` = ?', [new_entry.profile_id])   
+    // const entries = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entry.profile_id])
+    // sendRegisterEmails(profile, entries, false)
     return insert
 }
 
@@ -67,6 +71,9 @@ export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
         }
     })
     const batchSelect = await db.batchQuery(responseQuerys)
+    // const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [new_entries[0].profile_id])   
+    // const entries = await  db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id])
+    // sendRegisterEmails(profile, entries, false)
     return batchSelect
 }
 

@@ -1,6 +1,11 @@
 import * as nodeMailer from 'nodemailer'
+import { REGISTER_ROOT_URL } from '../constants/temp_contants';
+import { getRegisterMailContent, getSubjectRegister, getRegisterMailAdminContent } from './mail_content';
+import { Entry, Profile } from 'dbtypes';
 
-export async function mail(to: string, subject: string, message: string, html?: string) {
+
+// WARNING : Change user and pass!
+async function mail(to: string, subject: string, message: string, html?: string) {
 
     let transporter
 
@@ -37,6 +42,23 @@ export async function mail(to: string, subject: string, message: string, html?: 
             console.log(res)
         }
     })
+}
+
+export function generateUserLink(id: number, secret: string) {
+    console.log(`gen user:  id: ${id}, secret: ${secret}`)
+    return `${REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}`
+}
+
+export function generateAdminLink(id: number, secret: string) {
+    console.log(`gen admin:  id: ${id}, secret: ${secret}`)
+    return `${REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`
+}
+// WARNING CHANGE EMAIL ADRESS!
+export async function sendRegisterEmails(profile: Profile, entries: Entry[], update: boolean) {
+    await mail('johan.g.hjalmarsson@gmail.com', getSubjectRegister(profile, update), 'text', 
+        getRegisterMailContent(false, generateUserLink(profile.id, profile.secret), profile, entries)).catch(err => console.log(err));
+    await mail('johan.g.hjalmarsson@gmail.com', getSubjectRegister(profile, update), 'text', 
+        getRegisterMailAdminContent(false, generateAdminLink(profile.id, profile.secret), profile, entries)).catch(err => console.log(err));
 }
 
 

@@ -8,8 +8,6 @@ import TempAvatar from './file_handlers/temp_avatars'
 import Avatars from './file_handlers/avatars'
 import EntryMedia from './file_handlers/entry_media'
 import TempEntryMedia from './file_handlers/temp_entry_media'
-import {mail} from './mail_handler/mail_handler'
-import { getRegisterMailContent, getRegisterMailAdminContent } from './mail_handler/mail_content';
 import { Entry } from 'dbtypes';
 
 const tempProfile = {
