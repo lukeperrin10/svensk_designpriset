@@ -5,7 +5,7 @@ import { PRIMARY_GOLD, PRIMARY_BACKGROUND_COLOR } from 'src/webapp/config/style'
 export default {
     container: {
         backgroundColor: PRIMARY_GOLD,
-        padding: 20
+        padding: 20,
     },
     addButton: {
         // borderRadius: 100,

@@ -9,8 +9,9 @@ import { saveProfile, getProfile } from 'src/webapp/redux/actions/profile';
 import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
 import { getCategories } from 'src/webapp/redux/actions/categories';
 import Spinner from 'react-bootstrap/Spinner'
-import { ROOT_URL } from 'src/webapp/config/host';
+// import { ROOT_URL } from 'src/webapp/config/host';
 import * as queryString from 'query-string'
+import RegistrationInfo from './registration_info';
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -88,15 +89,15 @@ class Registration extends React.Component<Props, State> {
         }
     }
 
-    generateUserLink(id: number, secret: string) {
-        console.log(`gen user:  id: ${id}, secret: ${secret}`)
-        return `${ROOT_URL}/edit?id=${id}&secret=${secret}`
-    }
+    // generateUserLink(id: number, secret: string) {
+    //     console.log(`gen user:  id: ${id}, secret: ${secret}`)
+    //     return `${ROOT_URL}/edit?id=${id}&secret=${secret}`
+    // }
 
-    generateAdminLink(id: number, secret: string) {
-        console.log(`gen admin:  id: ${id}, secret: ${secret}`)
-        return `${ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`
-    }
+    // generateAdminLink(id: number, secret: string) {
+    //     console.log(`gen admin:  id: ${id}, secret: ${secret}`)
+    //     return `${ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`
+    // }
     
     postContent = async (profile: INewProfile, entries: INewEntry[]) => {
         await this.props.saveProfile(profile)
@@ -105,13 +106,13 @@ class Registration extends React.Component<Props, State> {
         console.log(pId)
         if (pId) {
             await this.props.saveEntries(this.addProfileId(entries, pId))
-            if (this.props.profileState.profile[0]) {
-                const profile = this.props.profileState.profile[0]
-                const userLink = this.generateUserLink(profile.id, profile.secret)
-                const adminLink = this.generateAdminLink(profile.id, profile.secret)
-                console.log(userLink)
-                console.log(adminLink)
-            }
+            // if (this.props.profileState.profile[0]) {
+            //     const profile = this.props.profileState.profile[0]
+            //     const userLink = this.generateUserLink(profile.id, profile.secret)
+            //     const adminLink = this.generateAdminLink(profile.id, profile.secret)
+            //     console.log(userLink)
+            //     console.log(adminLink)
+            // }
             this.setState({didUpload: true})
             
         }
@@ -138,6 +139,7 @@ class Registration extends React.Component<Props, State> {
                 <Switch>
                     <Route exact path="/" render={() => (
                         <div>
+                            <RegistrationInfo />
                             <FormContainer adminMode={false} categories={categories} saveContent={this.postContent} />
                             {didUpload ? <Redirect to='/bekraftelse' /> : null}
                         </div>

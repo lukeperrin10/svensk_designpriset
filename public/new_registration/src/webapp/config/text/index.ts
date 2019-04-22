@@ -50,3 +50,36 @@ export enum GENERAL_TEXT {
     temp_price_per_entry = "3995"
 }
 
+
+export interface IRegInfo {
+    label: string, content: string[] 
+}
+
+export const REGISTER_INFO : {[key:string]: IRegInfo}  = {
+    stepOne: {
+        label: 'Steg 1',
+        content: [
+            'Fyll i alla obligatoriska uppgifter.',
+            'Bifoga gärna en bild (tumnagel) till varje bidrag.',
+            'Bidrag i printkategorier kompletteras med trycksak per post i tre exemplar.',
+            'Mindre material monteras på pannå.',
+            'Om trycksaken inte är färdigtryckt kan du skicka med fil (PDF) och senare komplettera med trycksak.'
+        ]
+    },
+    stepTwo: {
+        label: 'Steg 2',
+        content: [
+            'Kontrollera dina uppgifter och dina bilder (tumnaglar).',
+            'Du kan ändra dina uppgifter och bilder t.o.m. 15 juni.'
+        ]
+    },
+    stepThree: {
+        label: 'Steg 2',
+        content: [
+            'Anmälan är klar.',
+            'Du får ett mail med länk till din personliga sida. Där kan du också ändra och lägga till fler bidrag.',
+            'Kansliet skickar också en bekräftelse.',
+            'Varje bidrag kostar 3995:- exkl. moms. Faktura med 10 dagars betalning skickas från Svenska Designpriset.'
+        ]
+    },
+}

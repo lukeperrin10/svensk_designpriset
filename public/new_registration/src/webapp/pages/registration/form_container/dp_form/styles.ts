@@ -10,9 +10,12 @@ export default {
         // borderWidth: 1,
         boxShadow: '0px 0px 5px 2px rgba(0,0,0,0.1',
         borderRadius: 5,
-        marginBottom: 20,
+        
         overFlow: 'auto',
         backgroundColor: PRIMARY_BACKGROUND_COLOR,
+        maxWidth: 1250,
+        margin: 'auto',
+        marginBottom: 20,
         
     },
     title: {
@@ -27,8 +30,8 @@ export default {
         margin: 10
     },
     input: {
-        minWidth: 300,
-        width: '40vw',
+        minWidth: 200,
+        width: '30vw',
         
     },
     customComponentContainer: {
