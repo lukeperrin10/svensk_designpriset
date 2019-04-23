@@ -53,6 +53,7 @@ function fetchCategories(): ThunkAction<Promise<ICategoryAction>, IState, undefi
         dispatch(requestCategories)
         try {
             const response = await fetch(host.CATEGORY_URL);
+            checkError(response)
             const json = await response.json()
             return dispatch(receiveCategories(json))
         } catch(error) {
@@ -68,5 +69,11 @@ export function getCategories(): ThunkAction<Promise<ICategoryAction>, IState, u
         } else {
             return dispatch(checkCategories)
         }
+    }
+}
+
+function checkError(response: Response) {
+    if (!response.ok) {
+        throw new Error(response.statusText)
     }
 }

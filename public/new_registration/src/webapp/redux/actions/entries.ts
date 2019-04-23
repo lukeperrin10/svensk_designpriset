@@ -70,6 +70,7 @@ function fetchEntries(profile_id: number): ThunkAction<Promise<IEntriesAction>, 
         dispatch(requestEntries)
         try {
             const response = await fetch(`${host.ENTRIES_URL}/${profile_id}`);
+            checkError(response)
             const json = await response.json()
             return dispatch(receiveEntries(json))
         } catch(error) {
@@ -102,6 +103,7 @@ function fetchSaveEntries(e: INewEntry[]): ThunkAction<Promise<IEntriesAction>, 
                 headers: headers,
                 body: JSON.stringify(e)
             })
+            checkError(response)
             const json = await response.json()
             console.log(json)
             return dispatch(doneSaveEntriesAction(json))
@@ -118,5 +120,11 @@ export function saveEntries(e: INewEntry[]): ThunkAction<Promise<IEntriesAction>
         } else {
             return dispatch(checkEntries)
         }
+    }
+}
+
+function checkError(response: Response) {
+    if (!response.ok) {
+        throw new Error(response.statusText)
     }
 }

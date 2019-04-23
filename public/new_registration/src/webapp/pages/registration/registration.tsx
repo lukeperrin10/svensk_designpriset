@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import { IState, IProfileState} from 'src/webapp/model/state'
+import { IState, IProfileState, IEntriesState, ICategoryState} from 'src/webapp/model/state'
 import FormContainer from './form_container'
 import ConfirmationContainer from './confirmation_container'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import { INewProfile, INewEntry, IEntry, ICategory } from 'src/webapp/model';
+import { INewProfile, INewEntry } from 'src/webapp/model';
 import { saveProfile, getProfile } from 'src/webapp/redux/actions/profile';
 import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
 import { getCategories } from 'src/webapp/redux/actions/categories';
@@ -12,11 +12,12 @@ import Spinner from 'react-bootstrap/Spinner'
 // import { ROOT_URL } from 'src/webapp/config/host';
 import * as queryString from 'query-string'
 import RegistrationInfo from './registration_info';
+import ErrorModal from './error_modal/error_modal';
 
 interface ReduxProps {
     profileState: IProfileState,
-    entries: IEntry[],
-    categories: ICategory[]
+    entriesState: IEntriesState,
+    categoriesState: ICategoryState
 }
 interface DispatchProps {
     saveProfile: (p: INewProfile) => Promise<any>,
@@ -38,7 +39,8 @@ class Registration extends React.Component<Props, State> {
         editId: undefined,
         editSecret: undefined,
         editProfile: {},
-        editEntries: []
+        editEntries: [],
+        showErrorModal: false
     }
     constructor(p: Props) {
         super(p)
@@ -75,7 +77,7 @@ class Registration extends React.Component<Props, State> {
     getEditContent() {
         return {
             profile: this.props.profileState.profile[0],
-            entries: this.props.entries
+            entries: this.props.entriesState.entries
         }
     }
 
@@ -88,16 +90,6 @@ class Registration extends React.Component<Props, State> {
             this.setState({editIsAdmin: true})
         }
     }
-
-    // generateUserLink(id: number, secret: string) {
-    //     console.log(`gen user:  id: ${id}, secret: ${secret}`)
-    //     return `${ROOT_URL}/edit?id=${id}&secret=${secret}`
-    // }
-
-    // generateAdminLink(id: number, secret: string) {
-    //     console.log(`gen admin:  id: ${id}, secret: ${secret}`)
-    //     return `${ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`
-    // }
     
     postContent = async (profile: INewProfile, entries: INewEntry[]) => {
         await this.props.saveProfile(profile)
@@ -113,8 +105,14 @@ class Registration extends React.Component<Props, State> {
             //     console.log(userLink)
             //     console.log(adminLink)
             // }
-            this.setState({didUpload: true})
-            
+            const {categoriesState, profileState, entriesState} = this.props
+            if (categoriesState.error !== null || profileState.error !== null || entriesState.error !== null) {
+                this.setState({showErrorModal: true, didUpload: false})    
+            } else {
+                this.setState({didUpload: true}) 
+            }
+        } else {
+            this.setState({showErrorModal: true, didUpload: false})
         }
     }
 
@@ -127,8 +125,10 @@ class Registration extends React.Component<Props, State> {
     }
 
     render() {
-        const {categories} = this.props
+        const {categories} = this.props.categoriesState
+        // const {categoriesState, profileState, entriesState} = this.props
         const {didLoad, didUpload, edit, editIsAdmin} = this.state
+        // const errors : boolean = categoriesState.error !== null || profileState.error !== null || entriesState.error !== null
         return (
             <Router>
                 {!didLoad ?
@@ -155,6 +155,7 @@ class Registration extends React.Component<Props, State> {
                     <Route path="/bekraftelse" render={() => (<ConfirmationContainer />)} />
                 </Switch>
                 }
+                <ErrorModal show={this.state.showErrorModal} onClose={() => this.setState({showErrorModal: false})} />
             </Router>
         )
     }
@@ -163,8 +164,8 @@ class Registration extends React.Component<Props, State> {
 const mapStateToProps = (state: IState) => {
     return {
         profileState: state.profileState,
-        entries: state.entriesState.entries,
-        categories: state.categoryState.categories
+        entriesState: state.entriesState,
+        categoriesState: state.categoryState
     }
 }
 
