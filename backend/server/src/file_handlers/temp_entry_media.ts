@@ -2,6 +2,7 @@ import * as express from 'express'
 import multer from 'multer'
 import fs from 'fs';
 import path from 'path'
+import { replaceSpaces } from './replacer';
 
 const folderPath = './upload_assets/temp_media/'
 
@@ -10,9 +11,11 @@ const storage = multer.diskStorage({
         cb(null, folderPath)
     },
     filename: (req, file, cb) => {
-        const ext = file.originalname.toLocaleLowerCase().split('.').pop()
-        const name = file.originalname.toLocaleLowerCase().split('.')[0]
-        let fileName = file.originalname
+        console.log(file.originalname)
+        const originalName = replaceSpaces(file.originalname)
+        const ext = originalName.toLocaleLowerCase().split('.').pop()
+        const name = originalName.toLocaleLowerCase().split('.')[0]
+        let fileName = originalName
         let exists = true
         let i = 0
         while (exists) {

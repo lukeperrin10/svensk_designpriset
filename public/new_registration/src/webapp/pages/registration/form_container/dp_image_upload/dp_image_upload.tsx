@@ -5,6 +5,7 @@ import { getErrorMessage } from 'src/webapp/helpers/errors';
 import Spinner from 'react-bootstrap/Spinner'
 import styles from './styles';
 import check from '../../../../assets/ui/check.png'
+import * as Slug from 'slug'
 
 
 interface IDpImageUpload {
@@ -61,6 +62,14 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
     deleteImage() {
         if (this.props.deleteImage) this.props.deleteImage()
     }
+
+    slugify(s: string) {
+        const ext = s.toLocaleLowerCase().split('.').pop()
+        const name = s.toLocaleLowerCase().split('.')[0]
+        let result = `${Slug(name)}.${ext}`
+        console.log(result)
+        return result
+    }
     
     saveImage = async () => {
         this.setState({errorUploading: false, errorMessage: ''})
@@ -69,7 +78,9 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
         } else {
             this.setState({errorUploading: false, isLoading: true})
             const formData = new FormData()
-            formData.append('media', this.state.image)
+            console.log(this.state.image)
+            formData.append('media', this.state.image, this.slugify(this.state.image.name))
+            
             try {
                 const res = await fetch(this.props.url, {
                     method: 'POST',

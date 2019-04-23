@@ -31,7 +31,8 @@ export const pool = mysql.createPool({
     host: process.env.DP_BACKEND_MYSQL_HOST,
     user: process.env.DP_BACKEND_MYSQL_USER,
     password: process.env.DP_BACKEND_MYSQL_PASSWORD,
-    database: process.env.DP_BACKEND_MYSQL_DATABASE
+    database: process.env.DP_BACKEND_MYSQL_DATABASE,
+    charset: 'utf8mb4'
 })
 
 export async function query(query: string, args?: any[]): Promise<any> {
