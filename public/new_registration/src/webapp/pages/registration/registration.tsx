@@ -98,14 +98,8 @@ class Registration extends React.Component<Props, State> {
         console.log(pId)
         if (pId) {
             await this.props.saveEntries(this.addProfileId(entries, pId))
-            // if (this.props.profileState.profile[0]) {
-            //     const profile = this.props.profileState.profile[0]
-            //     const userLink = this.generateUserLink(profile.id, profile.secret)
-            //     const adminLink = this.generateAdminLink(profile.id, profile.secret)
-            //     console.log(userLink)
-            //     console.log(adminLink)
-            // }
             const {categoriesState, profileState, entriesState} = this.props
+            // WARNING: DELETE PROFILE IF NO ENTRY SUCCESS?
             if (categoriesState.error !== null || profileState.error !== null || entriesState.error !== null) {
                 this.setState({showErrorModal: true, didUpload: false})    
             } else {

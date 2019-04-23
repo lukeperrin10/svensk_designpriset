@@ -4,7 +4,8 @@ export interface formItems {
         label: string,
         required: boolean,
         type: string,
-        selectList?: {id: number,name: string}[]
+        selectList?: {id: number,name: string}[],
+        maxLength?: number
     }
 }
 
@@ -23,7 +24,7 @@ export const FORM_PROFILE_LABELS: formItems = {
     contact: {key: "contact", label: "Namn/Kontakt", required: true, type: "text"},
     company: {label: "Företag", key: "company", required: true, type: "text"},
     address: {label: "Adress", key: "address", required: true, type: "text"},
-    zip: {label: "Postnummer", key: "zip", required: true, type: "text"},
+    zip: {label: "Postnummer", key: "zip", required: true, type: "text", maxLength: 9},
     city: {label: "Ort", key: "city", required: true, type: "text"},
     phone: {label: "Telefonnummer", key: "phone", required: true, type: "text"},
     mail: {label: "E-post", key: "mail", required: true, type: "email"},
