@@ -102,7 +102,7 @@ class Registration extends React.Component<Props, State> {
     postContent = async (profile: INewProfile, entries: INewEntry[]) => {
         await this.props.saveProfile(profile)
         const {profileState} = this.props
-        const pId = profileState.profile[0].id || false
+        const pId = profileState.profile[0] !== undefined ? profileState.profile[0].id : false
         console.log(pId)
         if (pId) {
             await this.props.saveEntries(this.addProfileId(entries, pId))

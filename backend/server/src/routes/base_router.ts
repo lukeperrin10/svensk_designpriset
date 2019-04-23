@@ -44,8 +44,9 @@ export class DPRouter<T> {
     // WARNING: Se över denna och POST
     protected put() {
         this.router.put('/:id', async (req, res) => {
-            console.log('DP Router put')
-            console.log(req.body)
+            // if (!('id' in req.args)) {
+            //     throw new BadRequest('Put request should contain an id')
+            // }
             res.json(await this.model.update(<T>req.body))
         })
     }

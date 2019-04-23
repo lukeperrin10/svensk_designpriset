@@ -9,7 +9,7 @@ import Avatars from './file_handlers/avatars'
 import EntryMedia from './file_handlers/entry_media'
 import TempEntryMedia from './file_handlers/temp_entry_media'
 import { Entry } from 'dbtypes';
-import { MFError } from './error';
+import { MFError, NotFound } from './error';
 
 const tempProfile = {
     id: 1234,
@@ -93,6 +93,16 @@ export function initRouter(app: Express) {
     router.post('/entry_media', EntryMedia)
     router.post('/temp_entry_media',TempEntryMedia)
 
+    
+
+    // const test = mail('johan.g.hjalmarsson@gmail.com', 'test mail', 'text', getRegisterMailContent(false, 'en url', tempProfile, tempEntries)).catch(err => console.log(err))
+    // const test = mail('johan.g.hjalmarsson@gmail.com', 'test admin mail', 'text', getRegisterMailAdminContent(false, 'en url', tempProfile, tempEntries)).catch(err => console.log(err))
+    // console.log(test)
+    
+    router.use((req, res) => {
+        res.status(404).json(new NotFound)
+    })
+
     router.use((err: MFError, req: Request, res: Response, next: NextFunction) => {
         if (req.app.get('env') !== 'test') {
             console.error(err)
@@ -102,14 +112,12 @@ export function initRouter(app: Express) {
             delete err.stack;
         }
         */
+        console.log('router middleware: '+err)
         
         res.status(err.status_code || 500).json(err);
+        next(err)
     })
 
-    // const test = mail('johan.g.hjalmarsson@gmail.com', 'test mail', 'text', getRegisterMailContent(false, 'en url', tempProfile, tempEntries)).catch(err => console.log(err))
-    // const test = mail('johan.g.hjalmarsson@gmail.com', 'test admin mail', 'text', getRegisterMailAdminContent(false, 'en url', tempProfile, tempEntries)).catch(err => console.log(err))
-    // console.log(test)
-    
     app.use(router)
 }
 

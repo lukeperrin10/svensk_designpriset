@@ -40,11 +40,13 @@ export async function query(query: string, args?: any[]): Promise<any> {
     return new Promise((resolve, reject) => {
         pool.query(query, args, (error: any, results: any, fields: any) => {
             if (error) {
-                handleDbError(error)
+                reject(error)
             } else {
                 resolve(results)
             }
-        }) 
+        })
+    }).catch((error) => {
+        console.error('error single query: ' +error)
     })
 }
 export interface queryObj {
@@ -57,15 +59,18 @@ export async function batchQuery(queries: queryObj[]): Promise<any> {
         pool.getConnection((e, c) => {
             c.beginTransaction(err => {
                 if (err) {
+                    console.error(err)
                     reject(err)
                 } else {
                     Async.waterfall(getBatchCallbacks(queries, c), (err, res) => {
                         if (err) {
-                            return c.rollback()
+                            console.error(err)
+                            return c.rollback(null, () => {reject(err)})
                         }
                         c.commit(error => {
                             if (error) {
-                                return c.rollback
+                                console.error(error)
+                                return c.rollback(null, () => {reject(error)})
                             }
                             return resolve(res)
                         })
@@ -73,6 +78,9 @@ export async function batchQuery(queries: queryObj[]): Promise<any> {
                 }
             })
         })
+    }).catch((error) => {
+        console.error('error batch query: ' +error)
+        // handleDbError(error)
     })
 }
 
@@ -85,6 +93,7 @@ function getBatchCallbacks(querys: queryObj[], connection: PoolConnection) {
             f = function (callback: any) { 
                 connection.query(q.query, q.args, (err, results, fields) => {
                     if (err) {
+                        console.error(err)
                         callback(err)
                     } else {
                         callback(null, [results])
@@ -95,6 +104,7 @@ function getBatchCallbacks(querys: queryObj[], connection: PoolConnection) {
             f = function (previous: any[], callback: any) { 
                 connection.query(q.query, q.args, (err, results, fields) => {
                     if (err) {
+                        console.error(err)
                         callback(err)
                     } else {
                         previous.push(results)

@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const util = require('util')
+require('express-async-errors');
 import logger from 'morgan'
 import {initRouter} from './src/router'
 import * as bodyParser from 'body-parser'
@@ -14,6 +15,12 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.text())                            
 app.use(bodyParser.json({ type: 'application/json'}))
 
+// process.on('unhandledRejection', (reason, promise) => {
+//     console.log('Unhandled Rejection at:', reason || reason)
+//     // Recommended: send the information to sentry.io
+//     // or whatever crash reporting service you use
+//   })
+//
 if (process.env.NODE_ENV === 'development') {
     app.use((req: any , res:any, next:any) => {
         // if(req.method === 'OPTIONS') {
