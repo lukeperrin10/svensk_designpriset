@@ -122,7 +122,7 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                     :null}
                     <input onChange={this.inputOnChange} 
                         type="file" />
-                    <Button disabled={isLoading || buttonDisabled} variant="secondary" onClick={() => this.saveImage()}>
+                    <Button style={styles.uploadButton} disabled={isLoading || buttonDisabled} variant="secondary" onClick={() => this.saveImage()}>
                         {isLoading ?
                         <div>
                             <Spinner

@@ -1,10 +1,15 @@
 export default {
     container: {
         marginTop: 50,
-        paddingLeft: 50,
+        padding: 10,
+        // paddingLeft: 10,
         display: 'flex',
-        flexWrap: 'wrap' as 'wrap'
-        // alignItems: 'center'
+        flexWrap: 'wrap' as 'wrap',
+        maxWidth: 500,
+        // alignItems: 'center',
+        border: '1px solid rgba(0,0,0,0.1)',
+        borderRadius: 10,
+        backgroundColor: 'white'
     },
     errors: {
         color: 'red',
@@ -37,5 +42,9 @@ export default {
         display: 'inline',
         padding: 10,
         border: '1px solid grey'
+    },
+    uploadButton: {
+        marginTop: 5,
+        marginBottom: 5
     }
 }

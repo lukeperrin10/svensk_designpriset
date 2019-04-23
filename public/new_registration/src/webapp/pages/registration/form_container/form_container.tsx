@@ -391,7 +391,7 @@ class FormContainer extends React.Component<IFormContainer> {
                 {this.getEntryForms()}
             <div style={styles.space}></div>
                 <div style={styles.toolbar}>
-                    <div style={styles.addButtonContainer}>
+                    {/* <div style={styles.addButtonContainer}> */}
                         <OverLay
                             placement="right"
                             overlay={
@@ -409,7 +409,7 @@ class FormContainer extends React.Component<IFormContainer> {
                                         Rensa allt innehåll i formuläret
                                     </ToolTip>
                                 }>
-                                <Button style={styles.button} onClick={() => {this.setState({checkShouldClear: true})}} variant="secondary">Rensa formulär</Button>
+                                <Button style={styles.button} onClick={() => {this.setState({checkShouldClear: true})}} variant="secondary">Rensa</Button>
                             </OverLay>
                             <OverLay
                                 placement="left"
@@ -421,7 +421,7 @@ class FormContainer extends React.Component<IFormContainer> {
                                 <Button style={styles.buttonPrimary} disabled={(!didSaveProfile || !didSaveEntry)} onClick={() => this.onShowConfirmButton()} variant="primary">Gå vidare</Button>
                             </OverLay>
                         </div>
-                    </div>
+                    {/* </div> */}
                 </div>
             </div>
             }

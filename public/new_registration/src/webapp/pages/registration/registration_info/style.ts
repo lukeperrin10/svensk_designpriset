@@ -57,7 +57,6 @@ export default {
         display: 'flex',
         flexWrap: 'wrap' as 'wrap',
         justifyContent: 'space-around',
-        
         maxWidth: 1200,
         margin: 'auto',
         marginTop: 40,

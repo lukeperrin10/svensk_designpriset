@@ -20,10 +20,12 @@ export default {
         width: '100%',
         // textAlign: 'right' as 'right'
         display: 'flex',
-        justifyContent: 'space-between'
+        
     },
     toolbar: {
-        width: '100%',
+        width: '100vw',
+        display: 'flex',
+        justifyContent: 'space-between',
         padding: 10,
         paddingLeft: 10,
         paddingRight: 10,

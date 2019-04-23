@@ -35,7 +35,9 @@ export default {
         
     },
     customComponentContainer: {
-        
+        display: 'flex',
+        justifyContent: 'space-around',
+        flexWrap: 'wrap' as 'wrap'
     },
     inputContainer: {
         width: '50%',
