@@ -13,6 +13,8 @@ import Spinner from 'react-bootstrap/Spinner'
 import * as queryString from 'query-string'
 import RegistrationInfo from './registration_info';
 import ErrorModal from './error_modal/error_modal';
+import styles from './style'
+import { DID_POST_FORM } from 'src/webapp/model/constants';
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -48,10 +50,18 @@ class Registration extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        this.checkLocalStorage()
         this.extractQuery()
         this.props.getCategories()
         .then(() => this.getContent())
         .then(() => this.setState({didLoad: true}))
+    }
+
+    checkLocalStorage() {
+        const didPost = localStorage.getItem(DID_POST_FORM)
+        if (didPost) {
+            localStorage.clear()
+        }
     }
 
     async getContent() {
@@ -71,7 +81,6 @@ class Registration extends React.Component<Props, State> {
         if ('adm' in query && query['adm'] === 'true') {
             this.setState({editIsAdmin: true})
         }
-        
     }
 
     getEditContent() {
@@ -103,6 +112,8 @@ class Registration extends React.Component<Props, State> {
             if (categoriesState.error !== null || profileState.error !== null || entriesState.error !== null) {
                 this.setState({showErrorModal: true, didUpload: false})    
             } else {
+                console.log('succes uploading')
+                localStorage.setItem(DID_POST_FORM, "true")
                 this.setState({didUpload: true}) 
             }
         } else {
@@ -122,11 +133,12 @@ class Registration extends React.Component<Props, State> {
         const {categories} = this.props.categoriesState
         // const {categoriesState, profileState, entriesState} = this.props
         const {didLoad, didUpload, edit, editIsAdmin} = this.state
+        console.log(this.props.categoriesState)
         // const errors : boolean = categoriesState.error !== null || profileState.error !== null || entriesState.error !== null
         return (
             <Router>
                 {!didLoad ?
-                <div>
+                <div style={styles.spinner}>
                     <Spinner animation="border" />
                 </div>
                 :

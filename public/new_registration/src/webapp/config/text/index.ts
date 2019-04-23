@@ -26,7 +26,7 @@ export const FORM_PROFILE_LABELS: formItems = {
     address: {label: "Adress", key: "address", required: true, type: "text"},
     zip: {label: "Postnummer", key: "zip", required: true, type: "text", maxLength: 9},
     city: {label: "Ort", key: "city", required: true, type: "text"},
-    phone: {label: "Telefonnummer", key: "phone", required: true, type: "text"},
+    phone: {label: "Telefonnummer", key: "phone", required: true, type: "text", maxLength: 20},
     mail: {label: "E-post", key: "mail", required: true, type: "email"},
     homepage: {label: "Webbplats (ej obligatorisk)", key: "homepage", required: false, type: "text"}
 }
