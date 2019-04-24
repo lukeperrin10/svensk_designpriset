@@ -15,6 +15,8 @@ import RegistrationInfo from './registration_info';
 import ErrorModal from './error_modal/error_modal';
 import styles from './style'
 import { DID_POST_FORM } from 'src/webapp/model/constants';
+import { OLD_REGISTRATION_URL } from 'src/webapp/config/host';
+import logo from '../../assets/img/logo.png'
 
 interface ReduxProps {
     profileState: IProfileState,
@@ -139,7 +141,13 @@ class Registration extends React.Component<Props, State> {
             <Router>
                 {!didLoad ?
                 <div style={styles.spinner}>
+                    <img src={logo} alt='Logo' />
                     <Spinner animation="border" />
+                    <div style={styles.loadingText}>
+                        <p>Laddar sidan...</p>
+                        <p>Tar detta väldigt lång tid?</p>
+                        <p>Vänligen kontakta info@designpriset.se eller använd den gamla registreringen <a href={OLD_REGISTRATION_URL}>här</a> </p>
+                    </div>
                 </div>
                 :
                 <Switch>

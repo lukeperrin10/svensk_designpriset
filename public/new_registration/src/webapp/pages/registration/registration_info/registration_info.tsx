@@ -6,6 +6,7 @@ import instagram from '../../../assets/img/instagram.png'
 import mail from '../../../assets/img/mail.png'
 import { REGISTER_INFO } from 'src/webapp/config/text';
 import divider from '../../../assets/ui/divider.png'
+import { OLD_REGISTRATION_URL } from 'src/webapp/config/host';
 
 
 class RegistrationInfo extends React.Component {
@@ -26,8 +27,8 @@ class RegistrationInfo extends React.Component {
                 <div style={styles.line}></div>
                 <div style={styles.warningContainer}>
                     <p style={styles.warningP}>Detta är en ny version av registreringsformuläret.</p>
-                    <p style={styles.warningP}>Upplever du problem så kan du använda den gamla här:</p>
-                    <a href="">Registrering</a>
+                    <p style={styles.warningP}>Upplever du problem så kan du använda den gamla <a href={OLD_REGISTRATION_URL}>här</a></p>
+                    
                 </div>
                 
                 <div style={styles.instructionContainer}>

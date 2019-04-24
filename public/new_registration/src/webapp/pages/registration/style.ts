@@ -4,6 +4,10 @@ export default {
         width: '100vw',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-around',
+        flexDirection: 'column' as 'column'
+    },
+    loadingText: {
+        textAlign: 'center' as 'center'
     }
 }
