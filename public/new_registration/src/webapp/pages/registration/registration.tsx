@@ -15,7 +15,7 @@ import RegistrationInfo from './registration_info';
 import ErrorModal from './error_modal/error_modal';
 import styles from './style'
 import { DID_POST_FORM } from 'src/webapp/model/constants';
-import { OLD_REGISTRATION_URL } from 'src/webapp/config/host';
+import { OLD_REGISTRATION_URL, ROUTER_BAS_NAME } from 'src/webapp/config/host';
 import logo from '../../assets/img/logo.png'
 
 interface ReduxProps {
@@ -153,7 +153,7 @@ class Registration extends React.Component<Props, State> {
         const {categories} = this.props.categoriesState
         const {didLoad, didUpload, edit, editIsAdmin, isAllowed} = this.state
         return (
-            <Router>
+            <Router basename={ROUTER_BAS_NAME}>
                 {!isAllowed ?
                 <div>Du har inte tillåtelse att visa den här sidan</div>
                 :

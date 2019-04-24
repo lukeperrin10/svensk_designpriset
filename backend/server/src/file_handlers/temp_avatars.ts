@@ -1,8 +1,9 @@
 import * as express from 'express'
 import multer from 'multer'
 import Uniqid from 'uniqid'
+import { TEMP_AVATAR_PATH } from '../constants/temp_contants';
 
-const folderPath = './upload_assets/temp_avatars/'
+const folderPath = TEMP_AVATAR_PATH+'/'
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

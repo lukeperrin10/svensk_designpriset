@@ -3,8 +3,9 @@ import multer from 'multer'
 import fs from 'fs';
 import path from 'path'
 import { replaceSpaces } from './replacer';
+import { TEMP_MEDIA_PATH } from '../constants/temp_contants';
 
-const folderPath = './upload_assets/temp_media/'
+const folderPath = TEMP_MEDIA_PATH+'/'
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

@@ -1,6 +1,6 @@
 const isProd = process.env.NODE_ENV === "production"
 
-
+export const ROUTER_BAS_NAME = isProd ? "/register2" : undefined
 export const BASE_URL = isProd? "http://www.designpriset.se/wopii_dev_backend" : "http://myown.se:8001"
 export const WINNER_URL = `${BASE_URL}/winners`
 export const PROFILE_URL = `${BASE_URL}/profiles`
