@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
         cb(null, folderPath)
     },
     filename: (req, file, cb) => {
-        console.log(file.originalname)
+        // console.log(file.originalname)
         const originalName = replaceSpaces(file.originalname)
         const ext = originalName.toLocaleLowerCase().split('.').pop()
         const name = originalName.toLocaleLowerCase().split('.')[0]

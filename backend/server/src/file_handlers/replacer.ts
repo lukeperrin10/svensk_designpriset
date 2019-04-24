@@ -6,6 +6,6 @@ export function replaceSpaces(s: string) {
     // result = result.replace(/[\u0800-\uFFFF]/g, '')
     // // .replace(/[\u0800-\uFFFF]/g, '')
     // result = utf8.encode(result)
-    console.log(result)
+    // console.log(result)
     return result
 }

@@ -26,12 +26,21 @@ export async function create(new_entry: Entry): Promise<Entry> {
     const post_entry = create_entry(new_entry)
     if (post_entry.avatar) await moveAvatar(post_entry.avatar)
     if (post_entry.source) await moveSource(post_entry.source)
-    const insert = db.query('INSERT INTO entries SET ?', [post_entry])
-    console.log(insert)
-    // const profile = await db.query('SELECT * FROM `profiles` WHERE `id` = ?', [new_entry.profile_id])   
-    // const entries = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entry.profile_id])
-    // sendRegisterEmails(profile, entries, false)
-    return insert
+    const insert = await db.query('INSERT INTO entries SET ?', [post_entry])
+    const query = await db.query('SELECT * FROM entries WHERE id = ?', insert.insertId)
+    if (query.length > 0) {
+        if('profile_id' in query[0]) {
+            const id = query[0].profile_id
+            const profile = await db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]) 
+            if (profile.length > 0 && 'id' in profile[0]) {
+                sendRegisterEmails(profile[0], [query[0]], false)
+            }
+        }
+    } else {
+        console.error('Did not send mail regarding entry: '+new_entry.id)
+    }
+    
+    return query
 }
 
 async function moveAvatar(filename: string) {
@@ -55,6 +64,8 @@ async function moveSource(filename: string) {
 export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
     const querys: db.queryObj[] = []
     new_entries.forEach(entry => {
+        // if (entry.avatar) await moveAvatar(entry.avatar)
+        // if (entry.source) await moveSource(entry.source)
         querys.push({
             query: 'INSERT INTO entries SET ?',
             args: [create_entry(entry)]
@@ -71,9 +82,25 @@ export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
         }
     })
     const batchSelect = await db.batchQuery(responseQuerys)
-    // const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [new_entries[0].profile_id])   
-    // const entries = await  db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id])
-    // sendRegisterEmails(profile, entries, false)
+    console.log(batchSelect[0][0])
+    if (Array.isArray(batchSelect) && Array.isArray(batchSelect[0])) {
+        if (batchSelect[0][0] && batchSelect[0][0].profile_id) {
+            const id = batchSelect[0][0].profile_id
+            const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
+            if (Array.isArray(profile) && profile.length > 0) {
+                if ('id' in profile[0]) {
+                    const entries : dbtype[] = []
+                    batchSelect.forEach(batch => {
+                        entries.push(batch[0])
+                    })
+                    sendRegisterEmails(profile[0], entries, false)
+                }
+            }
+        }
+    } else {
+        console.error('Did not send mail regarding entry: '+new_entries[0].id)
+    }
+    
     return batchSelect
 }
 

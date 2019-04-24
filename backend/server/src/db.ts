@@ -35,8 +35,8 @@ export const pool = mysql.createPool({
 })
 
 export async function query(query: string, args?: any[]): Promise<any> {
-    console.log('db query')
-    console.log(args)
+    // console.log('db query')
+    // console.log(args)
     return new Promise((resolve, reject) => {
         pool.query(query, args, (error: any, results: any, fields: any) => {
             if (error) {

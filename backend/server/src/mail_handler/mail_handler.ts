@@ -39,7 +39,7 @@ async function mail(to: string, subject: string, message: string, html?: string)
             console.log("Error type: ", err.name)
             console.log("SMTP log: ", err.message)
         } else {
-            console.log(res)
+            console.log('Did send mail!')
         }
     })
 }
@@ -55,6 +55,8 @@ export function generateAdminLink(id: number, secret: string) {
 }
 // WARNING CHANGE EMAIL ADRESS!
 export async function sendRegisterEmails(profile: Profile, entries: Entry[], update: boolean) {
+    console.log('mail handler entries')
+    console.log(entries)
     await mail('johan.g.hjalmarsson@gmail.com', getSubjectRegister(profile, update), 'text', 
         getRegisterMailContent(false, generateUserLink(profile.id, profile.secret), profile, entries)).catch(err => console.log(err));
     await mail('johan.g.hjalmarsson@gmail.com', getSubjectRegister(profile, update), 'text', 
