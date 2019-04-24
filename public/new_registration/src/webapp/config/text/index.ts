@@ -28,26 +28,26 @@ export const FORM_PROFILE_LABELS: formItems = {
     city: {label: "Ort", key: "city", required: true, type: "text"},
     phone: {label: "Telefonnummer", key: "phone", required: true, type: "text", maxLength: 20},
     mail: {label: "E-post", key: "mail", required: true, type: "email"},
-    homepage: {label: "Webbplats (ej obligatorisk)", key: "homepage", required: false, type: "text"}
+    homepage: {label: "Webbplats", key: "homepage", required: false, type: "text"}
 }
 // WARNING: Se över vilka som ska vara required eller inte
 export const FORM_ENTRY_LABELS: formItems = {
     entry_name: {key: "entry_name", label: "Bidragets namn", required: true, type: "text"},
-    webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer (ej obligatoriskt)", required: false, type: "text"},
-    designer: {key: 'designer', label: 'Designer', required: true, type: 'text'},
-    illustrator: {key: 'illustrator', label: 'Illustratör/fotograf (ej obligatorisk)', required: false, type: 'text'},
-    leader: {key: 'leader', label: 'Projektledare', required: true, type: 'text'},
     customer: {key: 'customer', label: 'Uppdragsgivare', required: true, type: 'text'},
+    designer: {key: 'designer', label: 'Designer', required: true, type: 'text'},
+    illustrator: {key: 'illustrator', label: 'Illustratör/fotograf', required: false, type: 'text'},
+    leader: {key: 'leader', label: 'Projektledare', required: true, type: 'text'},
     format: {key: 'format', label: 'Omfång (Gäller trycksaker)', required: false, type: 'text'},
     size: {key: 'size', label: 'Storlek (Gäller trycksaker)', required: false, type: 'text'},
-    category: {key: 'category', label: 'Tävlingskategori', required: true, type: 'select'}
+    category: {key: 'category', label: 'Tävlingskategori', required: true, type: 'select'},
+    webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer", required: false, type: "text"}
 }
 
 export const TEMP_PRICE_PER_ENTRY = "3995"
 
 export enum GENERAL_TEXT {
-    thumbnail_label = "Bild för tumnagel (rekommenderad storlek – 550px bred/735px hög)",
-    entry_media = "Bifoga pdf-fil för printbidrag, (ej obligatorisk, max filstorlek 5 Mb, undvik ÅÄÖ i filnamn)",
+    thumbnail_label = "Bild för tumnagel (rekommenderad storlek – 770x1030px)",
+    entry_media = "Bifoga pdf-fil för printbidrag, (max filstorlek 5 Mb, undvik ÅÄÖ i filnamn)",
     after_submit = "Anmälan är klar. Du får ett mail med länk till din personliga sida där du kan ändra och lägga till fler bidrag. Kansliet skickar också en bekräftelse. Varje bidrag kostar 3995 :- exkl. moms. Faktura med 10 dagars betalning skickas från Svenska Designpriset.",
     temp_price_per_entry = "3995"
 }
@@ -62,7 +62,7 @@ export const REGISTER_INFO : {[key:string]: IRegInfo}  = {
         label: 'Steg 1',
         content: [
             'Fyll i alla obligatoriska uppgifter.',
-            'Bifoga gärna en bild (tumnagel) till varje bidrag.',
+            'Bifoga en tumnagel-bild till varje bidrag.',
             'Bidrag i printkategorier kompletteras med trycksak per post i tre exemplar.',
             'Mindre material monteras på pannå.',
             'Om trycksaken inte är färdigtryckt kan du skicka med fil (PDF) och senare komplettera med trycksak.'
@@ -71,8 +71,8 @@ export const REGISTER_INFO : {[key:string]: IRegInfo}  = {
     stepTwo: {
         label: 'Steg 2',
         content: [
-            'Kontrollera dina uppgifter och dina bilder (tumnaglar).',
-            'Du kan ändra dina uppgifter och bilder t.o.m. 15 juni.'
+            'Kontrollera dina uppgifter och dina tumnagellbilder.',
+            'Du kan ändra dina uppgifter och bilder t.o.m. 14 juni.'
         ]
     },
     stepThree: {

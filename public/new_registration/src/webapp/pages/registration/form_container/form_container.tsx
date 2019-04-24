@@ -399,6 +399,11 @@ class FormContainer extends React.Component<IFormContainer> {
                     buttonDisabledText="Redigera"
                     onValueChange={(v: IEnteredValues) => this.onValueChange('profile', v)}
                     defaultValue={!isEmptyObject(tempProfile) ? tempProfile : null}
+                    customComponents={[
+                        <div key={1}>
+                            <p>Separat fakturaadress mejlas till <a href="mailto:info@batteri.se">info@batteri.se</a></p>
+                        </div>
+                    ]}
                 />
                 {this.getEntryForms()}
             <div style={styles.space}></div>
