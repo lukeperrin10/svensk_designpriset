@@ -118,7 +118,7 @@ class DpForm extends React.Component<IDpFormProps> {
                                             {item.selectList ? item.selectList.map(listItem => {
                                                 return (
                                                     <option
-                                                        value={listItem.name} 
+                                                        value={listItem.short} 
                                                         key={listItem.id}>{listItem.name}
                                                     </option>
                                                 )

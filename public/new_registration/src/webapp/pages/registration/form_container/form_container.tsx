@@ -273,11 +273,12 @@ class FormContainer extends React.Component<IFormContainer> {
         const {categories} = this.props
         const amountOfForms = isEmptyObject(tempEntries) ? 1 : Object.keys(tempEntries).length
         const forms = []
-        const cat: {id:number,name:string}[] = []
+        const cat: {id:number,name:string,short:string}[] = []
         categories.forEach(c => {
             cat.push({
                 id: c.id,
-                name: c.name
+                name: c.name,
+                short: c.shorttag
             })
         })
         if ('category' in FORM_ENTRY_LABELS) {
@@ -336,14 +337,19 @@ class FormContainer extends React.Component<IFormContainer> {
         }
         return forms
     }
+
+    getCategoryName(short: string) {
+        return this.props.categories.filter(c => c.shorttag === short)[0].name
+    }
     
     submitedFormContent(submited: IEnteredValues, exclude: string[], formItems: formItems, imageLabel?: string,) {
         const content : textContent[] = []
         Object.keys(submited).forEach(item => {
             if ((exclude.filter((ex) => ex === item))[0] !== item) {
+                console.log(item)
                 content.push({
                     label: item === 'avatar' ? 'Tummnagel' : item === 'source' ? 'Printbidrag' : formItems[item].label ,
-                    content: submited[item],
+                    content: item === 'category' ? this.getCategoryName(submited[item]) : submited[item],
                     imageUrl: imageLabel === item ? `${TEMP_AVATAR_SYM}/${submited[item]}` : undefined
                 })
             }
