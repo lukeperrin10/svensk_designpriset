@@ -83,6 +83,10 @@
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
 
+"@types/uniqid@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@types/uniqid/-/uniqid-4.1.3.tgz#db256fb3e7717e9e4c292a5cfd12cb9e0e6d0ffa"
+
 "@types/utf8@^2.1.6":
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/@types/utf8/-/utf8-2.1.6.tgz#430cabb71a42d0a3613cce5621324fe4f5a25753"
@@ -2209,6 +2213,10 @@ union-value@^1.0.0:
     get-value "^2.0.6"
     is-extendable "^0.1.1"
     set-value "^0.4.3"
+
+uniqid@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/uniqid/-/uniqid-5.0.3.tgz#917968310edc868d50df6c44f783f32c7d80fac1"
 
 unique-string@^1.0.0:
   version "1.0.0"
