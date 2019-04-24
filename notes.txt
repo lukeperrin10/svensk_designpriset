@@ -86,3 +86,10 @@ Show last 20 rows of file:
 tail -20 [filename]
 Show first 20 rows of file:
 head -20 [filename]
+
+
+
+
+Create symlinks:
+
+ln -s /var/www/www.designpriset.se/wwwroot/admin/temp_avatars /var/www/www.designpriset.se/wwwroot/backend_api/upload_assets/temp_avatars

@@ -2,16 +2,50 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require('express');
 const app = express();
 const util = require('util');
+require('express-async-errors');
 const morgan_1 = __importDefault(require("morgan"));
+const router_1 = require("./src/router");
+const bodyParser = __importStar(require("body-parser"));
 require("console-stamp")(console, { pattern: "yyyy-mm-dd--HH:MM:ss" });
 // logger.token('date');
 app.use(morgan_1.default('[:date[iso]] [ACCESS] :req[x-forwarded-for] - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: 'application/json' }));
+// process.on('unhandledRejection', (reason, promise) => {
+//     console.log('Unhandled Rejection at:', reason || reason)
+//     // Recommended: send the information to sentry.io
+//     // or whatever crash reporting service you use
+//   })
+//
 if (process.env.NODE_ENV === 'development') {
     app.use((req, res, next) => {
+        // if(req.method === 'OPTIONS') {
+        //     console.log('!OPTIONS');
+        // const headers = {
+        //     ["Access-Control-Allow-Origin"]: "*",
+        //     ["Access-Control-Allow-Methods"]: "POST, GET, PUT, DELETE, OPTIONS",
+        //     ["Access-Control-Allow-Credentials"]: false,
+        //     ["Access-Control-Max-Age"]: '86400', // 24 hours
+        //     ["Access-Control-Allow-Headers"]: "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+        // };
+        // // IE8 does not allow domains to be specified, just the *
+        // // headers["Access-Control-Allow-Origin"] = req.headers.origin;
+        // res.writeHead(200, headers);
+        // res.end();
+        // } else {
         // if (config.get<boolean>('allow_all_origins')) {
         //     res.header("Access-Control-Allow-Origin", req.get('origin'))
         // } else {
@@ -22,60 +56,12 @@ if (process.env.NODE_ENV === 'development') {
         res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
         res.header("Access-Control-Allow-Credentials", "true");
         next();
+        // }
     });
 }
-const mysql = require('mysql');
-const pool = mysql.createPool({
-    connectionLimit: 9,
-    host: process.env.DP_BACKEND_MYSQL_HOST,
-    user: process.env.DP_BACKEND_MYSQL_USER,
-    password: process.env.DP_BACKEND_MYSQL_PASSWORD,
-    database: process.env.DP_BACKEND_MYSQL_DATABASE
-});
 const port = 8001;
-// req: any ger SyntaxError: Unexpected token :
-app.get('/', (req, res) => {
-    console.log('request');
-    res.send('Hello World!');
+router_1.initRouter(app);
+app.listen(port, () => {
+    console.log('Server listening on port 8001!');
 });
-app.get('/winner', (req, res) => {
-    pool.query('select * from winner_entries where id = 29731', (error, results, fields) => {
-        if (error)
-            throw error;
-        res.send(results);
-    });
-});
-app.listen(port, () => console.log('Example app listening on port 8001!'));
-function testDatabaseQuery() {
-    pool.query('select * from winner_entries where id = 29731', (error, results, fields) => {
-        if (error)
-            throw error;
-        return results;
-    });
-}
-function testDatabaseInsert(random_string) {
-    pool.getConnection((err, connection) => {
-        connection.beginTransaction((error) => {
-            if (error)
-                throw error;
-            connection.query('INSERT INTO wopii_test_table SET random_string=?', random_string, (err, res, fields) => {
-                if (err) {
-                    return pool.rollback(() => {
-                        throw err;
-                    });
-                }
-                connection.commit((error) => {
-                    if (error) {
-                        return pool.rollback(() => {
-                            throw error;
-                        });
-                    }
-                    console.log('success!');
-                });
-            });
-        });
-    });
-}
-// testDatabaseInsert('tjena hejsan')
-testDatabaseQuery();
 //# sourceMappingURL=server.js.map

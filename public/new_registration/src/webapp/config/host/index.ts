@@ -1,7 +1,7 @@
 const isProd = process.env.NODE_ENV === "production"
 
 
-export const BASE_URL = isProd? "http://www.designpriset.se:8001" : "http://myown.se:8001"
+export const BASE_URL = isProd? "http://www.designpriset.se/wopii_dev_backend" : "http://myown.se:8001"
 export const WINNER_URL = `${BASE_URL}/winners`
 export const PROFILE_URL = `${BASE_URL}/profiles`
 export const ENTRIES_URL = `${BASE_URL}/entries`
