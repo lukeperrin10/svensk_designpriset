@@ -24,8 +24,8 @@ export async function getId(id: number): Promise<Entry> {
 
 export async function create(new_entry: Entry): Promise<Entry> {
     const post_entry = create_entry(new_entry)
-    if (post_entry.avatar) await moveAvatar(post_entry.avatar)
-    if (post_entry.source) await moveSource(post_entry.source)
+    if (post_entry.avatar) await moveAvatar([post_entry.avatar])
+    if (post_entry.source) await moveSource([post_entry.source])
     const insert = await db.query('INSERT INTO entries SET ?', [post_entry])
     const query = await db.query('SELECT * FROM entries WHERE id = ?', insert.insertId)
     if (query.length > 0) {
@@ -43,34 +43,46 @@ export async function create(new_entry: Entry): Promise<Entry> {
     return query
 }
 
-async function moveAvatar(filename: string) {
-    const origin = `./upload_assets/temp_avatars/${filename}`
-    const dest = `./upload_assets/avatars/${filename}`
-    return fs.move(origin, dest, (err) => {
-        if (err) console.error(err)
-        console.log('Moved avatar')
-    })
+async function moveAvatar(filenames: string[]) {
+    for (let i = 0; i<filenames.length; i++) {
+        const origin = `./upload_assets/temp_avatars/${filenames[i]}`
+        const dest = `./upload_assets/avatars/${filenames[i]}`
+        await fs.move(origin, dest, (err) => {
+            if (err) console.error(err)
+            console.log('Moved avatar')
+        })
+    }
 }
 
-async function moveSource(filename: string) {
-    const origin = `./upload_assets/temp_media/${filename}`
-    const dest = `./upload_assets/media/${filename}`
-    return fs.move(origin, dest, (err) => {
-        if (err) console.error(err)
-        console.log('Moved avatar')
-    })
+async function moveSource(filenames: string[]) {
+    for (let i = 0; i<filenames.length; i++) {
+        const origin = `./upload_assets/temp_media/${filenames[i]}`
+        const dest = `./upload_assets/media/${filenames[i]}`
+        await fs.move(origin, dest, (err) => {
+            if (err) console.error(err)
+            console.log('Moved avatar')
+        })
+    }
+    
 }
 
 export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
     const querys: db.queryObj[] = []
-    new_entries.forEach(entry => {
-        // if (entry.avatar) await moveAvatar(entry.avatar)
-        // if (entry.source) await moveSource(entry.source)
+    const avatars : string[] = []
+    const sources : string[] = []
+    new_entries.forEach(new_entry => {
+        const entry = create_entry(new_entry)
         querys.push({
             query: 'INSERT INTO entries SET ?',
-            args: [create_entry(entry)]
+            args: [entry]
         })
+        if (entry.avatar) avatars.push(entry.avatar)
+        if (entry.source) sources.push(entry.source)
     })
+    
+    await moveAvatar(avatars)
+    await moveSource(sources)
+
     const batchInsert = await db.batchQuery(querys)
     const responseQuerys: db.queryObj[] = []
     batchInsert.forEach((insert: any) => {
