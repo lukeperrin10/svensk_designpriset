@@ -27,7 +27,7 @@ class RegistrationInfo extends React.Component {
                 <div style={styles.line}></div>
                 <div style={styles.warningContainer}>
                     <p style={styles.warningP}>Detta är en ny version av registreringsformuläret.</p>
-                    <p style={styles.warningP}>Upplever du problem så kan du använda den gamla <a href={OLD_REGISTRATION_URL}>här</a></p>
+                    <p style={styles.warningP}>Upplever du problem? Vänligen kontakta <a href="mailto:info@designpriset.se">info@designpriset.se</a> eller använd den gamla registreringen <a href={OLD_REGISTRATION_URL}>här</a></p>
                     
                 </div>
                 
