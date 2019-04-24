@@ -62,7 +62,5 @@ initRouter(app)
 
 app.listen(port, () => {
     console.log('Server listening on port 8001!')
-    console.log(REGISTER_ROOT_URL)
-    console.log(SITE_URL)
 });
 
