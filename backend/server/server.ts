@@ -5,6 +5,8 @@ require('express-async-errors');
 import logger from 'morgan'
 import {initRouter} from './src/router'
 import * as bodyParser from 'body-parser'
+import { REGISTER_ROOT_URL } from './src/constants/temp_contants';
+import { SITE_URL } from './src/constants/temp_contants';
 
 require( "console-stamp" )( console, {pattern: "yyyy-mm-dd--HH:MM:ss"} );
 
@@ -58,5 +60,9 @@ const port = 8001
 
 initRouter(app)
 
-app.listen(port, () => console.log('Server listening on port 8001!'));
+app.listen(port, () => {
+    console.log('Server listening on port 8001!')
+    console.log(REGISTER_ROOT_URL)
+    console.log(SITE_URL)
+});
 

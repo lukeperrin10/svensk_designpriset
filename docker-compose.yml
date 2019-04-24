@@ -34,6 +34,8 @@ services:
             - DP_BACKEND_MYSQL_ROOT_PASSWORD=secret 
             - DP_BACKEND_MYSQL_USER=wopii 
             - DP_BACKEND_MYSQL_HOST=mysql
+            - DP_BACKEND_REGISTER_ROOT_URL=http://myown.se:3000
+            - DP_BACKEND_SITE_URL=http://localhost:8011/clone
             - NODE_ENV=development
         command: nodemon server.ts
         # links:
