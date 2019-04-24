@@ -1,5 +1,5 @@
 import * as nodeMailer from 'nodemailer'
-import { REGISTER_ROOT_URL } from '../constants/temp_contants';
+import { REGISTER_ROOT_URL, ADMIN_EMAIL } from '../constants/temp_contants';
 import { getRegisterMailContent, getSubjectRegister, getRegisterMailAdminContent } from './mail_content';
 import { Entry, Profile } from 'dbtypes';
 
@@ -55,11 +55,10 @@ export function generateAdminLink(id: number, secret: string) {
 }
 // WARNING CHANGE EMAIL ADRESS!
 export async function sendRegisterEmails(profile: Profile, entries: Entry[], update: boolean) {
-    console.log('mail handler entries')
-    console.log(entries)
-    await mail('johan.g.hjalmarsson@gmail.com', getSubjectRegister(profile, update), 'text', 
+    await mail(profile.mail, getSubjectRegister(profile, update), 'text', 
         getRegisterMailContent(false, generateUserLink(profile.id, profile.secret), profile, entries)).catch(err => console.log(err));
-    await mail('johan.g.hjalmarsson@gmail.com', getSubjectRegister(profile, update), 'text', 
+
+    await mail(ADMIN_EMAIL, getSubjectRegister(profile, update), 'text', 
         getRegisterMailAdminContent(false, generateAdminLink(profile.id, profile.secret), profile, entries)).catch(err => console.log(err));
 }
 

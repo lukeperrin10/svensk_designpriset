@@ -346,7 +346,6 @@ class FormContainer extends React.Component<IFormContainer> {
         const content : textContent[] = []
         Object.keys(submited).forEach(item => {
             if ((exclude.filter((ex) => ex === item))[0] !== item) {
-                console.log(item)
                 content.push({
                     label: item === 'avatar' ? 'Tummnagel' : item === 'source' ? 'Printbidrag' : formItems[item].label ,
                     content: item === 'category' ? this.getCategoryName(submited[item]) : submited[item],
@@ -382,7 +381,6 @@ class FormContainer extends React.Component<IFormContainer> {
             'id', 
             'modified'
         ]
-        console.log(this.state.savedEntries)
         return (
             <div style={styles.container}>
             {!this.state.didLoad ?
