@@ -120,7 +120,6 @@ class Registration extends React.Component<Props, State> {
         await this.props.saveProfile(profile)
         const {profileState} = this.props
         const pId = profileState.profile[0] !== undefined ? profileState.profile[0].id : false
-        console.log(pId)
         if (pId) {
             await this.props.saveEntries(this.addProfileId(entries, pId))
             const {categoriesState, profileState, entriesState} = this.props
@@ -141,16 +140,12 @@ class Registration extends React.Component<Props, State> {
         entries.forEach(entry => {
             entry.profile_id = profileId
         })
-        console.log(entries)
         return entries
     }
 
     render() {
         const {categories} = this.props.categoriesState
-        // const {categoriesState, profileState, entriesState} = this.props
         const {didLoad, didUpload, edit, editIsAdmin} = this.state
-        console.log(this.props.categoriesState)
-        // const errors : boolean = categoriesState.error !== null || profileState.error !== null || entriesState.error !== null
         return (
             <Router>
                 {!didLoad ?

@@ -35,7 +35,7 @@ class FormContainer extends React.Component<IFormContainer> {
     state = {
         didLoad: true,
         savedProfile: {},
-        savedEntries: [],
+        savedEntries: {},
         tempProfile: {},
         tempEntries: {},
         disabledEntries: {},
@@ -108,7 +108,7 @@ class FormContainer extends React.Component<IFormContainer> {
 
         if (key in entries) delete entries[key]
         if (key in temps) delete temps[key]
-        this.setState({saveEntries: entries, tempEntries: temps})
+        this.setState({savedEntries: entries, tempEntries: temps})
 
         // Delete from server later
         // Delete temp assets server?
@@ -211,9 +211,9 @@ class FormContainer extends React.Component<IFormContainer> {
             this.setState({errorEntries: {...this.state.errorEntries, [entryKey]: "Bild saknas"}})
         }
         if (!error) {
-            const arr: any[] = Array.from(this.state.savedEntries)
-            arr.push(savedEntry)
-            this.setState({savedEntries: arr, disabledEntries: {...this.state.disabledEntries, [entryKey]: true}}, () => this.entriesSaved())
+            const obj: {} = JSON.parse(JSON.stringify(this.state.savedEntries))
+            obj[entryKey] = savedEntry
+            this.setState({savedEntries: obj, disabledEntries: {...this.state.disabledEntries, [entryKey]: true}}, () => this.entriesSaved())
             
         }
     }
@@ -231,7 +231,11 @@ class FormContainer extends React.Component<IFormContainer> {
 
     saveContent() {
         const {savedProfile, savedEntries} = this.state
-        this.props.saveContent(savedProfile as INewProfile, savedEntries as INewEntry[])
+        const entries : INewEntry[] = []
+        Object.keys(savedEntries).forEach(entry => {
+            entries.push(savedEntries[entry])
+        })
+        this.props.saveContent(savedProfile as INewProfile, entries)
     }
 
     addNewEntryForm() {
@@ -372,6 +376,7 @@ class FormContainer extends React.Component<IFormContainer> {
             'id', 
             'modified'
         ]
+        console.log(this.state.savedEntries)
         return (
             <div style={styles.container}>
             {!this.state.didLoad ?
