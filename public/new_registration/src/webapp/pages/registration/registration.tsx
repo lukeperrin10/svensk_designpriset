@@ -58,11 +58,17 @@ class Registration extends React.Component<Props, State> {
         editSecret: undefined,
         editProfile: {},
         editEntries: [],
-        showErrorModal: false
+        showErrorModal: false,
+        isAllowed: this.isAllowed()
     }
     constructor(p: Props) {
         super(p)
         // localStorage.clear()
+    }
+
+    isAllowed() {
+        const query = queryString.parse(location.search)
+        return 'wopii_dev' in query
     }
 
     componentDidMount() {
@@ -145,32 +151,38 @@ class Registration extends React.Component<Props, State> {
 
     render() {
         const {categories} = this.props.categoriesState
-        const {didLoad, didUpload, edit, editIsAdmin} = this.state
+        const {didLoad, didUpload, edit, editIsAdmin, isAllowed} = this.state
         return (
             <Router>
-                {!didLoad ?
-                <Loader />
+                {!isAllowed ?
+                <div>Du har inte tillåtelse att visa den här sidan</div>
                 :
-                <Switch>
-                    <Route exact path="/" render={() => (
-                        <div>
-                            <RegistrationInfo />
-                            <FormContainer adminMode={false} categories={categories} saveContent={this.postContent} />
-                            {didUpload ? <Redirect to='/bekraftelse' /> : null}
-                        </div>
-                        )
-                    }/>
-                    <Route exact path="/edit" render={() => (
-                        <div>
-                            <FormContainer adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
-                            {didUpload ? <Redirect to='/bekraftelse' /> : null}
-                        </div>
-                        )
-                    }/>
-                    <Route path="/bekraftelse" render={() => (<ConfirmationContainer />)} />
-                </Switch>
-                }
-                <ErrorModal show={this.state.showErrorModal} onClose={() => this.setState({showErrorModal: false})} />
+                <div>
+                    {!didLoad ?
+                    <Loader />
+                    :
+                    <Switch>
+                        <Route exact path="/" render={() => (
+                            <div>
+                                <RegistrationInfo />
+                                <FormContainer adminMode={false} categories={categories} saveContent={this.postContent} />
+                                {didUpload ? <Redirect to='/bekraftelse' /> : null}
+                            </div>
+                            )
+                        }/>
+                        <Route exact path="/edit" render={() => (
+                            <div>
+                                <FormContainer adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
+                                {didUpload ? <Redirect to='/bekraftelse' /> : null}
+                            </div>
+                            )
+                        }/>
+                        <Route path="/bekraftelse" render={() => (<ConfirmationContainer />)} />
+                    </Switch>
+                    }
+                    <ErrorModal show={this.state.showErrorModal} onClose={() => this.setState({showErrorModal: false})} />
+                </div>
+            }
             </Router>
         )
     }
