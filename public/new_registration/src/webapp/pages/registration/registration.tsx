@@ -34,6 +34,20 @@ interface DispatchProps {
 type Props = ReduxProps & DispatchProps
 interface State {}
 
+const Loader = () => {
+    return (
+        <div style={styles.spinner}>
+            <img src={logo} alt='Logo' />
+            <Spinner animation="border" />
+            <div style={styles.loadingText}>
+                <p>Laddar sidan...</p>
+                <p>Tar detta väldigt lång tid?</p>
+                <p>Vänligen kontakta info@designpriset.se eller använd den gamla registreringen <a href={OLD_REGISTRATION_URL}>här</a> </p>
+            </div>
+        </div>
+    )
+}
+
 class Registration extends React.Component<Props, State> {
     state = {
         didLoad: false,
@@ -140,15 +154,7 @@ class Registration extends React.Component<Props, State> {
         return (
             <Router>
                 {!didLoad ?
-                <div style={styles.spinner}>
-                    <img src={logo} alt='Logo' />
-                    <Spinner animation="border" />
-                    <div style={styles.loadingText}>
-                        <p>Laddar sidan...</p>
-                        <p>Tar detta väldigt lång tid?</p>
-                        <p>Vänligen kontakta info@designpriset.se eller använd den gamla registreringen <a href={OLD_REGISTRATION_URL}>här</a> </p>
-                    </div>
-                </div>
+                <Loader />
                 :
                 <Switch>
                     <Route exact path="/" render={() => (
