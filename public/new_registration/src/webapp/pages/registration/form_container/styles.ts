@@ -48,5 +48,11 @@ export default {
     },
     space: {
         height: 75
+    },
+    logo: {
+        height: 50
+    },
+    modalBody: {
+        margin: 'auto'
     }
 }

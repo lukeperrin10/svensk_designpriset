@@ -16,6 +16,7 @@ import SubmitedFormContent from 'src/webapp/components/submited_form_content';
 import { textContent } from 'src/webapp/components/submited_form_content/submited_form_content';
 import Modal from 'react-bootstrap/Modal'
 import {CACHED_ENTRIES, CACHED_PROFILE} from '../../../model/constants'
+import Logo from '../../../assets/img/logo.png'
 
 
 interface existingContent {
@@ -428,8 +429,11 @@ class FormContainer extends React.Component<IFormContainer> {
             <Modal dialogClassName="custom-modal" size="lg" centered show={displayReview} onHide={() => this.setState({displayReview: false})}>
                 <Modal.Header>
                     <Modal.Title>Bekräfta uppgifter</Modal.Title>
+                    <img style={styles.logo} src={Logo} alt='Logo' />
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body style={styles.modalBody}>
+                    <p>Kontrollera uppgifterna noggrant och se till att allt stämmer.</p>
+                    <p>Klicka sedan på knappen "Skicka in"</p>
                     <SubmitedFormContent 
                         title="Användaruppgifter" 
                         content={this.submitedFormContent(tempProfile,ignoreLabels, FORM_PROFILE_LABELS)} />
@@ -448,7 +452,7 @@ class FormContainer extends React.Component<IFormContainer> {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => this.setState({displayReview: false})} variant="secondary">Redigera</Button>
-                    <Button onClick={() => this.saveContent()} variant="primary">Skicka in</Button>
+                    <Button style={styles.buttonPrimary} onClick={() => this.saveContent()} variant="primary">Skicka in</Button>
                 </Modal.Footer>
             </Modal>
             <Modal centered show={checkShouldClear}>
