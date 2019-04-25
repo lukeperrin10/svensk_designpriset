@@ -1,12 +1,12 @@
 import { PRICE_PER_ENTRY, CURRENT_YEAR, SITE_URL, REGISTER_DEADLINE_DATE } from "../constants/temp_contants"
-import { Entry, Profile } from "dbtypes";
+import { Entry, Profile, Category } from "dbtypes";
 
 export function getSubjectRegister(profile: Profile, update: boolean) {
     return update ? `${profile.company} har uppdaterat sitt bidrag` : `Anmäland Designpriset - ${profile.company}`
 }
 
 
-export function getRegisterMailContent(update: boolean, registerLink: string, profile: Profile, entries: Entry[]) {
+export function getRegisterMailContent(update: boolean, registerLink: string, profile: Profile, entries: Entry[], categories: Category[]) {
     let title
     let ingress
     // WARNING!
@@ -56,7 +56,7 @@ export function getRegisterMailContent(update: boolean, registerLink: string, pr
                             <br> \
                             <br>  \
                             ${getProfileContent(profile)}  \
-                            ${getEntryContent(entries)}
+                            ${getEntryContent(entries, categories)}
                             ${button}
                             L&auml;s mer om t&auml;vlingen p&aring; <a href='http://www.designpriset.se' style='color:#c6a230;'>www.designpriset.se</a> \
                             <br> \
@@ -74,13 +74,13 @@ export function getRegisterMailContent(update: boolean, registerLink: string, pr
     return message
 }
 
-export function getRegisterMailAdminContent(update: boolean, registerLink: string, profile: Profile, entries: Entry[]) {
+export function getRegisterMailAdminContent(update: boolean, registerLink: string, profile: Profile, entries: Entry[], categories: Category[]) {
     const title = update ? `${profile.company} har uppdaterat sitt bidrag` : `Ny anmälan: ${profile.company}`
 
     let content = getProfileContent(profile);
     content += calculatePrice(entries, true);
     content += "<br/>"
-    content += getEntryContent(entries)
+    content += getEntryContent(entries, categories)
 
     let mailContent = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
     <html>
@@ -148,7 +148,7 @@ function getProfileContent(profile: Profile) {
     return content
 }
 
-function getEntryContent(entries: Entry[]) {
+function getEntryContent(entries: Entry[], categories: Category[]) {
     const subheading = "font-family:Arial;Helvetica;font-size:25px;font-weight:bold; margin-bottom:10px; color:#c6a230;"
 
     // const targets: {[key: string]: string} = {
@@ -169,11 +169,17 @@ function getEntryContent(entries: Entry[]) {
     content += '<ul style="list-style:none;padding:0;">'
     entries.forEach(entry => {
         i++
+        let cat : string = ''
+        categories.forEach(category => {
+            if (category.shorttag === entry.category) {
+                cat = category.name
+            }
+        })
         const avatar = `${SITE_URL}/admin/avatars/${entry.avatar}`
         content += `<h3 style="${subheading}">Bidrag ${i}</h3>`
         content += `<a target="_blank" href="${avatar}"><img height="200px;" src="${avatar}"/></a><br/><br/>`
         content += `<li>Namn: ${entry.entry_name}</li>`
-        content += `<li>Kategori: ${entry.category}</li>`
+        content += `<li>Kategori: ${cat}</li>`
         content += `<li>Designer: ${entry.designer}</li>`
         content += entry.illustrator ? `<li>Illustratör/fotograf: ${entry.illustrator}</li>` : ''
         content += `<li>Projektledare: ${entry.leader}</li>`
