@@ -44,9 +44,14 @@ export class DPRouter<T> {
     // WARNING: Se över denna och POST
     protected put() {
         this.router.put('/:id', async (req, res) => {
-            // if (!('id' in req.args)) {
-            //     throw new BadRequest('Put request should contain an id')
-            // }
+            console.log(req.params.id)
+            console.log(req.body.id)
+            if (!('id' in req.params)) {
+                res.status(400).json('Put request should contain an id')
+            }
+            if (req.params.id != req.body.id) {
+                res.status(400).json('Id doesnt match widh body')
+            }
             res.json(await this.model.update(<T>req.body))
         })
     }

@@ -4,7 +4,7 @@ import { IState, IProfileState, IEntriesState, ICategoryState} from 'src/webapp/
 import FormContainer from './form_container'
 import ConfirmationContainer from './confirmation_container'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import { INewProfile, INewEntry } from 'src/webapp/model';
+import { INewProfile, INewEntry, IProfile } from 'src/webapp/model';
 import { saveProfile, getProfile } from 'src/webapp/redux/actions/profile';
 import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
 import { getCategories } from 'src/webapp/redux/actions/categories';
@@ -121,8 +121,36 @@ class Registration extends React.Component<Props, State> {
             this.setState({editIsAdmin: true})
         }
     }
+
+    // postContent = async (profile: INewProfile, entries: INewEntry[]) => {
+    //     if (this.state.edit) {
+    //         this.updateContent(profile, entries)
+    //     } else {
+    //         this.postContentPost(profile, entries)
+    //     }
+    // }
+
+    // async updateContent(profile: INewProfile, entries: INewEntry[]) {
+    //     const origin = this.getEditContent()
+    //     const orgProfile = JSON.parse(JSON.stringify(origin.profile))
+    //     const orgEntries = Array.from(origin.entries)
+    //     console.log(orgEntries)
+    //     console.log(entries)
+    //     Object.keys(orgProfile).forEach(key => {
+    //         if (key in profile && key !== 'invoice_paid' && key !== 'secret') {
+    //             orgProfile[key] = profile[key]
+    //         }
+    //     })
+
+    //     orgEntries.forEach(entry => {
+    //         Object.keys(entry).forEach(key => {
+
+    //         })
+    //     })
+        
+    // }
     
-    postContent = async (profile: INewProfile, entries: INewEntry[]) => {
+    postContent = async (profile: INewProfile | IProfile, entries: INewEntry[]) => {
         await this.props.saveProfile(profile)
         const {profileState} = this.props
         const pId = profileState.profile[0] !== undefined ? profileState.profile[0].id : false
@@ -133,7 +161,6 @@ class Registration extends React.Component<Props, State> {
             if (categoriesState.error !== null || profileState.error !== null || entriesState.error !== null) {
                 this.setState({showErrorModal: true, didUpload: false})    
             } else {
-                console.log('succes uploading')
                 localStorage.setItem(DID_POST_FORM, "true")
                 this.setState({didUpload: true}) 
             }
@@ -170,7 +197,7 @@ class Registration extends React.Component<Props, State> {
                             </div>
                             )
                         }/>
-                        <Route exact path="/edit" render={() => (
+                        <Route path="/edit" render={() => (
                             <div>
                                 <FormContainer adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
                                 {didUpload ? <Redirect to='/bekraftelse' /> : null}

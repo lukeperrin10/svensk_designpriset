@@ -11,7 +11,7 @@ import ToolTip from 'react-bootstrap/Tooltip'
 import { isEmptyObject } from 'src/webapp/helpers';
 import DpImageUpload from './dp_image_upload';
 import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
-import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_SYM } from 'src/webapp/config/host';
+import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_SYM , AVATAR_SYM} from 'src/webapp/config/host';
 import SubmitedFormContent from 'src/webapp/components/submited_form_content';
 import { textContent } from 'src/webapp/components/submited_form_content/submited_form_content';
 import Modal from 'react-bootstrap/Modal'
@@ -192,9 +192,16 @@ class FormContainer extends React.Component<IFormContainer> {
             delete errors[entryKey]
             this.setState({errorEntries: errors})
         } 
-        const savedEntry: INewEntry = {profile_id: 9999999,entry_name: '',designer: '',
+        let savedEntry : INewEntry 
+        if (entryKey in tempEntries && 'id' in tempEntries[entryKey]) {
+            savedEntry = tempEntries[entryKey] as IEntry
+            
+        } else {
+             savedEntry = {profile_id: 9999999,entry_name: '',designer: '',
             illustrator: '',leader: '', avatar: '', secret: '', year: '',customer: '',
-            source: '', format: '', size: '', category: '', webpage: ''}
+            source: '', format: '', size: '', category: '', webpage: ''} as INewEntry
+        }
+        
         Object.keys(savedEntry).forEach(key => {
             if (!(key === 'secret' || key === 'invoice_paid')) {
                 if (key in entry) {
@@ -270,7 +277,7 @@ class FormContainer extends React.Component<IFormContainer> {
 
     getEntryForms() {
         const {tempEntries, disabledEntries, errorEntries, enableDelete} = this.state
-        const {categories} = this.props
+        const {categories, editContent} = this.props
         const amountOfForms = isEmptyObject(tempEntries) ? 1 : Object.keys(tempEntries).length
         const forms = []
         const cat: {id:number,name:string,short:string}[] = []
@@ -313,7 +320,7 @@ class FormContainer extends React.Component<IFormContainer> {
                         displayErrorProps={key in errorEntries}
                         key={'avatar'} 
                         limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}
-                        uploadedImage={uploadedAvatar ? `${TEMP_AVATAR_SYM}/${tempEntries[key].avatar}` : undefined}
+                        uploadedImage={uploadedAvatar ? `${editContent ? AVATAR_SYM : TEMP_AVATAR_SYM}/${tempEntries[key].avatar}` : undefined}
                         deleteImage={uploadedAvatar ? () => this.removeMediaFromEntry(key, 'avatar') : undefined}
                         />,
                     <DpImageUpload 
@@ -363,6 +370,8 @@ class FormContainer extends React.Component<IFormContainer> {
 
     render() {
         const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview, checkShouldClear} = this.state 
+        console.log(tempProfile)
+        console.log(tempEntries)
         const ignoreLabels = [
             'created', 
             'id', 

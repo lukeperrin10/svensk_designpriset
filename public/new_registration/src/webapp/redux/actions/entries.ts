@@ -89,7 +89,7 @@ export function getEntries(profile_id: number): ThunkAction<Promise<IEntriesActi
     }
 }
 
-function fetchSaveEntries(e: INewEntry[]): ThunkAction<Promise<IEntriesAction>, IState, undefined, IEntriesAction> {
+function fetchSaveEntries(e: INewEntry[] | IEntry[]): ThunkAction<Promise<IEntriesAction>, IState, undefined, IEntriesAction> {
     return async (dispatch) => {
         dispatch(saveEntriesAction())
         try {
@@ -113,7 +113,7 @@ function fetchSaveEntries(e: INewEntry[]): ThunkAction<Promise<IEntriesAction>, 
     }
 }
 
-export function saveEntries(e: INewEntry[]): ThunkAction<Promise<IEntriesAction>, IState, undefined, IEntriesAction> {
+export function saveEntries(e: INewEntry[] | IEntry[]): ThunkAction<Promise<IEntriesAction>, IState, undefined, IEntriesAction> {
     return async (dispatch, getState) => {
         if(!getState().entriesState.isFetching && !getState().entriesState.dataLoaded) {
             return dispatch(fetchSaveEntries(e))

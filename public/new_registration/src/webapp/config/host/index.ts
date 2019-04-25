@@ -18,5 +18,9 @@ export const TEMP_ENTRY_MEDIA_URL = `${BASE_URL}/temp_entry_media`
 
 export const TEMP_AVATAR_SYM = isProd ? `${FRONTEND_URL}/admin/temp_avatars` : `${FRONTEND_URL}/clone/admin/temp_avatars`
 
+export const AVATAR_SYM = isProd ? `${FRONTEND_URL}/admin/avatars` : `${FRONTEND_URL}/clone/admin/avatars`
+export const TEMP_MEDIA_SYM = isProd ? `${FRONTEND_URL}/admin/temp_media` : `${FRONTEND_URL}/clone/admin/temp_media`
+export const MEDIA_SYM = isProd ? `${FRONTEND_URL}/admin/media` : `${FRONTEND_URL}/clone/admin/media`
+
 export const ROOT_URL = isProd ? `${FRONTEND_URL}/register2` : "http://myown.se:3000"
 export const OLD_REGISTRATION_URL = "http://designpriset.se"

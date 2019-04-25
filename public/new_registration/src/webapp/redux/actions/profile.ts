@@ -90,12 +90,13 @@ export function getProfile(id: number): ThunkAction<Promise<IProfileAction>, ISt
     }
 }
 
-function fetchSaveProfile(profile: INewProfile): ThunkAction<Promise<IProfileAction>, IState, undefined, IProfileAction> {
+function fetchSaveProfile(profile: INewProfile | IProfile): ThunkAction<Promise<IProfileAction>, IState, undefined, IProfileAction> {
     return async (dispatch) => {
         dispatch(saveProfileAction())
         try {
-            const method = "POST"
-            const url = host.PROFILE_URL
+            const update = 'id' in profile
+            const method = update ? "PUT" : "POST"
+            const url = update ? `${host.PROFILE_URL}/${profile['id']}` : host.PROFILE_URL
             const headers = {"Content-Type": "application/json; charset=utf-8"}
             const response = await fetch(url, {
                 method: method,
@@ -112,7 +113,7 @@ function fetchSaveProfile(profile: INewProfile): ThunkAction<Promise<IProfileAct
     }
 }
 
-export function saveProfile(profile: INewProfile): ThunkAction<Promise<IProfileAction>, IState, undefined, IProfileAction> {
+export function saveProfile(profile: INewProfile | IProfile): ThunkAction<Promise<IProfileAction>, IState, undefined, IProfileAction> {
     return async (dispatch, getState) => {
         if(!getState().profileState.isFetching && !getState().profileState.dataLoaded) {
             return dispatch(fetchSaveProfile(profile))

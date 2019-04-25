@@ -51,10 +51,12 @@ async function moveAvatar(filenames: string[]) {
     for (let i = 0; i<filenames.length; i++) {
         const origin = `${TEMP_AVATAR_PATH}/${filenames[i]}`
         const dest = `${AVATAR_PATH}/${filenames[i]}`
-        await fs.move(origin, dest, (err) => {
-            if (err) console.error(err)
-            console.log('Moved avatar')
-        })
+        if (fs.existsSync(origin)) {
+            await fs.move(origin, dest, (err) => {
+                if (err) console.error(err)
+                console.log('Moved avatar')
+            })
+        }
     }
 }
 
@@ -62,23 +64,26 @@ async function moveSource(filenames: string[]) {
     for (let i = 0; i<filenames.length; i++) {
         const origin = `${TEMP_MEDIA_PATH}/${filenames[i]}`
         const dest = `${MEDIA_PATH}/${filenames[i]}`
-        await fs.move(origin, dest, (err) => {
-            if (err) console.error(err)
-            console.log('Moved avatar')
-        })
+        if (fs.existsSync(origin)) {
+            await fs.move(origin, dest, (err) => {
+                if (err) console.error(err)
+                console.log('Moved avatar')
+            })
+        }
     }
     
 }
 
-export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
+async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry> {
     const querys: db.queryObj[] = []
     const avatars : string[] = []
     const sources : string[] = []
     new_entries.forEach(new_entry => {
         const entry = create_entry(new_entry)
+        const updateEntry = 'id' in entry
         querys.push({
-            query: 'INSERT INTO entries SET ?',
-            args: [entry]
+            query: updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?',
+            args: updateEntry ? [entry, entry.id] : [entry]
         })
         if (entry.avatar) avatars.push(entry.avatar)
         if (entry.source) sources.push(entry.source)
@@ -109,7 +114,9 @@ export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
                     batchSelect.forEach(batch => {
                         entries.push(batch[0])
                     })
-                    sendRegisterEmails(profile[0], entries, false)
+                    if (!update) {
+                        sendRegisterEmails(profile[0], entries, false)
+                    }
                 }
             }
         }
@@ -118,6 +125,10 @@ export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
     }
     
     return batchSelect
+}
+
+export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
+    return batch(new_entries, false)
 }
 
 export async function update(entry: Entry): Promise<Entry> {
@@ -129,6 +140,11 @@ export async function update(entry: Entry): Promise<Entry> {
         return error
     }
 }
+
+export async function batchUpdate(entries: Array<Entry>): Promise<Entry> {
+    return batch(entries, true)
+}
+
 function create_entry(entry: Entry): Entry {
     const new_entry: Entry = {
         profile_id: entry.profile_id,
@@ -148,8 +164,13 @@ function create_entry(entry: Entry): Entry {
         is_nominated: entry.is_nominated || 0,
         is_winner_gold: entry.is_winner_gold || 0,
         is_winner_silver: entry.is_winner_silver || 0,
-        sent_nominee_notification: entry.sent_nominee_notification || "1000-01-01",
+        sent_nominee_notification: escapeDate(entry.sent_nominee_notification) || "1000-01-01",
         motivation: entry.motivation || "",
     }
     return new_entry
+}
+
+// WARNING: Find better solution for formating dates
+function escapeDate(date: string) {
+    return date.replace("T", " ").replace("Z", " ")
 }
