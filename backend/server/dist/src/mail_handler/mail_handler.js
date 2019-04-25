@@ -35,12 +35,11 @@ function mail(to, subject, message, html) {
         else {
             transporter = nodeMailer.createTransport({
                 host: "smtp02.ports.local",
-                port: 587,
-                secure: false
+                port: 25
             });
         }
         const content = {
-            from: '"Designpriset (no-reply)" <no-reply@designpriset.se>',
+            from: '"Designpriset" <info@designpriset.se>',
             to: to,
             subject: subject,
             text: message,
@@ -57,6 +56,7 @@ function mail(to, subject, message, html) {
         });
     });
 }
+exports.mail = mail;
 function generateUserLink(id, secret) {
     console.log(`gen user:  id: ${id}, secret: ${secret}`);
     return `${temp_contants_1.REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}`;

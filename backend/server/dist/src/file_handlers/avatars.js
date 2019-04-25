@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
 const uniqid_1 = __importDefault(require("uniqid"));
-const folderPath = './upload_assets/avatars/';
+const temp_contants_1 = require("../constants/temp_contants");
+const folderPath = temp_contants_1.AVATAR_PATH + '/';
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
         cb(null, folderPath);

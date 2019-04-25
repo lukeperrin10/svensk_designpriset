@@ -63,5 +63,6 @@ const port = 8001;
 router_1.initRouter(app);
 app.listen(port, () => {
     console.log('Server listening on port 8001!');
+    console.log('Node env: ' + process.env.NODE_ENV);
 });
 //# sourceMappingURL=server.js.map

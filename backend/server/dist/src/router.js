@@ -22,7 +22,6 @@ const error_1 = require("./error");
 function initRouter(app) {
     console.log('init router');
     const router = express.Router();
-    // router.use('/winners', winners)
     router.use('/entries', entries_1.router);
     router.use('/profiles', profiles_1.router);
     router.use('/categories', category_1.router);

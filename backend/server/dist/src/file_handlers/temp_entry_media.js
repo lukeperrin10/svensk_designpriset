@@ -7,7 +7,8 @@ const multer_1 = __importDefault(require("multer"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const replacer_1 = require("./replacer");
-const folderPath = './upload_assets/temp_media/';
+const temp_contants_1 = require("../constants/temp_contants");
+const folderPath = temp_contants_1.TEMP_MEDIA_PATH + '/';
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
         cb(null, folderPath);

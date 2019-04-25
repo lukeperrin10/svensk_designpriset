@@ -5,7 +5,7 @@ import { Entry, Profile } from 'dbtypes';
 
 
 // WARNING : Change user and pass!
-async function mail(to: string, subject: string, message: string, html?: string) {
+export async function mail(to: string, subject: string, message: string, html?: string) {
 
     let transporter
 
@@ -21,13 +21,12 @@ async function mail(to: string, subject: string, message: string, html?: string)
     } else {
         transporter = nodeMailer.createTransport({
             host: "smtp02.ports.local",
-            port: 587,
-            secure: false
+            port: 25
         })
     }
 
     const content = {
-        from: '"Designpriset (no-reply)" <no-reply@designpriset.se>',
+        from: '"Designpriset" <info@designpriset.se>',
         to: to,
         subject: subject,
         text: message,

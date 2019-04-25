@@ -2,6 +2,10 @@ import * as db from '../db'
 import {Entry as dbtype} from '../types/dbtypes'
 import fs from 'fs-extra'
 import { sendRegisterEmails } from '../mail_handler/mail_handler';
+import { TEMP_MEDIA_PATH } from '../constants/temp_contants';
+import { MEDIA_PATH } from '../constants/temp_contants';
+import { TEMP_AVATAR_PATH } from '../constants/temp_contants';
+import { AVATAR_PATH } from '../constants/temp_contants';
 
 export interface Entry extends Partial<dbtype> {}
 
@@ -45,8 +49,8 @@ export async function create(new_entry: Entry): Promise<Entry> {
 
 async function moveAvatar(filenames: string[]) {
     for (let i = 0; i<filenames.length; i++) {
-        const origin = `./upload_assets/temp_avatars/${filenames[i]}`
-        const dest = `./upload_assets/avatars/${filenames[i]}`
+        const origin = `${TEMP_AVATAR_PATH}/${filenames[i]}`
+        const dest = `${AVATAR_PATH}/${filenames[i]}`
         await fs.move(origin, dest, (err) => {
             if (err) console.error(err)
             console.log('Moved avatar')
@@ -56,8 +60,8 @@ async function moveAvatar(filenames: string[]) {
 
 async function moveSource(filenames: string[]) {
     for (let i = 0; i<filenames.length; i++) {
-        const origin = `./upload_assets/temp_media/${filenames[i]}`
-        const dest = `./upload_assets/media/${filenames[i]}`
+        const origin = `${TEMP_MEDIA_PATH}/${filenames[i]}`
+        const dest = `${MEDIA_PATH}/${filenames[i]}`
         await fs.move(origin, dest, (err) => {
             if (err) console.error(err)
             console.log('Moved avatar')

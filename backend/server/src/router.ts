@@ -1,6 +1,5 @@
 import {Express, Request, Response, NextFunction} from 'express'
 import * as express from 'express'
-import {router as winners} from './routes/winners'
 import {router as entries} from './routes/entries'
 import {router as profiles} from './routes/profiles'
 import {router as categories} from './routes/category'
@@ -12,8 +11,7 @@ import { MFError, NotFound } from './error';
 
 export function initRouter(app: Express) {
     console.log('init router')
-    const router = express.Router()
-    // router.use('/winners', winners)
+    const router = express.Router() 
     router.use('/entries', entries)
     router.use('/profiles', profiles)
     router.use('/categories', categories)
@@ -25,7 +23,7 @@ export function initRouter(app: Express) {
     router.use((req, res) => {
         res.status(404).json(new NotFound)
     })
-
+   
     router.use((err: MFError, req: Request, res: Response, next: NextFunction) => {
         if (req.app.get('env') !== 'test') {
             console.error(err)

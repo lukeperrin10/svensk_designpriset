@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const folderPath = './upload_assets/media/';
+const temp_contants_1 = require("../constants/temp_contants");
+const folderPath = temp_contants_1.MEDIA_PATH + '/';
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
         cb(null, folderPath);

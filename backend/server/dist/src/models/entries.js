@@ -21,6 +21,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db = __importStar(require("../db"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const mail_handler_1 = require("../mail_handler/mail_handler");
+const temp_contants_1 = require("../constants/temp_contants");
+const temp_contants_2 = require("../constants/temp_contants");
+const temp_contants_3 = require("../constants/temp_contants");
+const temp_contants_4 = require("../constants/temp_contants");
 function getName() {
     return 'Entries';
 }
@@ -70,8 +74,8 @@ exports.create = create;
 function moveAvatar(filenames) {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < filenames.length; i++) {
-            const origin = `./upload_assets/temp_avatars/${filenames[i]}`;
-            const dest = `./upload_assets/avatars/${filenames[i]}`;
+            const origin = `${temp_contants_3.TEMP_AVATAR_PATH}/${filenames[i]}`;
+            const dest = `${temp_contants_4.AVATAR_PATH}/${filenames[i]}`;
             yield fs_extra_1.default.move(origin, dest, (err) => {
                 if (err)
                     console.error(err);
@@ -83,8 +87,8 @@ function moveAvatar(filenames) {
 function moveSource(filenames) {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < filenames.length; i++) {
-            const origin = `./upload_assets/temp_media/${filenames[i]}`;
-            const dest = `./upload_assets/media/${filenames[i]}`;
+            const origin = `${temp_contants_1.TEMP_MEDIA_PATH}/${filenames[i]}`;
+            const dest = `${temp_contants_2.MEDIA_PATH}/${filenames[i]}`;
             yield fs_extra_1.default.move(origin, dest, (err) => {
                 if (err)
                     console.error(err);
