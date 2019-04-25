@@ -131,6 +131,10 @@ export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
     return batch(new_entries, false)
 }
 
+export async function remove(id: number): Promise<Entry> {
+    const remove = await db.query('DELETE FROM entries WHERE ID = ? ', [id])
+    return remove
+}
 export async function update(entry: Entry): Promise<Entry> {
     const update_entry = create_entry(entry)
     try {

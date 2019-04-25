@@ -23,7 +23,14 @@ export class DPRouter<T> {
         this.getId()
         this.put()
         this.post()
+        this.delete()
         return this.router
+    }
+
+    protected delete() {
+        this.router.delete('/:id', (req, res) => {
+            res.status(400).json('You are not allowed to delete')
+        })
     }
 
     protected get() {
