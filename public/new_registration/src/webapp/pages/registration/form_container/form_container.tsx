@@ -28,7 +28,8 @@ interface IFormContainer {
     categories: ICategory[],
     saveContent: (profile: INewProfile, entries: INewEntry[]) => void,
     editContent?: existingContent,
-    adminMode: boolean
+    adminMode: boolean,
+    onDeleteEntry?: (id: number) => void
 }
 
 class FormContainer extends React.Component<IFormContainer> {
@@ -105,12 +106,14 @@ class FormContainer extends React.Component<IFormContainer> {
     removeEntry(key: string) {
         const entries = JSON.parse(JSON.stringify(this.state.savedEntries))
         const temps = JSON.parse(JSON.stringify(this.state.tempEntries))
-
+        let id : number = key in entries && 'id' in entries[key] ? entries[key].id : key in temps && 'id' in temps[key] ? temps[key].id : undefined
         if (key in entries) delete entries[key]
         if (key in temps) delete temps[key]
+        if (this.state.editMode && this.props.onDeleteEntry && id !== undefined) {
+            this.props.onDeleteEntry(id)
+        }
         this.setState({savedEntries: entries, tempEntries: temps})
-
-        // Delete from server later
+        
         // Delete temp assets server?
     }
 

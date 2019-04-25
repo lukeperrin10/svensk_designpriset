@@ -6,7 +6,7 @@ import ConfirmationContainer from './confirmation_container'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import { INewProfile, INewEntry, IProfile } from 'src/webapp/model';
 import { saveProfile, getProfile } from 'src/webapp/redux/actions/profile';
-import { getEntries, saveEntries } from 'src/webapp/redux/actions/entries';
+import { getEntries, saveEntries, deleteEntry } from 'src/webapp/redux/actions/entries';
 import { getCategories } from 'src/webapp/redux/actions/categories';
 import Spinner from 'react-bootstrap/Spinner'
 // import { ROOT_URL } from 'src/webapp/config/host';
@@ -28,7 +28,8 @@ interface DispatchProps {
     getProfile: (i: number) => Promise<any>,
     getEntries: (p: number) => Promise<any>,
     saveEntries: (e: INewEntry[]) => Promise<any>,
-    getCategories: () => Promise<any>
+    getCategories: () => Promise<any>,
+    deleteEntry: (id: number) => Promise<any>
 }
 
 type Props = ReduxProps & DispatchProps
@@ -149,6 +150,12 @@ class Registration extends React.Component<Props, State> {
     //     })
         
     // }
+
+    deleteEntry = async (id: number) => {
+        const {profile} = this.props.profileState
+        await this.props.deleteEntry(id)
+        await this.props.getEntries(profile[0].id)
+    }
     
     postContent = async (profile: INewProfile | IProfile, entries: INewEntry[]) => {
         await this.props.saveProfile(profile)
@@ -199,7 +206,7 @@ class Registration extends React.Component<Props, State> {
                         }/>
                         <Route path="/edit" render={() => (
                             <div>
-                                <FormContainer adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
+                                <FormContainer onDeleteEntry={this.deleteEntry} adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
                                 {didUpload ? <Redirect to='/bekraftelse' /> : null}
                             </div>
                             )
@@ -229,7 +236,8 @@ const mapDispatchToProps = (dispatch: Function) => {
         getProfile: (id: number) => dispatch(getProfile(id)),
         getEntries: (profile_id: number) => dispatch(getEntries(profile_id)),
         saveEntries: (entries: INewEntry[]) => dispatch(saveEntries(entries)),
-        getCategories: () => dispatch(getCategories())
+        getCategories: () => dispatch(getCategories()),
+        deleteEntry: (id: number) => dispatch(deleteEntry(id))
     }
 }
 

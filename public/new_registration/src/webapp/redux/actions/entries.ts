@@ -33,10 +33,26 @@ interface IDoneSaveEntriesAction extends Action {
     entries: IEntry[]
 }
 
-export type IEntriesAction = IRequestAction | IReceiveAction | IErrorAction | ICheckAction | ISaveEntriesAction | IDoneSaveEntriesAction
+interface IDeleteEntryAction extends Action {
+    type: Types.DELETE_ENTRY
+}
+
+interface IDeleteEntryDone extends Action {
+    type: Types.DELETE_ENRY_DONE
+}
+
+export type IEntriesAction = IRequestAction | IReceiveAction | IErrorAction | ICheckAction | ISaveEntriesAction | IDoneSaveEntriesAction | IDeleteEntryAction | IDeleteEntryDone
 
 const requestEntries: IRequestAction = {
     type: Types.REQUEST_ENTRIES
+}
+
+const deleteEntryAction: IDeleteEntryAction = {
+    type: Types.DELETE_ENTRY
+}
+
+const deleteEntryDone: IDeleteEntryDone = {
+    type: Types.DELETE_ENRY_DONE
 }
 
 const receiveEntries: ActionCreator<IReceiveAction> = (e: IEntry[]) => {
@@ -63,6 +79,38 @@ const saveEntriesAction: ActionCreator<ISaveEntriesAction> = () => {
 
 const doneSaveEntriesAction: ActionCreator<IDoneSaveEntriesAction> = (e: IEntry[]) => {
     return {type: Types.DONE_SAVE_ENTRIES, entries: e}
+}
+
+export function deleteEntry(id: number): ThunkAction<Promise<IEntriesAction>, IState, undefined, IEntriesAction> {
+    return async (dispatch, getState) => {
+        if(!getState().entriesState.isFetching) {
+            return dispatch(fetchDeleteEntry(id))
+        } else {
+            return dispatch(checkEntries)
+        }
+    }
+}
+
+
+function fetchDeleteEntry(id: number): ThunkAction<Promise<IEntriesAction>, IState, undefined, IEntriesAction> {
+    return async (dispatch) => {
+        dispatch(deleteEntryAction)
+        try {
+            const method = "DELETE"
+            const url = `${host.ENTRIES_URL}/${id}`
+            // const headers = {"Content-Type": "application/json; charset=utf-8"}
+            const response = await fetch(url, {
+                method: method,
+                
+            })
+            checkError(response)
+            const json = await response.json()
+            console.log(json)
+            return dispatch(deleteEntryDone)
+        } catch (error) {
+            return dispatch(errorEntries(error))
+        }
+    } 
 }
 
 function fetchEntries(profile_id: number): ThunkAction<Promise<IEntriesAction>, IState, undefined, IEntriesAction> {
@@ -93,8 +141,6 @@ function fetchSaveEntries(e: INewEntry[] | IEntry[]): ThunkAction<Promise<IEntri
     return async (dispatch) => {
         dispatch(saveEntriesAction())
         try {
-            console.log('fetch save entries')
-            console.log(e)
             const method = "POST"
             const url = host.ENTRIES_URL
             const headers = {"Content-Type": "application/json; charset=utf-8"}
@@ -105,7 +151,6 @@ function fetchSaveEntries(e: INewEntry[] | IEntry[]): ThunkAction<Promise<IEntri
             })
             checkError(response)
             const json = await response.json()
-            console.log(json)
             return dispatch(doneSaveEntriesAction(json))
         } catch (error) {
             return dispatch(errorEntries(error))

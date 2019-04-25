@@ -16,7 +16,8 @@ class EntriesRouter extends DPRouter<model.Entry> {
     }
     delete() {
         this.router.delete('/:id', async (req, res) => {
-            console.log()
+            console.log('delete entry: ')
+            console.log(req.params)
             if (!('id' in req.params)) {
                 res.status(400).json('Delete request should contain an id')
             }

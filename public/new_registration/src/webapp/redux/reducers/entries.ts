@@ -49,6 +49,19 @@ const entriesReducer = (state = initialState, action: any): IEntriesState => {
                 dataLoaded: true,
                 entries: action.entries
             }
+        case Types.DELETE_ENTRY:
+            return {
+                ...state,
+                isFetching: true,
+                didFetch: false,
+                dataLoaded: false
+            }
+        case Types.DELETE_ENRY_DONE:
+            return {
+                ...state,
+                isFetching: false,
+                didFetch: true,
+            }
         default:
             return state
     }
