@@ -44,7 +44,7 @@ const multerHandler = multer_1.default({
         }
     },
     limits: {
-        fieldSize: 4194304
+        fieldSize: 7000000
     }
 });
 exports.default = (req, res) => {

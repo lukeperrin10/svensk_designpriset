@@ -30,6 +30,36 @@ class EntriesRouter extends base_router_1.DPRouter {
             }
         }));
     }
+    delete() {
+        this.router.delete('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log('delete entry: ');
+            console.log(req.params);
+            if (!('id' in req.params)) {
+                res.status(400).json('Delete request should contain an id');
+            }
+            else {
+                res.json(yield this.model.remove(req.params.id));
+            }
+        }));
+    }
+    put() {
+        this.router.put('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log(req.params.id);
+            console.log(req.body.id);
+            if (!('id' in req.params)) {
+                res.status(400).json('Put request should contain an id');
+            }
+            if (req.params.id != req.body[0].profile_id) {
+                res.status(400).json('Id doesnt match width body');
+            }
+            if (Array.isArray(req.body) && req.body.length > 1) {
+                res.json(yield this.model.batchUpdate(req.body));
+            }
+            else {
+                res.json(yield this.model.update(req.body[0]));
+            }
+        }));
+    }
 }
 exports.router = new EntriesRouter(model, valid_params).activate();
 //# sourceMappingURL=entries.js.map

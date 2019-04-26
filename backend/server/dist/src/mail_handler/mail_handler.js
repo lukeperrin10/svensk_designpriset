@@ -18,6 +18,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const nodeMailer = __importStar(require("nodemailer"));
 const temp_contants_1 = require("../constants/temp_contants");
 const mail_content_1 = require("./mail_content");
+const category_1 = require("../models/category");
 // WARNING : Change user and pass!
 function mail(to, subject, message, html) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -70,8 +71,9 @@ exports.generateAdminLink = generateAdminLink;
 // WARNING CHANGE EMAIL ADRESS!
 function sendRegisterEmails(profile, entries, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield mail(profile.mail, mail_content_1.getSubjectRegister(profile, update), 'text', mail_content_1.getRegisterMailContent(false, generateUserLink(profile.id, profile.secret), profile, entries)).catch(err => console.log(err));
-        yield mail(temp_contants_1.ADMIN_EMAIL, mail_content_1.getSubjectRegister(profile, update), 'text', mail_content_1.getRegisterMailAdminContent(false, generateAdminLink(profile.id, profile.secret), profile, entries)).catch(err => console.log(err));
+        const categories = yield category_1.get();
+        yield mail(profile.mail, mail_content_1.getSubjectRegister(profile, update), 'text', mail_content_1.getRegisterMailContent(false, generateUserLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
+        yield mail(temp_contants_1.ADMIN_EMAIL, mail_content_1.getSubjectRegister(profile, update), 'text', mail_content_1.getRegisterMailAdminContent(false, generateAdminLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
     });
 }
 exports.sendRegisterEmails = sendRegisterEmails;

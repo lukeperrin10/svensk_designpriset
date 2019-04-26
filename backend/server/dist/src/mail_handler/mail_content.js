@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const temp_contants_1 = require("../constants/temp_contants");
 function getSubjectRegister(profile, update) {
-    return update ? `${profile.company} har uppdaterat sitt bidrag` : `Anmäland Designpriset - ${profile.company}`;
+    return update ? `${profile.company} har uppdaterat sitt bidrag` : `Anmälan Designpriset - ${profile.company}`;
 }
 exports.getSubjectRegister = getSubjectRegister;
-function getRegisterMailContent(update, registerLink, profile, entries) {
+function getRegisterMailContent(update, registerLink, profile, entries, categories) {
     let title;
     let ingress;
     // WARNING!
@@ -53,7 +53,7 @@ function getRegisterMailContent(update, registerLink, profile, entries) {
                             <br> \
                             <br>  \
                             ${getProfileContent(profile)}  \
-                            ${getEntryContent(entries)}
+                            ${getEntryContent(entries, categories)}
                             ${button}
                             L&auml;s mer om t&auml;vlingen p&aring; <a href='http://www.designpriset.se' style='color:#c6a230;'>www.designpriset.se</a> \
                             <br> \
@@ -70,12 +70,12 @@ function getRegisterMailContent(update, registerLink, profile, entries) {
     return message;
 }
 exports.getRegisterMailContent = getRegisterMailContent;
-function getRegisterMailAdminContent(update, registerLink, profile, entries) {
+function getRegisterMailAdminContent(update, registerLink, profile, entries, categories) {
     const title = update ? `${profile.company} har uppdaterat sitt bidrag` : `Ny anmälan: ${profile.company}`;
     let content = getProfileContent(profile);
     content += calculatePrice(entries, true);
     content += "<br/>";
-    content += getEntryContent(entries);
+    content += getEntryContent(entries, categories);
     let mailContent = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
     <html>
         <head>
@@ -139,7 +139,7 @@ function getProfileContent(profile) {
     content += '<br>';
     return content;
 }
-function getEntryContent(entries) {
+function getEntryContent(entries, categories) {
     const subheading = "font-family:Arial;Helvetica;font-size:25px;font-weight:bold; margin-bottom:10px; color:#c6a230;";
     // const targets: {[key: string]: string} = {
     //     'entry_name': 'Bidragets namn', 
@@ -158,11 +158,17 @@ function getEntryContent(entries) {
     content += '<ul style="list-style:none;padding:0;">';
     entries.forEach(entry => {
         i++;
+        let cat = '';
+        categories.forEach(category => {
+            if (category.shorttag === entry.category) {
+                cat = category.name;
+            }
+        });
         const avatar = `${temp_contants_1.SITE_URL}/admin/avatars/${entry.avatar}`;
         content += `<h3 style="${subheading}">Bidrag ${i}</h3>`;
         content += `<a target="_blank" href="${avatar}"><img height="200px;" src="${avatar}"/></a><br/><br/>`;
         content += `<li>Namn: ${entry.entry_name}</li>`;
-        content += `<li>Kategori: ${entry.category}</li>`;
+        content += `<li>Kategori: ${cat}</li>`;
         content += `<li>Designer: ${entry.designer}</li>`;
         content += entry.illustrator ? `<li>Illustratör/fotograf: ${entry.illustrator}</li>` : '';
         content += `<li>Projektledare: ${entry.leader}</li>`;

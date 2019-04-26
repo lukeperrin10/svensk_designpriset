@@ -43,6 +43,7 @@ function getId(id) {
 exports.getId = getId;
 function create(new_profile) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('Create new profile');
         const post_profile = create_profile(new_profile);
         // try {
         const insert = yield db.query('INSERT INTO profiles SET ?', [post_profile]);
@@ -55,9 +56,11 @@ function create(new_profile) {
 exports.create = create;
 function update(profile) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('update profile!');
         const update_profile = create_profile(profile);
         const update = yield db.query('UPDATE profiles SET ? WHERE ID = ?', [update_profile, profile.id]);
-        return update;
+        const query = yield db.query('SELECT * FROM profiles WHERE id = ?', [profile.id]);
+        return query;
     });
 }
 exports.update = update;

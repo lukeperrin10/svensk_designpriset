@@ -31,7 +31,6 @@ function getName() {
 exports.getName = getName;
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Entries get');
         const query = yield db.query('SELECT * FROM entries');
         return query;
     });
@@ -39,8 +38,6 @@ function get() {
 exports.get = get;
 function getId(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Entries get');
-        console.log(id);
         const query = yield db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [id]);
         return query;
     });
@@ -48,19 +45,25 @@ function getId(id) {
 exports.getId = getId;
 function create(new_entry) {
     return __awaiter(this, void 0, void 0, function* () {
-        const post_entry = create_entry(new_entry);
+        const updateEntry = 'id' in new_entry;
+        console.log('update entry? ' + updateEntry);
+        console.log(new_entry);
+        const post_entry = fill_entry(new_entry);
         if (post_entry.avatar)
             yield moveAvatar([post_entry.avatar]);
         if (post_entry.source)
             yield moveSource([post_entry.source]);
-        const insert = yield db.query('INSERT INTO entries SET ?', [post_entry]);
-        const query = yield db.query('SELECT * FROM entries WHERE id = ?', insert.insertId);
+        const queryString = updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?';
+        const args = updateEntry ? [post_entry, new_entry.id] : [post_entry];
+        const insert = yield db.query(queryString, args);
+        const id = updateEntry ? new_entry.id : insert.insertId;
+        const query = yield db.query('SELECT * FROM entries WHERE id = ?', id);
         if (query.length > 0) {
             if ('profile_id' in query[0]) {
                 const id = query[0].profile_id;
                 const profile = yield db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]);
                 if (profile.length > 0 && 'id' in profile[0]) {
-                    mail_handler_1.sendRegisterEmails(profile[0], [query[0]], false);
+                    mail_handler_1.sendRegisterEmails(profile[0], [query[0]], updateEntry);
                 }
             }
         }
@@ -76,11 +79,13 @@ function moveAvatar(filenames) {
         for (let i = 0; i < filenames.length; i++) {
             const origin = `${temp_contants_3.TEMP_AVATAR_PATH}/${filenames[i]}`;
             const dest = `${temp_contants_4.AVATAR_PATH}/${filenames[i]}`;
-            yield fs_extra_1.default.move(origin, dest, (err) => {
-                if (err)
-                    console.error(err);
-                console.log('Moved avatar');
-            });
+            if (fs_extra_1.default.existsSync(origin)) {
+                yield fs_extra_1.default.move(origin, dest, (err) => {
+                    if (err)
+                        console.error(err);
+                    console.log('Moved avatar');
+                });
+            }
         }
     });
 }
@@ -89,24 +94,27 @@ function moveSource(filenames) {
         for (let i = 0; i < filenames.length; i++) {
             const origin = `${temp_contants_1.TEMP_MEDIA_PATH}/${filenames[i]}`;
             const dest = `${temp_contants_2.MEDIA_PATH}/${filenames[i]}`;
-            yield fs_extra_1.default.move(origin, dest, (err) => {
-                if (err)
-                    console.error(err);
-                console.log('Moved avatar');
-            });
+            if (fs_extra_1.default.existsSync(origin)) {
+                yield fs_extra_1.default.move(origin, dest, (err) => {
+                    if (err)
+                        console.error(err);
+                    console.log('Moved avatar');
+                });
+            }
         }
     });
 }
-function batchCreate(new_entries) {
+function batch(new_entries, update) {
     return __awaiter(this, void 0, void 0, function* () {
         const querys = [];
         const avatars = [];
         const sources = [];
         new_entries.forEach(new_entry => {
-            const entry = create_entry(new_entry);
+            const updateEntry = 'id' in new_entry;
+            const entry = fill_entry(new_entry);
             querys.push({
-                query: 'INSERT INTO entries SET ?',
-                args: [entry]
+                query: updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?',
+                args: updateEntry ? [entry, entry.id] : [entry]
             });
             if (entry.avatar)
                 avatars.push(entry.avatar);
@@ -137,7 +145,7 @@ function batchCreate(new_entries) {
                         batchSelect.forEach(batch => {
                             entries.push(batch[0]);
                         });
-                        mail_handler_1.sendRegisterEmails(profile[0], entries, false);
+                        mail_handler_1.sendRegisterEmails(profile[0], entries, update);
                     }
                 }
             }
@@ -148,10 +156,22 @@ function batchCreate(new_entries) {
         return batchSelect;
     });
 }
+function batchCreate(new_entries) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return batch(new_entries, false);
+    });
+}
 exports.batchCreate = batchCreate;
+function remove(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const remove = yield db.query('DELETE FROM entries WHERE ID = ? ', [id]);
+        return remove;
+    });
+}
+exports.remove = remove;
 function update(entry) {
     return __awaiter(this, void 0, void 0, function* () {
-        const update_entry = create_entry(entry);
+        const update_entry = fill_entry(entry);
         try {
             const update = yield db.query('UPDATE entries SET ? WHERE ID = ?', [update_entry, entry.id]);
             return update;
@@ -162,7 +182,13 @@ function update(entry) {
     });
 }
 exports.update = update;
-function create_entry(entry) {
+function batchUpdate(entries) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return batch(entries, true);
+    });
+}
+exports.batchUpdate = batchUpdate;
+function fill_entry(entry) {
     const new_entry = {
         profile_id: entry.profile_id,
         entry_name: entry.entry_name,
@@ -181,9 +207,20 @@ function create_entry(entry) {
         is_nominated: entry.is_nominated || 0,
         is_winner_gold: entry.is_winner_gold || 0,
         is_winner_silver: entry.is_winner_silver || 0,
-        sent_nominee_notification: entry.sent_nominee_notification || "1000-01-01",
+        sent_nominee_notification: escapeDate(entry.sent_nominee_notification) || "1000-01-01",
         motivation: entry.motivation || "",
     };
+    if ('id' in entry)
+        new_entry.id = entry.id;
     return new_entry;
+}
+// WARNING: Find better solution for formating dates
+function escapeDate(date) {
+    if (date) {
+        return date.replace("T", " ").replace("Z", " ");
+    }
+    else {
+        return undefined;
+    }
 }
 //# sourceMappingURL=entries.js.map

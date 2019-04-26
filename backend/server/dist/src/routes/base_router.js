@@ -30,7 +30,13 @@ class DPRouter {
         this.getId();
         this.put();
         this.post();
+        this.delete();
         return this.router;
+    }
+    delete() {
+        this.router.delete('/:id', (req, res) => {
+            res.status(400).json('You are not allowed to delete');
+        });
     }
     get() {
         this.router.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -48,9 +54,14 @@ class DPRouter {
     // WARNING: Se över denna och POST
     put() {
         this.router.put('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
-            // if (!('id' in req.args)) {
-            //     throw new BadRequest('Put request should contain an id')
-            // }
+            console.log(req.params.id);
+            console.log(req.body.id);
+            if (!('id' in req.params)) {
+                res.status(400).json('Put request should contain an id');
+            }
+            if (req.params.id != req.body.id) {
+                res.status(400).json('Id doesnt match widh body');
+            }
             res.json(yield this.model.update(req.body));
         }));
     }

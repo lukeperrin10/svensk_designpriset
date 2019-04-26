@@ -30,7 +30,7 @@ export enum LIMIT_EXTENSIONS {
 
 class DpImageUpload extends React.Component<IDpImageUpload> {
     state = {
-        image: new File([], ''),
+        image: {name: '', blob: new Blob([])},
         result: '',
         errorUploading: false,
         errorMessage: '',
@@ -78,8 +78,8 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
         } else {
             this.setState({errorUploading: false, isLoading: true})
             const formData = new FormData()
-            console.log(this.state.image)
-            formData.append('media', this.state.image, this.slugify(this.state.image.name))
+            
+            formData.append('media', this.state.image as unknown as File, this.slugify(this.state.image.name))
             
             try {
                 const res = await fetch(this.props.url, {
