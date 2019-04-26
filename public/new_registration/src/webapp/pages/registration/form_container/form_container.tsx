@@ -262,8 +262,11 @@ class FormContainer extends React.Component<IFormContainer> {
         Object.keys(savedEntries).forEach(entry => {
             entries.push(savedEntries[entry])
         })
-        if (editMode && isEmptyObject(savedProfile) && this.props.editContent) {
-            this.props.saveContent(this.props.editContent.profile, entries)
+        
+        if (editMode && this.props.editContent) {
+            const profile = isEmptyObject(savedProfile) ? this.props.editContent.profile : savedProfile as INewProfile
+            const safeEntries = entries.length === 0 ? this.props.editContent.entries : entries
+            this.props.saveContent(profile, safeEntries)
         } else {
             this.props.saveContent(savedProfile as INewProfile, entries)
         }
@@ -398,7 +401,8 @@ class FormContainer extends React.Component<IFormContainer> {
     }
 
     render() {
-        const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview, checkShouldClear} = this.state 
+        const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview, checkShouldClear, editMode} = this.state 
+        const modalTitle = editMode ? 'Bekräfta uppdatering av uppgifter' : 'Bekräfta uppgifter'
         const ignoreLabels = [
             'created', 
             'id', 
@@ -478,7 +482,7 @@ class FormContainer extends React.Component<IFormContainer> {
             }
             <Modal dialogClassName="custom-modal" size="lg" centered show={displayReview} onHide={() => this.setState({displayReview: false})}>
                 <Modal.Header>
-                    <Modal.Title>Bekräfta uppgifter</Modal.Title>
+                    <Modal.Title>{modalTitle}</Modal.Title>
                     <img style={styles.logo} src={Logo} alt='Logo' />
                 </Modal.Header>
                 <Modal.Body style={styles.modalBody}>

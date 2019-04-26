@@ -49,6 +49,7 @@ export enum GENERAL_TEXT {
     thumbnail_label = "Bild för tumnagel (rekommenderad storlek – 770x1030px)",
     entry_media = "Bifoga pdf-fil för printbidrag, (max filstorlek 5 Mb, undvik ÅÄÖ i filnamn)",
     after_submit = "Anmälan är klar. Du får ett mail med länk till din personliga sida där du kan ändra och lägga till fler bidrag. Kansliet skickar också en bekräftelse. Varje bidrag kostar 3995 :- exkl. moms. Faktura med 10 dagars betalning skickas från Svenska Designpriset.",
+    after_update = "Updateringen av uppgifter och bidrag är klar",
     temp_price_per_entry = "3995"
 }
 

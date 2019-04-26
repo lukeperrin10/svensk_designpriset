@@ -214,7 +214,7 @@ class Registration extends React.Component<Props, State> {
                             </div>
                             )
                         }/>
-                        <Route path="/bekraftelse" render={() => (<ConfirmationContainer />)} />
+                        <Route path="/bekraftelse" render={() => (<ConfirmationContainer update={edit} />)} />
                     </Switch>
                     }
                     <ErrorModal show={this.state.showErrorModal} onClose={() => this.setState({showErrorModal: false})} />

@@ -3,9 +3,13 @@ import { GENERAL_TEXT } from 'src/webapp/config/text';
 import styles from './style'
 import Logo from '../../../assets/img/logo.png'
 
-class ConfirmationContainer extends React.Component {
+interface IConf {
+    update: boolean
+}
 
-    constructor(p: {}) {
+class ConfirmationContainer extends React.Component<IConf> {
+
+    constructor(p: IConf) {
         super(p)
     }
     componentDidMount() {
@@ -25,10 +29,10 @@ class ConfirmationContainer extends React.Component {
                 <div style={styles.card}>
                     <div style={styles.header}>
                         <img style={styles.logo} src={Logo} alt='Logo' />
-                        <h1>Din anmälan är klar!</h1>
+                        <h1>{this.props.update ? 'Uppdatering klar' : 'Din anmälan är klar!'}</h1>
                     </div>
                     <div style={styles.textContainer}>
-                        <p>{GENERAL_TEXT.after_submit}</p>
+                        <p>{this.props.update ? GENERAL_TEXT.after_update : GENERAL_TEXT.after_submit}</p>
                         
                     </div>
                     <div style={styles.footer}>
