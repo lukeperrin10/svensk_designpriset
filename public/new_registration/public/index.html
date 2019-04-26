@@ -17,6 +17,12 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
+    <script>
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;
+        if (isIE) {
+          window.location.href = 'http://www.designpriset.se/anmalan.php'
+        }
+    </script>
     <div id="root"></div>
   </body>
 </html>
