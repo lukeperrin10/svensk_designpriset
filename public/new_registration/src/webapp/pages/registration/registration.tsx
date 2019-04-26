@@ -69,7 +69,9 @@ class Registration extends React.Component<Props, State> {
 
     isAllowed() {
         const query = queryString.parse(location.search)
-        return 'wopii_dev' in query
+        const today = new Date()
+        const open = new Date('2019-04-26T23:59:59')
+        return 'wopii_dev' in query || today > open
     }
 
     componentDidMount() {
