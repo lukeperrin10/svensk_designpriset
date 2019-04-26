@@ -97,17 +97,23 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
     await moveSource(sources)
 
     const batchInsert = await db.batchQuery(querys)
+    console.log('batch insert log: ')
+    console.log(batchInsert)
     const responseQuerys: db.queryObj[] = []
-    batchInsert.forEach((insert: any) => {
-        if (insert.insertId) {
-            responseQuerys.push({
-                query: 'SELECT * FROM `entries` WHERE `id` = ?',
-                args: [insert.insertId]
-            })
-        }
-    })
+    // if (update) {
+        console.log('UPDATE!')
+        responseQuerys.push({query: 'SELECT * FROM `entries` WHERE `profile_id` = ?', args: [new_entries[0].profile_id]})
+    // } else {
+    //     batchInsert.forEach((insert: any) => {
+    //         if (insert.insertId) {
+    //             responseQuerys.push({
+    //                 query: 'SELECT * FROM `entries` WHERE `id` = ?',
+    //                 args: [insert.insertId]
+    //             })
+    //         }
+    //     })
+    // }
     const batchSelect = await db.batchQuery(responseQuerys)
-    console.log(batchSelect[0][0])
     if (Array.isArray(batchSelect) && Array.isArray(batchSelect[0])) {
         if (batchSelect[0][0] && batchSelect[0][0].profile_id) {
             const id = batchSelect[0][0].profile_id
@@ -118,9 +124,7 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
                     batchSelect.forEach(batch => {
                         entries.push(batch[0])
                     })
-                    
                     sendRegisterEmails(profile[0], entries, update)
-                    
                 }
             }
         }
