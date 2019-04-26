@@ -41,9 +41,7 @@ export async function create(new_entry: Entry): Promise<Entry> {
             const id = query[0].profile_id
             const profile = await db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]) 
             if (profile.length > 0 && 'id' in profile[0]) {
-                if (!updateEntry) {
-                    sendRegisterEmails(profile[0], [query[0]], false)
-                }
+                sendRegisterEmails(profile[0], [query[0]], updateEntry)
             }
         }
     } else {
@@ -120,9 +118,9 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
                     batchSelect.forEach(batch => {
                         entries.push(batch[0])
                     })
-                    if (!update) {
-                        sendRegisterEmails(profile[0], entries, false)
-                    }
+                    
+                    sendRegisterEmails(profile[0], entries, update)
+                    
                 }
             }
         }
