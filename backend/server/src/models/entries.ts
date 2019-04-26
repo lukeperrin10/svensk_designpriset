@@ -28,7 +28,7 @@ export async function create(new_entry: Entry): Promise<Entry> {
     const updateEntry = 'id' in new_entry
     console.log('update entry? '+updateEntry)
     console.log(new_entry)
-    const post_entry = create_entry(new_entry)
+    const post_entry = fill_entry(new_entry)
     if (post_entry.avatar) await moveAvatar([post_entry.avatar])
     if (post_entry.source) await moveSource([post_entry.source])
     const queryString = updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?'
@@ -85,8 +85,8 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
     const avatars : string[] = []
     const sources : string[] = []
     new_entries.forEach(new_entry => {
-        const entry = create_entry(new_entry)
-        const updateEntry = 'id' in entry
+        const updateEntry = 'id' in new_entry
+        const entry = fill_entry(new_entry)
         querys.push({
             query: updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?',
             args: updateEntry ? [entry, entry.id] : [entry]
@@ -142,7 +142,7 @@ export async function remove(id: number): Promise<Entry> {
     return remove
 }
 export async function update(entry: Entry): Promise<Entry> {
-    const update_entry = create_entry(entry)
+    const update_entry = fill_entry(entry)
     try {
         const update =  await db.query('UPDATE entries SET ? WHERE ID = ?', [update_entry, entry.id])
         return update
@@ -155,7 +155,7 @@ export async function batchUpdate(entries: Array<Entry>): Promise<Entry> {
     return batch(entries, true)
 }
 
-function create_entry(entry: Entry): Entry {
+function fill_entry(entry: Entry): Entry {
     const new_entry: Entry = {
         profile_id: entry.profile_id,
         entry_name: entry.entry_name, 
@@ -177,6 +177,7 @@ function create_entry(entry: Entry): Entry {
         sent_nominee_notification: escapeDate(entry.sent_nominee_notification) || "1000-01-01",
         motivation: entry.motivation || "",
     }
+    if ('id' in entry) new_entry.id = entry.id
     return new_entry
 }
 

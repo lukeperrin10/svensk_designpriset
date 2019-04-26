@@ -2,7 +2,7 @@ import { PRICE_PER_ENTRY, CURRENT_YEAR, SITE_URL, REGISTER_DEADLINE_DATE } from 
 import { Entry, Profile, Category } from "dbtypes";
 
 export function getSubjectRegister(profile: Profile, update: boolean) {
-    return update ? `${profile.company} har uppdaterat sitt bidrag` : `Anmäland Designpriset - ${profile.company}`
+    return update ? `${profile.company} har uppdaterat sitt bidrag` : `Anmälan Designpriset - ${profile.company}`
 }
 
 
