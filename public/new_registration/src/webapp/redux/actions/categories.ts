@@ -49,7 +49,6 @@ const checkCategories: ICheckAction = {
 }
 
 function fetchCategories(): ThunkAction<Promise<ICategoryAction>, IState, undefined, ICategoryAction> {
-    console.log('fetch cat')
     return async (dispatch) => {
         dispatch(requestCategories)
         try {

@@ -67,7 +67,6 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
         const ext = s.toLocaleLowerCase().split('.').pop()
         const name = s.toLocaleLowerCase().split('.')[0]
         let result = `${Slug(name)}.${ext}`
-        console.log(result)
         return result
     }
     

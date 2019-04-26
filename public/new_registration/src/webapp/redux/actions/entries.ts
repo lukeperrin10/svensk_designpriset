@@ -104,8 +104,7 @@ function fetchDeleteEntry(id: number): ThunkAction<Promise<IEntriesAction>, ISta
                 
             })
             checkError(response)
-            const json = await response.json()
-            console.log(json)
+            await response.json()
             return dispatch(deleteEntryDone)
         } catch (error) {
             return dispatch(errorEntries(error))

@@ -62,7 +62,6 @@ const saveProfileAction: ActionCreator<ISaveProfileAction> = () => {
 }
 
 const doneSaveProfileAction: ActionCreator<IDoneSaveProfileAction> = (p: IProfile) => {
-    console.log('Super done!')
     return {type: Types.DONE_SAVE_PROFILE, profile: p}
 }
 
@@ -94,9 +93,7 @@ function fetchSaveProfile(profile: INewProfile | IProfile): ThunkAction<Promise<
     return async (dispatch) => {
         dispatch(saveProfileAction())
         try {
-            console.log('fetch save profile')
             const update = 'id' in profile
-            console.log(update)
             const method = update ? "PUT" : "POST"
             const url = update ? `${host.PROFILE_URL}/${profile['id']}` : host.PROFILE_URL
             const headers = {"Content-Type": "application/json; charset=utf-8"}
@@ -107,7 +104,6 @@ function fetchSaveProfile(profile: INewProfile | IProfile): ThunkAction<Promise<
             })
             checkError(response)
             const json = await response.json()
-            console.log(json)
             return dispatch(doneSaveProfileAction(json))
         } catch (error) {
             return dispatch(errorProfile(error))

@@ -124,17 +124,23 @@ function batch(new_entries, update) {
         yield moveAvatar(avatars);
         yield moveSource(sources);
         const batchInsert = yield db.batchQuery(querys);
+        console.log('batch insert log: ');
+        console.log(batchInsert);
         const responseQuerys = [];
-        batchInsert.forEach((insert) => {
-            if (insert.insertId) {
-                responseQuerys.push({
-                    query: 'SELECT * FROM `entries` WHERE `id` = ?',
-                    args: [insert.insertId]
-                });
-            }
-        });
+        // if (update) {
+        console.log('UPDATE!');
+        responseQuerys.push({ query: 'SELECT * FROM `entries` WHERE `profile_id` = ?', args: [new_entries[0].profile_id] });
+        // } else {
+        //     batchInsert.forEach((insert: any) => {
+        //         if (insert.insertId) {
+        //             responseQuerys.push({
+        //                 query: 'SELECT * FROM `entries` WHERE `id` = ?',
+        //                 args: [insert.insertId]
+        //             })
+        //         }
+        //     })
+        // }
         const batchSelect = yield db.batchQuery(responseQuerys);
-        console.log(batchSelect[0][0]);
         if (Array.isArray(batchSelect) && Array.isArray(batchSelect[0])) {
             if (batchSelect[0][0] && batchSelect[0][0].profile_id) {
                 const id = batchSelect[0][0].profile_id;
