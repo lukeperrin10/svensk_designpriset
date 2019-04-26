@@ -14,30 +14,36 @@ export function getName() {
 }
 
 export async function get(): Promise<Array<dbtype>> {
-    console.log('Entries get')
     const query = await db.query('SELECT * FROM entries')
     return query
 }
 
 export async function getId(id: number): Promise<Entry> {
-    console.log('Entries get')
-    console.log(id)
     const query = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [id])
     return query
 }
 
+
 export async function create(new_entry: Entry): Promise<Entry> {
+    const updateEntry = 'id' in new_entry
+    console.log('update entry? '+updateEntry)
+    console.log(new_entry)
     const post_entry = create_entry(new_entry)
     if (post_entry.avatar) await moveAvatar([post_entry.avatar])
     if (post_entry.source) await moveSource([post_entry.source])
-    const insert = await db.query('INSERT INTO entries SET ?', [post_entry])
-    const query = await db.query('SELECT * FROM entries WHERE id = ?', insert.insertId)
+    const queryString = updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?'
+    const args = updateEntry ? [post_entry, new_entry.id] : [post_entry]
+    const insert = await db.query(queryString, args)
+    const id = updateEntry ? new_entry.id : insert.insertId
+    const query = await db.query('SELECT * FROM entries WHERE id = ?', id)
     if (query.length > 0) {
         if('profile_id' in query[0]) {
             const id = query[0].profile_id
             const profile = await db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]) 
             if (profile.length > 0 && 'id' in profile[0]) {
-                sendRegisterEmails(profile[0], [query[0]], false)
+                if (!updateEntry) {
+                    sendRegisterEmails(profile[0], [query[0]], false)
+                }
             }
         }
     } else {
@@ -176,5 +182,10 @@ function create_entry(entry: Entry): Entry {
 
 // WARNING: Find better solution for formating dates
 function escapeDate(date: string) {
-    return date.replace("T", " ").replace("Z", " ")
+    if (date) {
+        return date.replace("T", " ").replace("Z", " ")
+    } else {
+        return undefined
+    }
+    
 }

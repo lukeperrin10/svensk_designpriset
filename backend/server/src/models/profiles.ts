@@ -27,6 +27,7 @@ export async function getId(id: number): Promise<Profile> {
 }
 
 export async function create(new_profile: Profile): Promise<Profile> {
+    console.log('Create new profile')
     const post_profile = create_profile(new_profile)
     // try {
         const insert = await db.query('INSERT INTO profiles SET ?', [post_profile])
@@ -38,9 +39,11 @@ export async function create(new_profile: Profile): Promise<Profile> {
 }
 
 export async function update(profile: Profile): Promise<Profile> {
+    console.log('update profile!')
     const update_profile = create_profile(profile)
     const update = await db.query('UPDATE profiles SET ? WHERE ID = ?', [update_profile, profile.id])
-    return update
+    const query = await db.query('SELECT * FROM profiles WHERE id = ?', [profile.id])
+    return query
 }
 function create_profile(profile: Profile): Profile {
     const new_profile: Profile = {

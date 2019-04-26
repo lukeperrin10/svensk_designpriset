@@ -49,6 +49,7 @@ class FormContainer extends React.Component<IFormContainer> {
         checkShouldClear: false,
         enableDelete: true,
         editMode: false,
+        editModeNewEntries: {}
     }
     constructor(p: any) {
         super(p)
@@ -106,13 +107,15 @@ class FormContainer extends React.Component<IFormContainer> {
     removeEntry(key: string) {
         const entries = JSON.parse(JSON.stringify(this.state.savedEntries))
         const temps = JSON.parse(JSON.stringify(this.state.tempEntries))
+        const editModeEntries = JSON.parse(JSON.stringify(this.state.editModeNewEntries))
         let id : number = key in entries && 'id' in entries[key] ? entries[key].id : key in temps && 'id' in temps[key] ? temps[key].id : undefined
         if (key in entries) delete entries[key]
         if (key in temps) delete temps[key]
+        if (key in editModeEntries) delete editModeEntries[key]
         if (this.state.editMode && this.props.onDeleteEntry && id !== undefined) {
             this.props.onDeleteEntry(id)
         }
-        this.setState({savedEntries: entries, tempEntries: temps})
+        this.setState({savedEntries: entries, tempEntries: temps, editModeNewEntries: editModeEntries})
         
         // Delete temp assets server?
     }
@@ -164,10 +167,16 @@ class FormContainer extends React.Component<IFormContainer> {
     saveProfile(profile: IEnteredValues) {
         let error = false
         const {tempProfile} = this.state
-        const savedProfile : INewProfile = {secret: '',invoice_paid: 0,
-        contact: '',company: '',address: '',zip: '',phone: '',mail: '',
-        homepage: '',city: ''}
-           
+
+        let savedProfile : INewProfile
+        if ('id' in tempProfile) {
+            savedProfile = tempProfile
+        } else {
+            savedProfile = {secret: '',invoice_paid: 0,
+            contact: '',company: '',address: '',zip: '',phone: '',mail: '',
+            homepage: '',city: ''}
+        }
+        
         Object.keys(savedProfile).forEach(key => {
             if (!(key === 'secret' || key === 'invoice_paid')) {
                 if (key in profile) {
@@ -179,7 +188,7 @@ class FormContainer extends React.Component<IFormContainer> {
                 }
             }
         })
-        savedProfile.secret = `${Md5.hashStr(savedProfile.contact+Date.now())}`
+        savedProfile.secret = savedProfile.secret === '' ? `${Md5.hashStr(savedProfile.contact+Date.now())}` : savedProfile.secret
         
         if (!error) {
             this.setState({savedProfile: savedProfile, profileDisabled: true, didSaveProfile: true})
@@ -249,9 +258,13 @@ class FormContainer extends React.Component<IFormContainer> {
     }
 
     addNewEntryForm() {
-        const {tempEntries} = this.state
+        const {tempEntries, editModeNewEntries} = this.state
         const key = `${Object.keys(tempEntries).length}`
-        this.setState({tempEntries: {...tempEntries, [key]: {}}, shouldScrollToEntry: true}, () => this.setState({shouldScrollToEntry: false}))
+        this.setState({
+            tempEntries: {...tempEntries, [key]: {}}, 
+            shouldScrollToEntry: true,
+            editModeNewEntries: {...editModeNewEntries, [key]: true}
+        }, () => this.setState({shouldScrollToEntry: false}))
     }
 
     addMediaToEntry(key: string, type: string, url: string) {
@@ -279,7 +292,7 @@ class FormContainer extends React.Component<IFormContainer> {
     }
 
     getEntryForms() {
-        const {tempEntries, disabledEntries, errorEntries, enableDelete} = this.state
+        const {tempEntries, disabledEntries, errorEntries, enableDelete, editModeNewEntries} = this.state
         const {categories, editContent} = this.props
         const amountOfForms = isEmptyObject(tempEntries) ? 1 : Object.keys(tempEntries).length
         const forms = []
@@ -298,6 +311,7 @@ class FormContainer extends React.Component<IFormContainer> {
             const uploadedAvatar = tempEntries[`${i}`] ? tempEntries[`${i}`].avatar || false : false
             const uploadedMedia = tempEntries[`${i}`] ? tempEntries[`${i}`].source || false : false
             const key = `${i}`
+            const editPath = key in editModeNewEntries ? TEMP_AVATAR_SYM : AVATAR_SYM
             const form = <div key={i} ref={el => {
                 if (!el) return
                 if (this.state.shouldScrollToEntry) {
@@ -323,7 +337,7 @@ class FormContainer extends React.Component<IFormContainer> {
                         displayErrorProps={key in errorEntries}
                         key={'avatar'} 
                         limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}
-                        uploadedImage={uploadedAvatar ? `${editContent ? AVATAR_SYM : TEMP_AVATAR_SYM}/${tempEntries[key].avatar}` : undefined}
+                        uploadedImage={uploadedAvatar ? `${editContent ? editPath : TEMP_AVATAR_SYM}/${tempEntries[key].avatar}` : undefined}
                         deleteImage={uploadedAvatar ? () => this.removeMediaFromEntry(key, 'avatar') : undefined}
                         />,
                     <DpImageUpload 
@@ -373,8 +387,6 @@ class FormContainer extends React.Component<IFormContainer> {
 
     render() {
         const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview, checkShouldClear} = this.state 
-        console.log(tempProfile)
-        console.log(tempEntries)
         const ignoreLabels = [
             'created', 
             'id', 
