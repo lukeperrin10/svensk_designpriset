@@ -76,7 +76,7 @@ export const REGISTER_INFO : {[key:string]: IRegInfo}  = {
         ]
     },
     stepThree: {
-        label: 'Steg 2',
+        label: 'Steg 3',
         content: [
             'Anmälan är klar.',
             'Du får ett mail med länk till din personliga sida. Där kan du också ändra och lägga till fler bidrag.',

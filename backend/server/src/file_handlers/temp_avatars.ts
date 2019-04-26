@@ -24,7 +24,7 @@ const multerHandler = multer({
         }
     },
     limits: {
-        fieldSize: 4194304
+        fieldSize: 10000000
     }
 })
 

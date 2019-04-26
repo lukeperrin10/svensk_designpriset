@@ -65,11 +65,19 @@ class FormContainer extends React.Component<IFormContainer> {
             
         })
         if (this.props.editContent) {
+            const disabledEntries = {}
+            this.props.editContent.entries.forEach((key, index) => {
+                disabledEntries[index] = true
+            })
             this.setState({
                 tempProfile: this.props.editContent.profile,
                 tempEntries: this.props.editContent.entries,
                 editMode: true,
-                enableDelete: this.props.adminMode
+                enableDelete: this.props.adminMode,
+                profileDisabled: true,
+                disabledEntries: disabledEntries,
+                didSaveEntry: true,
+                didSaveProfile: true
             })
         } else {
             this.hydrateFromLocal()
@@ -249,12 +257,16 @@ class FormContainer extends React.Component<IFormContainer> {
     }
 
     saveContent() {
-        const {savedProfile, savedEntries} = this.state
+        const {savedProfile, savedEntries, editMode} = this.state
         const entries : INewEntry[] = []
         Object.keys(savedEntries).forEach(entry => {
             entries.push(savedEntries[entry])
         })
-        this.props.saveContent(savedProfile as INewProfile, entries)
+        if (editMode && isEmptyObject(savedProfile) && this.props.editContent) {
+            this.props.saveContent(this.props.editContent.profile, entries)
+        } else {
+            this.props.saveContent(savedProfile as INewProfile, entries)
+        }
     }
 
     addNewEntryForm() {
