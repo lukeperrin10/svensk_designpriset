@@ -5,7 +5,7 @@ export const CURRENT_YEAR = '2019'
 // export const SITE_URL = 'http://www.designpriset.se'
 export const BACKEND_SITE_URL = process.env.DP_BACKEND_SITE_URL
 export const SITE_URL = isProd ? 'http://www.designpriset.se' : "http://myown.se:8011"
-export const REGISTER_DEADLINE_DATE = '15 Juni'
+export const REGISTER_DEADLINE_DATE = '14 Juni'
 export const REGISTER_ROOT_URL = process.env.DP_BACKEND_REGISTER_ROOT_URL
 export const ADMIN_EMAIL = process.env.NODE_ENV === 'production' ? "designpriset@gmail.com" : "johan@wopii.com"
 

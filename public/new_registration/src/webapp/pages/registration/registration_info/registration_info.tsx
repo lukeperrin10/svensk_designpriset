@@ -5,8 +5,8 @@ import facebook from '../../../assets/img/facebook-f.png'
 import instagram from '../../../assets/img/instagram.png'
 import mail from '../../../assets/img/mail.png'
 import { REGISTER_INFO } from 'src/webapp/config/text';
-import divider from '../../../assets/ui/divider.png'
-import { OLD_REGISTRATION_URL } from 'src/webapp/config/host';
+// import divider from '../../../assets/ui/divider.png'
+
 
 
 class RegistrationInfo extends React.Component {
@@ -15,7 +15,9 @@ class RegistrationInfo extends React.Component {
             <div style={styles.container}>
                 <div style={styles.header}>
                     <div style={styles.logoContainer}>
+                    <a href='http://www.designpriset.se'>
                         <img style={styles.logo} alt='Svenska Designpriset Logo' src={logo} />
+                    </a>
                     </div>
                     <h1 style={styles.h1}>Anmälan Svenska Designpriset</h1>
                     <div style={styles.iconContainer}>
@@ -27,7 +29,7 @@ class RegistrationInfo extends React.Component {
                 <div style={styles.line}></div>
                 <div style={styles.warningContainer}>
                     <p style={styles.warningP}>Detta är en ny version av registreringsformuläret.</p>
-                    <p style={styles.warningP}>Upplever du problem? Vänligen kontakta <a href="mailto:info@designpriset.se">info@designpriset.se</a> eller använd den gamla registreringen <a href={OLD_REGISTRATION_URL}>här</a></p>
+                    <p style={styles.warningP}>Upplever du problem? Vänligen kontakta <a href="mailto:info@designpriset.se">info@designpriset.se</a></p>
                     
                 </div>
                 
@@ -48,8 +50,8 @@ class RegistrationInfo extends React.Component {
                         )
                     })}
                 </div>
-                <div style={styles.buttonContainer}>
-                    <img src={divider} />
+                <div style={styles.divider}>
+                    {/* <img src={divider} /> */}
                 </div>
 
             </div>

@@ -22,18 +22,24 @@ export default {
         display: 'flex',
         
     },
+    toolbarContainer: {
+        width: '100vw',
+        backgroundColor: PRIMARY_BACKGROUND_COLOR,
+        position: 'fixed' as 'fixed',
+        bottom: 0,
+        left: 0,
+        boxShadow: '0px 0px 5px 2px rgba(0,0,0,0.1',
+        display: 'flex',
+        justifyContent: 'center'
+    },
     toolbar: {
         width: '100vw',
+        maxWidth: 1600,
         display: 'flex',
         justifyContent: 'space-between',
         padding: 10,
         paddingLeft: 10,
         paddingRight: 10,
-        backgroundColor: PRIMARY_BACKGROUND_COLOR,
-        boxShadow: '0px 0px 5px 2px rgba(0,0,0,0.1',
-        position: 'fixed' as 'fixed',
-        bottom: 0,
-        left: 0,
     },
     button: {
         marginLeft: 10,

@@ -23,4 +23,4 @@ export const TEMP_MEDIA_SYM = isProd ? `${FRONTEND_URL}/admin/temp_media` : `${F
 export const MEDIA_SYM = isProd ? `${FRONTEND_URL}/admin/media` : `${FRONTEND_URL}/clone/admin/media`
 
 export const ROOT_URL = isProd ? `${FRONTEND_URL}/register2` : "http://myown.se:3000"
-export const OLD_REGISTRATION_URL = "http://designpriset.se"
+export const OLD_REGISTRATION_URL = "http://www.designpriset.se/anmalan.php"

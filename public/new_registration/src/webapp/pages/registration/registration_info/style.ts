@@ -1,9 +1,10 @@
 import { PRIMARY_BACKGROUND_COLOR, PRIMARY_GOLD, STANDARD_TEXT_COLOR } from 'src/webapp/config/style';
+import divider from '../../../assets/ui/divider.png'
 
 export default {
     container: {
         width: '100vw',
-        minHeight: '70vh',
+        // minHeight: '70vh',
         backgroundColor: PRIMARY_BACKGROUND_COLOR,
     },
     header: {
@@ -72,8 +73,13 @@ export default {
         backgroundColor: PRIMARY_GOLD,
         borderColor: PRIMARY_BACKGROUND_COLOR
     },
-    buttonContainer: {
+    divider: {
         textAlign: 'center' as 'center',
-        marginTop: 50
+        // marginTop: 50,
+        backgroundImage: `url(${divider})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+
+        height: 100
     }
 }

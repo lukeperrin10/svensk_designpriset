@@ -313,11 +313,14 @@ class FormContainer extends React.Component<IFormContainer> {
         const forms = []
         const cat: {id:number,name:string,short:string}[] = []
         categories.forEach(c => {
-            cat.push({
-                id: c.id,
-                name: c.name,
-                short: c.shorttag
-            })
+            // Exlcude 3 specific categories
+            if (c.id !== 30 && c.id !== 29 && c.id !== 51) {
+                cat.push({
+                    id: c.id,
+                    name: c.name,
+                    short: c.shorttag
+                })    
+            }
         })
         if ('category' in FORM_ENTRY_LABELS) {
             FORM_ENTRY_LABELS['category'].selectList = cat
@@ -439,44 +442,46 @@ class FormContainer extends React.Component<IFormContainer> {
                     defaultValue={!isEmptyObject(tempProfile) ? tempProfile : null}
                     customComponents={[
                         <div key={1}>
-                            <p>Separat fakturaadress mejlas till <a href="mailto:info@batteri.se">info@batteri.se</a></p>
+                            <p>Separat fakturaadress mejlas till <a href="mailto:info@designpriset.se">info@designpriset.se</a></p>
                         </div>
                     ]}
                 />
                 {this.getEntryForms()}
-            <div style={styles.space}></div>
-                <div style={styles.toolbar}>
-                    {/* <div style={styles.addButtonContainer}> */}
-                        <OverLay
-                            placement="right"
-                            overlay={
-                                <ToolTip id="hej">
-                                    Lägg till bidrag
-                                </ToolTip>
-                            }>
-                            <Button style={styles.addButton} onClick={() => this.addNewEntryForm()} variant="secondary">Lägg till bidrag</Button>
-                        </OverLay>
-                        <div>
+                <div style={styles.space}></div>
+                <div style={styles.toolbarContainer}>
+                    <div style={styles.toolbar}>
+                        {/* <div style={styles.addButtonContainer}> */}
                             <OverLay
-                                placement="left"
+                                placement="right"
                                 overlay={
                                     <ToolTip id="hej">
-                                        Rensa allt innehåll i formuläret
+                                        Lägg till bidrag
                                     </ToolTip>
                                 }>
-                                <Button style={styles.button} onClick={() => {this.setState({checkShouldClear: true})}} variant="secondary">Rensa</Button>
+                                <Button style={styles.addButton} onClick={() => this.addNewEntryForm()} variant="secondary">Lägg till bidrag</Button>
                             </OverLay>
-                            <OverLay
-                                placement="left"
-                                overlay={
-                                    <ToolTip id="hej">
-                                        Förhandsgrandsgranskning
-                                    </ToolTip>
-                                }>
-                                <Button style={styles.buttonPrimary} disabled={(!didSaveProfile || !didSaveEntry)} onClick={() => this.onShowConfirmButton()} variant="primary">Gå vidare</Button>
-                            </OverLay>
-                        </div>
-                    {/* </div> */}
+                            <div>
+                                <OverLay
+                                    placement="left"
+                                    overlay={
+                                        <ToolTip id="hej">
+                                            Rensa allt innehåll i formuläret
+                                        </ToolTip>
+                                    }>
+                                    <Button style={styles.button} onClick={() => {this.setState({checkShouldClear: true})}} variant="secondary">Rensa</Button>
+                                </OverLay>
+                                <OverLay
+                                    placement="left"
+                                    overlay={
+                                        <ToolTip id="hej">
+                                            Förhandsgrandsgranskning
+                                        </ToolTip>
+                                    }>
+                                    <Button style={styles.buttonPrimary} disabled={(!didSaveProfile || !didSaveEntry)} onClick={() => this.onShowConfirmButton()} variant="primary">Gå vidare</Button>
+                                </OverLay>
+                            </div>
+                        {/* </div> */}
+                    </div>
                 </div>
             </div>
             }

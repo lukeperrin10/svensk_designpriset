@@ -163,8 +163,9 @@ class Registration extends React.Component<Props, State> {
         await this.props.saveProfile(profile)
         const {profileState} = this.props
         const pId = profileState.profile[0] !== undefined ? profileState.profile[0].id : false
+        const secret = profileState.profile[0] !== undefined ? profileState.profile[0].secret : ''
         if (pId) {
-            await this.props.saveEntries(this.addProfileId(entries, pId))
+            await this.props.saveEntries(this.addProfileId(entries, pId, secret))
             const {categoriesState, profileState, entriesState} = this.props
             // WARNING: DELETE PROFILE IF NO ENTRY SUCCESS?
             if (categoriesState.error !== null || profileState.error !== null || entriesState.error !== null) {
@@ -178,9 +179,10 @@ class Registration extends React.Component<Props, State> {
         }
     }
 
-    addProfileId(entries: INewEntry[], profileId: number) {
+    addProfileId(entries: INewEntry[], profileId: number, secret: string) {
         entries.forEach(entry => {
             entry.profile_id = profileId
+            entry.secret = secret
         })
         return entries
     }

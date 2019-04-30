@@ -32,6 +32,7 @@ export default {
     input: {
         minWidth: 200,
         width: '30vw',
+        maxWidth: 500
         
     },
     customComponentContainer: {
