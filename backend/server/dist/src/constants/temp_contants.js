@@ -6,7 +6,7 @@ exports.CURRENT_YEAR = '2019';
 // export const SITE_URL = 'http://www.designpriset.se'
 exports.BACKEND_SITE_URL = process.env.DP_BACKEND_SITE_URL;
 exports.SITE_URL = exports.isProd ? 'http://www.designpriset.se' : "http://myown.se:8011";
-exports.REGISTER_DEADLINE_DATE = '15 Juni';
+exports.REGISTER_DEADLINE_DATE = '14 Juni';
 exports.REGISTER_ROOT_URL = process.env.DP_BACKEND_REGISTER_ROOT_URL;
 exports.ADMIN_EMAIL = process.env.NODE_ENV === 'production' ? "designpriset@gmail.com" : "johan@wopii.com";
 const ROOT_PATH = exports.isProd ? '/var/www/www.designpriset.se/wwwroot/backend_api' : '.';
