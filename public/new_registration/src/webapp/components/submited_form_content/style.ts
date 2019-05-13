@@ -15,6 +15,14 @@ export default {
         flexWrap: 'wrap' as 'wrap'
     },
     image: {
-        height: 100
-    }
+        height: 257
+    },
+    uploadedImageContainer: {
+        height: 257,
+        width: 192,
+        border: '2px solid rgba(0,0,0,1)',
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center'
+    },
 }
