@@ -1,3 +1,5 @@
+
+
 export default {
     container: {
         marginTop: 50,
@@ -33,7 +35,7 @@ export default {
         width: '100%'
     },
     uploadedImage: {
-        height: 100
+        height: 257,
     },
     deleteButton: {
         marginLeft: 50
@@ -46,5 +48,18 @@ export default {
     uploadButton: {
         marginTop: 5,
         marginBottom: 5
+    },
+    uploadedImageContainer: {
+        height: 257,
+        width: 192,
+        border: '2px solid rgba(0,0,0,1)',
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    uploadedContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 }

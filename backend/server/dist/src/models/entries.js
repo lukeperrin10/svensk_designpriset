@@ -148,8 +148,8 @@ function batch(new_entries, update) {
                 if (Array.isArray(profile) && profile.length > 0) {
                     if ('id' in profile[0]) {
                         const entries = [];
-                        batchSelect.forEach(batch => {
-                            entries.push(batch[0]);
+                        batchSelect[0].forEach((batch) => {
+                            entries.push(batch);
                         });
                         mail_handler_1.sendRegisterEmails(profile[0], entries, update);
                     }

@@ -115,11 +115,14 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                     <p style={styles.label}>{this.props.label}</p>
                 </div>
                 {uploadedImage ? 
-                <div>
+                <div style={styles.uploadedContainer}>
                     {displayUploadName ? 
                         <p style={styles.uploadedFileName}>{uploadedImage}</p>    
                         :
-                        <img src={uploadedImage} alt='image' style={styles.uploadedImage} />
+                        <div style={styles.uploadedImageContainer}>
+                            <img src={uploadedImage} alt='image' style={styles.uploadedImage} />
+                            {/* <img src={tempImg} alt='image' style={styles.uploadedImage} /> */}
+                        </div>
                     }
                     <Button onClick={() => this.deleteImage()} style={styles.deleteButton} variant="secondary">Ta bort</Button>
                 </div>
@@ -156,7 +159,11 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                     {errorMessageProps}
                 </div>
                 :null}
-                {didUpLoad || uploadedImage ? <img style={styles.checkImg} src={check} /> : null}
+                {didUpLoad || uploadedImage ? 
+                <img style={styles.checkImg} src={check} /> 
+                : 
+                null
+            }
             </div>
         )
     }

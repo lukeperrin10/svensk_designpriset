@@ -121,8 +121,8 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
             if (Array.isArray(profile) && profile.length > 0) {
                 if ('id' in profile[0]) {
                     const entries : dbtype[] = []
-                    batchSelect.forEach(batch => {
-                        entries.push(batch[0])
+                    batchSelect[0].forEach((batch: any) => {
+                        entries.push(batch)
                     })
                     sendRegisterEmails(profile[0], entries, update)
                 }

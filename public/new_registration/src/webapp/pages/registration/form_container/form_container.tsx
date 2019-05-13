@@ -436,7 +436,7 @@ class FormContainer extends React.Component<IFormContainer> {
                     onDisabled={() => this.setState({profileDisabled: false, didSaveProfile: false})}
                     buttonText="Spara"
                     onSubmit={(e: IEnteredValues) => this.saveProfile(e)}
-                    title="Allmäna uppgifter"
+                    title="Allmänna uppgifter"
                     buttonDisabledText="Redigera"
                     onValueChange={(v: IEnteredValues) => this.onValueChange('profile', v)}
                     defaultValue={!isEmptyObject(tempProfile) ? tempProfile : null}
