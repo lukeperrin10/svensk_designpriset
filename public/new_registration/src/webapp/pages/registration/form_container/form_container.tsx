@@ -447,7 +447,7 @@ class FormContainer extends React.Component<IFormContainer> {
                     ]}
                 />
                 {this.getEntryForms()}
-                <div style={styles.space}></div>
+                
                 <div style={styles.toolbarContainer}>
                     <div style={styles.toolbar}>
                         {/* <div style={styles.addButtonContainer}> */}
@@ -460,7 +460,7 @@ class FormContainer extends React.Component<IFormContainer> {
                                 }>
                                 <Button style={styles.addButton} onClick={() => this.addNewEntryForm()} variant="secondary">Lägg till bidrag</Button>
                             </OverLay>
-                            <div>
+                            <div style={styles.toolbarRight}>
                                 <OverLay
                                     placement="left"
                                     overlay={

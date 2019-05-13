@@ -2,6 +2,9 @@ import { PRIMARY_GOLD, PRIMARY_BACKGROUND_COLOR } from 'src/webapp/config/style'
 
 /** @type {{formGroup: React.CSSProperties}} */
 
+const isMobile = window.innerWidth < 376
+console.log(isMobile)
+
 export default {
     container: {
         backgroundColor: PRIMARY_GOLD,
@@ -23,23 +26,26 @@ export default {
         
     },
     toolbarContainer: {
-        width: '100vw',
+        maxWidth: 1250,
+        minHeight: 85,
         backgroundColor: PRIMARY_BACKGROUND_COLOR,
-        position: 'fixed' as 'fixed',
-        bottom: 0,
-        left: 0,
         boxShadow: '0px 0px 5px 2px rgba(0,0,0,0.1',
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 'auto',
+        marginBottom: 30
     },
     toolbar: {
         width: '100vw',
-        maxWidth: 1600,
+        maxWidth: 1250,
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: isMobile ? 'center' : 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap' as 'wrap',
         padding: 10,
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 20,
+        paddingRight: 20,
     },
     button: {
         marginLeft: 10,
@@ -50,10 +56,7 @@ export default {
         borderColor: PRIMARY_BACKGROUND_COLOR
     },
     toolbarRight: {
-        
-    },
-    space: {
-        height: 75
+        marginTop: 10
     },
     logo: {
         height: 50
