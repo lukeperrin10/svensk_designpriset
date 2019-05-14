@@ -26,6 +26,7 @@ export async function getId(id: number): Promise<Entry> {
 
 export async function create(new_entry: Entry): Promise<Entry> {
     const updateEntry = 'id' in new_entry
+    const updatedIds: number[] = []
     console.log('update entry? '+updateEntry)
     console.log(new_entry)
     const post_entry = fill_entry(new_entry)
@@ -35,13 +36,18 @@ export async function create(new_entry: Entry): Promise<Entry> {
     const args = updateEntry ? [post_entry, new_entry.id] : [post_entry]
     const insert = await db.query(queryString, args)
     const id = updateEntry ? new_entry.id : insert.insertId
-    const query = await db.query('SELECT * FROM entries WHERE id = ?', id)
+    const query = updateEntry ? await db.query('SELECT * FROM entries WHERE profile_id = ?', [new_entry.profile_id]) : await db.query('SELECT * FROM entries WHERE id = ?', id)
     if (query.length > 0) {
         if('profile_id' in query[0]) {
+            if (updateEntry) {
+                query.forEach((q: Entry) => {
+                    if ('id' in q) updatedIds.push(q.id)
+               })
+            }
             const id = query[0].profile_id
             const profile = await db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]) 
             if (profile.length > 0 && 'id' in profile[0]) {
-                sendRegisterEmails(profile[0], [query[0]], updateEntry)
+                sendRegisterEmails(profile[0], updateEntry ? query : [query[0]], updateEntry, updatedIds)
             }
         }
     } else {
@@ -82,6 +88,7 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
     const querys: db.queryObj[] = []
     const avatars : string[] = []
     const sources : string[] = []
+    const updatedEntrieIds: number[] = []
     new_entries.forEach(new_entry => {
         const updateEntry = 'id' in new_entry
         const entry = fill_entry(new_entry)
@@ -91,6 +98,7 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
         })
         if (entry.avatar) avatars.push(entry.avatar)
         if (entry.source) sources.push(entry.source)
+        if (updateEntry) updatedEntrieIds.push(entry.id)
     })
     
     await moveAvatar(avatars)
@@ -124,7 +132,7 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
                     batchSelect[0].forEach((batch: any) => {
                         entries.push(batch)
                     })
-                    sendRegisterEmails(profile[0], entries, update)
+                    sendRegisterEmails(profile[0], entries, update, updatedEntrieIds)
                 }
             }
         }

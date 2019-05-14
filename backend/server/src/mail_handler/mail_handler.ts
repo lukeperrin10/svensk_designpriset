@@ -27,7 +27,7 @@ export async function mail(to: string, subject: string, message: string, html?: 
     }
 
     const content = {
-        from: '"Designpriset" <info@designpriset.se>',
+        from: '"Svenska Designpriset" <info@designpriset.se>',
         to: to,
         subject: subject,
         text: message,
@@ -54,13 +54,31 @@ export function generateAdminLink(id: number, secret: string) {
     return `${REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`
 }
 // WARNING CHANGE EMAIL ADRESS!
-export async function sendRegisterEmails(profile: Profile, entries: Entry[], update: boolean) {
+export async function sendRegisterEmails(profile: Profile, entries: Entry[], update: boolean, updatedIds: number[]) {
     const categories = await get() as Category[]
     await mail(profile.mail, getSubjectRegister(profile, update), 'text', 
         getRegisterMailContent(false, generateUserLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
 
-    await mail(ADMIN_EMAIL, getSubjectRegister(profile, update), 'text', 
+    const includedEntries = exludeEntries(updatedIds, entries)
+
+    if (includedEntries.length > 0) {
+        console.log('will send admin mail')
+        await mail(ADMIN_EMAIL, getSubjectRegister(profile, update), 'text', 
         getRegisterMailAdminContent(false, generateAdminLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
+    }
+    
+}
+
+function exludeEntries(ids: number[], entries: Entry[]) {
+    const includedEntries: Entry[] = []
+    entries.forEach(entry => {
+        if (!ids.includes(entry.id)) {
+            includedEntries.push(entry)
+        }
+    })
+    console.log('included entries')
+    console.log(includedEntries)
+    return includedEntries
 }
 
 
