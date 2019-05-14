@@ -119,10 +119,10 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                     {displayUploadName ? 
                         <p style={styles.uploadedFileName}>{uploadedImage}</p>    
                         :
-                        <div style={styles.uploadedImageContainer}>
+                        // <div style={styles.uploadedImageContainer}>
                             <img src={uploadedImage} alt='image' style={styles.uploadedImage} />
-                            {/* <img src={tempImg} alt='image' style={styles.uploadedImage} /> */}
-                        </div>
+                            
+                        // </div>
                     }
                     <Button onClick={() => this.deleteImage()} style={styles.deleteButton} variant="secondary">Ta bort</Button>
                 </div>

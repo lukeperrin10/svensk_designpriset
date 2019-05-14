@@ -93,3 +93,5 @@ head -20 [filename]
 Create symlinks:
 
 ln -s /var/www/www.designpriset.se/wwwroot/admin/temp_avatars /var/www/www.designpriset.se/wwwroot/backend_api/upload_assets/temp_avatars
+
+RedirectMatch 301 /blog(.*) http://www.new-website.com$1

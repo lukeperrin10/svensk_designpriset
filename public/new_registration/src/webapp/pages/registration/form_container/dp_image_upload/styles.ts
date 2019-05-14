@@ -35,7 +35,7 @@ export default {
         width: '100%'
     },
     uploadedImage: {
-        height: 257,
+        height: 200,
     },
     deleteButton: {
         marginLeft: 50
