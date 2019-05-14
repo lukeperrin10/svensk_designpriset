@@ -54,14 +54,9 @@ function cropImage(filename: string, callBack: Function) {
         if (err) console.error(err)
         newWidth = val.width
         newHeigth = val.height
-        console.log('new Width: '+newWidth)
-        console.log('new Height: '+newHeigth)
         const ratio = 1030 / newHeigth
-        console.log('ratio: '+ratio)
         newHeigth = newHeigth * ratio
         newWidth = newWidth * ratio
-        console.log('new Width: '+newWidth)
-        console.log('new Height: '+newHeigth)
         const x = newWidth - endWidth / 2
 
         imageMagick(filename)
