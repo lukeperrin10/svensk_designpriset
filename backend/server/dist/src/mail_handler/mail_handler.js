@@ -40,7 +40,7 @@ function mail(to, subject, message, html) {
             });
         }
         const content = {
-            from: '"Designpriset" <info@designpriset.se>',
+            from: '"Svenska Designpriset" <info@designpriset.se>',
             to: to,
             subject: subject,
             text: message,
@@ -69,12 +69,28 @@ function generateAdminLink(id, secret) {
 }
 exports.generateAdminLink = generateAdminLink;
 // WARNING CHANGE EMAIL ADRESS!
-function sendRegisterEmails(profile, entries, update) {
+function sendRegisterEmails(profile, entries, update, updatedIds) {
     return __awaiter(this, void 0, void 0, function* () {
         const categories = yield category_1.get();
         yield mail(profile.mail, mail_content_1.getSubjectRegister(profile, update), 'text', mail_content_1.getRegisterMailContent(false, generateUserLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
-        yield mail(temp_contants_1.ADMIN_EMAIL, mail_content_1.getSubjectRegister(profile, update), 'text', mail_content_1.getRegisterMailAdminContent(false, generateAdminLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
+        const includedEntries = exludeEntries(updatedIds, entries);
+        if (includedEntries.length > 0) {
+            console.log('will send admin mail');
+            yield mail(temp_contants_1.ADMIN_EMAIL, mail_content_1.getSubjectRegister(profile, update), 'text', mail_content_1.getRegisterMailAdminContent(false, generateAdminLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
+        }
     });
 }
 exports.sendRegisterEmails = sendRegisterEmails;
+function exludeEntries(ids, entries) {
+    const includedEntries = [];
+    console.log('ids: ' + ids);
+    entries.forEach(entry => {
+        if (!(ids.indexOf(entry.id) > -1)) {
+            includedEntries.push(entry);
+        }
+    });
+    console.log('included entries');
+    console.log(includedEntries);
+    return includedEntries;
+}
 //# sourceMappingURL=mail_handler.js.map

@@ -46,6 +46,7 @@ exports.getId = getId;
 function create(new_entry) {
     return __awaiter(this, void 0, void 0, function* () {
         const updateEntry = 'id' in new_entry;
+        const updatedIds = [];
         console.log('update entry? ' + updateEntry);
         console.log(new_entry);
         const post_entry = fill_entry(new_entry);
@@ -57,13 +58,19 @@ function create(new_entry) {
         const args = updateEntry ? [post_entry, new_entry.id] : [post_entry];
         const insert = yield db.query(queryString, args);
         const id = updateEntry ? new_entry.id : insert.insertId;
-        const query = yield db.query('SELECT * FROM entries WHERE id = ?', id);
+        const query = updateEntry ? yield db.query('SELECT * FROM entries WHERE profile_id = ?', [new_entry.profile_id]) : yield db.query('SELECT * FROM entries WHERE id = ?', id);
         if (query.length > 0) {
             if ('profile_id' in query[0]) {
+                if (updateEntry) {
+                    query.forEach((q) => {
+                        if ('id' in q)
+                            updatedIds.push(q.id);
+                    });
+                }
                 const id = query[0].profile_id;
                 const profile = yield db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]);
                 if (profile.length > 0 && 'id' in profile[0]) {
-                    mail_handler_1.sendRegisterEmails(profile[0], [query[0]], updateEntry);
+                    mail_handler_1.sendRegisterEmails(profile[0], updateEntry ? query : [query[0]], updateEntry, updatedIds);
                 }
             }
         }
@@ -109,6 +116,7 @@ function batch(new_entries, update) {
         const querys = [];
         const avatars = [];
         const sources = [];
+        const updatedEntrieIds = [];
         new_entries.forEach(new_entry => {
             const updateEntry = 'id' in new_entry;
             const entry = fill_entry(new_entry);
@@ -120,6 +128,8 @@ function batch(new_entries, update) {
                 avatars.push(entry.avatar);
             if (entry.source)
                 sources.push(entry.source);
+            if (updateEntry)
+                updatedEntrieIds.push(entry.id);
         });
         yield moveAvatar(avatars);
         yield moveSource(sources);
@@ -151,7 +161,7 @@ function batch(new_entries, update) {
                         batchSelect[0].forEach((batch) => {
                             entries.push(batch);
                         });
-                        mail_handler_1.sendRegisterEmails(profile[0], entries, update);
+                        mail_handler_1.sendRegisterEmails(profile[0], entries, update, updatedEntrieIds);
                     }
                 }
             }

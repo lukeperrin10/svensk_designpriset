@@ -71,8 +71,9 @@ export async function sendRegisterEmails(profile: Profile, entries: Entry[], upd
 
 function exludeEntries(ids: number[], entries: Entry[]) {
     const includedEntries: Entry[] = []
+    console.log('ids: '+ids)
     entries.forEach(entry => {
-        if (!ids.includes(entry.id)) {
+        if (!(ids.indexOf(entry.id) > -1)) {
             includedEntries.push(entry)
         }
     })
