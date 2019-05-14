@@ -22,9 +22,9 @@ class SubmitedFormContent extends React.Component<ISubmitedFormContent> {
                         <div style={styles.contentItem} key={i}>
                             <p style={{...styles.p, ...styles.label}}>{c.label}:</p>
                             {c.imageUrl ?
-                            <div style={styles.uploadedImageContainer}>
+                            // <div style={styles.uploadedImageContainer}>
                                 <img style={styles.image} src={c.imageUrl} />
-                            </div>
+                            // </div>
                             
                             :
                             <p style={styles.p}>{c.content}</p>
