@@ -70,8 +70,8 @@ class Registration extends React.Component<Props, State> {
     isAllowed() {
         const query = queryString.parse(location.search)
         const today = new Date()
-        const open = new Date('2019-04-26T23:59:59')
-        return 'wopii_dev' in query || today > open
+        const open = new Date('2019-06-20T23:59:59')
+        return 'wopii_dev' in query || today < open
     }
 
     componentDidMount() {
@@ -187,9 +187,16 @@ class Registration extends React.Component<Props, State> {
         return entries
     }
 
+    redirect() {
+        window.location.href = "http://www.designpriset.se"
+    }
+
     render() {
         const {categories} = this.props.categoriesState
         const {didLoad, didUpload, edit, editIsAdmin, isAllowed} = this.state
+        if (!isAllowed) {
+            this.redirect()
+        }
         return (
             <Router basename={ROUTER_BAS_NAME}>
                 {!isAllowed ?

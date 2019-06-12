@@ -128,7 +128,7 @@ class DpForm extends React.Component<IDpFormProps> {
                                         
                                             <Form.Control
                                                 style={styles.input} 
-                                                required
+                                                required={item.required}
                                                 disabled={disabled}
                                                 maxLength={item.maxLength || undefined}
                                                 type={item.type}
