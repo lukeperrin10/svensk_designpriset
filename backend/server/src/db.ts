@@ -57,6 +57,7 @@ export async function batchQuery(queries: queryObj[]): Promise<any> {
     let i = queries.length
     return new Promise((resolve, reject) => {
         pool.getConnection((e, c) => {
+            if (e) console.error('get pool Connection'+e)
             c.beginTransaction(err => {
                 if (err) {
                     console.error(err)

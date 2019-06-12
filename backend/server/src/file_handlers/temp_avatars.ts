@@ -33,11 +33,17 @@ const multerHandler = multer({
 export default (req: express.Request, res: express.Response) => {
     multerHandler.single('media')(req, res, (error: Error) => {
         if (error) {
+            console.error(error)
             res.status(500).json({error: error.message})
         } else {
             const filePath = `${folderPath}${req.file.filename}`
-            cropImage(filePath, () => {
-                res.json(req.file.filename)
+            cropImage(filePath, (error?: Error) => {
+                if (error) {
+                    console.error(error)
+                    res.status(500).json({error: error.message})
+                } else {
+                    res.json(req.file.filename)
+                }
             })
         }
     })
@@ -51,22 +57,27 @@ function cropImage(filename: string, callBack: Function) {
     let newHeigth = 0
 
     imageMagick(filename).size((err, val) => {
-        if (err) console.error(err)
-        newWidth = val.width
-        newHeigth = val.height
-        const ratio = 1030 / newHeigth
-        newHeigth = newHeigth * ratio
-        newWidth = newWidth * ratio
-        const x = newWidth - endWidth / 2
+        if (err) { 
+            callBack(err)
+        } else {
+            newWidth = val.width
+            newHeigth = val.height
+            const ratio = 1030 / newHeigth
+            newHeigth = newHeigth * ratio
+            newWidth = newWidth * ratio
+            const x = newWidth - endWidth / 2
 
         imageMagick(filename)
             .gravity('Center')
             .resize(newWidth,newHeigth)
             .crop(endWidth, endHeight,0,0)
             .write(filename, err => {
-                if (err) console.error(err)
-                callBack()
+                if (err) {
+                    callBack(err)
+                } else {
+                    callBack()
+                }
             })
-    })
-    
+        }
+    }) 
 }

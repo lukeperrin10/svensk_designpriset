@@ -31,6 +31,7 @@ const multerHandler = multer({
 export default (req: express.Request, res: express.Response) => {
     multerHandler.single('media')(req, res, (error: Error) => {
         if (error) {
+            console.error(error)
             res.status(500).json({error: error.message})
         } else {
             res.json(req.file.filename)
