@@ -8,10 +8,10 @@ export class MFError extends Error {
     msg: string
     constructor(msg?: string, str_id?: STR_ID, status_code?: number) {
         super(msg || 'Unkown error')
-        console.log('new error')
         this.msg = msg
         this.str_id = str_id || 'UNKOWN_ERROR'
         this.status_code = status_code || 500
+        console.log('new MFError: '+msg || "Unkown error")
     }
 }
 
