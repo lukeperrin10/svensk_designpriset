@@ -107,42 +107,31 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
     await moveSource(sources)
 
     const batchInsert = await db.batchQuery(querys)
-    console.log('batch insert log: ')
-    console.log(batchInsert)
-    const responseQuerys: db.queryObj[] = []
-    // if (update) {
-        console.log('UPDATE!')
-        responseQuerys.push({query: 'SELECT * FROM `entries` WHERE `profile_id` = ?', args: [new_entries[0].profile_id]})
-    // } else {
-    //     batchInsert.forEach((insert: any) => {
-    //         if (insert.insertId) {
-    //             responseQuerys.push({
-    //                 query: 'SELECT * FROM `entries` WHERE `id` = ?',
-    //                 args: [insert.insertId]
-    //             })
+    console.log('batchInsert: '+batchInsert)
+
+    const profileEntries = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id])
+    console.log(updatedEntrieIds)
+    sendMails(profileEntries, update, updatedEntrieIds, new_entries[0].id)
+    // if (Array.isArray(profileEntries)) {
+    //     console.log('yes')
+    //     if (profileEntries[0] && profileEntries[0].profile_id) {
+    //         const id = profileEntries[0].profile_id
+    //         const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
+    //         if (Array.isArray(profile) && profile.length > 0) {
+    //             if ('id' in profile[0]) {
+    //                 const entries : dbtype[] = []
+    //                 profileEntries.forEach((batch: any) => {
+    //                     entries.push(batch)
+    //                 })
+    //                 sendRegisterEmails(profile[0], entries, update, updatedEntrieIds)
+    //             }
     //         }
-    //     })
+    //     }
+    // } else {
+    //     console.error('Did not send mail regarding entry: '+new_entries[0].id)
     // }
-    const batchSelect = await db.batchQuery(responseQuerys)
-    if (Array.isArray(batchSelect) && Array.isArray(batchSelect[0])) {
-        if (batchSelect[0][0] && batchSelect[0][0].profile_id) {
-            const id = batchSelect[0][0].profile_id
-            const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
-            if (Array.isArray(profile) && profile.length > 0) {
-                if ('id' in profile[0]) {
-                    const entries : dbtype[] = []
-                    batchSelect[0].forEach((batch: any) => {
-                        entries.push(batch)
-                    })
-                    sendRegisterEmails(profile[0], entries, update, updatedEntrieIds)
-                }
-            }
-        }
-    } else {
-        console.error('Did not send mail regarding entry: '+new_entries[0].id)
-    }
     
-    return batchSelect
+    return profileEntries
 }
 
 export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
@@ -202,3 +191,61 @@ function escapeDate(date: string) {
     }
     
 }
+
+async function sendMails(profileEntries: Entry[], update: boolean, updateIds: number[], entry_id: number) {
+   if (Array.isArray(profileEntries)) {
+        console.log('yes')
+        if (profileEntries[0] && profileEntries[0].profile_id) {
+            const id = profileEntries[0].profile_id
+            const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
+            if (Array.isArray(profile) && profile.length > 0) {
+                if ('id' in profile[0]) {
+                    const entries : dbtype[] = []
+                    profileEntries.forEach((batch: any) => {
+                        entries.push(batch)
+                    })
+                    sendRegisterEmails(profile[0], entries, update, updateIds)
+                }
+            }
+        }
+    } else {
+        console.error('Did not send mail regarding entry: '+entry_id)
+    }
+}
+
+// if (Array.isArray(entries)) {
+//     if (entries[0] && entries[0].profile_id) {
+//         const id = entries[0].profile_id
+//         const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
+//         if (Array.isArray(profile) && profile.length > 0) {
+//             if ('id' in profile[0]) {
+//                 const entries : dbtype[] = []
+//                 entries.forEach((batch: any) => {
+//                     entries.push(batch)
+//                 })
+//                 sendRegisterEmails(profile[0], entries, update, updateIds)
+//             }
+//         }
+//     }
+// } else {
+//     console.error('Did not send mail regarding entry: '+entry_id)
+// }
+
+// if (Array.isArray(profileEntries)) {
+    //     console.log('yes')
+    //     if (profileEntries[0] && profileEntries[0].profile_id) {
+    //         const id = profileEntries[0].profile_id
+    //         const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
+    //         if (Array.isArray(profile) && profile.length > 0) {
+    //             if ('id' in profile[0]) {
+    //                 const entries : dbtype[] = []
+    //                 profileEntries.forEach((batch: any) => {
+    //                     entries.push(batch)
+    //                 })
+    //                 sendRegisterEmails(profile[0], entries, update, updatedEntrieIds)
+    //             }
+    //         }
+    //     }
+    // } else {
+    //     console.error('Did not send mail regarding entry: '+new_entries[0].id)
+    // }
