@@ -46,14 +46,15 @@ exports.pool = mysql_1.default.createPool({
 });
 function query(query, args) {
     return __awaiter(this, void 0, void 0, function* () {
-        // console.log('db query')
-        // console.log(args)
+        console.log('DB QUERY: ' + query);
         return new Promise((resolve, reject) => {
             exports.pool.query(query, args, (error, results, fields) => {
                 if (error) {
+                    console.error(error);
                     reject(error);
                 }
                 else {
+                    console.log('DB QUERY SUCCESS');
                     resolve(results);
                 }
             });
@@ -65,9 +66,12 @@ function query(query, args) {
 exports.query = query;
 function batchQuery(queries) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('DB BATCH QUERY: ');
         let i = queries.length;
         return new Promise((resolve, reject) => {
             exports.pool.getConnection((e, c) => {
+                if (e)
+                    console.error('get pool Connection' + e);
                 c.beginTransaction(err => {
                     if (err) {
                         console.error(err);

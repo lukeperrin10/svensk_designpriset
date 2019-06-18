@@ -14,7 +14,9 @@ export function getName() {
 }
 
 export async function get(): Promise<Array<dbtype>> {
+    console.log('ENTRIES GET')
     const query = await db.query('SELECT * FROM entries')
+    if (query) console.log('ENTRIES GET query response recieved')
     return query
 }
 

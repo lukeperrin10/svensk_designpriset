@@ -35,13 +35,14 @@ export const pool = mysql.createPool({
 })
 
 export async function query(query: string, args?: any[]): Promise<any> {
-    // console.log('db query')
-    // console.log(args)
+    console.log('DB QUERY: '+query)
     return new Promise((resolve, reject) => {
         pool.query(query, args, (error: any, results: any, fields: any) => {
             if (error) {
+                console.error(error)
                 reject(error)
             } else {
+                console.log('DB QUERY SUCCESS')
                 resolve(results)
             }
         })
@@ -54,6 +55,7 @@ export interface queryObj {
     args?: any[],
 }
 export async function batchQuery(queries: queryObj[]): Promise<any> {
+    console.log('DB BATCH QUERY: ')
     let i = queries.length
     return new Promise((resolve, reject) => {
         pool.getConnection((e, c) => {

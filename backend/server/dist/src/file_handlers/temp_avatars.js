@@ -33,12 +33,19 @@ const multerHandler = multer_1.default({
 exports.default = (req, res) => {
     multerHandler.single('media')(req, res, (error) => {
         if (error) {
+            console.error(error);
             res.status(500).json({ error: error.message });
         }
         else {
             const filePath = `${folderPath}${req.file.filename}`;
-            cropImage(filePath, () => {
-                res.json(req.file.filename);
+            cropImage(filePath, (error) => {
+                if (error) {
+                    console.error(error);
+                    res.status(500).json({ error: error.message });
+                }
+                else {
+                    res.json(req.file.filename);
+                }
             });
         }
     });
@@ -49,23 +56,29 @@ function cropImage(filename, callBack) {
     let newWidth = 0;
     let newHeigth = 0;
     imageMagick(filename).size((err, val) => {
-        if (err)
-            console.error(err);
-        newWidth = val.width;
-        newHeigth = val.height;
-        const ratio = 1030 / newHeigth;
-        newHeigth = newHeigth * ratio;
-        newWidth = newWidth * ratio;
-        const x = newWidth - endWidth / 2;
-        imageMagick(filename)
-            .gravity('Center')
-            .resize(newWidth, newHeigth)
-            .crop(endWidth, endHeight, 0, 0)
-            .write(filename, err => {
-            if (err)
-                console.error(err);
-            callBack();
-        });
+        if (err) {
+            callBack(err);
+        }
+        else {
+            newWidth = val.width;
+            newHeigth = val.height;
+            const ratio = 1030 / newHeigth;
+            newHeigth = newHeigth * ratio;
+            newWidth = newWidth * ratio;
+            const x = newWidth - endWidth / 2;
+            imageMagick(filename)
+                .gravity('Center')
+                .resize(newWidth, newHeigth)
+                .crop(endWidth, endHeight, 0, 0)
+                .write(filename, err => {
+                if (err) {
+                    callBack(err);
+                }
+                else {
+                    callBack();
+                }
+            });
+        }
     });
 }
 //# sourceMappingURL=temp_avatars.js.map

@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class MFError extends Error {
     constructor(msg, str_id, status_code) {
         super(msg || 'Unkown error');
-        console.log('new error');
         this.msg = msg;
         this.str_id = str_id || 'UNKOWN_ERROR';
         this.status_code = status_code || 500;
+        console.log('new MFError: ' + msg || "Unkown error");
     }
 }
 exports.MFError = MFError;

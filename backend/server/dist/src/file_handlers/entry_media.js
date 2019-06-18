@@ -48,6 +48,7 @@ const multerHandler = multer_1.default({
 exports.default = (req, res) => {
     multerHandler.single('media')(req, res, (error) => {
         if (error) {
+            console.error(error);
             res.status(500).json({ error: error.message });
         }
         else {

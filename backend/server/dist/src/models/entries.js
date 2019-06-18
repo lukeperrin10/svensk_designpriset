@@ -31,7 +31,10 @@ function getName() {
 exports.getName = getName;
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('ENTRIES GET');
         const query = yield db.query('SELECT * FROM entries');
+        if (query)
+            console.log('ENTRIES GET query response recieved');
         return query;
     });
 }
@@ -210,13 +213,13 @@ function fill_entry(entry) {
         entry_name: entry.entry_name,
         category: entry.category,
         designer: entry.designer,
-        illustrator: entry.illustrator,
+        illustrator: entry.illustrator || '',
         leader: entry.leader,
-        format: entry.format,
-        size: entry.size,
+        format: entry.format || '',
+        size: entry.size || '',
         customer: entry.customer,
-        webpage: entry.webpage,
-        source: entry.source,
+        webpage: entry.webpage || '',
+        source: entry.source || '',
         secret: entry.secret,
         avatar: entry.avatar,
         year: entry.year || `${new Date().getFullYear()}`,
