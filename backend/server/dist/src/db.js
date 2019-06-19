@@ -44,6 +44,18 @@ exports.pool = mysql_1.default.createPool({
     password: process.env.DP_BACKEND_MYSQL_PASSWORD,
     database: process.env.DP_BACKEND_MYSQL_DATABASE,
 });
+// pool.on('acquire', (connection) => {
+//     console.log('POOL ACQUIRE ----------------------------------- Connection %d acquired', connection.threadId)
+// })
+// pool.on('connection', (connection) => {
+//     console.log('POOL CONNECTION ----------------------------------- Connection %d acquired', connection.threadId)
+// })
+// pool.on('enqueue', () => {
+//     console.log('POOL ENQUEUE ----------------------------------- Waiting for available connection slot')
+// })
+// pool.on('release', (connection) => {
+//     console.log('POOL RELEASE ----------------------------------- Connection %d released', connection.threadId)
+// })
 function query(query, args) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('DB QUERY: ' + query);
@@ -88,6 +100,8 @@ function batchQuery(queries) {
                                     console.error(error);
                                     return c.rollback(null, () => { reject(error); });
                                 }
+                                // Såklart att du måste release kopplingen, dumhövve...
+                                c.release();
                                 return resolve(res);
                             });
                         });
