@@ -120,7 +120,7 @@ function tryCalls(amountOfCalls, amountOfEntries) {
 // Calls
 
 // tryCalls(amountOfCalls, amountOfEntries)
-tryCalls(10, 3)
+tryCalls(30, 4)
 
 
 

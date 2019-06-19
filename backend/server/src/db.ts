@@ -27,12 +27,28 @@ export function handleDbError(err: Error, map?: Array<DBErrorMapping>) {
 }
 
 export const pool = mysql.createPool({
-    connectionLimit: 10,
+    connectionLimit: 9,
     host: process.env.DP_BACKEND_MYSQL_HOST,
     user: process.env.DP_BACKEND_MYSQL_USER,
     password: process.env.DP_BACKEND_MYSQL_PASSWORD,
     database: process.env.DP_BACKEND_MYSQL_DATABASE,
 })
+
+// pool.on('acquire', (connection) => {
+//     console.log('POOL ACQUIRE ----------------------------------- Connection %d acquired', connection.threadId)
+// })
+
+// pool.on('connection', (connection) => {
+//     console.log('POOL CONNECTION ----------------------------------- Connection %d acquired', connection.threadId)
+// })
+
+// pool.on('enqueue', () => {
+//     console.log('POOL ENQUEUE ----------------------------------- Waiting for available connection slot')
+// })
+
+// pool.on('release', (connection) => {
+//     console.log('POOL RELEASE ----------------------------------- Connection %d released', connection.threadId)
+// })
 
 export async function query(query: string, args?: any[]): Promise<any> {
     console.log('DB QUERY: '+query)
@@ -75,6 +91,8 @@ export async function batchQuery(queries: queryObj[]): Promise<any> {
                                 console.error(error)
                                 return c.rollback(null, () => {reject(error)})
                             }
+                            // Såklart att du måste release kopplingen, dumhövve...
+                            c.release()
                             return resolve(res)
                         })
                     })
