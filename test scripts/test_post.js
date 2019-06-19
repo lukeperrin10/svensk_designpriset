@@ -3,8 +3,9 @@ const fetch = require('node-fetch')
 const BASE_URL = 'http://myown.se:8001'
 const PROFILE_URL = `${BASE_URL}/profiles`
 const ENTRIES_URL = `${BASE_URL}/entries`
+const CATEGORY_URL = `${BASE_URL}/categories`
 
-async function makeRequest() {
+async function makeProfileAndEntriesRequest(amountOfEntries) {
     const headers = {"Content-Type": "application/json; charset=utf-8"}
     try {
         const profile = await fetch(PROFILE_URL, {
@@ -13,20 +14,23 @@ async function makeRequest() {
             body: JSON.stringify(createProfile())
         })
         const profileId = await profile.json()
-        const entries = fetch(ENTRIES_URL, {
+        console.log('post profile: '+stringify(profileId))
+        const entries = await fetch(ENTRIES_URL, {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(createEntries(profileId[0]['id']))
+            body: JSON.stringify(createEntries(profileId[0]['id'], amountOfEntries))
         })
+        const entriesResult = await entries.json()
+        console.log('post entries: '+stringify(entriesResult))
     } catch (error) {
         console.log(error)
     }
     
 }
 
-function createEntries(profileId) {
+function createEntries(profileId, amountOfEntries) {
     const entries = []
-    const amountOfEntries = 3
+    
     console.log(`creating ${amountOfEntries} entries`)
     for(let i = 0; i<amountOfEntries; i++) {
         const entry = {
@@ -64,5 +68,59 @@ function createProfile() {
     }
 }
 
-makeRequest()
+async function getProfiles() {
+    try {
+        const profiles = await fetch(`${PROFILE_URL}`)
+        const result = await profiles.json()
+        console.log('get profiles: '+stringify(result))
+    } catch (error) {
+        console.log(error)
+    }
+    
+}
+
+async function getProfile(id) {
+    try {
+        const profile = await fetch(`${PROFILE_URL}/${id}`)
+        const result = await profile.json()
+        console.log('get profile '+id+' :'+stringify(result))
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function getCategories() {
+    console.log('getCategories')
+    try {
+        const categories = await fetch(CATEGORY_URL)
+        const result = await categories.json()
+        console.log('get categories: '+stringify(result))
+    } catch (err) {
+        console.log(err)
+    }
+    
+    
+}
+
+function stringify(obj) {
+    return JSON.stringify(obj)
+}
+
+
+
+
+function tryCalls(amountOfCalls, amountOfEntries) {
+    
+    for (let i = 0; i<amountOfCalls;i++) {
+        getCategories()
+        makeProfileAndEntriesRequest(amountOfEntries)
+    }
+}
+
+// Calls
+
+// tryCalls(amountOfCalls, amountOfEntries)
+tryCalls(10, 3)
+
+
 

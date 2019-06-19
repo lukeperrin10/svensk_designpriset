@@ -112,24 +112,6 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
     const profileEntries = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id])
     console.log(updatedEntrieIds)
     sendMails(profileEntries, update, updatedEntrieIds, new_entries[0].id)
-    // if (Array.isArray(profileEntries)) {
-    //     console.log('yes')
-    //     if (profileEntries[0] && profileEntries[0].profile_id) {
-    //         const id = profileEntries[0].profile_id
-    //         const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
-    //         if (Array.isArray(profile) && profile.length > 0) {
-    //             if ('id' in profile[0]) {
-    //                 const entries : dbtype[] = []
-    //                 profileEntries.forEach((batch: any) => {
-    //                     entries.push(batch)
-    //                 })
-    //                 sendRegisterEmails(profile[0], entries, update, updatedEntrieIds)
-    //             }
-    //         }
-    //     }
-    // } else {
-    //     console.error('Did not send mail regarding entry: '+new_entries[0].id)
-    // }
     
     return profileEntries
 }
