@@ -71,7 +71,7 @@ class Registration extends React.Component<Props, State> {
         const query = queryString.parse(location.search)
         const today = new Date()
         const open = new Date('2019-06-20T23:59:59')
-        return 'wopii_dev' in query || today < open
+        return  'lateregistration' in query || today < open
     }
 
     componentDidMount() {
