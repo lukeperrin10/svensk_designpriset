@@ -67,11 +67,14 @@ class Registration extends React.Component<Props, State> {
         // localStorage.clear()
     }
 
+    // http://www.designpriset.se/register2/edit?id=251&secret=e3eb159e23b8e62f6b0ec1b153f78b80
+
     isAllowed() {
         const query = queryString.parse(location.search)
         const today = new Date()
-        const open = new Date('2019-06-20T23:59:59')
-        return  'lateregistration' in query || today < open
+        const start = new Date('2019-08-20T00:00:01')
+        const end = new Date('2019-08-30T23:59:59')
+        return 'secret' in query && today > start && today < end
     }
 
     componentDidMount() {
@@ -217,6 +220,7 @@ class Registration extends React.Component<Props, State> {
                         }/>
                         <Route path="/edit" render={() => (
                             <div>
+                                <RegistrationInfo />
                                 <FormContainer onDeleteEntry={this.deleteEntry} adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
                                 {didUpload ? <Redirect to='/bekraftelse' /> : null}
                             </div>
