@@ -72,9 +72,13 @@ class Registration extends React.Component<Props, State> {
     isAllowed() {
         const query = queryString.parse(location.search)
         const today = new Date()
-        const start = new Date('2019-08-20T00:00:01')
-        const end = new Date('2019-08-30T23:59:59')
-        return 'secret' in query && today > start && today < end
+        const start = new Date('2019-09-02T00:00:01')
+        const end = new Date('2019-09-04T23:59:59')
+        const secondStart = new Date('2019-09-09T00:00:01')
+        const seconEnd = new Date('2019-09-11T23:59:59')
+        const shouldOpen = today > start && today < end
+        const secondShouldOpen = today > secondStart && today < seconEnd
+        return 'secret' in query && (shouldOpen || secondShouldOpen)
     }
 
     componentDidMount() {
