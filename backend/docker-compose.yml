@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    db:
+        command: --default-authentication-plugin=mysql_native_password
+        hostname: mysql
+        env_file:
+            - common.env
+        environment:
+            - MYSQL_HOST=   # override from env file to be empty
+        build: ./db
+        volumes:
+            - mysql-data:/var/lib/mysql
+            - ./db/dumps:/var/dumps
+    python:
+        depends_on:
+            - db
+        build: admin
+        env_file: 
+            - common.env
+            - dev.env
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./admin:/code
+        ports:
+        - "8000:8000"
+volumes:
+    mysql-data: {}
