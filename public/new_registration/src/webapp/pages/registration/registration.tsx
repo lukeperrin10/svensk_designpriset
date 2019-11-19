@@ -70,6 +70,7 @@ class Registration extends React.Component<Props, State> {
     // http://www.designpriset.se/register2/edit?id=251&secret=e3eb159e23b8e62f6b0ec1b153f78b80
 
     isAllowed() {
+        return true
         const query = queryString.parse(location.search)
         const today = new Date()
         const start = new Date('2019-09-02T00:00:01')
@@ -202,7 +203,8 @@ class Registration extends React.Component<Props, State> {
         const {categories} = this.props.categoriesState
         const {didLoad, didUpload, edit, editIsAdmin, isAllowed} = this.state
         if (!isAllowed) {
-            this.redirect()
+            //this.redirect()
+            console.log("Not allowed")
         }
         return (
             <Router basename={ROUTER_BAS_NAME}>
