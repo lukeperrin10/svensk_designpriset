@@ -10,7 +10,7 @@ services:
             - MYSQL_HOST=   # override from env file to be empty
         build: ./db
         volumes:
-            - mysql-data:/var/lib/mysql
+            - despri-data:/var/lib/mysql
             - ./db/dumps:/var/dumps
     python:
         depends_on:
@@ -24,5 +24,9 @@ services:
             - ./admin:/code
         ports:
         - "8000:8000"
+    node:
+        depends_on:
+            - db
+        build: server
 volumes:
-    mysql-data: {}
+    despri-data: {}
