@@ -1,0 +1,6 @@
+FROM node
+RUN mkdir -p /var/app
+WORKDIR /var/app
+RUN apt-get update && apt-get install -y imagemagick
+RUN npm i -g nodemon
+CMD [ "nodemon", "server.ts" ]

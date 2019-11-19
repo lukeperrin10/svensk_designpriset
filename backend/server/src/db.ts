@@ -28,10 +28,10 @@ export function handleDbError(err: Error, map?: Array<DBErrorMapping>) {
 
 export const pool = mysql.createPool({
     connectionLimit: 9,
-    host: process.env.DP_BACKEND_MYSQL_HOST,
-    user: process.env.DP_BACKEND_MYSQL_USER,
-    password: process.env.DP_BACKEND_MYSQL_PASSWORD,
-    database: process.env.DP_BACKEND_MYSQL_DATABASE,
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
 })
 
 // pool.on('acquire', (connection) => {
