@@ -20,6 +20,19 @@ export async function create(vote: Vote): Promise<Vote> {
     return query
 }
 
+export async function batchCreate(votes: Vote[]) : Promise<string> {
+    const querys: db.queryObj[] = []
+    votes.forEach(vote => {
+        querys.push({
+            query: 'INSERT INTO votes SET ?',
+            args: [vote]
+        })
+    })
+    const batchInsert = await db.batchQuery(querys)
+    console.log(batchInsert)
+    return 'ok'
+}
+
 function addDates(vote: Vote) {
     vote.created = getDateTime()
     vote.modified = getDateTime()

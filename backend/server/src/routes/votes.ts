@@ -3,4 +3,17 @@ import {DPRouter} from './base_router'
 
 const valid_params = ['id']
 
-export const router = new DPRouter<model.Vote>(model, valid_params).activate()
+class VoteRouter extends DPRouter<model.Vote> {
+    post() {
+        this.router.post('/', async (req, res) => {
+            console.log(req.body)
+            if (Array.isArray(req.body) && req.body.length > 1) {
+                res.json(await (<typeof model>this.model).batchCreate(req.body))
+            } else {
+                res.json(await this.model.create(req.body[0]))
+            }
+        })
+    }
+}
+
+export const router = new VoteRouter(model, valid_params).activate()
