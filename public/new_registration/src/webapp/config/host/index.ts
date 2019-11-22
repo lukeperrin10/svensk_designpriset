@@ -6,6 +6,7 @@ export const WINNER_URL = `${BASE_URL}/winners`
 export const PROFILE_URL = `${BASE_URL}/profiles`
 export const ENTRIES_URL = `${BASE_URL}/entries`
 export const CATEGORY_URL = `${BASE_URL}/categories`
+export const VOTES_URL = `${BASE_URL}/votes`
 
 export const FRONTEND_URL = isProd ? "http://www.designpriset.se" : "http://myown.se:8011"
 
@@ -24,3 +25,5 @@ export const MEDIA_SYM = isProd ? `${FRONTEND_URL}/admin/media` : `${FRONTEND_UR
 
 export const ROOT_URL = isProd ? `${FRONTEND_URL}/register2` : "http://myown.se:3000"
 export const OLD_REGISTRATION_URL = "http://www.designpriset.se/anmalan.php"
+
+

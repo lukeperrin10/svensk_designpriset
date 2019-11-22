@@ -1,3 +1,10 @@
+export interface IVote {
+    mail: string,
+    poll_id: number,
+    entry_id: number,
+    ip: string
+}
+
 export interface IWinner {
     id: number,
     profile_id: number,

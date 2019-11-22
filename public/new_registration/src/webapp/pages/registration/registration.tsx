@@ -15,7 +15,7 @@ import RegistrationInfo from './registration_info';
 import ErrorModal from './error_modal/error_modal';
 import styles from './style'
 import { DID_POST_FORM } from 'src/webapp/model/constants';
-import { OLD_REGISTRATION_URL, ROUTER_BAS_NAME } from 'src/webapp/config/host';
+import { OLD_REGISTRATION_URL} from 'src/webapp/config/host';
 import logo from '../../assets/img/logo.png'
 
 interface ReduxProps {
@@ -207,7 +207,8 @@ class Registration extends React.Component<Props, State> {
             console.log("Not allowed")
         }
         return (
-            <Router basename={ROUTER_BAS_NAME}>
+            // <Router basename={ROUTER_BAS_NAME}>
+            <Router>
                 {!isAllowed ?
                 <div>Du har inte tillåtelse att visa den här sidan</div>
                 :
@@ -216,7 +217,7 @@ class Registration extends React.Component<Props, State> {
                     <Loader />
                     :
                     <Switch>
-                        <Route exact path="/" render={() => (
+                        <Route exact path="/anmalan" render={() => (
                             <div>
                                 <RegistrationInfo />
                                 <FormContainer adminMode={false} categories={categories} saveContent={this.postContent} />
@@ -224,7 +225,7 @@ class Registration extends React.Component<Props, State> {
                             </div>
                             )
                         }/>
-                        <Route path="/edit" render={() => (
+                        <Route path="/anmalan/edit" render={() => (
                             <div>
                                 <RegistrationInfo />
                                 <FormContainer onDeleteEntry={this.deleteEntry} adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
@@ -232,7 +233,7 @@ class Registration extends React.Component<Props, State> {
                             </div>
                             )
                         }/>
-                        <Route path="/bekraftelse" render={() => (<ConfirmationContainer update={edit} />)} />
+                        <Route path="/anmalan/bekraftelse" render={() => (<ConfirmationContainer update={edit} />)} />
                     </Switch>
                     }
                     <ErrorModal show={this.state.showErrorModal} onClose={() => this.setState({showErrorModal: false})} />
