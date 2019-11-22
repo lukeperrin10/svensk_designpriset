@@ -1,3 +1,14 @@
+export interface Vote {
+    created: string,
+    modified: string
+    secret: string,
+    mail: string,
+    verified: string,
+    ip: string,
+    entry_id: number,
+    poll_id: number
+}
+
 export interface Winner {
     id: number,
     profile_id: number,
