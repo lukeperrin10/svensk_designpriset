@@ -4,6 +4,7 @@ import * as hosts from 'src/webapp/config/host'
 import { IEntry, IVote } from 'src/webapp/model'
 import EntryList from './entry_list'
 import Summary from './summary'
+import AfterPost from './after_post'
 // import styles from './vote.module.css'
 
 enum STAGES {
@@ -81,7 +82,7 @@ const Vote = () => {
 
     const onVote = (entry: IEntry) => {
         console.log(entries)
-        const arr = Array.from(voteEntries).filter(e => e.category !== entry.category)
+        const arr = Array.from(voteEntries).filter(e => e.category_id !== entry.category_id)
         arr.push(entry)
         setVoteEntries(arr)
     }
@@ -117,7 +118,7 @@ const Vote = () => {
                     </div>
                 )
             case STAGES.DID_SEND:
-                return <div></div>
+                return <AfterPost />
             case STAGES.CONFIRMED:
                 return <div></div>
             default:
