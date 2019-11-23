@@ -2,7 +2,8 @@ export interface IVote {
     mail: string,
     poll_id: number,
     entry_id: number,
-    ip: string
+    ip: string,
+    secret?: string
 }
 
 export interface IWinner {

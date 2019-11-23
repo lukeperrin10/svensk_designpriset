@@ -5,6 +5,7 @@ import { IEntry, IVote } from 'src/webapp/model'
 import EntryList from './entry_list'
 import Summary from './summary'
 import AfterPost from './after_post'
+import {Md5} from 'ts-md5/dist/md5';
 // import styles from './vote.module.css'
 
 enum STAGES {
@@ -54,7 +55,7 @@ const Vote = () => {
             const response = await fetch(url, {
                 method: method,
                 headers: headers,
-                body: JSON.stringify(votes)
+                body: JSON.stringify(addHash(votes))
             })
             checkResponse(response)
         } catch (error) {
@@ -62,6 +63,12 @@ const Vote = () => {
             console.log(error)
             
         }
+    }
+
+    const addHash = (votes: IVote[]) => {
+        const secret = `${Md5.hashStr(votes[0].mail+Date.now())}`
+        votes.forEach(vote => vote.secret = secret)
+        return votes
     }
 
     const checkResponse = (response: Response) => {

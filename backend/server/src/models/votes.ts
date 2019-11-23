@@ -25,7 +25,7 @@ export async function batchCreate(votes: Vote[]) : Promise<string> {
     votes.forEach(vote => {
         querys.push({
             query: 'INSERT INTO votes SET ?',
-            args: [vote]
+            args: [addDates(vote)]
         })
     })
     try {
