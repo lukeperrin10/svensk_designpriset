@@ -64,6 +64,7 @@ export async function query(query: string, args?: any[]): Promise<any> {
         })
     }).catch((error) => {
         console.error('error single query: ' +error)
+        handleDbError(error)
     })
 }
 export interface queryObj {
@@ -101,6 +102,7 @@ export async function batchQuery(queries: queryObj[]): Promise<any> {
         })
     }).catch((error) => {
         console.error('error batch query: ' +error)
+        handleDbError(error)
         // handleDbError(error)
     })
 }

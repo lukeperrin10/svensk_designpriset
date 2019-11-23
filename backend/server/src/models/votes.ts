@@ -28,8 +28,12 @@ export async function batchCreate(votes: Vote[]) : Promise<string> {
             args: [vote]
         })
     })
-    const batchInsert = await db.batchQuery(querys)
-    console.log(batchInsert)
+    try {
+        const batchInsert = await db.batchQuery(querys)
+        console.log(batchInsert)
+    } catch (error) {
+        return error
+    }
     return 'ok'
 }
 

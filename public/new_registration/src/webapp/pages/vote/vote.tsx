@@ -16,9 +16,12 @@ enum STAGES {
 const Vote = () => {
 
     const [entries, setEntries] = useState<IEntry[]>([]) 
-    const [didFetch, setDidFetch] = useState(false)
+    const [didFetchEntries, setDidFetchEntries] = useState(false)
     const [voteEntries, setVoteEntries] = useState<IEntry[]>([])
     const [currentStage, setCurrentStage] = useState(STAGES.LIST)
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
     useEffect(() => {
         getEntries()
@@ -26,7 +29,8 @@ const Vote = () => {
     }, [])
 
     useEffect(() => {
-        setDidFetch(true)
+        setDidFetchEntries(true)
+        setIsLoading(false)
     }, [entries])
 
     const getEntries = async () => {
@@ -38,6 +42,40 @@ const Vote = () => {
         } catch(error) {
             console.log(error)
         }
+    }
+
+    const postVotes = async (votes: IVote[]) => {
+        setError(false)
+        try {
+            const method = "POST"
+            const url = hosts.VOTES_URL
+            const headers = {"Content-Type": "application/json; charset=utf-8"}
+            const response = await fetch(url, {
+                method: method,
+                headers: headers,
+                body: JSON.stringify(votes)
+            })
+            checkResponse(response)
+        } catch (error) {
+            console.log('post error')
+            console.log(error)
+            
+        }
+    }
+
+    const checkResponse = (response: Response) => {
+        if (response.ok) {
+            setCurrentStage(STAGES.DID_SEND)
+        } else {
+            setError(true)
+            setErrorMessage(response.statusText)
+        }
+    }
+
+    const resetStage = () => {
+        setError(false)
+        setErrorMessage('')
+        setCurrentStage(STAGES.SUMMARY)
     }
 
 
@@ -53,6 +91,7 @@ const Vote = () => {
     }
 
     const onPostVotes = (votes: IVote[]) => {
+        postVotes(votes)
         console.log(votes)
     }
 
@@ -65,7 +104,7 @@ const Vote = () => {
             case STAGES.LIST:
                 return (
                     <div>
-                        {didFetch &&
+                        {didFetchEntries &&
                         <EntryList onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries} entries={entries} />
                         }
                     </div>
@@ -90,6 +129,32 @@ const Vote = () => {
     return (
         <div>hejsan röstning
            {getContent()}
+           {isLoading &&
+            <div style={{
+                position: 'absolute', 
+                top: 0, 
+                left: 0, 
+                height: '100vh', 
+                width: '100vw', 
+                textAlign: 'center',
+                backgroundColor: 'rgba(255,255,255,0.9)'}}>
+                    <p>LADDAR...</p>
+                </div>
+            }
+            {error &&
+            <div style={{
+                position: 'absolute', 
+                top: 0, 
+                left: 0, 
+                height: '100vh', 
+                width: '100vw', 
+                textAlign: 'center',
+                backgroundColor: 'rgba(255,255,255,0.9)'}}>
+                    <p>Något gick fel.</p>
+                    <p>{errorMessage}</p>
+                    <button onClick={resetStage}>Försök igen</button>
+                </div>
+            }
         </div>
     )
 }
