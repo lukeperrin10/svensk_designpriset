@@ -4,10 +4,11 @@ import EntryCard from 'src/webapp/components/entry_card'
 
 interface ISummary {
     entries: IEntry[],
-    onPostVotes: (votes: IVote[]) => void
+    onPostVotes: (votes: IVote[]) => void,
+    onChangeVotes: () => void
 }
 
-const Summary = ({entries, onPostVotes}: ISummary) => {
+const Summary = ({entries, onPostVotes, onChangeVotes}: ISummary) => {
     const [email, setEmail] = React.useState()
 
     const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +35,7 @@ const Summary = ({entries, onPostVotes}: ISummary) => {
             </div>
             <label>Epost</label>
             <input type='text' onChange={onEmailChange}/>
+            <button onClick={onChangeVotes}>Ändra</button>
             <button onClick={onSubmit}>Skicka in</button>
         </div>
     )

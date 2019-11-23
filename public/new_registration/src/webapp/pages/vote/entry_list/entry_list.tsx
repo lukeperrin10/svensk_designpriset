@@ -4,21 +4,24 @@ import EntryCard from 'src/webapp/components/entry_card'
 
 interface IEntryList {
     entries: IEntry[],
-    onVotesDone: (entries: IEntry[]) => void
+    voteEntries: IEntry[],
+    onVote: (entry: IEntry) => void,
+    onVotesDone: () => void
 }
 
-const EntryList = ({entries, onVotesDone}: IEntryList) => {
-    const [voteEntries, setVoteEntries] = React.useState<IEntry[]>([])
+const EntryList = ({entries, onVote, voteEntries, onVotesDone}: IEntryList) => {
+    // const [voteEntries, setVoteEntries] = React.useState<IEntry[]>([])
 
     React.useEffect(() => {
         console.log(voteEntries)
     }, [voteEntries])
 
-    const onVote = (entry: IEntry) => {
-        console.log('list vote')
-        const arr = Array.from(voteEntries)
-        arr.push(entry)
-        setVoteEntries(arr)
+    const onCardClicked = (entry: IEntry) => {
+        // console.log('list vote')
+        // const arr = Array.from(voteEntries)
+        // arr.push(entry)
+        // setVoteEntries(arr)
+        onVote(entry)
     }
 
     const checkIsVoted = (id: number) => {
@@ -27,7 +30,7 @@ const EntryList = ({entries, onVotesDone}: IEntryList) => {
 
     const onContinue = () => {
         if (voteEntries.length > 0) {
-            onVotesDone(voteEntries)
+            onVotesDone()
         } else {
             console.log('no votes')
         }    
@@ -35,7 +38,7 @@ const EntryList = ({entries, onVotesDone}: IEntryList) => {
     return (
         <div>
             {entries &&
-            entries.map(e => <EntryCard isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onVote} entry={e} /> )}
+            entries.map(e => <EntryCard isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
             <button onClick={onContinue}>Gå vidare</button>
         </div>
     )
