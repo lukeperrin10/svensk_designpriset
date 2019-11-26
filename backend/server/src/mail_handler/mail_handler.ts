@@ -1,6 +1,6 @@
 import * as nodeMailer from 'nodemailer'
 import { REGISTER_ROOT_URL, ADMIN_EMAIL } from '../constants/temp_contants';
-import { getRegisterMailContent, getSubjectRegister, getRegisterMailAdminContent } from './mail_content';
+import { getRegisterMailContent, getSubjectRegister, getRegisterMailAdminContent, getConfirmVotesContent } from './mail_content';
 import { Entry, Profile, Category } from 'dbtypes';
 import { get } from '../models/category';
 
@@ -52,6 +52,14 @@ export function generateUserLink(id: number, secret: string) {
 export function generateAdminLink(id: number, secret: string) {
     console.log(`gen admin:  id: ${id}, secret: ${secret}`)
     return `${REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`
+}
+
+export function generateConfirmVotesLink(secret: string) {
+    return `${REGISTER_ROOT_URL}/rostning?confirm=${secret}`
+}
+
+export async function sendConfirmVotesMail(email: string, secret: string) {
+    await mail(email, 'Bekräfta röst', getConfirmVotesContent(generateConfirmVotesLink(secret)))
 }
 // WARNING CHANGE EMAIL ADRESS!
 export async function sendRegisterEmails(profile: Profile, entries: Entry[], update: boolean, updatedIds: number[]) {

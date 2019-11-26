@@ -1,7 +1,7 @@
 import * as model from '../models/votes'
 import {DPRouter} from './base_router'
 
-const valid_params = ['id']
+const valid_params = ['secret']
 
 class VoteRouter extends DPRouter<model.Vote> {
     post() {

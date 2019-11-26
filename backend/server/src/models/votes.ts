@@ -1,6 +1,7 @@
 import * as db from '../db'
 import {Vote as dbtype} from '../types/dbtypes'
 import { getDateTime } from '../helpers'
+import { sendConfirmVotesMail } from '../mail_handler/mail_handler'
 
 export interface Vote extends Partial<dbtype> {}
 
@@ -14,10 +15,15 @@ export async function get(): Promise<Array<Vote>> {
 }
 
 export async function create(vote: Vote): Promise<Vote> {
-    const insert = await db.query('INSERT INTO votes SET ?', [addDates(vote)])
-    const query = await db.query('SELECT * FROM votes WHERE id = ?', [insert.insertId])
-    console.log(query)
-    return query
+    try {
+        const insert = await db.query('INSERT INTO votes SET ?', [addDates(vote)])
+        const query = await db.query('SELECT * FROM votes WHERE id = ?', [insert.insertId])
+        console.log(query)
+        sendConfirmVotesMail(vote.mail, vote.secret)
+        return query
+    } catch (error) {
+        return error
+    }
 }
 
 export async function batchCreate(votes: Vote[]) : Promise<string> {
@@ -30,6 +36,7 @@ export async function batchCreate(votes: Vote[]) : Promise<string> {
     })
     try {
         const batchInsert = await db.batchQuery(querys)
+        sendConfirmVotesMail(votes[0].mail, votes[0].secret)
         console.log(batchInsert)
     } catch (error) {
         return error

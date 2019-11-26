@@ -9,6 +9,19 @@ export interface Vote {
     poll_id: number
 }
 
+export interface ConfirmedVote {
+    secret: string
+}
+
+export interface Poll {
+    id: number,
+    created: string,
+    modified: string,
+    name: string,
+    start: string,
+    stop: string
+}
+
 export interface Winner {
     id: number,
     profile_id: number,
@@ -61,6 +74,7 @@ export interface Entry {
     secret: string,
     entry_name: string,
     category: string,
+    category_id: number,
     source: string,
     designer: string,
     illustrator: string,

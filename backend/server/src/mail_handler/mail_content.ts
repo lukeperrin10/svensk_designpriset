@@ -191,3 +191,20 @@ function getEntryContent(entries: Entry[], categories: Category[]) {
     })   
     return content
 }
+
+
+export function getConfirmVotesContent(confirmLink: string) {
+    const message = `Tack, vänligen bekräfta röst här: ${confirmLink}`
+
+    // let mailContent = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+    // <html>
+    //     <head>
+    //         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    //     </head>
+    //     <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="'. $this->get_body_style() .'">
+    //       <p>${message}</p>
+    //     </body>
+    // </html>`
+
+    return message
+}

@@ -6,6 +6,8 @@ import EntryList from './entry_list'
 import Summary from './summary'
 import AfterPost from './after_post'
 import {Md5} from 'ts-md5/dist/md5';
+import * as queryString from 'query-string'
+import AfterConfirmed from './after_confirmed'
 // import styles from './vote.module.css'
 
 enum STAGES {
@@ -28,12 +30,21 @@ const Vote = () => {
     useEffect(() => {
         getEntries()
         setCurrentStage(STAGES.LIST)
+        checkForConfirms()
     }, [])
 
     useEffect(() => {
         setDidFetchEntries(true)
         setIsLoading(false)
     }, [entries])
+
+    const checkForConfirms = () => {
+        const query = queryString.parse(location.search)
+        if ('confirm' in query && typeof query['confirm'] === 'string') {
+            confirmVotes(query['confirm'] as string)
+            setCurrentStage(STAGES.CONFIRMED)
+        }
+    }
 
     const getEntries = async () => {
         try {
@@ -57,7 +68,27 @@ const Vote = () => {
                 headers: headers,
                 body: JSON.stringify(addHash(votes))
             })
-            checkResponse(response)
+            if (checkResponse(response)) setCurrentStage(STAGES.DID_SEND)
+        } catch (error) {
+            console.log('post error')
+            console.log(error)
+            
+        }
+    }
+
+    const confirmVotes = async (secret: string) => {
+        console.log(secret)
+        setError(false)
+        try {
+            const method = "POST"
+            const url = hosts.CONFIRMED_VOTE_URL
+            const headers = {"Content-Type": "application/json; charset=utf-8"}
+            const response = await fetch(url, {
+                method: method,
+                headers: headers,
+                body: JSON.stringify({secret: secret})
+            })
+            if (checkResponse(response)) setCurrentStage(STAGES.CONFIRMED)
         } catch (error) {
             console.log('post error')
             console.log(error)
@@ -73,10 +104,11 @@ const Vote = () => {
 
     const checkResponse = (response: Response) => {
         if (response.ok) {
-            setCurrentStage(STAGES.DID_SEND)
+            return true
         } else {
             setError(true)
             setErrorMessage(response.statusText)
+            return false
         }
     }
 
@@ -127,7 +159,7 @@ const Vote = () => {
             case STAGES.DID_SEND:
                 return <AfterPost />
             case STAGES.CONFIRMED:
-                return <div></div>
+                return <AfterConfirmed />
             default:
                 return <div></div>
 
