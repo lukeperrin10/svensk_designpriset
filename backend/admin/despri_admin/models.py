@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from datetime import date, datetime, timezone
 
 class BaseModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -55,8 +56,8 @@ class Entry(BaseModel):
     is_winner_gold = models.BooleanField(_('Winner Gold'), null=False, default=False)
     is_winner_silver = models.BooleanField(_('Winner Silver'), null=False, default=False)
     is_nominated = models.BooleanField(_('Nominated'), null=False, default=False)
-    sent_nominee_notification = models.DateField(_('Nominee notification date'))
-    motivation = models.TextField(_('Motivation'), null=False, blank=False)
+    sent_nominee_notification = models.DateField(_('Nominee notification date'), null=True, blank=True)
+    motivation = models.TextField(_('Motivation'), null=True, blank=True)
     year = models.CharField(_('Year'), max_length=4, null=False, blank=False)
 
     def __str__(self):
@@ -105,3 +106,60 @@ class Vote(BaseModel):
         verbose_name = _('Vote')
         verbose_name_plural = _('Votes')
         db_table = 'votes'
+
+
+class Phase(BaseModel):
+    start_date = models.DateTimeField(_('Start date'), null=False, blank=False)
+    name = models.CharField(_('Name'), max_length=63, null=False, blank=False)
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = _('Phase')
+        verbose_name_plural = _('Phases')
+        ordering = ['start_date']
+        db_table = 'phases'
+    @classmethod
+    def get_current_phase(cls):
+        phases = [phase for phase in cls.objects.all()]
+        for i in range(len(phases)):
+            phase = phases[i]
+            if phase.start_date >= datetime.now(timezone.utc):
+                return phases[max(0, i - 1)]
+        return phases[0]
+
+class YearConfig(BaseModel):
+    year = models.CharField(_('Year'), max_length=4, null=False, blank=False, unique=True)
+    #key = models.CharField(_('Key'), max_length=255, null=False, blank=False)
+    #value = models.CharField(_('Value'), max_length=255, null=False, blank=False)
+    register_deadline_date = models.DateTimeField(_('Register deadline date'), null=True, blank=True)
+    phase_1_start = models.DateTimeField(_('Phase 1 start'), null=True, blank=True)
+    phase_2_start = models.DateTimeField(_('Phase 2 start'), null=True, blank=True)
+    phase_3_start = models.DateTimeField(_('Phase 3 start'), null=True, blank=True)
+    phase_4_start = models.DateTimeField(_('Phase 4 start'), null=True, blank=True)
+    phase_5_start = models.DateTimeField(_('Phase 5 start'), null=True, blank=True)
+    price = models.CharField(_('Price per entry'), max_length=31, null=True, blank=True)
+    award_place = models.CharField(_('Award Place'), max_length=255, null=True, blank=True)
+    #phases = models.ManyToManyField(Phase, verbose_name="phases")
+    def __str__(self):
+        return self.year
+    class Meta:
+        verbose_name = _('Config')
+        verbose_name_plural = _('Configs')
+        ordering = ['-modified']
+        db_table = 'yearconfig'
+
+    @classmethod
+    def get_current_phase(cls):
+        conf = cls.objects.get(year=datetime.now().year)
+        d = datetime.now(timezone.utc)
+        if d < conf.phase_1_start:
+            return 5
+        if d < conf.phase_2_start:
+            return 1
+        if d < conf.phase_3_start:
+            return 2
+        if d < conf.phase_4_start:
+            return 3
+        if d < conf.phase_5_start:
+            return 4
+        return 1
