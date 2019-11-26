@@ -6,9 +6,10 @@ interface ISummary {
     entries: IEntry[],
     onPostVotes: (votes: IVote[]) => void,
     onChangeVotes: () => void,
+    pollId: number
 }
 
-const Summary = ({entries, onPostVotes, onChangeVotes}: ISummary) => {
+const Summary = ({entries, onPostVotes, onChangeVotes, pollId}: ISummary) => {
     const [email, setEmail] = React.useState()
 
     const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +26,7 @@ const Summary = ({entries, onPostVotes, onChangeVotes}: ISummary) => {
             const votes = entries.map(e => {
                 return {
                     mail: email,
-                    poll_id: 1,
+                    poll_id: pollId,
                     entry_id: e.id,
                     ip: '1234.1234.1234'
                 }

@@ -62,7 +62,7 @@ export async function get(): Promise<Array<Polls>> {
 function assemblePoll(cats: Entry[][], polls: PollQuery[]) {
     console.log('assemblePoll')
     const result : PollCollection = {
-        id: 0,
+        id: polls[0].poll_id,
         categories: undefined
     }
     // result.id = polls[0].poll_id

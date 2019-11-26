@@ -17,10 +17,20 @@ enum STAGES {
     CONFIRMED = 'CONFIRMED'
 }
 
+interface PollCategories {
+    [key:number]: {
+        entries: IEntry[]
+    }
+}
+interface PollCollection {
+    id: number,
+    categories: PollCategories
+}
+
 const Vote = () => {
 
-    const [entries, setEntries] = useState<IEntry[]>([]) 
-    const [didFetchEntries, setDidFetchEntries] = useState(false)
+    const [poll, setPoll] = useState<PollCollection>() 
+    const [didFetchPoll, setDidFetchPoll] = useState(false)
     const [voteEntries, setVoteEntries] = useState<IEntry[]>([])
     const [currentStage, setCurrentStage] = useState(STAGES.LIST)
     const [isLoading, setIsLoading] = useState(true)
@@ -28,15 +38,15 @@ const Vote = () => {
     const [errorMessage, setErrorMessage] = useState('')
 
     useEffect(() => {
-        getEntries()
+        getPoll()
         setCurrentStage(STAGES.LIST)
         checkForConfirms()
     }, [])
 
     useEffect(() => {
-        setDidFetchEntries(true)
+        setDidFetchPoll(true)
         setIsLoading(false)
-    }, [entries])
+    }, [poll])
 
     const checkForConfirms = () => {
         const query = queryString.parse(location.search)
@@ -46,12 +56,12 @@ const Vote = () => {
         }
     }
 
-    const getEntries = async () => {
+    const getPoll = async () => {
         try {
-            const response = await fetch(hosts.ENTRIES_URL)
+            const response = await fetch(hosts.POLL_URL)
             const json = await response.json()
             console.log(json)
-            setEntries(json)
+            setPoll(json[0])
         } catch(error) {
             console.log(error)
         }
@@ -120,7 +130,6 @@ const Vote = () => {
 
 
     const onVote = (entry: IEntry) => {
-        console.log(entries)
         const arr = Array.from(voteEntries).filter(e => e.category_id !== entry.category_id)
         arr.push(entry)
         setVoteEntries(arr)
@@ -144,8 +153,17 @@ const Vote = () => {
             case STAGES.LIST:
                 return (
                     <div>
-                        {didFetchEntries &&
-                        <EntryList onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries} entries={entries} />
+                        {didFetchPoll && poll !== undefined &&
+                        Object.keys(poll.categories).map(cat => {
+                            const category = poll.categories[cat]
+                            return (
+                                <div key={cat}>
+                                    <p>Kategori: {cat}</p>
+                                    <EntryList onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries} entries={category.entries} />
+                                </div>
+                            )
+                        })
+                        
                         }
                     </div>
                 )
@@ -153,7 +171,7 @@ const Vote = () => {
                 return (
                     <div>
                         {voteEntries.length > 0 &&
-                        <Summary onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>}
+                        <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>}
                     </div>
                 )
             case STAGES.DID_SEND:
