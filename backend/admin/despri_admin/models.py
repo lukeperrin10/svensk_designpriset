@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from datetime import date, datetime, timezone
+from tinymce.models import HTMLField
 
 class BaseModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -80,8 +81,22 @@ class Poll(BaseModel):
         db_table = 'polls'
 
 class Content(BaseModel):
-    name = models.CharField(_('Name'), max_length=255, null=False)
-    value = models.TextField(_('Value'), null=False, blank=False)
+    PHASE_ONE = 1
+    PHASE_TWO = 2
+    PHASE_THREE = 3
+    PHASE_FOUR = 4
+    PHASE_FIVE = 5
+    PHASE_CHOICES = (
+        (PHASE_ONE, _('Phase one')),
+        (PHASE_TWO, _('Phase two')),
+        (PHASE_THREE, _('Phase three')),
+        (PHASE_FOUR, _('Phase four')),
+        (PHASE_FIVE, _('Phase five')),
+    )
+    phase = models.IntegerField(_('Phase'), choices=PHASE_CHOICES, default=PHASE_ONE)
+    title = models.CharField(_('Title'), max_length=255, null=True)
+    content = HTMLField(_('Content'), null=True, blank=True)
+    order = models.IntegerField(_('Order'), null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -127,18 +142,57 @@ class Phase(BaseModel):
                 return phases[max(0, i - 1)]
         return phases[0]
 
+class Mail(BaseModel):
+    MAIL_TYPE = (
+        ('ENTRY_CONFIRM', _('Entry confirmation')),
+        ('ENTRY_CONFIRM_ADMIN', _('Entry confirmation for Admin')),
+        ('ENTRY_UPDATE', _('Entry update confirmation')),
+        ('ENTRY_UPDATE_ADMIN', _('Entry update confirmation for admin')),
+        ('NOMINEE', _('Nominee')),
+        ('VOTE_CONFIRM', _('Vote confirmation'))
+    )
+    type = models.CharField(_('Type'), choices=MAIL_TYPE, default='ENTRY_CONFIRM', max_length=255, unique=True, null=False, blank=False)
+    sender = models.CharField(_('Sender'), max_length=80, null=False, blank=False)
+    subject = models.CharField(_('Subject'), max_length=80, null=False, blank=False)
+    content = HTMLField(_('Content'), null=True, blank=True)
+
+    def __str__(self):
+        return self.type
+    class Meta:
+        verbose_name = _('Mail')
+        verbose_name_plural = _('Mails')
+        db_table = 'mails'
+
+class MailVar(BaseModel):
+    name = models.CharField(_('Name'), max_length=255, null=False, blank=False)
+    value = models.CharField(_('Value'), max_length=255, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = _('MailVar')
+        verbose_name_plural = _('MailVars')
+        db_table = 'mailvars'
+
+
 class YearConfig(BaseModel):
     year = models.CharField(_('Year'), max_length=4, null=False, blank=False, unique=True)
     #key = models.CharField(_('Key'), max_length=255, null=False, blank=False)
     #value = models.CharField(_('Value'), max_length=255, null=False, blank=False)
-    register_deadline_date = models.DateTimeField(_('Register deadline date'), null=True, blank=True)
     phase_1_start = models.DateTimeField(_('Phase 1 start'), null=True, blank=True)
     phase_2_start = models.DateTimeField(_('Phase 2 start'), null=True, blank=True)
     phase_3_start = models.DateTimeField(_('Phase 3 start'), null=True, blank=True)
     phase_4_start = models.DateTimeField(_('Phase 4 start'), null=True, blank=True)
     phase_5_start = models.DateTimeField(_('Phase 5 start'), null=True, blank=True)
+    register_deadline_date = models.DateTimeField(_('Register deadline date'), null=True, blank=True)
+    nominees_can_edit_start = models.DateTimeField(_('Nominees can edit Start'), null=True, blank=True)
+    nominees_can_edit_end = models.DateTimeField(_('Nominees can edit End'), null=True, blank=True)
     price = models.CharField(_('Price per entry'), max_length=31, null=True, blank=True)
     award_place = models.CharField(_('Award Place'), max_length=255, null=True, blank=True)
+    award_date = models.DateTimeField(_('Award Date'), null=True, blank=True)
+    #WARNING: This file must not be indexed by google before Phase 4 is over:
+    winner_preview = models.FileField(_('Winner Preview'), upload_to="winner_previews", null=True, blank=True)
+    
     #phases = models.ManyToManyField(Phase, verbose_name="phases")
     def __str__(self):
         return self.year

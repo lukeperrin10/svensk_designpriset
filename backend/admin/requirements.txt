@@ -1,3 +1,4 @@
 Django
 mysqlclient
 Pillow
+django-tinymce
