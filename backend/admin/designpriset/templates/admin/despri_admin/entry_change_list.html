@@ -1,0 +1,37 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+<div id='entry_stats_container'>
+    <h4>{{stats_label}}</h4>
+    <div>
+        <p>{{ total_count_label }} {{ total_count }}</p>
+        <p>{{ nominees_label }} {{ nominees }}</p>
+        <p>{{ winner_gold_label }} {{ winner_gold }}</p>
+        <p>{{ winner_silver_label }} {{ winner_silver }}</p>
+    </div>
+</div>
+{{block.super}}
+<style>
+    #entry_stats_container {
+        /* border: 1px solid var(--primary-color-faded); */
+        -webkit-box-shadow: 0px 0px 11px 1px rgba(115,115,115,0.44);
+        -moz-box-shadow: 0px 0px 11px 1px rgba(115,115,115,0.44);
+        box-shadow: 0px 0px 11px 1px rgba(115,115,115,0.44);
+        background-color: var(--secondary-color);
+        border-radius: 5px;
+        width: fit-content;
+        min-width: fit-content;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    #entry_stats_container h4 {
+        font-size: 16px;
+    }
+    #entry_stats_container div {
+        padding-left: 10px;
+    }
+</style>
+{% endblock %}
+
+<p>hejsan</p>
+

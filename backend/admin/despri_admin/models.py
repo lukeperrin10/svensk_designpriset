@@ -63,6 +63,26 @@ class Entry(BaseModel):
 
     def __str__(self):
         return self.entry_name
+    def thumbnail(self):
+        self.allow_tags = True
+        return '<a href="/media/{0}"><img src="/media/{0}"></a>'.format(self.avatar)
+    
+    @classmethod
+    def getCount(cls):
+        # return cls.objects.filter(is_winner_gold=True).count()
+        total = cls.objects.count()
+        nominees = cls.objects.filter(is_nominated=True).count()
+        winner_gold = cls.objects.filter(is_winner_gold=True).count()
+        winner_silver = cls.objects.filter(is_winner_silver=True).count()
+        count = {'total': total, 'nominees': nominees, 'winner_gold': winner_gold, 'winner_silver': winner_silver}
+        return count
+    getCount.short_description = _('Total amount of entries:')
+
+#     Antal bidrag: 377
+# Antal nominerade bidrag: 257
+# Antal vinnande bidrag Guld: 23
+# Antal vinnande bidrag Silver: 23
+        
     class Meta:
         verbose_name = _('Entry')
         verbose_name_plural = _('Entries')
@@ -99,7 +119,7 @@ class Content(BaseModel):
     order = models.IntegerField(_('Order'), null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.title
     class Meta:
         verbose_name = _('Content')
         verbose_name_plural = _('Contents')

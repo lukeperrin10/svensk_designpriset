@@ -56,7 +56,7 @@ ROOT_URLCONF = 'designpriset.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'designpriset/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

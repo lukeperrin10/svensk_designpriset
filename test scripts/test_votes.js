@@ -105,7 +105,7 @@ function tryCalls(amountOfCalls) {
 
 // Calls
 const amountOfRequests = 10
-tryCalls(1000)
+tryCalls(1)
 
 
 
