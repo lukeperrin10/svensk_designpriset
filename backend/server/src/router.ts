@@ -10,6 +10,7 @@ import TempAvatar from './file_handlers/temp_avatars'
 import Avatars from './file_handlers/avatars'
 import EntryMedia from './file_handlers/entry_media'
 import TempEntryMedia from './file_handlers/temp_entry_media'
+import MailRouter from './mail_handler/mail_router'
 import { MFError, NotFound } from './error';
 
 export function initRouter(app: Express) {
@@ -25,6 +26,7 @@ export function initRouter(app: Express) {
     router.post('/temp_avatar', TempAvatar)
     router.post('/entry_media', EntryMedia)
     router.post('/temp_entry_media',TempEntryMedia)
+    router.post('/mail', MailRouter)
     router.use((req, res) => {
         res.status(404).json(new NotFound)
     })
