@@ -1,8 +1,9 @@
 import * as nodeMailer from 'nodemailer'
 import { REGISTER_ROOT_URL, ADMIN_EMAIL } from '../constants/temp_contants';
-import { getRegisterMailContent, getSubjectRegister, getRegisterMailAdminContent, getConfirmVotesContent } from './mail_content';
+import { getRegisterMailContent, getSubjectRegister, getRegisterMailAdminContent, getConfirmVotesContent, getNomineeMailSubject, getNomineeMailContent } from './mail_content';
 import { Entry, Profile, Category } from 'dbtypes';
 import { get } from '../models/category';
+import * as db from '../db'
 
 
 // WARNING : Change user and pass!
@@ -88,6 +89,31 @@ function exludeEntries(ids: number[], entries: Entry[]) {
     console.log('included entries')
     console.log(includedEntries)
     return includedEntries
+}
+
+export async function sendNomineeMailBatch(ids: number[]) {
+    for(let i=0; i<ids.length;i++) {
+        await sendNomineeMail(ids[i])
+    }
+}
+
+async function sendNomineeMail(id: number) {
+    const query = `SELECT entry_name, p.mail FROM entries e 
+    JOIN profiles p on e.profile_id = p.id
+    WHERE e.id = ?`
+    try {
+        const entry = await db.query(query, [id])
+        if (entry[0] && entry[0].mail && entry[0].entry_name) {
+            await mail(entry[0].mail, getNomineeMailSubject(), getNomineeMailContent(entry[0].entry_name))
+        } else {
+            console.log('faulty values before sending nominee email')
+        }
+        
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
 }
 
 

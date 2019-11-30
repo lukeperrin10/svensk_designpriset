@@ -1,4 +1,5 @@
 import * as express from 'express'
+import { sendNomineeMailBatch } from './mail_handler'
 
 
 export default async (req: express.Request, res: express.Response) => {
@@ -11,9 +12,19 @@ export default async (req: express.Request, res: express.Response) => {
 }
 
 interface MailRequest {
-    type: string,
+    type: MailRequestTypes,
     entries?: number[]
 }
+enum MailRequestTypes {
+    NOMINEE = 'nominee'
+}
 async function handleMailPost(mailRequest: MailRequest) {
-
+    switch(mailRequest.type) {
+        case MailRequestTypes.NOMINEE:
+            if (mailRequest.entries) {
+                return sendNomineeMailBatch(mailRequest.entries)
+            }
+        default:
+            return 'No action'
+    }
 }

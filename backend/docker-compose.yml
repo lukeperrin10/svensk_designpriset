@@ -1,5 +1,7 @@
 version: '3'
-
+networks: 
+    internal_network: 
+        driver: bridge
 services:
     db:
         command: --default-authentication-plugin=mysql_native_password
@@ -12,6 +14,8 @@ services:
         volumes:
             - despri-data:/var/lib/mysql
             - ./db/dumps:/var/dumps
+        networks:
+            - internal_network
     python:
         depends_on:
             - db
@@ -24,6 +28,8 @@ services:
             - ./admin:/code
         ports:
         - "8000:8000"
+        networks:
+            - internal_network
     node:
         depends_on:
             - db
@@ -41,6 +47,8 @@ services:
         volumes: 
             - ./server:/var/app
             - temp_avatars:/var/app/upload_assets/temp_avatars
+        networks:
+            - internal_network
 
 volumes:
     despri-data: {}

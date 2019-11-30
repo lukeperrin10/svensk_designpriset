@@ -208,3 +208,11 @@ export function getConfirmVotesContent(confirmLink: string) {
 
     return message
 }
+
+export function getNomineeMailContent(entryName: string) {
+    return `Ditt bidrag ${entryName} har blivit nominerat!`
+}
+
+export function getNomineeMailSubject() {
+    return 'Ditt bidrag har blivit nominerat'
+}

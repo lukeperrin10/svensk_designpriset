@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from ..models import Entry
 from datetime import datetime
-
+import requests
 
 
 
@@ -35,18 +35,27 @@ class EntryAdmin(admin.ModelAdmin):
     change_list_template = 'admin/despri_admin/entry_change_list.html'
     
     def send_nominee_action(self, request, queryset):
-        print('send nominee mail')
-        # now = datetime.now()
-        # queryset.update(sent_nominee_notification=now)
+        url = 'http://node:8001/mail'
         entries = []
         for entry in queryset.values():
-            entries.append(entry['id'])
-        print(entries)
+            if entry['is_nominated'] == True:
+                entries.append(entry['id'])
+            else:
+                print('Entry not nominated')
+        if len(entries) > 0:
+            body = {
+                'type': 'nominee',
+                'entries': entries
+            }
+            r = requests.post(url = url, data = body) 
+            if r.status_code == 200:
+                now = datetime.now()
+                for id in entries:
+                    Entry.objects.filter(id=id).update(sent_nominee_notification=now)
     send_nominee_action.short_description = _('Send nominating email')
 
     def image(self, obj):
         return format_html('<a href="{0}"><img height="100px" src="{0}" /></a>'.format(obj.avatar.url))
-    # print(Entry.getCount())
 
     def changelist_view(self, request, extra_context=None):
         response = super().changelist_view(

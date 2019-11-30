@@ -3,3 +3,4 @@ mysqlclient
 Pillow
 django-tinymce
 django-material 
+requests
