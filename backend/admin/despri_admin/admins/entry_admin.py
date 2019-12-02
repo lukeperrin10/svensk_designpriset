@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from ..models import Entry
 from datetime import datetime
 import requests
+from .base_admin import BaseAdmin
 
 
 
@@ -27,12 +28,14 @@ class EntryFilter(admin.SimpleListFilter):
             return queryset.distinct().filter(is_winner_silver=True)
 
 # @admin.register(Entry)
-class EntryAdmin(admin.ModelAdmin):
+class EntryAdmin(BaseAdmin):
     list_display = ('entry_name', 'profile', 'category', 'customer', 'source', 'image', 'sent_nominee_notification', 'is_nominated')
     search_fields = ('entry_name', 'profile__company')
     list_filter = (EntryFilter, 'year')
     actions = ['send_nominee_action']
     change_list_template = 'admin/despri_admin/entry_change_list.html'
+
+    print(dir(admin.ModelAdmin))
     
     def send_nominee_action(self, request, queryset):
         url = 'http://node:8001/mail'
