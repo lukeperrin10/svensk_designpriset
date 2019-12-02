@@ -69,7 +69,6 @@ class Entry(BaseModel):
     
     @classmethod
     def getCount(cls):
-        # return cls.objects.filter(is_winner_gold=True).count()
         total = cls.objects.count()
         nominees = cls.objects.filter(is_nominated=True).count()
         winner_gold = cls.objects.filter(is_winner_gold=True).count()
@@ -78,10 +77,6 @@ class Entry(BaseModel):
         return count
     getCount.short_description = _('Total amount of entries:')
 
-#     Antal bidrag: 377
-# Antal nominerade bidrag: 257
-# Antal vinnande bidrag Guld: 23
-# Antal vinnande bidrag Silver: 23
         
     class Meta:
         verbose_name = _('Entry')
@@ -100,6 +95,17 @@ class Poll(BaseModel):
         verbose_name_plural = _('Polls')
         db_table = 'polls'
 
+class ContentTemplate(BaseModel):
+    name = models.CharField(_('Name'), max_length=255, null=False, default='def')
+    description = models.TextField(_('Description'), null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = _('Content template')
+        verbose_name_plural = _('Content templates')
+        db_table = 'content_template'
+
 class Content(BaseModel):
     PHASE_ONE = 1
     PHASE_TWO = 2
@@ -117,6 +123,7 @@ class Content(BaseModel):
     title = models.CharField(_('Title'), max_length=255, null=True)
     content = HTMLField(_('Content'), null=True, blank=True)
     order = models.IntegerField(_('Order'), null=True, blank=True)
+    template = models.ForeignKey(ContentTemplate, verbose_name=_('Template'), related_name='contents', on_delete=models.PROTECT)
 
     def __str__(self):
         return self.title
@@ -124,7 +131,6 @@ class Content(BaseModel):
         verbose_name = _('Content')
         verbose_name_plural = _('Contents')
         db_table = 'content'
-
 
 class Vote(BaseModel):
     secret = models.CharField(_('Secret'), max_length=255, null=True, blank=True)
