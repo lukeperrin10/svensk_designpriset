@@ -8,7 +8,11 @@ class BaseAdmin(admin.ModelAdmin):
     def change_view(self, request, object_id, form_url='', extra_context=None):
         print(request)
         extra_context = extra_context or {}
-        url = request.build_absolute_uri()+'?edit=true' 
+        if bool(request.GET):
+            query = '&edit=true' 
+        else:
+            query = '?edit=true' 
+        url = request.build_absolute_uri()+query
         extra_context['change_url'] = url
         extra_context['edit_button_label'] = _('Edit')
         extra_context['hide_edit_button'] = request.GET.get('edit')

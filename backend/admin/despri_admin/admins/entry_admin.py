@@ -34,8 +34,6 @@ class EntryAdmin(BaseAdmin):
     list_filter = (EntryFilter, 'year')
     actions = ['send_nominee_action']
     change_list_template = 'admin/despri_admin/entry_change_list.html'
-
-    print(dir(admin.ModelAdmin))
     
     def send_nominee_action(self, request, queryset):
         url = 'http://node:8001/mail'
