@@ -1,0 +1,47 @@
+{% extends "./base_change_form_view.html" %}
+
+{% block content %}
+
+    {{block.super}}
+    
+    <div>
+        <h2>Resultat</h2>
+        {% for category in poll_content.categories %}
+            <div class='poll_category'>
+                <h3>{{category.category}}</h3>
+                {% for entry in category.entries %}
+                    <div class='poll_entry'>
+                        <a href='{{entry.entry.avatar.url}}'><img src='{{entry.entry.avatar.url}}'' /></a>
+                        <p>Namn: {{entry.entry.entry_name}}</p>
+                        <p>Röster: {{entry.votes}}</p>
+                        <p>Id: {{entry.entry.id}}</p>
+                        <a href='{{entry.link}}'>Länk till bidrag</a>
+                    </div>
+                    
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <style>
+        .poll_category {
+            
+        }
+        .poll_entry {
+            display: inline-block;
+            text-align: center;
+            -webkit-box-shadow: 0px 0px 5px 1px rgba(115,115,115,0.44);
+            -moz-box-shadow: 0px 0px 5px 1px rgba(115,115,115,0.44);
+            box-shadow: 0px 0px 5px 1px rgba(115,115,115,0.44);
+            background-color: var(--secondary-color);
+            border-radius: 5px;
+            width: fit-content;
+            padding: 20px;
+            margin: 20px;
+        }
+        .poll_entry img {
+            width: 150px;
+        }
+    
+    </style>
+
+{% endblock %}

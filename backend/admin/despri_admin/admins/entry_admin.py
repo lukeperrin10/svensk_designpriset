@@ -57,6 +57,7 @@ class EntryAdmin(BaseAdmin):
 
     def image(self, obj):
         return format_html('<a href="{0}"><img height="100px" src="{0}" /></a>'.format(obj.avatar.url))
+        # return format_html('<a href="#"><img height="100px" src="#" /></a>')
 
     def changelist_view(self, request, extra_context=None):
         response = super().changelist_view(

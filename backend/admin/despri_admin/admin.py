@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Category, Entry, Poll, Profile, Vote, Phase, YearConfig, Content, Mail
 from .admins.entry_admin import EntryAdmin
 from .admins.base_admin import BaseAdmin
+from .admins.poll_admin import PollAdmin
 
 
 
@@ -11,7 +12,7 @@ from .admins.base_admin import BaseAdmin
 
 admin.site.register(Category, BaseAdmin)
 admin.site.register(Entry, EntryAdmin)
-admin.site.register(Poll, BaseAdmin)
+admin.site.register(Poll, PollAdmin)
 admin.site.register(Profile, BaseAdmin)
 admin.site.register(Vote)
 #admin.site.register(Phase, PhaseAdmin)
