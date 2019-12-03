@@ -32,7 +32,7 @@ class PollAdmin(BaseAdmin):
                 }
                 entries = category_with_entries['entries']
                 entries.append(entry)
-                category_with_entries['entries'] = sorted(entries, key=operator.itemgetter('votes'))
+                category_with_entries['entries'] = sorted(entries, key=operator.itemgetter('votes'), reverse=True)
             
             categories = poll_content['categories']
             categories.append(category_with_entries)
