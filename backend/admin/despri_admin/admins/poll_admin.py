@@ -26,6 +26,7 @@ class PollAdmin(BaseAdmin):
             for e in Entry.objects.all().filter(category=cat):
                 entry = {
                     "entry": e,
+                    "verified_votes": Vote.objects.filter(entry=e, poll=current_poll, verified__isnull=False).count(),
                     "votes": Vote.objects.filter(entry=e, poll=current_poll).count(),
                     "link": reverse('admin:{}_{}_change'.format(e._meta.app_label, e._meta.model_name), args=(e.pk,))
                 }
