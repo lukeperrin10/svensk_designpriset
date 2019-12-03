@@ -8,12 +8,16 @@ from django.urls import reverse
 
 class PollAdmin(BaseAdmin):
     change_form_template = 'admin/despri_admin/poll_change_form.html'
-
+    list_display = ('name', 'start', 'stop', 'year')
     # def format_entry(entry):
+
+    def year(self, obj):
+        return obj.start.year
 
 
     def get_poll_content(self, id):
         current_poll = Poll.objects.get(id=id)
+        poll_year = current_poll.start.year
         poll_content = {
             "poll": current_poll,
             "categories": []
@@ -23,7 +27,7 @@ class PollAdmin(BaseAdmin):
                 "category": cat,
                 "entries": []
             }
-            for e in Entry.objects.all().filter(category=cat):
+            for e in Entry.objects.all().filter(category=cat, year=poll_year):
                 entry = {
                     "entry": e,
                     "verified_votes": Vote.objects.filter(entry=e, poll=current_poll, verified__isnull=False).count(),
