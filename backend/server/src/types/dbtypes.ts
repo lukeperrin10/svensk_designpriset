@@ -1,3 +1,26 @@
+export interface MailVar {
+    id: number,
+    name: string,
+    value: string
+}
+
+export enum MailType {
+    ENTRY_CONFIRM = 'ENTRY_CONFIRM',
+    ENTRY_CONFIRM_ADMIN = 'ENTRY_CONFIRM_ADMIN',
+    ENTRY_UPDATE = 'ENTRY_UPDATE',
+    ENTRY_UPDATE_ADMIN = 'ENTRY_UPDATE_ADMIN',
+    NOMINEE = 'NOMINEE',
+    VOTE_CONFIRM = 'VOTE_CONFIRM'
+}
+
+export interface MailContent {
+    id: number,
+    type: MailType,
+    sender: string,
+    subject: string,
+    content: string
+}
+
 export interface Vote {
     created: string,
     modified: string

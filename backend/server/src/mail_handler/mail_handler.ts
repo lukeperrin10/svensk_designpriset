@@ -1,9 +1,10 @@
 import * as nodeMailer from 'nodemailer'
 import { REGISTER_ROOT_URL, ADMIN_EMAIL } from '../constants/temp_contants';
 import { getRegisterMailContent, getSubjectRegister, getRegisterMailAdminContent, getConfirmVotesContent, getNomineeMailSubject, getNomineeMailContent } from './mail_content';
-import { Entry, Profile, Category } from 'dbtypes';
+import { Entry, Profile, Category, MailType } from '../types/dbtypes';
 import { get } from '../models/category';
 import * as db from '../db'
+import {getMailContent} from './mail_content_handler'
 
 
 // WARNING : Change user and pass!
@@ -60,7 +61,9 @@ export function generateConfirmVotesLink(secret: string) {
 }
 
 export async function sendConfirmVotesMail(email: string, secret: string) {
-    await mail(email, 'Bekräfta röst', getConfirmVotesContent(generateConfirmVotesLink(secret)))
+    const mailContent = await getMailContent(MailType.VOTE_CONFIRM, secret = secret)
+    await mail(email, mailContent.subject, '', mailContent.content)
+    // await mail(email, 'Bekräfta röst', getConfirmVotesContent(generateConfirmVotesLink(secret)))
 }
 // WARNING CHANGE EMAIL ADRESS!
 export async function sendRegisterEmails(profile: Profile, entries: Entry[], update: boolean, updatedIds: number[]) {
