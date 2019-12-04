@@ -74,6 +74,12 @@ export function getRegisterMailContent(update: boolean, registerLink: string, pr
     return message
 }
 
+export function addButton(registerLink: string) {
+    const buttonstyle = "background: url(http://www.designpriset.se/img/plus-cirkel.png) no-repeat left center; display: block; height: 46px; line-height: 46px; padding-left: 52px; margin-bottom: 40px; color:#c6a230;";
+    const button = `<a id="add_more_button" style="${buttonstyle}" target="_blank" href='${registerLink}'>Lägg till fler bidrag</a>`
+    return button
+}
+
 export function getRegisterMailAdminContent(update: boolean, registerLink: string, profile: Profile, entries: Entry[], categories: Category[]) {
     const title = update ? `${profile.company} har uppdaterat sitt bidrag` : `Ny anmälan: ${profile.company}`
 
@@ -132,7 +138,7 @@ function calculatePrice(entries: Entry[], withTotal: boolean) {
     return content
 }
 
-function getProfileContent(profile: Profile) {
+export function getProfileContent(profile: Profile) {
     const subheading = "font-family:Arial;Helvetica;font-size:25px;font-weight:bold; margin-bottom:10px; color:#c6a230;"
     let content = `<h3 style="${subheading}">Allm&auml;nna uppgifter</h3>`
     content += '<ul style="list-style:none;padding-left:0;">'    
@@ -148,7 +154,7 @@ function getProfileContent(profile: Profile) {
     return content
 }
 
-function getEntryContent(entries: Entry[], categories: Category[]) {
+export function getEntryContent(entries: Entry[], categories?: Category[]) {
     const subheading = "font-family:Arial;Helvetica;font-size:25px;font-weight:bold; margin-bottom:10px; color:#c6a230;"
 
     // const targets: {[key: string]: string} = {
@@ -169,17 +175,17 @@ function getEntryContent(entries: Entry[], categories: Category[]) {
     content += '<ul style="list-style:none;padding:0;">'
     entries.forEach(entry => {
         i++
-        let cat : string = ''
-        categories.forEach(category => {
-            if (category.shorttag === entry.category) {
-                cat = category.name
-            }
-        })
+        // let cat : string = ''
+        // categories.forEach(category => {
+        //     if (category.shorttag === entry.category) {
+        //         cat = category.name
+        //     }
+        // })
         const avatar = `${SITE_URL}/admin/avatars/${entry.avatar}`
         content += `<h3 style="${subheading}">Bidrag ${i}</h3>`
         content += `<a target="_blank" href="${avatar}"><img height="200px;" src="${avatar}"/></a><br/><br/>`
         content += `<li>Namn: ${entry.entry_name}</li>`
-        content += `<li>Kategori: ${cat}</li>`
+        content += `<li>Kategori: ${entry.category_id}</li>`
         content += `<li>Designer: ${entry.designer}</li>`
         content += entry.illustrator ? `<li>Illustratör/fotograf: ${entry.illustrator}</li>` : ''
         content += `<li>Projektledare: ${entry.leader}</li>`
