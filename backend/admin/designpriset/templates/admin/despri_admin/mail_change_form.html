@@ -1,0 +1,55 @@
+{% extends "./base_change_form_view.html" %}
+
+{% block content %}
+    <div id='mail-mailvars-container'>
+        <h3>Variabler till mail</h3>
+        <select id="mailvars-select">
+        {% for var in vars %}
+            <option value="{{var.value}}">{{var.name}}</option>
+        {% endfor %}
+        </select>
+        <input type="text" value="" id="mailvar-select-result">
+        <button onclick="copyToClipboard()">Kopiera</button>
+    </div>
+    {{block.super}}
+
+    <style>
+        #mail-mailvars-container {
+            display: inline-block;
+            /* text-align: center; */
+            -webkit-box-shadow: 0px 0px 5px 1px rgba(115,115,115,0.44);
+            -moz-box-shadow: 0px 0px 5px 1px rgba(115,115,115,0.44);
+            box-shadow: 0px 0px 5px 1px rgba(115,115,115,0.44);
+            background-color: var(--secondary-color);
+            border-radius: 5px;
+            width: fit-content;
+            padding: 20px 20px 40px 20px;
+            margin-bottom: 20px;
+        }
+        #mail-mailvars-container p {
+            border-bottom: 1px solid grey;
+        }
+    </style>
+    <script>
+        let sel = document.getElementById("mailvars-select");
+        sel.addEventListener("change", () => {
+            const value = sel.options[sel.selectedIndex].value;
+            let  inp = document.getElementById("mailvar-select-result")
+            inp.value = value
+        })
+        function copyToClipboard() {
+            // console.log('copy')
+            // const select = document.getElementById("mailvars-select");
+            // const value = select.options[select.selectedIndex].value;
+            let  inp = document.getElementById("mailvar-select-result")
+            // inp.value = value
+            // value.setSelectionRange(0, 99999); /*For mobile devices*/
+            inp.select()
+            document.execCommand("copy");
+        }
+    </script>
+{% endblock %}
+
+
+<p><b>{{var.name}} => </b></p>
+        <p>{{var.value}}</p>
