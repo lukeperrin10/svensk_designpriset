@@ -219,7 +219,7 @@ class FormContainer extends React.Component<IFormContainer> {
         } else {
              savedEntry = {profile_id: 9999999,entry_name: '',designer: '',
             illustrator: '',leader: '', avatar: '', secret: '', year: '',customer: '',
-            source: '', format: '', size: '', category: '', webpage: ''} as INewEntry
+            source: '', format: '', size: '', category_id: 99999999999, webpage: ''} as INewEntry
         }
         
         Object.keys(savedEntry).forEach(key => {
@@ -322,8 +322,8 @@ class FormContainer extends React.Component<IFormContainer> {
                 })    
             }
         })
-        if ('category' in FORM_ENTRY_LABELS) {
-            FORM_ENTRY_LABELS['category'].selectList = cat
+        if ('category_id' in FORM_ENTRY_LABELS) {
+            FORM_ENTRY_LABELS['category_id'].selectList = cat
         }
         for(let i = 0; i < amountOfForms; i++) {
             const uploadedAvatar = tempEntries[`${i}`] ? tempEntries[`${i}`].avatar || false : false
@@ -381,7 +381,7 @@ class FormContainer extends React.Component<IFormContainer> {
     }
 
     getCategoryName(short: string) {
-        return this.props.categories.filter(c => c.shorttag === short)[0].name
+        return this.props.categories.filter(c => c.id === parseInt(short))[0].name
     }
     
     submitedFormContent(submited: IEnteredValues, exclude: string[], formItems: formItems, imageLabel?: string,) {
@@ -390,7 +390,7 @@ class FormContainer extends React.Component<IFormContainer> {
             if ((exclude.filter((ex) => ex === item))[0] !== item) {
                 content.push({
                     label: item === 'avatar' ? 'Tummnagel' : item === 'source' ? 'Printbidrag' : formItems[item].label ,
-                    content: item === 'category' ? this.getCategoryName(submited[item]) : submited[item],
+                    content: item === 'category_id' ? this.getCategoryName(submited[item]) : submited[item],
                     imageUrl: imageLabel === item ? `${TEMP_AVATAR_SYM}/${submited[item]}` : undefined
                 })
             }

@@ -221,7 +221,7 @@ class Registration extends React.Component<Props, State> {
                             <div>
                                 <RegistrationInfo />
                                 <FormContainer adminMode={false} categories={categories} saveContent={this.postContent} />
-                                {didUpload ? <Redirect to='/bekraftelse' /> : null}
+                                {didUpload ? <Redirect to='anmalan/bekraftelse' /> : null}
                             </div>
                             )
                         }/>
@@ -229,7 +229,7 @@ class Registration extends React.Component<Props, State> {
                             <div>
                                 <RegistrationInfo />
                                 <FormContainer onDeleteEntry={this.deleteEntry} adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
-                                {didUpload ? <Redirect to='/bekraftelse' /> : null}
+                                {didUpload ? <Redirect to='anmalan/bekraftelse' /> : null}
                             </div>
                             )
                         }/>

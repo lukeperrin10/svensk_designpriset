@@ -96,7 +96,6 @@ export interface Entry {
     profile_id: number,
     secret: string,
     entry_name: string,
-    category: string,
     category_id: number,
     source: string,
     designer: string,

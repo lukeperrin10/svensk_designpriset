@@ -2,6 +2,12 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from datetime import date, datetime, timezone
 from tinymce.models import HTMLField
+import random
+import string
+
+def getRandom():
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(5))
 
 class BaseModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -13,6 +19,7 @@ class BaseModel(models.Model):
 class Category(BaseModel):
     name = models.CharField(_('Name'), max_length=255, null=False)
     description = models.TextField(_('Description'), null=True, blank=True)
+    shorttag = models.CharField(_('Shorttag'), max_length=20, null=False,unique=True)
 
     def __str__(self):
         return self.name
@@ -20,6 +27,7 @@ class Category(BaseModel):
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
         db_table = 'categories'
+
 
 class Profile(BaseModel):
     secret = models.CharField(_('Secret'), max_length=255, null=True, blank=True)

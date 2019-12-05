@@ -44,6 +44,7 @@ class DpForm extends React.Component<IDpFormProps> {
 
     onControlChange = (name: string) => (e: React.FormEvent<FormControlProps>)  => {
         let obj = this.state.formInput
+        console.log(name)
         obj[name] = e.currentTarget.value
         this.setState({newProfile: obj})
         if(this.props.onValueChange) {
@@ -99,6 +100,8 @@ class DpForm extends React.Component<IDpFormProps> {
                     <div style={styles.formGroup}>
                         {Object.keys(fields).map(key => {
                             const item = fields[key]
+                            console.log(item)
+                            console.log(key)
                             return (
                                 <div key={key} style={styles.inputContainer}>
                                     <Form.Group >
@@ -118,7 +121,7 @@ class DpForm extends React.Component<IDpFormProps> {
                                             {item.selectList ? item.selectList.map(listItem => {
                                                 return (
                                                     <option
-                                                        value={listItem.short} 
+                                                        value={listItem.id} 
                                                         key={listItem.id}>{listItem.name}
                                                     </option>
                                                 )

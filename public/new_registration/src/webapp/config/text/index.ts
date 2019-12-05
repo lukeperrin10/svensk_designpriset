@@ -39,7 +39,7 @@ export const FORM_ENTRY_LABELS: formItems = {
     leader: {key: 'leader', label: 'Projektledare', required: true, type: 'text'},
     format: {key: 'format', label: 'Omfång (Gäller trycksaker)', required: false, type: 'text'},
     size: {key: 'size', label: 'Storlek (Gäller trycksaker)', required: false, type: 'text'},
-    category: {key: 'category', label: 'Tävlingskategori', required: true, type: 'select'},
+    category_id: {key: 'category_id', label: 'Tävlingskategori', required: true, type: 'select'},
     webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer", required: false, type: "text"}
 }
 

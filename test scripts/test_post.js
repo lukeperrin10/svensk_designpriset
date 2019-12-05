@@ -43,7 +43,7 @@ function createEntries(profileId, amountOfEntries) {
             source: 'WOPII_TEST',
             format: 'WOPII_TEST',
             size: 'WOPII_TEST',
-            category: '3A',
+            category_id: 1,
             webpage: 'WOPII_TEST',
             avatar: 'xxxx-test-avatar',
             year: '2019'
@@ -120,7 +120,9 @@ function tryCalls(amountOfCalls, amountOfEntries) {
 // Calls
 
 // tryCalls(amountOfCalls, amountOfEntries)
-tryCalls(200, 4)
+tryCalls(1, 2)
+
+
 
 
 

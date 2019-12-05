@@ -1,6 +1,7 @@
 import * as db from '../db'
 import {Profile as dbtype} from '../types/dbtypes'
 import { Request, NextFunction } from 'express';
+import { getDateTime } from '../helpers';
 
 
 export interface Profile extends Partial<dbtype> {}
@@ -56,7 +57,9 @@ function create_profile(profile: Profile): Profile {
         phone: profile.phone,
         mail: profile.mail,
         homepage: profile.homepage,
-        invoice_paid: profile.invoice_paid || 0
+        invoice_paid: profile.invoice_paid || 0,
+        created: getDateTime(),
+        modified: getDateTime()
     }
     return new_profile
 }

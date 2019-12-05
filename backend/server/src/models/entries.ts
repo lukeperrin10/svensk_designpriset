@@ -6,6 +6,7 @@ import { TEMP_MEDIA_PATH } from '../constants/temp_contants';
 import { MEDIA_PATH } from '../constants/temp_contants';
 import { TEMP_AVATAR_PATH } from '../constants/temp_contants';
 import { AVATAR_PATH } from '../constants/temp_contants';
+import { getDateTime } from '../helpers';
 
 export interface Entry extends Partial<dbtype> {}
 
@@ -142,7 +143,7 @@ function fill_entry(entry: Entry): Entry {
     const new_entry: Entry = {
         profile_id: entry.profile_id,
         entry_name: entry.entry_name, 
-        category: entry.category, 
+        category_id: entry.category_id, 
         designer: entry.designer, 
         illustrator: entry.illustrator || '', 
         leader: entry.leader, 
@@ -157,8 +158,10 @@ function fill_entry(entry: Entry): Entry {
         is_nominated: entry.is_nominated || 0,
         is_winner_gold: entry.is_winner_gold || 0,
         is_winner_silver: entry.is_winner_silver || 0,
-        sent_nominee_notification: escapeDate(entry.sent_nominee_notification) || "1000-01-01",
+        sent_nominee_notification: escapeDate(entry.sent_nominee_notification) || null,
         motivation: entry.motivation || "",
+        created: getDateTime(),
+        modified: getDateTime()
     }
     if ('id' in entry) new_entry.id = entry.id
     return new_entry
