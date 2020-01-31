@@ -138,7 +138,7 @@ class Content(BaseModel):
     #     (PHASE_FIVE, _('Phase five')),
     # )
     # phase = models.IntegerField(_('Phase'), choices=PHASE_CHOICES, default=PHASE_ONE)
-    categories = models.ManyToManyField(ContentPhase, verbose_name=_('Phase'), related_name='content_phases')
+    phases = models.ManyToManyField(ContentPhase, verbose_name=_('Phase'), related_name='content_phases')
     title = models.CharField(_('Title'), max_length=255, null=True)
     content = HTMLField(_('Content'), null=True, blank=True)
     image = models.ImageField(_('Image'), upload_to="content_images", null=True, blank=True)

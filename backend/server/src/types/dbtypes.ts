@@ -115,3 +115,13 @@ export interface Entry {
     motivation: string,
     year: string
 }
+
+export interface Content {
+    id: number,
+    title: string,
+    categories: string,
+    content: string,
+    image: string,
+    order: number,
+    template: string
+}
