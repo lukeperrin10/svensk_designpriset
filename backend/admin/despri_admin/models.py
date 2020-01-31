@@ -114,22 +114,34 @@ class ContentTemplate(BaseModel):
         verbose_name_plural = _('Content templates')
         db_table = 'content_template'
 
+class ContentPhase(BaseModel):
+    name = models.CharField(_('Name'), max_length=255, null=False, default='def')
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = _('ContentPhase')
+        verbose_name_plural = _('ContentPhases')
+        db_table = 'content_phase'
+
 class Content(BaseModel):
-    PHASE_ONE = 1
-    PHASE_TWO = 2
-    PHASE_THREE = 3
-    PHASE_FOUR = 4
-    PHASE_FIVE = 5
-    PHASE_CHOICES = (
-        (PHASE_ONE, _('Phase one')),
-        (PHASE_TWO, _('Phase two')),
-        (PHASE_THREE, _('Phase three')),
-        (PHASE_FOUR, _('Phase four')),
-        (PHASE_FIVE, _('Phase five')),
-    )
-    phase = models.IntegerField(_('Phase'), choices=PHASE_CHOICES, default=PHASE_ONE)
+    # PHASE_ONE = 1
+    # PHASE_TWO = 2
+    # PHASE_THREE = 3
+    # PHASE_FOUR = 4
+    # PHASE_FIVE = 5
+    # PHASE_CHOICES = (
+    #     (PHASE_ONE, _('Phase one')),
+    #     (PHASE_TWO, _('Phase two')),
+    #     (PHASE_THREE, _('Phase three')),
+    #     (PHASE_FOUR, _('Phase four')),
+    #     (PHASE_FIVE, _('Phase five')),
+    # )
+    # phase = models.IntegerField(_('Phase'), choices=PHASE_CHOICES, default=PHASE_ONE)
+    categories = models.ManyToManyField(ContentPhase, verbose_name=_('Phase'), related_name='content_phases')
     title = models.CharField(_('Title'), max_length=255, null=True)
     content = HTMLField(_('Content'), null=True, blank=True)
+    image = models.ImageField(_('Image'), upload_to="content_images", null=True, blank=True)
     order = models.IntegerField(_('Order'), null=True, blank=True)
     template = models.ForeignKey(ContentTemplate, verbose_name=_('Template'), related_name='contents', on_delete=models.PROTECT)
 
