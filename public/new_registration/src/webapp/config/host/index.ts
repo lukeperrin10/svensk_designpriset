@@ -8,6 +8,7 @@ export const ENTRIES_URL = `${BASE_URL}/entries`
 export const CATEGORY_URL = `${BASE_URL}/categories`
 export const VOTES_URL = `${BASE_URL}/votes`
 export const POLL_URL = `${BASE_URL}/polls`
+export const CONTENT_URL = `${BASE_URL}/content`
 export const CONFIRMED_VOTE_URL = `${BASE_URL}/votes/confirmed_vote`
 
 export const FRONTEND_URL = isProd ? "http://www.designpriset.se" : "http://myown.se:8011"
