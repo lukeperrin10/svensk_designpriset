@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useState, useEffect} from 'react'
-import * as hosts from 'src/webapp/config/host'
-import { IEntry, IVote } from 'src/webapp/model'
+import * as hosts from '../../config/host'
+import { IEntry, IVote } from '../../model'
 import EntryList from './entry_list'
 import Summary from './summary'
 import AfterPost from './after_post'
@@ -49,7 +49,7 @@ const Vote = () => {
     }, [poll])
 
     const checkForConfirms = () => {
-        const query = queryString.parse(location.search)
+        const query = queryString.parse(window.location.search)
         if ('confirm' in query && typeof query['confirm'] === 'string') {
             confirmVotes(query['confirm'] as string)
             setCurrentStage(STAGES.CONFIRMED)

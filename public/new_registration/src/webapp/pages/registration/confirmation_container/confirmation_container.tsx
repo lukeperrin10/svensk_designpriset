@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { GENERAL_TEXT } from 'src/webapp/config/text';
+import { GENERAL_TEXT } from '../../../config/text';
 import styles from './style'
 import Logo from '../../../assets/img/logo.png'
 

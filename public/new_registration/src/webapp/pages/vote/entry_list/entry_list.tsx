@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { IEntry } from 'src/webapp/model'
-import EntryCard from 'src/webapp/components/entry_card'
+import { IEntry } from '../../../model'
+import EntryCard from '../../../components/entry_card'
 
 interface IEntryList {
     entries: IEntry[],

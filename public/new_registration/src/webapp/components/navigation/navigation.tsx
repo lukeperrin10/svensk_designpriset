@@ -1,9 +1,9 @@
 import * as React from 'react'
 import {useState, useEffect} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import Registration from 'src/webapp/pages/registration'
-import Vote from 'src/webapp/pages/vote'
-import Start from 'src/webapp/pages/start'
+import Registration from '../../pages/registration'
+import Vote from '../../pages/vote'
+import Start from '../../pages/start'
 import * as hosts from '../../config/host'
 import Header from '../header'
 import Footer from '../footer'
@@ -30,7 +30,7 @@ const Navigation = () => {
     return (
         <Router>
             <Switch>
-                <Route path='/' render={() => {
+                <Route exact path='/' render={() => {
                     return (
                         <div>
                             <Header />

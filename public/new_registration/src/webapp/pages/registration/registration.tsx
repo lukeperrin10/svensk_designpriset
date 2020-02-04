@@ -1,21 +1,21 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import { IState, IProfileState, IEntriesState, ICategoryState} from 'src/webapp/model/state'
+import { IState, IProfileState, IEntriesState, ICategoryState} from '../../model/state'
 import FormContainer from './form_container'
 import ConfirmationContainer from './confirmation_container'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import { INewProfile, INewEntry, IProfile } from 'src/webapp/model';
-import { saveProfile, getProfile } from 'src/webapp/redux/actions/profile';
-import { getEntries, saveEntries, deleteEntry } from 'src/webapp/redux/actions/entries';
-import { getCategories } from 'src/webapp/redux/actions/categories';
+import { INewProfile, INewEntry, IProfile } from '../../model';
+import { saveProfile, getProfile } from '../../redux/actions/profile';
+import { getEntries, saveEntries, deleteEntry } from '../../redux/actions/entries';
+import { getCategories } from '../../redux/actions/categories';
 import Spinner from 'react-bootstrap/Spinner'
 // import { ROOT_URL } from 'src/webapp/config/host';
 import * as queryString from 'query-string'
 import RegistrationInfo from './registration_info';
 import ErrorModal from './error_modal/error_modal';
 import styles from './style'
-import { DID_POST_FORM } from 'src/webapp/model/constants';
-import { OLD_REGISTRATION_URL} from 'src/webapp/config/host';
+import { DID_POST_FORM } from '../../model/constants';
+import { OLD_REGISTRATION_URL} from '../../config/host';
 import logo from '../../assets/img/logo.png'
 
 interface ReduxProps {
@@ -71,7 +71,7 @@ class Registration extends React.Component<Props, State> {
 
     isAllowed() {
         return true
-        const query = queryString.parse(location.search)
+        const query = queryString.parse(window.location.search)
         const today = new Date()
         const start = new Date('2019-09-02T00:00:01')
         const end = new Date('2019-09-04T23:59:59')
@@ -98,7 +98,7 @@ class Registration extends React.Component<Props, State> {
     }
 
     async getContent() {
-        const query = queryString.parse(location.search)
+        const query = queryString.parse(window.location.search)
         if (('id' in query) && ('secret' in query)) {
             if (query.id) {
                 const id = parseInt(query.id as string)
@@ -124,7 +124,7 @@ class Registration extends React.Component<Props, State> {
     }
 
     extractQuery() {
-        const query = queryString.parse(location.search)
+        const query = queryString.parse(window.location.search)
         if (('id' in query) && ('secret' in query)) {
             this.setState({edit: true})
         }

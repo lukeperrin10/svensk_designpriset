@@ -1,11 +1,11 @@
 import * as React from 'react'
 import Button from 'react-bootstrap/Button';
 import fetch from 'cross-fetch'
-import { getErrorMessage } from 'src/webapp/helpers/errors';
+import { getErrorMessage } from '../../../../helpers/errors';
 import Spinner from 'react-bootstrap/Spinner'
 import styles from './styles';
 import check from '../../../../assets/ui/check.png'
-import * as Slug from 'slug'
+import Slug from 'slug'
 
 
 interface IDpImageUpload {

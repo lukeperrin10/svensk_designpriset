@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IEntry } from 'src/webapp/model'
+import { IEntry } from '../../model'
 // import styles from './entry_card.module.css'
 
 interface IEntryCard {

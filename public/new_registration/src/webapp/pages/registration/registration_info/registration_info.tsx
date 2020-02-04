@@ -4,7 +4,7 @@ import logo from '../../../assets/img/logo.png'
 import facebook from '../../../assets/img/facebook-f.png'
 import instagram from '../../../assets/img/instagram.png'
 import mail from '../../../assets/img/mail.png'
-import { REGISTER_INFO } from 'src/webapp/config/text';
+import { REGISTER_INFO } from '../../../config/text';
 // import divider from '../../../assets/ui/divider.png'
 
 

@@ -1,4 +1,4 @@
-import { PRIMARY_BACKGROUND_COLOR, BUTTON_COLOR, HEADER_TEXT_COLOR } from 'src/webapp/config/style';
+import { PRIMARY_BACKGROUND_COLOR, BUTTON_COLOR, HEADER_TEXT_COLOR } from '../../../../config/style';
 
 /** @type {{formGroup: React.CSSProperties}} */
 

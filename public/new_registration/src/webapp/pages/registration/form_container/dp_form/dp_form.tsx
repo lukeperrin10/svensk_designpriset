@@ -5,7 +5,7 @@ import { FormControlProps } from 'react-bootstrap/FormControl';
 import OverLay from 'react-bootstrap/OverlayTrigger'
 import ToolTip from 'react-bootstrap/Tooltip'
 import styles from './styles'
-import { formItems } from 'src/webapp/config/text';
+import { formItems } from '../../../../config/text';
 
 export interface IEnteredValues {
     [key: string]: string
@@ -27,8 +27,13 @@ interface IDpFormProps {
 class DpForm extends React.Component<IDpFormProps> {
     state = {
         formValidated: false,
-        formInput: {},
+        formInput: this.defineFormInput(),
         
+    }
+
+    defineFormInput() {
+        const fi: {[key:string]: any} = {}
+        return fi
     }
 
     onSubmit(e: React.FormEvent<HTMLFormElement>) {

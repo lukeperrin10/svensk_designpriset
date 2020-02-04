@@ -1,4 +1,4 @@
-import { PRIMARY_BACKGROUND_COLOR, PRIMARY_GOLD, STANDARD_TEXT_COLOR } from 'src/webapp/config/style';
+import { PRIMARY_BACKGROUND_COLOR, PRIMARY_GOLD, STANDARD_TEXT_COLOR } from '../../../config/style';
 import divider from '../../../assets/ui/divider.png'
 
 export default {

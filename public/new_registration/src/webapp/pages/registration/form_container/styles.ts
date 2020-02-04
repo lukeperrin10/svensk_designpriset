@@ -1,4 +1,4 @@
-import { PRIMARY_GOLD, PRIMARY_BACKGROUND_COLOR } from 'src/webapp/config/style';
+import { PRIMARY_GOLD, PRIMARY_BACKGROUND_COLOR } from '../../../config/style';
 
 /** @type {{formGroup: React.CSSProperties}} */
 

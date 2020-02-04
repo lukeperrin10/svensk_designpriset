@@ -2,18 +2,18 @@ import * as React from 'react'
 import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS, GENERAL_TEXT, formItems} from '../../../config/text'
 import styles from './styles'
 import {Md5} from 'ts-md5/dist/md5';
-import { INewProfile, INewEntry, ICategory, IProfile, IEntry } from 'src/webapp/model';
+import { INewProfile, INewEntry, ICategory, IProfile, IEntry } from '../../../model';
 import DpForm from './dp_form';
 import { IEnteredValues } from './dp_form/dp_form';
 import Button from 'react-bootstrap/Button'
 import OverLay from 'react-bootstrap/OverlayTrigger'
 import ToolTip from 'react-bootstrap/Tooltip'
-import { isEmptyObject } from 'src/webapp/helpers';
+import { isEmptyObject } from '../../../helpers';
 import DpImageUpload from './dp_image_upload';
 import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
-import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_SYM , AVATAR_SYM} from 'src/webapp/config/host';
-import SubmitedFormContent from 'src/webapp/components/submited_form_content';
-import { textContent } from 'src/webapp/components/submited_form_content/submited_form_content';
+import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_SYM , AVATAR_SYM} from '../../../config/host';
+import SubmitedFormContent from '../../../components/submited_form_content';
+import { textContent } from '../../../components/submited_form_content/submited_form_content';
 import Modal from 'react-bootstrap/Modal'
 import {CACHED_ENTRIES, CACHED_PROFILE} from '../../../model/constants'
 import Logo from '../../../assets/img/logo.png'
@@ -65,7 +65,7 @@ class FormContainer extends React.Component<IFormContainer> {
             
         })
         if (this.props.editContent) {
-            const disabledEntries = {}
+            const disabledEntries: {[key: number]: boolean} = {}
             this.props.editContent.entries.forEach((key, index) => {
                 disabledEntries[index] = true
             })
@@ -148,6 +148,7 @@ class FormContainer extends React.Component<IFormContainer> {
 
     onValueChange(form: string, values: IEnteredValues, key?: string) {
         const {tempProfile, tempEntries} = this.state
+        
         switch(form) {
             case 'profile':
             Object.keys(values).forEach(v => {
