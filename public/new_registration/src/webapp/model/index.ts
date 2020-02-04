@@ -106,3 +106,22 @@ export interface ICategory {
     name: string,
     shorttag: string
 }
+
+export enum CONTENT_TEMPLATES {
+    STANDARD = 'standard',
+    START_DATES = 'start_dates',
+    START_INFO = 'start_info'
+}
+
+export interface IContent {
+    title: string,
+    image: string,
+    content: string,
+    order: number,
+    template: CONTENT_TEMPLATES
+}
+
+export interface ILink {
+    title: string,
+    path: string
+}
