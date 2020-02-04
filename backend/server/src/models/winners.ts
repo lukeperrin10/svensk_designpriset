@@ -20,7 +20,7 @@ export async function get(): Promise<Array<Winner>> {
 export async function getId(id: number): Promise<Winner> {
     console.log('winner get')
     console.log(id)
-    const query = await db.query('SELECT * FROM `winner_entries` WHERE `id` = ?', [id])
+    const query = await db.query('SELECT * FROM `entries` WHERE `id` = ?', [id])
     return query
 }
 

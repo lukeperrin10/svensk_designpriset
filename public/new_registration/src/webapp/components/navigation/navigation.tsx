@@ -10,6 +10,9 @@ import Footer from '../footer'
 import { CONTENT_TEMPLATES, IContent, ILink } from '../../model'
 import { createSlug } from '../../helpers'
 import StandardPage from '../standard_page'
+import { PATHS } from '../../config/path'
+import Winner from '../../pages/winner'
+import Winners from '../../pages/winners'
 
 const Navigation = () => {
 
@@ -74,7 +77,6 @@ const Navigation = () => {
                                 title={cont.title}
                                 content={cont.content}
                                 image={cont.image}/>
-                            <Footer links={footerLinks}/>
                         </div>
                     )
                 }} />
@@ -85,21 +87,16 @@ const Navigation = () => {
 
     return (
         <Router>
+            <Header />
             <Switch>
-                <Route exact path='/' render={() => {
-                    return (
-                        <div>
-                            <Header />
-                                <Start/>
-                            <Footer links={footerLinks}/>
-                        </div>
-                        
-                    )
-                }} />
-                <Route path='/rostning' component={Vote} />
-                <Route path='/anmalan' component={Registration} />
+                <Route exact path='/' component={Start}/>
+                <Route path={PATHS.WINNERS} component={Winners}/>
+                <Route path={`${PATHS.WINNER_ENTRY}/:id`} component={Winner}/>
+                <Route path={PATHS.VOTE} component={Vote} />
+                <Route path={PATHS.REGISTRATION} component={Registration} />
                 {standardPages.length > 0 && getStandardRoutes(standardPages)}
             </Switch>
+            <Footer links={footerLinks}/>
         </Router>
     )
 }

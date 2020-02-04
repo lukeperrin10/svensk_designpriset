@@ -1,14 +1,11 @@
 import * as React from 'react'
-import {useState, useEffect} from 'react'
-import { IEntry, IContent } from '../../model'
+import {useEffect, useState} from 'react'
+import styles from './winners.module.css'
+import { IEntry } from '../../model'
 import * as hosts from '../../config/host'
 import WinnerGallery from '../../components/winner_gallery'
 
-interface props {
-    content?: IContent
-}
-const Start = ({content}:props) => {
-    
+const Winners = () => {
     const [winners, setWinners] = useState<IEntry[]>([])
 
     useEffect(() => {
@@ -25,13 +22,12 @@ const Start = ({content}:props) => {
             console.log(error)
         }
     }
-    
+
     return (
         <main>
-            {/* <div dangerouslySetInnerHTML={{__html: content.content}}/> */}
-            <WinnerGallery entries={winners}/>
+            <WinnerGallery entries={winners} />
         </main>
     )
 }
 
-export default Start
+export default Winners

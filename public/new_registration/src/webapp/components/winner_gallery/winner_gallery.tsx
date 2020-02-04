@@ -20,7 +20,7 @@ const WinnerGallery = ({entries}:props) => {
                             key={entry.id}
                             title={entry.entry_name}  
                             image={entry.avatar}
-                            path={`${PATHS.WINNERS}/${entry.id}`}/>
+                            path={`${PATHS.WINNER_ENTRY}/${entry.id}`}/>
                     )
                 })
                 }
