@@ -29,4 +29,5 @@ export const MEDIA_SYM = isProd ? `${FRONTEND_URL}/admin/media` : `${FRONTEND_UR
 export const ROOT_URL = isProd ? `${FRONTEND_URL}/register2` : "http://myown.se:3000"
 export const OLD_REGISTRATION_URL = "http://www.designpriset.se/anmalan.php"
 
-
+//WARNING: FIX URL!
+// export const FRONTEND_IMAGE_URL = ''

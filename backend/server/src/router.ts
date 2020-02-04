@@ -7,6 +7,7 @@ import {router as votes} from './routes/votes'
 import {router as confirmed_vote} from './routes/confirmed_vote'
 import {router as polls} from './routes/polls'
 import {router as content} from './routes/content'
+import {router as winners} from './routes/winners'
 import TempAvatar from './file_handlers/temp_avatars'
 import Avatars from './file_handlers/avatars'
 import EntryMedia from './file_handlers/entry_media'
@@ -23,7 +24,8 @@ export function initRouter(app: Express) {
     router.use('/votes', votes)
     router.use('/votes/confirmed_vote', confirmed_vote)
     router.use('/polls', polls)
-    router.use('/content', content)
+    router.use('/content', content),
+    router.use('/winners', winners)
     router.post('/avatar', Avatars)
     router.post('/temp_avatar', TempAvatar)
     router.post('/entry_media', EntryMedia)

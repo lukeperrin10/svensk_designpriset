@@ -90,7 +90,7 @@ const Navigation = () => {
                     return (
                         <div>
                             <Header />
-                                {/* <Start content={content[0]}/> */}
+                                <Start/>
                             <Footer links={footerLinks}/>
                         </div>
                         
