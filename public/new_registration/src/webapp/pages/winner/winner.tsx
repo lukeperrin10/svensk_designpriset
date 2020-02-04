@@ -1,15 +1,13 @@
 import * as React from 'react'
 import {useEffect, useState} from 'react'
-// import {useParams} from 'react-router-dom'
 import styles from './winner.module.css'
 import * as hosts from '../../config/host'
 import { IEntry } from '../../model'
-import { match, RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 
 type WinnerParams = {id: string}
 
 const Winner = ({ match }:RouteComponentProps<WinnerParams>) => {
-    // const {id} =  useParams()
     const [winner, setWinner] = useState<IEntry>()
 
     useEffect(() => {
@@ -26,12 +24,15 @@ const Winner = ({ match }:RouteComponentProps<WinnerParams>) => {
                 console.log(error)
             }
         }
-        
     }
 
     return (
         <main>
-            <h1>{winner?.entry_name}</h1>
+            <article>
+                <h1>{winner?.entry_name}</h1>
+                <img src={winner?.avatar} alt={winner?.entry_name} />
+            </article>
+            
         </main>
     )
 }

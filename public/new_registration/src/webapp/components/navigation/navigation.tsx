@@ -70,7 +70,10 @@ const Navigation = () => {
     const getStandardRoutes = (standardContent: IContent[]) => {
         const routes = standardContent.map(cont => {
             return (
-                <Route key={cont.title} path={`/${createSlug(cont.title)}`} render={() => {
+                <Route 
+                    key={cont.title} 
+                    path={`/${createSlug(cont.title)}`} 
+                    render={() => {
                     return (
                         <div>
                             <StandardPage 

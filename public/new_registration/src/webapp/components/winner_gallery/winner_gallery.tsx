@@ -21,8 +21,8 @@ const WinnerGallery = ({entries}:props) => {
                             title={entry.entry_name}  
                             image={entry.avatar}
                             path={`${PATHS.WINNER_ENTRY}/${entry.id}`}/>
-                    )
-                })
+                        )
+                    })
                 }
             </ul>
         </section>
