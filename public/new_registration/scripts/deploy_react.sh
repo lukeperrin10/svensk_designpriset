@@ -13,7 +13,7 @@ react_path="$path/register2"
 
 rsync -hvzrlptDvn --delete --exclude-from="rsync_exclude.txt" build/ root@batteri:$react_path
 
-
+echo "Deploy to production (Ports)"
 echo "Do you want to continue? [y/n]"
 
 read cont
