@@ -13,7 +13,7 @@ export function getName() {
 
 export async function get(): Promise<Array<Winner>> {
     console.log('get winner')
-    const query = await db.query('SELECT * FROM entries WHERE year = 2020 AND is_winner_gold = 1')
+    const query = await db.query('SELECT * FROM entries WHERE is_winner_gold = 1')
     return query
 }
 
@@ -25,5 +25,7 @@ export async function getId(id: number): Promise<Winner> {
 }
 
 export async function getYear(year: string) {
+    const query = await db.query('SELECT * FROM entries WHERE year = ? AND is_winner_gold = 1', [year])
     console.log(year)
+    return query
 }
