@@ -4,13 +4,13 @@ import {DPRouter} from './base_router'
 const valid_params = ['id', 'year']
 
 class WinnersRouter extends DPRouter<model.Winner> {
-    // get() {
-    //     this.router.get('/', async (req, res) => {
-    //         console.log('DP Router get')
-    //         console.log(req.query)
-    //         res.json(await this.model.getYear(req.query.year))
-    //     })
-    // }
+    get() {
+    this.router.get('/', async (req, res) => {
+    console.log('DP Router get')
+    console.log(req.query)
+    res.json(await (<typeof model>this.model).getYear(req.query.year))
+    })
+     }
 }
 
 
