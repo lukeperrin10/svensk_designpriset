@@ -1,6 +1,5 @@
 import * as db from '../db'
 import {Winner as dbtype} from '../types/dbtypes'
-import { Request } from 'express';
 
 
 export interface Winner extends Partial<dbtype> {

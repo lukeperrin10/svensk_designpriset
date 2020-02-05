@@ -12,6 +12,7 @@ type WinnersParams = {
 
 const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
     const [winners, setWinners] = useState<IEntry[]>([])
+    const [selectedYear, setSelectedYear] = useState<string>()
 
     useEffect(() => {
         fetchWinners()
@@ -20,11 +21,10 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
     const fetchWinners = async () => {
         const {year} = match.params
         const arg = year ? year : new Date().getFullYear()
-        console.log(arg)
+        setSelectedYear(arg.toString())
         try {
             const response = await fetch(`${hosts.WINNER_URL}?year=${arg}`)
             const json = await response.json()
-            console.log(json)
             setWinners(json)
         } catch(error) {
             console.log(error)

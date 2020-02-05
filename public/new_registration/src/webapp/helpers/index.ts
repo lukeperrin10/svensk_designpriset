@@ -6,3 +6,7 @@ export function createSlug(text: string) {
     const low = text.toLocaleLowerCase()
     return low.split(' ').join('-')
 }
+
+export function getText(text: string) {
+    return text
+}
