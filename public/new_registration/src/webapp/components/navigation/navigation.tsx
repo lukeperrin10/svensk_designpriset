@@ -18,6 +18,7 @@ const Navigation = () => {
 
     const [content, setContent] = useState<IContent[]>([])
     const [standardPages, setStandardPages] = useState<IContent[]>([])
+    const [startContent, setStartContent] = useState<IContent[]>([])
     const [footerLinks, setFooterLinks] = useState<ILink[]>([])
 
     useEffect(() => {
@@ -40,6 +41,9 @@ const Navigation = () => {
         })
         if (CONTENT_TEMPLATES.STANDARD in sortedContent) {
             setStandardPages(sortedContent[CONTENT_TEMPLATES.STANDARD])
+        }
+        if (CONTENT_TEMPLATES.START_INFO in sortedContent) {
+            setStartContent(sortedContent[CONTENT_TEMPLATES.START_INFO])
         }
     }
 
@@ -92,8 +96,13 @@ const Navigation = () => {
         <Router>
             <Header />
             <Switch>
-                <Route exact path='/' component={Start}/>
-                <Route path={PATHS.WINNERS} component={Winners}/>
+                <Route exact path='/' render={() => {
+                    return (
+                        <Start content={startContent[0]}/>
+                    )
+                }}/>
+                <Route path={`${PATHS.WINNERS}/:year`} component={Winners}/>
+                <Route path={`${PATHS.WINNERS}`} component={Winners}/>
                 <Route path={`${PATHS.WINNER_ENTRY}/:id`} component={Winner}/>
                 <Route path={PATHS.VOTE} component={Vote} />
                 <Route path={PATHS.REGISTRATION} component={Registration} />

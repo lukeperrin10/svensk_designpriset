@@ -28,7 +28,9 @@ const Start = ({content}:props) => {
     
     return (
         <main>
-            {/* <div dangerouslySetInnerHTML={{__html: content.content}}/> */}
+            {content && 
+            <div dangerouslySetInnerHTML={{__html: content.content}}/>
+            }
             <WinnerGallery entries={winners}/>
         </main>
     )
