@@ -52,7 +52,7 @@ function fetchConfig(): ThunkAction<Promise<IConfigAction>, IState, undefined, I
     return async (dispatch) => {
         dispatch(requestConfigs)
         try {
-            const response = await fetch(host.WINNER_URL);
+            const response = await fetch(host.YEAR_CONFIG_URL);
             const json = await response.json()
             return dispatch(receiveConfig(json[0]))
         } catch(error) {

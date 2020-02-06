@@ -7,14 +7,27 @@ import Start from '../../pages/start'
 import * as hosts from '../../config/host'
 import Header from '../header'
 import Footer from '../footer'
-import { CONTENT_TEMPLATES, IContent, ILink } from '../../model'
+import { CONTENT_TEMPLATES, IContent, ILink, IYearConfig } from '../../model'
 import { createSlug } from '../../helpers'
 import StandardPage from '../standard_page'
 import { PATHS } from '../../config/path'
 import Winner from '../../pages/winner'
 import Winners from '../../pages/winners'
+import { IState, IYearConfigState } from '../../model/state'
+import {getConfig} from '../../redux/actions/year_config'
+import { connect } from 'react-redux'
 
-const Navigation = () => {
+interface ReduxProps {
+    yearConfig: IYearConfigState
+}
+
+interface DispatchProps {
+    getConfig: () => Promise<any>
+}
+
+type props = ReduxProps & DispatchProps
+
+const Navigation = (props:props) => {
 
     const [content, setContent] = useState<IContent[]>([])
     const [standardPages, setStandardPages] = useState<IContent[]>([])
@@ -22,13 +35,23 @@ const Navigation = () => {
     const [footerLinks, setFooterLinks] = useState<ILink[]>([])
 
     useEffect(() => {
+        fetchConfig()
         fetchContent()
     }, [])
+
+    useEffect(() => {
+        console.log(props.yearConfig)
+    }, [props.yearConfig])
 
     useEffect(() => {
         sortContent()
         sortLinks()
     },[content])
+
+    const fetchConfig = async() => {
+        await props.getConfig()
+        console.log(props.yearConfig)
+    }
 
     const sortContent = () => {
         const sortedContent: {[key: string]: IContent[]} = {}
@@ -113,4 +136,16 @@ const Navigation = () => {
     )
 }
 
-export default Navigation
+const mapStateToProps = (state: IState) => {
+    return {
+        yearConfig: state.yearConfigState
+    }
+}
+
+const mapDispatchToProps = (dispatch: Function) => {
+    return {
+        getConfig: () => dispatch(getConfig())
+    }
+}
+
+export default connect<ReduxProps, DispatchProps, {}, IState>(mapStateToProps, mapDispatchToProps)(Navigation)

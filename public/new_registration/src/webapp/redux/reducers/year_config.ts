@@ -29,14 +29,14 @@ const initialState: IYearConfigState = {
 
 const yearConfigReducer = (state = initialState, action: any): IYearConfigState => {
     switch (action.type) {
-        case Types.REQUEST_WINNERS:
+        case Types.REQUEST_CONFIG:
             return {
                 ...state,
                 isFetching: true,
                 didFetch: false,
                 dataLoaded: false
             }
-        case Types.RECEIVE_WINNERS:
+        case Types.RECEIVE_CONFIG:
             return {
                 ...state,
                 isFetching: false,
@@ -44,7 +44,7 @@ const yearConfigReducer = (state = initialState, action: any): IYearConfigState 
                 dataLoaded: true,
                 config: action.config
             }
-        case Types.ERROR_WINNERS:
+        case Types.ERROR_CONFIG:
             return {
                 ...state,
                 isFetching: false,
