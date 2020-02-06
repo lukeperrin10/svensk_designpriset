@@ -21,6 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "REACT_APP_IS_DEV='true' react-scripts start", 
     "watch": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

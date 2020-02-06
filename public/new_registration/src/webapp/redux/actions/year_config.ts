@@ -5,6 +5,7 @@ import { ThunkAction } from 'redux-thunk'
 import * as host from '../../config/host'
 import {IState} from '../../model/state'
 import { Types } from './types';
+import { PHASES } from '../../model/constants'
 
 interface IRequestAction extends Action {
     type: Types.REQUEST_CONFIG
@@ -24,7 +25,19 @@ interface ICheckAction extends Action {
     type: Types.CHECK_CONFIG
 }
 
-export type IConfigAction = IRequestAction | IReceiveAction | IErrorAction | ICheckAction
+interface IChangePhase extends Action {
+    type: Types.CHANGE_PHASE,
+    phase: PHASES
+}
+
+export type IConfigAction = IRequestAction | IReceiveAction | IErrorAction | ICheckAction | IChangePhase
+
+export const changePhase: ActionCreator<IChangePhase> = (phase: PHASES) => {
+    return {
+        type: Types.CHANGE_PHASE,
+        phase: phase
+    }
+}
 
 const requestConfigs: IRequestAction = {
     type: Types.REQUEST_CONFIG

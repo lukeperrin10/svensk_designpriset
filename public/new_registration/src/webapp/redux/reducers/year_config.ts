@@ -1,5 +1,7 @@
 import {IYearConfigState} from '../../model/state'
 import { Types } from '../actions/types';
+import { PHASES } from '../../model/constants';
+import { IYearConfig } from '../../model';
 
 const initConfig = {
     id: 0,
@@ -51,9 +53,21 @@ const yearConfigReducer = (state = initialState, action: any): IYearConfigState 
                 didFetch: true,
                 error: action.error
             }
+        case Types.CHANGE_PHASE:
+            console.log('red change phase')
+            return {
+                ...state,
+                config: changePhase(state.config, action.phase)
+            }
         default:
             return state
     }
+}
+
+function changePhase(config: IYearConfig, phase: PHASES) {
+    const newConfig = JSON.parse(JSON.stringify(config))
+    newConfig['current_phase'] = phase
+    return newConfig
 }
 
 export default yearConfigReducer

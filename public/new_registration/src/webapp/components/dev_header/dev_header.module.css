@@ -1,0 +1,9 @@
+.container {
+    width: 100vw;
+    background-color: grey;
+    text-align: center;
+}
+
+.selected {
+    background-color: chocolate;
+}

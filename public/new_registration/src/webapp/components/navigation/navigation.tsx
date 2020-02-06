@@ -14,34 +14,40 @@ import { PATHS } from '../../config/path'
 import Winner from '../../pages/winner'
 import Winners from '../../pages/winners'
 import { IState, IYearConfigState } from '../../model/state'
-import {getConfig} from '../../redux/actions/year_config'
+import {getConfig, changePhase} from '../../redux/actions/year_config'
 import { connect } from 'react-redux'
+import DevHeader from '../dev_header'
+import { PHASES } from '../../model/constants'
 
 interface ReduxProps {
-    yearConfig: IYearConfigState
+    yearConfig: IYearConfig
 }
 
 interface DispatchProps {
-    getConfig: () => Promise<any>
+    getConfig: () => Promise<any>,
+    changePhase: (phase: PHASES) => void
 }
 
 type props = ReduxProps & DispatchProps
 
-const Navigation = (props:props) => {
+const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
 
     const [content, setContent] = useState<IContent[]>([])
     const [standardPages, setStandardPages] = useState<IContent[]>([])
     const [startContent, setStartContent] = useState<IContent[]>([])
     const [footerLinks, setFooterLinks] = useState<ILink[]>([])
+    const isDevVersion = process.env.REACT_APP_IS_DEV === "true"
 
+    console.log('is dev: '+isDevVersion)
+    
     useEffect(() => {
         fetchConfig()
         fetchContent()
     }, [])
 
     useEffect(() => {
-        console.log(props.yearConfig)
-    }, [props.yearConfig])
+        console.log(yearConfig)
+    }, [yearConfig])
 
     useEffect(() => {
         sortContent()
@@ -49,8 +55,8 @@ const Navigation = (props:props) => {
     },[content])
 
     const fetchConfig = async() => {
-        await props.getConfig()
-        console.log(props.yearConfig)
+        await getConfig()
+        console.log(yearConfig)
     }
 
     const sortContent = () => {
@@ -115,8 +121,17 @@ const Navigation = (props:props) => {
         return routes
     }
 
+    const onChangePhase = (phase: PHASES) => {
+        changePhase(phase)
+    }
+
     return (
         <Router>
+            {isDevVersion && 
+            <DevHeader 
+            currentPhase={yearConfig.current_phase} 
+            changePhase={onChangePhase}
+            />}
             <Header />
             <Switch>
                 <Route exact path='/' render={() => {
@@ -138,13 +153,14 @@ const Navigation = (props:props) => {
 
 const mapStateToProps = (state: IState) => {
     return {
-        yearConfig: state.yearConfigState
+        yearConfig: state.yearConfigState.config
     }
 }
 
 const mapDispatchToProps = (dispatch: Function) => {
     return {
-        getConfig: () => dispatch(getConfig())
+        getConfig: () => dispatch(getConfig()),
+        changePhase: (phase: PHASES) => dispatch(changePhase(phase))
     }
 }
 
