@@ -140,5 +140,6 @@ export interface YearConfig {
     price: string,
     award_place: string,
     award_date: string,
-    winner_preview: string
+    winner_preview: string,
+    current_phase: string
 }

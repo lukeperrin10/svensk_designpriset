@@ -4,7 +4,8 @@ export interface IState {
     winnerState: IWinnerState,
     profileState: IProfileState,
     entriesState: IEntriesState,
-    categoryState: ICategoryState
+    categoryState: ICategoryState,
+    yearConfigState: IYearConfigState
 }
 
 interface FetchState {
@@ -27,4 +28,8 @@ export interface IEntriesState extends FetchState {
 
 export interface ICategoryState extends FetchState {
     categories: interfaces.ICategory[]
+}
+
+export interface IYearConfigState extends FetchState {
+    config: interfaces.IYearConfig
 }

@@ -125,3 +125,21 @@ export interface ILink {
     title: string,
     path: string
 }
+
+export interface IYearConfig {
+    id: number,
+    year: string,
+    phase_1_start: string,
+    phase_2_start: string,
+    phase_3_start: string,
+    phase_4_start: string,
+    phase_5_start: string,
+    register_deadline_date: string,
+    nominees_can_edit_start: string,
+    nominees_can_edit_end: string,
+    price: string,
+    award_place: string,
+    award_date: string,
+    winner_preview: string,
+    current_phase: string
+}
