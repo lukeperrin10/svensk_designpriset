@@ -4,7 +4,7 @@ import { IState, IProfileState, IEntriesState, ICategoryState} from '../../model
 import FormContainer from './form_container'
 import ConfirmationContainer from './confirmation_container'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import { INewProfile, INewEntry, IProfile } from '../../model';
+import { INewProfile, INewEntry, IProfile, IYearConfig } from '../../model';
 import { saveProfile, getProfile } from '../../redux/actions/profile';
 import { getEntries, saveEntries, deleteEntry } from '../../redux/actions/entries';
 import { getCategories } from '../../redux/actions/categories';
@@ -14,14 +14,15 @@ import * as queryString from 'query-string'
 import RegistrationInfo from './registration_info';
 import ErrorModal from './error_modal/error_modal';
 import styles from './style'
-import { DID_POST_FORM } from '../../model/constants';
+import { DID_POST_FORM, PHASES } from '../../model/constants';
 import { OLD_REGISTRATION_URL} from '../../config/host';
 import logo from '../../assets/img/logo.png'
 
 interface ReduxProps {
     profileState: IProfileState,
     entriesState: IEntriesState,
-    categoriesState: ICategoryState
+    categoriesState: ICategoryState,
+    yearConfig: IYearConfig
 }
 interface DispatchProps {
     saveProfile: (p: INewProfile) => Promise<any>,
@@ -70,6 +71,8 @@ class Registration extends React.Component<Props, State> {
     // http://www.designpriset.se/register2/edit?id=251&secret=e3eb159e23b8e62f6b0ec1b153f78b80
 
     isAllowed() {
+        const {yearConfig} = this.props
+        return yearConfig.current_phase === PHASES.TWO
         return true
         const query = queryString.parse(window.location.search)
         const today = new Date()
@@ -80,6 +83,12 @@ class Registration extends React.Component<Props, State> {
         const shouldOpen = today > start && today < end
         const secondShouldOpen = today > secondStart && today < seconEnd
         return 'secret' in query && (shouldOpen || secondShouldOpen)
+    }
+
+    componentDidUpdate(p: Props) {
+        if (this.props.yearConfig !== p.yearConfig) {
+            this.setState({isAllowed: this.isAllowed()})
+        }
     }
 
     componentDidMount() {
@@ -248,7 +257,8 @@ const mapStateToProps = (state: IState) => {
     return {
         profileState: state.profileState,
         entriesState: state.entriesState,
-        categoriesState: state.categoryState
+        categoriesState: state.categoryState,
+        yearConfig: state.yearConfigState.config
     }
 }
 
