@@ -34,6 +34,9 @@ const Start = ({content}:props) => {
             {content && 
             <div dangerouslySetInnerHTML={{__html: content.content}}/>
             }
+
+            <Link to="/rostning">Rösta</Link>
+            <Link to="/anmalan">Anmälan</Link>
             <WinnerGallery entries={winners}/>
             <Link to={PATHS.WINNERS}>{getText("Se alla vinnare")}</Link>
         </main>

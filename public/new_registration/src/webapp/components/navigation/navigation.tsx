@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useState, useEffect} from 'react'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import Registration from '../../pages/registration'
 import Vote from '../../pages/vote'
 import Start from '../../pages/start'
@@ -18,6 +18,7 @@ import {getConfig, changePhase} from '../../redux/actions/year_config'
 import { connect } from 'react-redux'
 import DevHeader from '../dev_header'
 import { PHASES } from '../../model/constants'
+import * as queryString from 'query-string'
 
 interface ReduxProps {
     yearConfig: IYearConfig
@@ -125,6 +126,23 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
         changePhase(phase)
     }
 
+    const checkIfVoteAllowed = () => {
+        return yearConfig.current_phase === PHASES.FOUR
+    }
+
+    const checkIfRegisterAllowed = () => {
+        const query = queryString.parse(window.location.search)
+        if (yearConfig.current_phase === PHASES.ONE) return true
+        const now = new Date()
+        const nomineeCanEdit = now > new Date(yearConfig.nominees_can_edit_start) 
+        && now < new Date(yearConfig.nominees_can_edit_end)
+        return 'secret' in query && nomineeCanEdit
+    }
+
+    const redirect = () => {
+        return <Redirect to="/" />
+    }
+
     return (
         <Router>
             {isDevVersion && 
@@ -142,8 +160,18 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 <Route path={`${PATHS.WINNERS}/:year`} component={Winners}/>
                 <Route path={`${PATHS.WINNERS}`} component={Winners}/>
                 <Route path={`${PATHS.WINNER_ENTRY}/:id`} component={Winner}/>
-                <Route path={PATHS.VOTE} component={Vote} />
-                <Route path={PATHS.REGISTRATION} component={Registration} />
+
+                {yearConfig.current_phase !== "" &&
+                <Route path={PATHS.VOTE} render={() => {
+                    if (checkIfVoteAllowed()) return <Vote />
+                    else return redirect()
+                }} />}
+
+                <Route path={PATHS.REGISTRATION} render={() => {
+                    if (checkIfRegisterAllowed()) return <Registration />
+                    else return redirect()
+                }} />
+
                 {standardPages.length > 0 && getStandardRoutes(standardPages)}
             </Switch>
             <Footer links={footerLinks}/>

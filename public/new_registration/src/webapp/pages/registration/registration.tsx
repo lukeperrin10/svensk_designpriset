@@ -61,7 +61,6 @@ class Registration extends React.Component<Props, State> {
         editProfile: {},
         editEntries: [],
         showErrorModal: false,
-        isAllowed: this.isAllowed()
     }
     constructor(p: Props) {
         super(p)
@@ -70,26 +69,6 @@ class Registration extends React.Component<Props, State> {
 
     // http://www.designpriset.se/register2/edit?id=251&secret=e3eb159e23b8e62f6b0ec1b153f78b80
 
-    isAllowed() {
-        const {yearConfig} = this.props
-        return yearConfig.current_phase === PHASES.TWO
-        return true
-        const query = queryString.parse(window.location.search)
-        const today = new Date()
-        const start = new Date('2019-09-02T00:00:01')
-        const end = new Date('2019-09-04T23:59:59')
-        const secondStart = new Date('2019-09-09T00:00:01')
-        const seconEnd = new Date('2019-09-11T23:59:59')
-        const shouldOpen = today > start && today < end
-        const secondShouldOpen = today > secondStart && today < seconEnd
-        return 'secret' in query && (shouldOpen || secondShouldOpen)
-    }
-
-    componentDidUpdate(p: Props) {
-        if (this.props.yearConfig !== p.yearConfig) {
-            this.setState({isAllowed: this.isAllowed()})
-        }
-    }
 
     componentDidMount() {
         this.checkLocalStorage()
@@ -210,17 +189,10 @@ class Registration extends React.Component<Props, State> {
 
     render() {
         const {categories} = this.props.categoriesState
-        const {didLoad, didUpload, edit, editIsAdmin, isAllowed} = this.state
-        if (!isAllowed) {
-            //this.redirect()
-            console.log("Not allowed")
-        }
+        const {didLoad, didUpload, edit, editIsAdmin} = this.state
         return (
             // <Router basename={ROUTER_BAS_NAME}>
             <Router>
-                {!isAllowed ?
-                <div>Du har inte tillåtelse att visa den här sidan</div>
-                :
                 <div>
                     {!didLoad ?
                     <Loader />
@@ -247,7 +219,6 @@ class Registration extends React.Component<Props, State> {
                     }
                     <ErrorModal show={this.state.showErrorModal} onClose={() => this.setState({showErrorModal: false})} />
                 </div>
-            }
             </Router>
         )
     }
