@@ -8,6 +8,14 @@ export enum PHASES {
     FIVE = 'phase_five',
 }
 
+export function asserArgumentIsPhase(phase: string) {
+    let isPhase = false
+    Object.values(PHASES).forEach(val => {
+        if (val === phase) isPhase = true
+    })
+    return isPhase
+}
+
 export async function getPhase(): Promise<string> {
     const date = new Date()
     const year = date.getFullYear()

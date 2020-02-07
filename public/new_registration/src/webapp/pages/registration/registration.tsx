@@ -22,7 +22,6 @@ interface ReduxProps {
     profileState: IProfileState,
     entriesState: IEntriesState,
     categoriesState: ICategoryState,
-    yearConfig: IYearConfig
 }
 interface DispatchProps {
     saveProfile: (p: INewProfile) => Promise<any>,
@@ -229,7 +228,6 @@ const mapStateToProps = (state: IState) => {
         profileState: state.profileState,
         entriesState: state.entriesState,
         categoriesState: state.categoryState,
-        yearConfig: state.yearConfigState.config
     }
 }
 

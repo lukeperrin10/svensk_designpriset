@@ -1,5 +1,6 @@
 import * as db from '../db'
 import {Winner as dbtype} from '../types/dbtypes'
+import { getPhase, PHASES, asserArgumentIsPhase } from '../phase_handler/phase_handler'
 
 
 export interface Winner extends Partial<dbtype> {
@@ -23,8 +24,17 @@ export async function getId(id: number): Promise<Winner> {
     return query
 }
 
-export async function getYear(year: string) {
-    const query = await db.query('SELECT * FROM entries WHERE year = ? AND is_winner_gold = 1', [year])
-    console.log(year)
+export async function getYear(year: string, phase?: string) {
+    const currentPhase = asserArgumentIsPhase(phase) ? phase : await getPhase()
+    console.log(currentPhase)
+    const todayYear = new Date().getFullYear()
+    const argYear = new Date(year).getFullYear()
+    let queryYear
+    //WARNING: Need more logic???
+    if (todayYear === argYear && currentPhase !== PHASES.FIVE) queryYear = argYear-1
+    else queryYear = year
+    console.log(queryYear)
+    const query = await db.query('SELECT * FROM entries WHERE year = ? AND is_winner_gold = 1', [queryYear])
+    
     return query
 }
