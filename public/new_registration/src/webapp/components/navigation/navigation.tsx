@@ -109,12 +109,10 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                     path={`/${createSlug(cont.title)}`} 
                     render={() => {
                     return (
-                        <div>
-                            <StandardPage 
-                                title={cont.title}
-                                content={cont.content}
-                                image={cont.image}/>
-                        </div>
+                        <StandardPage 
+                            title={cont.title}
+                            content={cont.content}
+                            image={cont.image}/>
                     )
                 }} />
             )

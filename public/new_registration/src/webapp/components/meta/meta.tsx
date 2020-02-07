@@ -18,14 +18,11 @@ const Meta = ({title, description, image}:props) => {
                 <meta property="og:description" content={description || "Svenska Designpriset"} />
                 {/* WARNING: Vänta in design för standardbild */}
                 <meta property="og:image" content={image} />
+                <meta name="twitter:description" property="og:site_name" content="Svenska Designpriset" />
             </Helmet>
         )
     }
-    return (
-        <div>
-            
-        </div>
-    )
+    return getMeta()
 }
 
 export default Meta
