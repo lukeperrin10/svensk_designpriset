@@ -5,6 +5,8 @@ import { IEntry } from '../../model'
 import * as hosts from '../../config/host'
 import WinnerGallery from '../../components/winner_gallery'
 import { RouteComponentProps } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
+import Meta from '../../components/meta'
 
 type WinnersParams = {
     year: string
@@ -31,8 +33,21 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
         }
     }
 
+    const getMeta = () => {
+        const {year} = match.params
+        const arg = year ? year : new Date().getFullYear()
+        /* WARNING: Vänta in design för bild ??*/
+        return (    
+            <Meta 
+            title={`Vinnare ${arg}`} 
+            description={`Svenska Designprisets vinnare år ${arg}`} 
+            image={winners[0].avatar}/>
+        )
+    }
+
     return (
         <main>
+            {getMeta()}
             <WinnerGallery entries={winners} />
         </main>
     )

@@ -6,6 +6,8 @@ import WinnerGallery from '../../components/winner_gallery'
 import { PATHS } from '../../config/path'
 import { Link } from 'react-router-dom'
 import { getText } from '../../helpers'
+import { Helmet } from 'react-helmet'
+import Meta from '../../components/meta'
 
 interface props {
     content?: IContent
@@ -31,6 +33,7 @@ const Start = ({content}:props) => {
     
     return (
         <main>
+            <Meta />
             {content && 
             <div dangerouslySetInnerHTML={{__html: content.content}}/>
             }

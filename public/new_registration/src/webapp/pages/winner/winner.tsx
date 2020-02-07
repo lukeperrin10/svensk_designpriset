@@ -4,6 +4,8 @@ import styles from './winner.module.css'
 import * as hosts from '../../config/host'
 import { IEntry } from '../../model'
 import { RouteComponentProps } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
+import Meta from '../../components/meta'
 
 type WinnerParams = {id: string}
 
@@ -28,6 +30,10 @@ const Winner = ({ match }:RouteComponentProps<WinnerParams>) => {
 
     return (
         <main>
+            <Meta
+            title={winner?.entry_name}
+            description={winner?.motivation}
+            image={winner?.avatar} />
             <article>
                 <h1>{winner?.entry_name}</h1>
                 <img src={winner?.avatar} alt={winner?.entry_name} />
