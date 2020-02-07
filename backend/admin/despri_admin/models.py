@@ -103,7 +103,7 @@ class Poll(BaseModel):
         verbose_name_plural = _('Polls')
         db_table = 'polls'
 
-class ContentTemplate(BaseModel):
+class ContentTemplate(models.Model):
     name = models.CharField(_('Name'), max_length=255, null=False, default='def')
     description = models.TextField(_('Description'), null=True, blank=True)
 
@@ -114,7 +114,7 @@ class ContentTemplate(BaseModel):
         verbose_name_plural = _('Content templates')
         db_table = 'content_template'
 
-class ContentPhase(BaseModel):
+class ContentPhase(models.Model):
     name = models.CharField(_('Name'), max_length=255, null=False, default='def')
 
     def __str__(self):
@@ -209,7 +209,7 @@ class Mail(BaseModel):
         verbose_name_plural = _('Mails')
         db_table = 'mails'
 
-class MailVar(BaseModel):
+class MailVar(models.Model):
     name = models.CharField(_('Name'), max_length=255, null=False, blank=False)
     value = models.CharField(_('Value'), max_length=255, null=False, blank=False)
 

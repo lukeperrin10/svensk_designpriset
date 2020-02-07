@@ -1,0 +1,34 @@
+[
+    {
+        "model": "despri_admin.ContentTemplate",
+        "pk": 1,
+        "fields": {
+            "name": "standard",
+            "description": "Sidor som visas i menyn"
+        }
+    },
+    {
+        "model": "despri_admin.ContentTemplate",
+        "pk": 2,
+        "fields": {
+            "name": "start_innehåll",
+            "description": "Information och innehåll som ska visas överst på startsidan"
+        }
+    },
+    {
+        "model": "despri_admin.ContentTemplate",
+        "pk": 3,
+        "fields": {
+            "name": "start_calendar",
+            "description": "Information om årets olika datum"
+        }
+    },
+    {
+        "model": "despri_admin.ContentTemplate",
+        "pk": 4,
+        "fields": {
+            "name": "register_info",
+            "description": "Den information som ska visas överst på anmälningssidan"
+        }
+    }
+  ]
