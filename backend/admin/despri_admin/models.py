@@ -203,6 +203,9 @@ class Mail(BaseModel):
     content = HTMLField(_('Content'), null=True, blank=True)
 
     def __str__(self):
+        for t in self.MAIL_TYPE:
+            if t[0] == self.type:
+                return t[1]
         return self.type
     class Meta:
         verbose_name = _('Mail')
