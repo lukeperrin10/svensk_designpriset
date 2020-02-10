@@ -41,7 +41,7 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
             <Meta 
             title={`Vinnare ${arg}`} 
             description={`Svenska Designprisets vinnare år ${arg}`} 
-            image={winners[0].avatar}/>
+            image={winners.length > 0 ? winners[0].avatar : ''}/>
         )
     }
 
