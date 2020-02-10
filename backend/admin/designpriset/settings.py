@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tinymce'
+    'tinymce',
+    'django_summernote'
 ]
 
 MIDDLEWARE = [
@@ -139,4 +140,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 FILE_UPLOAD_PERMISSIONS = 0o644
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 

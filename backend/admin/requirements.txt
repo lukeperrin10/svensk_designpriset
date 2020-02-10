@@ -4,3 +4,4 @@ Pillow
 django-tinymce
 django-material 
 requests
+django-summernote

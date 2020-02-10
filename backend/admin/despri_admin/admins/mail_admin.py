@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
+from django_summernote.admin import SummernoteModelAdmin
 from .base_admin import BaseAdmin
 from ..models import MailVar
 
-class MailAdmin(BaseAdmin):
+class MailAdmin(SummernoteModelAdmin, BaseAdmin):
+    summernote_fields = ('content',)
     change_form_template = 'admin/despri_admin/mail_change_form.html'
     
     def get_mail_vars(self):
