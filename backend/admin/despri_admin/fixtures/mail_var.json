@@ -27,7 +27,7 @@
         "model": "despri_admin.MailVar",
         "pk": 4,
         "fields": {
-            "name": "Profil/Kund",
+            "name": "Allmänna uppgifter",
             "value": "profile"
         }
     },
@@ -35,7 +35,7 @@
         "model": "despri_admin.MailVar",
         "pk": 5,
         "fields": {
-            "name": "Lista bidrag",
+            "name": "Anmälda bidrag",
             "value": "entries_list"
         }
     },
@@ -43,7 +43,7 @@
         "model": "despri_admin.MailVar",
         "pk": 6,
         "fields": {
-            "name": "Länk till att lägga till bidrag",
+            "name": "Lägg till fler bidrag",
             "value": "register_add_link"
         }
     },
@@ -75,7 +75,7 @@
         "model": "despri_admin.MailVar",
         "pk": 10,
         "fields": {
-            "name": "Bekräftelselänk för röst",
+            "name": "Länk för röstverifiering",
             "value": "vote_confirm_link"
         }
     }
