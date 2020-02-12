@@ -1,0 +1,18 @@
+server {
+	listen 80;
+
+	server_name 185.20.12.59;
+	#server_name designpriset.se;
+		root /usr/share/nginx/html/frontend;
+	location / {
+		include  /etc/nginx/mime.types;
+		try_files $uri $uri/ /index.html;
+		auth_basic "Restricted";
+		auth_basic_user_file /etc/nginx/.htpasswd;
+	}
+	location /api {
+		#todo proxy to node
+	}
+}
+
+
