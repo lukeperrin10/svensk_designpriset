@@ -11,7 +11,7 @@ import ToolTip from 'react-bootstrap/Tooltip'
 import { isEmptyObject } from '../../../helpers';
 import DpImageUpload from './dp_image_upload';
 import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
-import { TEMP_AVATAR_URL, TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_SYM , AVATAR_SYM} from '../../../config/host';
+import { POST_TEMP_AVATAR_URL, POST_TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_URL , AVATAR_URL} from '../../../config/host';
 import SubmitedFormContent from '../../../components/submited_form_content';
 import { textContent } from '../../../components/submited_form_content/submited_form_content';
 import Modal from 'react-bootstrap/Modal'
@@ -330,7 +330,7 @@ class FormContainer extends React.Component<IFormContainer> {
             const uploadedAvatar = tempEntries[`${i}`] ? tempEntries[`${i}`].avatar || false : false
             const uploadedMedia = tempEntries[`${i}`] ? tempEntries[`${i}`].source || false : false
             const key = `${i}`
-            const editPath = key in editModeNewEntries ? TEMP_AVATAR_SYM : AVATAR_SYM
+            const editPath = key in editModeNewEntries ? TEMP_AVATAR_URL : AVATAR_URL
             const form = <div key={i} ref={el => {
                 if (!el) return
                 if (this.state.shouldScrollToEntry) {
@@ -350,18 +350,18 @@ class FormContainer extends React.Component<IFormContainer> {
                 customComponents={[
                     <DpImageUpload 
                         onSave={(url: string) => this.addMediaToEntry(key, 'avatar', url)} 
-                        url={TEMP_AVATAR_URL}
+                        url={POST_TEMP_AVATAR_URL}
                         label={GENERAL_TEXT.thumbnail_label} 
                         errorMessageProps={key in errorEntries ? errorEntries[key] : undefined}
                         displayErrorProps={key in errorEntries}
                         key={'avatar'} 
                         limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}
-                        uploadedImage={uploadedAvatar ? `${editContent ? editPath : TEMP_AVATAR_SYM}/${tempEntries[key].avatar}` : undefined}
+                        uploadedImage={uploadedAvatar ? `${editContent ? editPath : TEMP_AVATAR_URL}/${tempEntries[key].avatar}` : undefined}
                         deleteImage={uploadedAvatar ? () => this.removeMediaFromEntry(key, 'avatar') : undefined}
                         />,
                     <DpImageUpload 
                         onSave={(url: string) => this.addMediaToEntry(key, 'source', url)} 
-                        url={TEMP_ENTRY_MEDIA_URL}
+                        url={POST_TEMP_ENTRY_MEDIA_URL}
                         label={GENERAL_TEXT.entry_media} 
                         key={'media'} 
                         errorMessageProps=""
@@ -392,7 +392,7 @@ class FormContainer extends React.Component<IFormContainer> {
                 content.push({
                     label: item === 'avatar' ? 'Tummnagel' : item === 'source' ? 'Printbidrag' : formItems[item].label ,
                     content: item === 'category_id' ? this.getCategoryName(submited[item]) : submited[item],
-                    imageUrl: imageLabel === item ? `${TEMP_AVATAR_SYM}/${submited[item]}` : undefined
+                    imageUrl: imageLabel === item ? `${TEMP_AVATAR_URL}/${submited[item]}` : undefined
                 })
             }
         })
