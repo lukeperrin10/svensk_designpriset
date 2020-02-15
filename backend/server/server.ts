@@ -10,6 +10,7 @@ require( "console-stamp" )( console, {pattern: "yyyy-mm-dd--HH:MM:ss"} );
 
 // logger.token('date');
 app.use(logger('[:date[iso]] [ACCESS] :req[x-forwarded-for] - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
+app.use(express.static('upload_assets'))
 app.use(bodyParser.json())                                     
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.text())                            

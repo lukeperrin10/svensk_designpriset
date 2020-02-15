@@ -10,7 +10,11 @@ export const REGISTER_ROOT_URL = process.env.DP_BACKEND_REGISTER_ROOT_URL
 export const ADMIN_EMAIL = process.env.NODE_ENV === 'production' ? "designpriset@gmail.com" : "johan@wopii.com"
 
 const ROOT_PATH = isProd ? '/var/www/www.designpriset.se/wwwroot/backend_api' : '.'
+
+export const AVATAR_DIR = 'avatars'
+export const SOURCE_DIR = 'sources'
+
 export const TEMP_AVATAR_PATH = `${ROOT_PATH}/upload_assets/temp_avatars`
 export const TEMP_MEDIA_PATH = `${ROOT_PATH}/upload_assets/temp_media`
-export const AVATAR_PATH = `${ROOT_PATH}/upload_assets/avatars`
-export const MEDIA_PATH = `${ROOT_PATH}/upload_assets/media`
+export const AVATAR_PATH = `${ROOT_PATH}/upload_assets/media/${AVATAR_DIR}`
+export const MEDIA_PATH = `${ROOT_PATH}/upload_assets/media/${SOURCE_DIR}`

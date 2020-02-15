@@ -26,6 +26,7 @@ services:
         command: python manage.py runserver 0.0.0.0:8000
         volumes:
             - ./admin:/code
+            - media:/code/media
         ports:
         - "8000:8000"
         networks:
@@ -47,9 +48,13 @@ services:
         volumes: 
             - ./server:/var/app
             - temp_avatars:/var/app/upload_assets/temp_avatars
+            - temp_media:/var/app/upload_assets/temp_media
+            - media:/var/app/upload_assets/media
         networks:
             - internal_network
 
 volumes:
     despri-data: {}
     temp_avatars: {}
+    temp_media: {}
+    media: {}

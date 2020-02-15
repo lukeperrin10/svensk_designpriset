@@ -1,18 +1,33 @@
 server {
-	listen 80;
+        listen 80;
 
-	server_name 185.20.12.59;
-	#server_name designpriset.se;
-		root /usr/share/nginx/html/frontend;
-	location / {
-		include  /etc/nginx/mime.types;
-		try_files $uri $uri/ /index.html;
-		auth_basic "Restricted";
-		auth_basic_user_file /etc/nginx/.htpasswd;
-	}
-	location /api {
-		#todo proxy to node
-	}
+        server_name 185.20.12.59;
+        #server_name designpriset.se;
+        root /usr/share/nginx/html;
+
+        location ~ ^/django/static(.*)$ {
+                include  /etc/nginx/mime.types;
+                try_files /django_static$1 /django_static$1/;
+        }
+		location /admin {
+				return 302 /django/admin;
+		}
+        location /django {
+                include  /etc/nginx/mime.types;
+                proxy_pass http://python:8000;
+                proxy_set_header Host $host;
+                #proxy_set_header X-Forwarded-Proto https;
+        }
+        location /api/v1/ {
+                include  /etc/nginx/mime.types;
+                proxy_pass http://node:8001/;
+                proxy_set_header Host $host;
+                #proxy_set_header X-Forwarded-Proto https;
+        }
+        location / {
+                include  /etc/nginx/mime.types;
+                try_files $uri $uri/ /index.html;
+                auth_basic "Restricted";
+                auth_basic_user_file /etc/nginx/.htpasswd;
+        }
 }
-
-

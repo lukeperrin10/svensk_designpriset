@@ -5,7 +5,7 @@ import { sendRegisterEmails } from '../mail_handler/mail_handler';
 import { TEMP_MEDIA_PATH } from '../constants/temp_contants';
 import { MEDIA_PATH } from '../constants/temp_contants';
 import { TEMP_AVATAR_PATH } from '../constants/temp_contants';
-import { AVATAR_PATH } from '../constants/temp_contants';
+import { AVATAR_PATH, AVATAR_DIR, SOURCE_DIR } from '../constants/temp_contants';
 import { getDateTime } from '../helpers';
 
 export interface Entry extends Partial<dbtype> {}
@@ -62,8 +62,9 @@ export async function create(new_entry: Entry): Promise<Entry> {
 
 async function moveAvatar(filenames: string[]) {
     for (let i = 0; i<filenames.length; i++) {
-        const origin = `${TEMP_AVATAR_PATH}/${filenames[i]}`
-        const dest = `${AVATAR_PATH}/${filenames[i]}`
+        const filename = filenames[i].split('/').pop()
+        const origin = `${TEMP_AVATAR_PATH}/${filename}`
+        const dest = `${AVATAR_PATH}/${filename}`
         if (fs.existsSync(origin)) {
             await fs.move(origin, dest, (err) => {
                 if (err) console.error(err)
@@ -75,8 +76,9 @@ async function moveAvatar(filenames: string[]) {
 
 async function moveSource(filenames: string[]) {
     for (let i = 0; i<filenames.length; i++) {
-        const origin = `${TEMP_MEDIA_PATH}/${filenames[i]}`
-        const dest = `${MEDIA_PATH}/${filenames[i]}`
+        const filename = filenames[i].split('/').pop()
+        const origin = `${TEMP_MEDIA_PATH}/${filename}`
+        const dest = `${MEDIA_PATH}/${filename}`
         if (fs.existsSync(origin)) {
             await fs.move(origin, dest, (err) => {
                 if (err) console.error(err)
@@ -151,9 +153,9 @@ function fill_entry(entry: Entry): Entry {
         size: entry.size || null, 
         customer: entry.customer, 
         webpage: entry.webpage || null, 
-        source: entry.source || null, 
+        source: `${SOURCE_DIR}/${entry.source}` || null, 
         secret: entry.secret, 
-        avatar: entry.avatar, 
+        avatar: `${AVATAR_DIR}/${entry.avatar}`, 
         year: entry.year || `${new Date().getFullYear()}`,
         is_nominated: entry.is_nominated || 0,
         is_winner_gold: entry.is_winner_gold || 0,

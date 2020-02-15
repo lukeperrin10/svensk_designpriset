@@ -17,13 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-# from material.frontend import urls as frontend_urls
+from distutils.util import strtobool
+import os
 
+DEBUG = strtobool(os.environ['DJANGO_DEBUG'])
+
+BASE_PATH = '' if DEBUG else 'django/'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('tinymce/', include('tinymce.urls')),
-    path('', include('despri_admin.urls')),
-    path('summernote/', include('django_summernote.urls'))
-    # path('', include(frontend_urls)),
+    path(f'{BASE_PATH}admin/', admin.site.urls),
+    path(f'{BASE_PATH}tinymce/', include('tinymce.urls')),
+    path(BASE_PATH, include('despri_admin.urls')),
+    path(f'{BASE_PATH}summernote/', include('django_summernote.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
