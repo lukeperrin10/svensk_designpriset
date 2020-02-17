@@ -7,8 +7,11 @@ APP=dp_node
 VERSION=latest
 IMAGE=$APP:$VERSION
 
+cd $base_dir/server
+npx tsc
 
-cd $base_dir
+cd ..
+
 docker image build -t $IMAGE ./server/
 
 docker tag $IMAGE $REMOTE/$IMAGE
