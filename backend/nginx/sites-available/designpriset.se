@@ -5,10 +5,25 @@ server {
         #server_name designpriset.se;
         root /usr/share/nginx/html;
 
+### All static and media served by nginx
         location ~ ^/django/static(.*)$ {
                 include  /etc/nginx/mime.types;
                 try_files /django_static$1 /django_static$1/;
         }
+		location ~ ^/api/v1/temp_avatars(.*)$ {
+                include  /etc/nginx/mime.types;
+                try_files /temp_avatars$1 /temp_avatars$1/;
+		}
+		location ~ ^/api/v1/temp_media(.*)$ {
+                include  /etc/nginx/mime.types;
+                try_files /temp_media$1 /temp_media$1/;
+		}
+		location ~ ^/api/v1/media(.*)$ {
+                include  /etc/nginx/mime.types;
+                try_files /media$1 /media$1/;
+		}
+
+
 		location /admin {
 				return 302 /django/admin;
 		}
