@@ -11,6 +11,7 @@ FROM
 WHERE
     table_name NOT LIKE 'auth_%' AND 
     table_name NOT LIKE 'django_%' AND
+    table_name NOT LIKE 'old_%' AND
     table_schema = 'designpriset';
 
 SET @tables = CONCAT('DROP TABLE ', @tables);

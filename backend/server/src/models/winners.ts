@@ -13,7 +13,7 @@ export function getName() {
 
 export async function get(): Promise<Array<Winner>> {
     console.log('get winner')
-    const query = await db.query('SELECT * FROM entries WHERE is_winner_gold = 1')
+    const query = await db.query('SELECT * FROM winner_view WHERE is_winner_gold = 1')
     return query
 }
 
@@ -34,7 +34,7 @@ export async function getYear(year: string, phase?: string) {
     if (todayYear === argYear && currentPhase !== PHASES.FIVE) queryYear = argYear-1
     else queryYear = year
     console.log(queryYear)
-    const query = await db.query('SELECT * FROM entries WHERE year = ? AND is_winner_gold = 1', [queryYear])
+    const query = await db.query('SELECT * FROM winner_view WHERE year = ? AND is_winner_gold = 1', [queryYear])
     
     return query
 }
