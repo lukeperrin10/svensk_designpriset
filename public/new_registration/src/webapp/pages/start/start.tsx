@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useState, useEffect} from 'react'
-import { IEntry, IContent } from '../../model'
+import { IEntry, IContent, IYearConfig } from '../../model'
 import * as hosts from '../../config/host'
 import WinnerGallery from '../../components/winner_gallery'
 import { PATHS } from '../../config/path'
@@ -8,6 +8,9 @@ import { Link } from 'react-router-dom'
 import { getText } from '../../helpers'
 import { Helmet } from 'react-helmet'
 import Meta from '../../components/meta'
+import { useSelector } from 'react-redux'
+import { IState } from '../../model/state'
+
 
 interface props {
     content?: IContent
@@ -15,15 +18,16 @@ interface props {
 const Start = ({content}:props) => {
     
     const [winners, setWinners] = useState<IEntry[]>([])
+    const yearConfig = useSelector<IState, IYearConfig>(state => state.yearConfigState.config)
 
     useEffect(() => {
         fetchWinners()
-    }, [])
+    }, [yearConfig])
 
     const fetchWinners = async () => {
         const year = new Date().getFullYear()
         try {
-            const response = await fetch(`${hosts.WINNER_URL}?year=${year}`)
+            const response = await fetch(`${hosts.WINNER_URL}?year=${year}&phase=${yearConfig.current_phase}`)
             const json = await response.json()
             setWinners(json)
         } catch(error) {
