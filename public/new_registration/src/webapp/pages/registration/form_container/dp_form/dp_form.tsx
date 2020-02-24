@@ -47,7 +47,7 @@ class DpForm extends React.Component<IDpFormProps> {
         }
     }
 
-    onControlChange = (name: string) => (e: React.FormEvent<FormControlProps>)  => {
+    onControlChange = (name: string) => (e: React.FormEvent<HTMLInputElement>)  => {
         let obj = this.state.formInput
         console.log(name)
         obj[name] = e.currentTarget.value

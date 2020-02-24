@@ -10,7 +10,7 @@ interface ISummary {
 }
 
 const Summary = ({entries, onPostVotes, onChangeVotes, pollId}: ISummary) => {
-    const [email, setEmail] = React.useState()
+    const [email, setEmail] = React.useState("")
 
     const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
