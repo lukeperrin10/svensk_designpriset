@@ -24,7 +24,7 @@ interface PollQuery  {
 
 
 export function getName() {
-    return 'Confirmed Votes'
+    return 'Polls'
 }
 
 export async function get(): Promise<Array<Polls>> {

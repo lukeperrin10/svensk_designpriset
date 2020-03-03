@@ -9,7 +9,9 @@ import * as bodyParser from 'body-parser'
 require( "console-stamp" )( console, {pattern: "yyyy-mm-dd--HH:MM:ss"} );
 
 // logger.token('date');
-app.use(logger('[:date[iso]] [ACCESS] :req[x-forwarded-for] - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
+if (process.env.NODE_MODE != 'testing') {
+    app.use(logger('[:date[iso]] [ACCESS] :req[x-forwarded-for] - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
+}
 app.use(express.static('upload_assets'))
 app.use(bodyParser.json())                                     
 app.use(bodyParser.urlencoded({extended: true}))
@@ -55,7 +57,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 
-const port = 8001
+
+const port = process.env.NODE_PORT || 8001
 
 initRouter(app)
 
@@ -64,3 +67,4 @@ app.listen(port, () => {
     console.log('Node env: '+process.env.NODE_ENV)
 });
 
+export default app
