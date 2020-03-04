@@ -27,8 +27,22 @@ const create = () => {
     describe('Entry creation', () => {
         it ('should create an entry', async () => {
             const res = await entries.create(test_entry)
-            expect(res[0].id).to.be.greaterThan(0)
+            expect((<any>res)[0].id).to.be.greaterThan(0)
         })
     })
 }
+
+const createBatch = () => {
+    const test_entry_2 = {...test_entry, entry_name: "test_entry_2"}
+    describe('Entry creation batch', () => {
+        it ('should create multiple entries', async () => {
+            const res = await entries.batchCreate([test_entry, test_entry_2])
+            expect((<any>res)[0].id).to.be.greaterThan(0)
+            expect((<any>res)[1].id).to.be.greaterThan(1)
+        })
+    })
+
+}
+
 create()
+createBatch()
