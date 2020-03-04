@@ -4,3 +4,4 @@
 -b
 --exit
 test/endpoints/*.ts
+test/unit/*.ts
