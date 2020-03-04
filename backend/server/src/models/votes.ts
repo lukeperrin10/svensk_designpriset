@@ -9,16 +9,10 @@ export function getName() {
     return 'Votes'
 }
 
-export async function get(): Promise<Array<Vote>> {
-    const query = await db.query('SELECT entry_id, mail FROM votes')
-    return query
-}
-
 export async function create(vote: Vote): Promise<Vote> {
     try {
         const insert = await db.query('INSERT INTO votes SET ?', [addDates(vote)])
         const query = await db.query('SELECT * FROM votes WHERE id = ?', [insert.insertId])
-        console.log(query)
         sendConfirmVotesMail(vote.mail, vote.secret)
         return query
     } catch (error) {

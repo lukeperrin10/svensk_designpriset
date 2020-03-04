@@ -14,13 +14,6 @@ export function getName() {
     return 'Entries'
 }
 
-export async function get(): Promise<Array<dbtype>> {
-    console.log('ENTRIES GET')
-    const query = await db.query('SELECT * FROM entries')
-    if (query) console.log('ENTRIES GET query response recieved')
-    return query
-}
-
 export async function getId(id: number): Promise<Entry> {
     const query = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [id])
     return query
@@ -37,27 +30,30 @@ export async function create(new_entry: Entry): Promise<Entry> {
     if (post_entry.source) await moveSource([post_entry.source])
     const queryString = updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?'
     const args = updateEntry ? [post_entry, new_entry.id] : [post_entry]
-    const insert = await db.query(queryString, args)
-    const id = updateEntry ? new_entry.id : insert.insertId
-    const query = updateEntry ? await db.query('SELECT * FROM entries WHERE profile_id = ?', [new_entry.profile_id]) : await db.query('SELECT * FROM entries WHERE id = ?', id)
-    if (query.length > 0) {
-        if('profile_id' in query[0]) {
-            if (updateEntry) {
-                query.forEach((q: Entry) => {
-                    if ('id' in q) updatedIds.push(q.id)
-               })
+    try {
+        const insert = await db.query(queryString, args)
+        const id = updateEntry ? new_entry.id : insert.insertId
+        const query = updateEntry ? await db.query('SELECT * FROM entries WHERE profile_id = ?', [new_entry.profile_id]) : await db.query('SELECT * FROM entries WHERE id = ?', id)
+        if (query.length > 0) {
+            if('profile_id' in query[0]) {
+                if (updateEntry) {
+                    query.forEach((q: Entry) => {
+                        if ('id' in q) updatedIds.push(q.id)
+                })
+                }
+                const id = query[0].profile_id
+                const profile = await db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]) 
+                if (profile.length > 0 && 'id' in profile[0]) {
+                    sendRegisterEmails(profile[0], updateEntry ? query : [query[0]], updateEntry, updatedIds)
+                }
             }
-            const id = query[0].profile_id
-            const profile = await db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]) 
-            if (profile.length > 0 && 'id' in profile[0]) {
-                sendRegisterEmails(profile[0], updateEntry ? query : [query[0]], updateEntry, updatedIds)
-            }
+        } else {
+            console.error('Did not send mail regarding entry: '+new_entry.id)
         }
-    } else {
-        console.error('Did not send mail regarding entry: '+new_entry.id)
+        return query
+    } catch (err) {
+        return err
     }
-    
-    return query
 }
 
 async function moveAvatar(filenames: string[]) {
@@ -109,14 +105,16 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
     await moveAvatar(avatars)
     await moveSource(sources)
 
-    const batchInsert = await db.batchQuery(querys)
-    console.log('batchInsert: '+batchInsert)
-
-    const profileEntries = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id])
-    console.log(updatedEntrieIds)
-    sendMails(profileEntries, update, updatedEntrieIds, new_entries[0].id)
-    
-    return profileEntries
+    try {
+        const batchInsert = await db.batchQuery(querys)
+        console.log('batchInsert: '+batchInsert)
+        const profileEntries = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id])
+        console.log(updatedEntrieIds)
+        sendMails(profileEntries, update, updatedEntrieIds, new_entries[0].id)
+        return profileEntries
+    } catch (err) {
+        return err
+    }
 }
 
 export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
