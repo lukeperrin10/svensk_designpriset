@@ -7,13 +7,14 @@ from .admins.base_admin import BaseAdmin
 from .admins.poll_admin import PollAdmin
 from .admins.mail_admin import MailAdmin
 from .admins.content_admin import ContentAdmin
+from .admins.category_admin import CategoryAdmin
 
 
 
 
 
 
-admin.site.register(Category, BaseAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Entry, EntryAdmin)
 admin.site.register(Poll, PollAdmin)
 admin.site.register(Profile, BaseAdmin)
