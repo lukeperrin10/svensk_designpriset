@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as __
 from datetime import date, datetime, timezone
 from tinymce.models import HTMLField
 import random
@@ -191,12 +192,12 @@ class Phase(BaseModel):
 
 class Mail(BaseModel):
     MAIL_TYPE = (
-        ('ENTRY_CONFIRM', _('Entry confirmation')),
-        ('ENTRY_CONFIRM_ADMIN', _('Entry confirmation for Admin')),
-        ('ENTRY_UPDATE', _('Entry update confirmation')),
-        ('ENTRY_UPDATE_ADMIN', _('Entry update confirmation for admin')),
-        ('NOMINEE', _('Nominee')),
-        ('VOTE_CONFIRM', _('Vote confirmation'))
+        ('ENTRY_CONFIRM', __('Entry confirmation')),
+        ('ENTRY_CONFIRM_ADMIN', __('Entry confirmation for Admin')),
+        ('ENTRY_UPDATE', __('Entry update confirmation')),
+        ('ENTRY_UPDATE_ADMIN', __('Entry update confirmation for admin')),
+        ('NOMINEE', __('Nominee')),
+        ('VOTE_CONFIRM', __('Vote confirmation'))
     )
     type = models.CharField(_('Type'), choices=MAIL_TYPE, default='ENTRY_CONFIRM', max_length=255, unique=True, null=False, blank=False)
     sender = models.CharField(_('Sender'), max_length=80, null=False, blank=False)
@@ -208,6 +209,8 @@ class Mail(BaseModel):
             if t[0] == self.type:
                 return t[1]
         return self.type
+    # def __str__(self):
+    #     return self.type
     class Meta:
         verbose_name = _('Mail')
         verbose_name_plural = _('Mails')
