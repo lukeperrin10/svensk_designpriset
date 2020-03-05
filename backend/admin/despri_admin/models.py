@@ -229,20 +229,21 @@ class MailVar(models.Model):
 
 
 class YearConfig(BaseModel):
-    year = models.CharField(_('Year'), max_length=4, null=False, blank=False, unique=True)
+    year = models.CharField(_('Year'), max_length=4, null=True, blank=False, unique=True)
     #key = models.CharField(_('Key'), max_length=255, null=False, blank=False)
     #value = models.CharField(_('Value'), max_length=255, null=False, blank=False)
-    phase_1_start = models.DateTimeField(_('Phase 1 start'), null=True, blank=True)
-    phase_2_start = models.DateTimeField(_('Phase 2 start'), null=True, blank=True)
-    phase_3_start = models.DateTimeField(_('Phase 3 start'), null=True, blank=True)
-    phase_4_start = models.DateTimeField(_('Phase 4 start'), null=True, blank=True)
-    phase_5_start = models.DateTimeField(_('Phase 5 start'), null=True, blank=True)
-    register_deadline_date = models.DateTimeField(_('Register deadline date'), null=True, blank=True)
-    nominees_can_edit_start = models.DateTimeField(_('Nominees can edit Start'), null=True, blank=True)
-    nominees_can_edit_end = models.DateTimeField(_('Nominees can edit End'), null=True, blank=True)
-    price = models.CharField(_('Price per entry'), max_length=31, null=True, blank=True)
-    award_place = models.CharField(_('Award Place'), max_length=255, null=True, blank=True)
-    award_date = models.DateTimeField(_('Award Date'), null=True, blank=True)
+    phase_1_start = models.DateTimeField(_('Phase 1 start'), null=True, blank=False)
+    phase_2_start = models.DateTimeField(_('Phase 2 start'), null=True, blank=False)
+    phase_3_start = models.DateTimeField(_('Phase 3 start'), null=True, blank=False)
+    phase_4_start = models.DateTimeField(_('Phase 4 start'), null=True, blank=False)
+    phase_5_start = models.DateTimeField(_('Phase 5 start'), null=True, blank=False)
+    register_deadline_date = models.DateTimeField(_('Register deadline date'), null=True, blank=False)
+    nominees_can_edit_start = models.DateTimeField(_('Nominees can edit Start'), null=True, blank=False)
+    nominees_can_edit_end = models.DateTimeField(_('Nominees can edit End'), null=True, blank=False)
+    delayed_deadline_end = models.DateTimeField(_('Delayed inofficial deadline end'), null=True, blank=False)
+    price = models.CharField(_('Price per entry'), max_length=31, null=True, blank=False)
+    award_place = models.CharField(_('Award Place'), max_length=255, null=True, blank=False)
+    award_date = models.DateTimeField(_('Award Date'), null=True, blank=False)
     #WARNING: This file must not be indexed by google before Phase 4 is over:
     winner_preview = models.FileField(_('Winner Preview'), upload_to="winner_previews", null=True, blank=True)
     

@@ -29,7 +29,8 @@ class EntryFilter(admin.SimpleListFilter):
 
 # @admin.register(Entry)
 class EntryAdmin(BaseAdmin):
-    list_display = ('entry_name', 'profile', 'category', 'customer', 'source', 'image', 'sent_nominee_notification', 'is_nominated')
+    readonly_fields = ('entry_name','entry_preview')
+    list_display = ('entry_name', 'profile', 'category', 'customer', 'source', 'image', 'sent_nominee_notification', 'is_nominated', 'is_winner_gold', 'is_winner_silver')
     search_fields = ('entry_name', 'profile__company')
     list_filter = (EntryFilter, 'year')
     actions = ['send_nominee_action']
@@ -58,6 +59,9 @@ class EntryAdmin(BaseAdmin):
     def image(self, obj):
         return format_html('<a href="{0}"><img height="100px" src="{0}" /></a>'.format(obj.avatar.url))
         # return format_html('<a href="#"><img height="100px" src="#" /></a>')
+
+    def entry_preview(self, obj):
+        return format_html('<a href="{0}"><img height="500px" src="{0}" /></a>'.format(obj.avatar.url))
 
     def changelist_view(self, request, extra_context=None):
         response = super().changelist_view(

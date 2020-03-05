@@ -1,0 +1,24 @@
+[
+    {
+      "model": "despri_admin.yearconfig",
+      "pk": 1,
+      "fields": {
+        "created": "2020-03-05T08:59:58.681Z",
+        "modified": "2020-03-05T09:00:37.899Z",
+        "year": "2020",
+        "phase_1_start": "2020-04-26T22:00:00Z",
+        "phase_2_start": "2020-06-12T21:59:00Z",
+        "phase_3_start": "2020-09-06T22:00:00Z",
+        "phase_4_start": "2020-09-21T21:59:00Z",
+        "phase_5_start": "2020-10-22T20:00:00Z",
+        "register_deadline_date": "2020-06-12T21:59:00Z",
+        "nominees_can_edit_start": "2020-08-19T22:00:00Z",
+        "nominees_can_edit_end": "2020-09-06T22:00:00Z",
+        "delayed_deadline_end": "2020-06-13T21:59:00Z",
+        "price": "4000",
+        "award_place": "Berns, Stockholm",
+        "award_date": "2020-10-22T16:00:00Z",
+        "winner_preview": ""
+      }
+    }
+  ]
