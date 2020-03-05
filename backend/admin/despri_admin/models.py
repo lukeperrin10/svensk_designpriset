@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as __
 from datetime import date, datetime, timezone
 from tinymce.models import HTMLField
 import random
@@ -191,12 +192,12 @@ class Phase(BaseModel):
 
 class Mail(BaseModel):
     MAIL_TYPE = (
-        ('ENTRY_CONFIRM', _('Entry confirmation')),
-        ('ENTRY_CONFIRM_ADMIN', _('Entry confirmation for Admin')),
-        ('ENTRY_UPDATE', _('Entry update confirmation')),
-        ('ENTRY_UPDATE_ADMIN', _('Entry update confirmation for admin')),
-        ('NOMINEE', _('Nominee')),
-        ('VOTE_CONFIRM', _('Vote confirmation'))
+        ('ENTRY_CONFIRM', __('Entry confirmation')),
+        ('ENTRY_CONFIRM_ADMIN', __('Entry confirmation for Admin')),
+        ('ENTRY_UPDATE', __('Entry update confirmation')),
+        ('ENTRY_UPDATE_ADMIN', __('Entry update confirmation for admin')),
+        ('NOMINEE', __('Nominee')),
+        ('VOTE_CONFIRM', __('Vote confirmation'))
     )
     type = models.CharField(_('Type'), choices=MAIL_TYPE, default='ENTRY_CONFIRM', max_length=255, unique=True, null=False, blank=False)
     sender = models.CharField(_('Sender'), max_length=80, null=False, blank=False)
@@ -208,6 +209,8 @@ class Mail(BaseModel):
             if t[0] == self.type:
                 return t[1]
         return self.type
+    # def __str__(self):
+    #     return self.type
     class Meta:
         verbose_name = _('Mail')
         verbose_name_plural = _('Mails')
@@ -226,20 +229,21 @@ class MailVar(models.Model):
 
 
 class YearConfig(BaseModel):
-    year = models.CharField(_('Year'), max_length=4, null=False, blank=False, unique=True)
+    year = models.CharField(_('Year'), max_length=4, null=True, blank=False, unique=True)
     #key = models.CharField(_('Key'), max_length=255, null=False, blank=False)
     #value = models.CharField(_('Value'), max_length=255, null=False, blank=False)
-    phase_1_start = models.DateTimeField(_('Phase 1 start'), null=True, blank=True)
-    phase_2_start = models.DateTimeField(_('Phase 2 start'), null=True, blank=True)
-    phase_3_start = models.DateTimeField(_('Phase 3 start'), null=True, blank=True)
-    phase_4_start = models.DateTimeField(_('Phase 4 start'), null=True, blank=True)
-    phase_5_start = models.DateTimeField(_('Phase 5 start'), null=True, blank=True)
-    register_deadline_date = models.DateTimeField(_('Register deadline date'), null=True, blank=True)
-    nominees_can_edit_start = models.DateTimeField(_('Nominees can edit Start'), null=True, blank=True)
-    nominees_can_edit_end = models.DateTimeField(_('Nominees can edit End'), null=True, blank=True)
-    price = models.CharField(_('Price per entry'), max_length=31, null=True, blank=True)
-    award_place = models.CharField(_('Award Place'), max_length=255, null=True, blank=True)
-    award_date = models.DateTimeField(_('Award Date'), null=True, blank=True)
+    phase_1_start = models.DateTimeField(_('Phase 1 start'), null=True, blank=False)
+    phase_2_start = models.DateTimeField(_('Phase 2 start'), null=True, blank=False)
+    phase_3_start = models.DateTimeField(_('Phase 3 start'), null=True, blank=False)
+    phase_4_start = models.DateTimeField(_('Phase 4 start'), null=True, blank=False)
+    phase_5_start = models.DateTimeField(_('Phase 5 start'), null=True, blank=False)
+    register_deadline_date = models.DateTimeField(_('Register deadline date'), null=True, blank=False)
+    nominees_can_edit_start = models.DateTimeField(_('Nominees can edit Start'), null=True, blank=False)
+    nominees_can_edit_end = models.DateTimeField(_('Nominees can edit End'), null=True, blank=False)
+    delayed_deadline_end = models.DateTimeField(_('Delayed inofficial deadline end'), null=True, blank=False)
+    price = models.CharField(_('Price per entry'), max_length=31, null=True, blank=False)
+    award_place = models.CharField(_('Award Place'), max_length=255, null=True, blank=False)
+    award_date = models.DateTimeField(_('Award Date'), null=True, blank=False)
     #WARNING: This file must not be indexed by google before Phase 4 is over:
     winner_preview = models.FileField(_('Winner Preview'), upload_to="winner_previews", null=True, blank=True)
     

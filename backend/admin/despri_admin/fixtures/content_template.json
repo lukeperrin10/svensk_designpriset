@@ -11,7 +11,7 @@
         "model": "despri_admin.ContentTemplate",
         "pk": 2,
         "fields": {
-            "name": "start_innehåll",
+            "name": "start_content",
             "description": "Information och innehåll som ska visas överst på startsidan"
         }
     },
@@ -29,6 +29,14 @@
         "fields": {
             "name": "register_info",
             "description": "Den information som ska visas överst på anmälningssidan"
+        }
+    },
+    {
+        "model": "despri_admin.ContentTemplate",
+        "pk": 5,
+        "fields": {
+            "name": "footer_right_content",
+            "description": "Den information som ska visas längst ner till höger i footern"
         }
     }
   ]
