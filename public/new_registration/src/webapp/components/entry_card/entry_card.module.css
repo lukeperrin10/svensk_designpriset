@@ -1,0 +1,64 @@
+.container {
+    width: 300px;
+    margin: 5px;
+    position: relative;
+}
+
+
+
+.img_holder {
+    background-color: gainsboro;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 300px;
+    width: 300px;
+}
+
+.bottom {
+    margin-top: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.bottom p {
+    margin: 0
+}
+
+.button_voted {
+    background-color: var(--PRIMARY_GOLD) !important;
+}
+
+
+
+.overlay {
+    display: flex;
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* background-color: rgba(0,0,0,0.3); */
+    background-color: hotpink;    
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.overlay_button {
+    
+    height: 50px;
+    width: 100px;
+    border: none;
+}
+
+.img_holder:hover + .overlay, .overlay:hover {
+    visibility: visible;
+    opacity: 1;
+}

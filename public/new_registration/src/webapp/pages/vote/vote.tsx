@@ -19,6 +19,7 @@ enum STAGES {
 
 interface PollCategories {
     [key:number]: {
+        category_name: string,
         entries: IEntry[]
     }
 }
@@ -156,10 +157,10 @@ const Vote = () => {
                         {didFetchPoll && poll !== undefined &&
                         Object.keys(poll.categories).map(cat => {
                             const category = poll.categories[cat]
+                            console.log(category)
                             return (
                                 <div key={cat}>
-                                    <p>Kategori: {cat}</p>
-                                    <EntryList onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries} entries={category.entries} />
+                                    <EntryList title={category.category_name} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries} entries={category.entries} />
                                 </div>
                             )
                         })
