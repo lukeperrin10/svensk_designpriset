@@ -6,6 +6,7 @@ import { Entry } from '../types/dbtypes'
 
 interface PollCategories {
     [key:number]: {
+        category_name: string
         entries: Entry[]
     }
 }
@@ -19,6 +20,7 @@ export interface Polls extends Partial<PollCollection> {}
 interface PollQuery  {
     poll_id: number,
     category_id: number,
+    category_name: string
 }
 
 
@@ -30,12 +32,13 @@ export function getName() {
 export async function get(): Promise<Array<Polls>> {
     const today = getDateTime()
     try {
-        let query = 'SELECT p.id as poll_id, pc.category_id '
+        let query = 'SELECT p.id as poll_id, pc.category_id, c.name as category_name '
         // query += 'e.id, e.entry_name, e.source, e.designer '
         // query += 'e.* '
         // query += 'GROUP_CONCAT(e.*) AS entry '
         query += 'FROM `polls` p '
         query += 'JOIN `polls_categories` pc on p.id = pc.poll_id '
+        query += 'JOIN `categories` c on pc.category_id = c.id '
         // query += 'JOIN `entries` e on e.category_id = pc.category_id '
         query += 'WHERE p.start < ? AND p.stop > ? '
         // query += 'GROUP BY p.id '
@@ -60,7 +63,11 @@ export async function get(): Promise<Array<Polls>> {
 }
 
 function assemblePoll(cats: Entry[][], polls: PollQuery[]) {
-    console.log('assemblePoll')
+
+    const catNames : {[key:number]: string} = {}
+    polls.forEach(poll => {
+        catNames[poll.category_id] = poll.category_name
+    })
     const result : PollCollection = {
         id: polls[0].poll_id,
         categories: undefined
@@ -73,6 +80,7 @@ function assemblePoll(cats: Entry[][], polls: PollQuery[]) {
             if (result.categories === undefined) {
                 result.categories = {
                     [entry.category_id]: {
+                        category_name: getCatName(entry.category_id, catNames),
                         entries: [entry]
                     }
                 }
@@ -80,6 +88,7 @@ function assemblePoll(cats: Entry[][], polls: PollQuery[]) {
                 result.categories[entry.category_id].entries.push(entry)
             } else {
                 result.categories[entry.category_id] = {
+                    category_name: getCatName(entry.category_id, catNames),
                     entries: [entry]
                 }
             }
@@ -87,6 +96,11 @@ function assemblePoll(cats: Entry[][], polls: PollQuery[]) {
         })
     })
     return result
+}
+
+function getCatName(id: number, cats:{[key:number]:string}) {
+    if (id in cats) return cats[id]
+    return 'Kategori'
 }
 
 // SELECT p.id, pc.category_id FROM polls p JOIN polls_categories pc on p.id = pc.poll_id
