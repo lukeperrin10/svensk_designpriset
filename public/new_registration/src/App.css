@@ -1,0 +1,7 @@
+:root {
+    --TRANSITION_EASE_OUT: cubic-bezier(0.17, 0.67, 0.3, 1.01);
+    --TRANSITION_DURATION: 250ms;
+    --PRIMARY_SHADOW: 0px 3px 5px 0px rgba(0,0,0,0.31);
+  
+    --PRIMARY_GOLD: #c6a230;
+}

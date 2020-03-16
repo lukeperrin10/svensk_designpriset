@@ -40,7 +40,7 @@ const Summary = ({entries, onPostVotes, onChangeVotes, pollId}: ISummary) => {
         <div>
             <p>kontrollera dina röster</p>
             <div>
-                {entries.map(e => <EntryCard key={e.id} entry={e} onlyDisplay={true} />)}
+                {entries.map(e => <EntryCard onShowClick={() => {}} key={e.id} entry={e} onlyDisplay={true} />)}
             </div>
             <label>Epost</label>
             <input type='text' onChange={onEmailChange}/>

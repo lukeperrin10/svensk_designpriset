@@ -5,6 +5,7 @@ import {store} from './webapp/config/store'
 import Navigation from './webapp/components/navigation';
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap/dist/css/bootstrap-theme.css'
+import './App.css';
 
 class App extends React.Component {
   	public render() {

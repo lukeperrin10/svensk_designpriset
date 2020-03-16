@@ -35,10 +35,33 @@ const EntryList = ({entries, onVote, voteEntries, onVotesDone}: IEntryList) => {
             console.log('no votes')
         }    
     }
+
+    const showEntry = (entry: IEntry) => {
+        console.log('show entry')
+    }
     return (
         <div>
             {entries &&
-            entries.map(e => <EntryCard isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            {entries &&
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            {entries &&
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            {entries &&
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            {entries &&
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            {entries &&
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            {entries &&
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            {entries &&
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            {entries &&
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            {entries &&
+            entries.map(e => <EntryCard onShowClick={showEntry} isVoted={checkIsVoted(e.id)} key={e.id} onVoteClick={onCardClicked} entry={e} /> )}
+            
             <button onClick={onContinue}>Gå vidare</button>
         </div>
     )
