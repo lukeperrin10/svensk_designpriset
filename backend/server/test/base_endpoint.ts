@@ -7,6 +7,7 @@ import chaiHttp from 'chai-http'
 import {describe, it} from 'mocha'
 import server from '../server'
 import {Model} from '../src/models/model'
+import * as db from '../src/db'
 
 export interface Test_Data {
     id?: number
@@ -24,6 +25,7 @@ export class Test<T extends Test_Data> {
     public server: typeof server
     public chai: typeof chai
     public agent: ChaiHttp.Agent
+    public table_name: string
     constructor(model: Model<T>, post_data?: T, put_data?: T) {
         this.model = model
         this.post_data = post_data
@@ -54,12 +56,13 @@ export class Test<T extends Test_Data> {
         describe(`/GET/:id ${this.name}`, () => {
             it(`It should create a ${this.model.getName()}`, async () => {
                 const new_record = await this.create()
-                id = new_record.id
+                id = new_record.insertId
             })
             it(`It should GET the ${this.model.getName()}`, async () => {
                 const res = await agent.get(`${this.endpoint}/${id}`)
+                const body = Array.isArray(res.body) ? res.body[0] : res.body
                 expect(res.status).to.equal(200)
-                expect(res.body).to.be.an('object')
+                expect(body).to.be.an('object')
             })
             it(`It should remove the ${this.name}`, async () => {
                 await this.remove(id)
@@ -142,19 +145,25 @@ export class Test<T extends Test_Data> {
 
     //Helpers
     async create() {
-        const new_record = await this.model.create(this.post_data)
+        const new_record = await db.query(`insert into ${this.table_name} set ?`, [this.post_data])
         expect(new_record).to.be.an('object')
-        expect(new_record).to.have.property('id')
-        expect(new_record.id).to.be.a('number')
+        expect(new_record).to.have.property('insertId')
+        expect(new_record.insertId).to.be.a('number')
         return new_record
     }
     async remove(id: number) {
-        const o = await this.model.remove(id)
+        let o
+        if ('remove' in this.model) {
+            o = await this.model.remove(id)
+        }
+        else {
+            o = await db.query(`delete from ${this.table_name} where id = ?`, [id])
+        }
         expect(o).to.be.an('object')
+        expect(o.affectedRows).equal(1)
         return o
     }
     getAgent() {
-        //if (!this.agent) this.agent = (<any>this.chai).default.request.agent(this.server)
         if (!this.agent) this.agent = (<any>this.chai).default.request.agent(`http://localhost:${process.env.NODE_PORT}`)
         return this.agent
     }
