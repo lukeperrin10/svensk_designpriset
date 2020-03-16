@@ -3,6 +3,7 @@ import { IEntry, IPollCategories } from '../../../model'
 import EntryCard from '../../../components/entry_card'
 import styles from './entry_list.module.css'
 import {Accordion, Card} from 'react-bootstrap'
+import Button from '../../../components/button'
 
 interface IEntryList {
     categories: IPollCategories
@@ -85,7 +86,7 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
                     )
                 })}
             </Accordion>
-            <button onClick={onContinue}>Gå vidare</button>
+            <hr></hr>
         </div>
     )
 }

@@ -145,17 +145,8 @@ const Vote = () => {
                     <div>
                         {didFetchPoll && poll !== undefined &&
                         <EntryList categories={poll.categories} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries}/>
-                        // Object.keys(poll.categories).map(cat => {
-                        //     const category = poll.categories[cat]
-                        //     console.log(category)
-                        //     return (
-                        //         <div key={cat}>
-                        //             <EntryList title={category.category_name} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries} entries={category.entries} />
-                        //         </div>
-                        //     )
-                        // })
-                        
                         }
+                        <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>
                     </div>
                 )
             case STAGES.SUMMARY:
