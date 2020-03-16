@@ -143,3 +143,14 @@ export interface IYearConfig {
     winner_preview: string,
     current_phase: string
 }
+
+export interface IPollCategories {
+    [key:number]: {
+        category_name: string,
+        entries: IEntry[]
+    }
+}
+export interface IPollCollection {
+    id: number,
+    categories: IPollCategories
+}

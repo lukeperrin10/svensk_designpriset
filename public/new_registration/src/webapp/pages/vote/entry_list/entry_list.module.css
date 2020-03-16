@@ -1,0 +1,40 @@
+.section {
+    padding: 20px;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.header_left {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.header_right {
+
+}
+
+.header p, h2 {
+    margin: 0;
+}
+
+.header p {
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: fit-content;
+    margin: auto;
+}

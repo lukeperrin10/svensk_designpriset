@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useState, useEffect} from 'react'
 import * as hosts from '../../config/host'
-import { IEntry, IVote } from '../../model'
+import { IEntry, IVote, IPollCollection } from '../../model'
 import EntryList from './entry_list'
 import Summary from './summary'
 import AfterPost from './after_post'
@@ -17,20 +17,9 @@ enum STAGES {
     CONFIRMED = 'CONFIRMED'
 }
 
-interface PollCategories {
-    [key:number]: {
-        category_name: string,
-        entries: IEntry[]
-    }
-}
-interface PollCollection {
-    id: number,
-    categories: PollCategories
-}
-
 const Vote = () => {
 
-    const [poll, setPoll] = useState<PollCollection>() 
+    const [poll, setPoll] = useState<IPollCollection>() 
     const [didFetchPoll, setDidFetchPoll] = useState(false)
     const [voteEntries, setVoteEntries] = useState<IEntry[]>([])
     const [currentStage, setCurrentStage] = useState(STAGES.LIST)
@@ -155,15 +144,16 @@ const Vote = () => {
                 return (
                     <div>
                         {didFetchPoll && poll !== undefined &&
-                        Object.keys(poll.categories).map(cat => {
-                            const category = poll.categories[cat]
-                            console.log(category)
-                            return (
-                                <div key={cat}>
-                                    <EntryList title={category.category_name} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries} entries={category.entries} />
-                                </div>
-                            )
-                        })
+                        <EntryList categories={poll.categories} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries}/>
+                        // Object.keys(poll.categories).map(cat => {
+                        //     const category = poll.categories[cat]
+                        //     console.log(category)
+                        //     return (
+                        //         <div key={cat}>
+                        //             <EntryList title={category.category_name} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries} entries={category.entries} />
+                        //         </div>
+                        //     )
+                        // })
                         
                         }
                     </div>
