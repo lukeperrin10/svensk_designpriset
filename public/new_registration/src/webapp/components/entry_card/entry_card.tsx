@@ -42,7 +42,6 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEnt
                     <div></div>
                 }
             </div>
-            
         </div>
     )
 }
