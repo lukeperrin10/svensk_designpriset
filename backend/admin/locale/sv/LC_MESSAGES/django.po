@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-05 15:18+0100\n"
+"POT-Creation-Date: 2020-03-16 13:27+0100\n"
 "PO-Revision-Date: 2020-02-05 15:31+0100\n"
 "Last-Translator: Hjalmar Lindskog <hjalmar@wopii.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: designpriset/settings.py:116
+#: designpriset/settings.py:124
 msgid "Swedish"
 msgstr "Svenska"
 
@@ -41,371 +41,372 @@ msgstr "Redigera"
 msgid "Entry status"
 msgstr "Bidragsstatus"
 
-#: despri_admin/admins/entry_admin.py:56
+#: despri_admin/admins/entry_admin.py:57
 msgid "Send nominating email"
 msgstr "Skicka nomineringsmail"
 
-#: despri_admin/admins/entry_admin.py:73
+#: despri_admin/admins/entry_admin.py:77
 msgid "Amount of entries:"
 msgstr "Antal bidrag:"
 
-#: despri_admin/admins/entry_admin.py:74
+#: despri_admin/admins/entry_admin.py:78
 msgid "Amount of nominated entries:"
 msgstr "Antal nominerade bidrag:"
 
-#: despri_admin/admins/entry_admin.py:75
+#: despri_admin/admins/entry_admin.py:79
 msgid "Amount of winning entries gold:"
 msgstr "Antal vinnarbidrag som fått guld:"
 
-#: despri_admin/admins/entry_admin.py:76
+#: despri_admin/admins/entry_admin.py:80
 msgid "Amount of winning entries silver:"
 msgstr "Antal vinnarbidrag som fått silver:"
 
-#: despri_admin/admins/entry_admin.py:77
+#: despri_admin/admins/entry_admin.py:81
 msgid "Entry statistics"
 msgstr "Bidragsstatistik"
 
-#: despri_admin/models.py:20 despri_admin/models.py:95
-#: despri_admin/models.py:107 despri_admin/models.py:118
-#: despri_admin/models.py:174 despri_admin/models.py:213
+#: despri_admin/models.py:21 despri_admin/models.py:97
+#: despri_admin/models.py:109 despri_admin/models.py:120
+#: despri_admin/models.py:176 despri_admin/models.py:220
 msgid "Name"
 msgstr "Namn"
 
-#: despri_admin/models.py:21 despri_admin/models.py:108
+#: despri_admin/models.py:22 despri_admin/models.py:110
 msgid "Description"
 msgstr "Beskrivning"
 
-#: despri_admin/models.py:22
+#: despri_admin/models.py:23
 msgid "Shorttag"
 msgstr "Kod"
 
-#: despri_admin/models.py:27 despri_admin/models.py:55
+#: despri_admin/models.py:24
+msgid "Active"
+msgstr ""
+
+#: despri_admin/models.py:29 despri_admin/models.py:57
 msgid "Category"
 msgstr "Kategori"
 
-#: despri_admin/models.py:28 despri_admin/models.py:98
+#: despri_admin/models.py:30 despri_admin/models.py:100
 msgid "Categories"
 msgstr "Kategorier"
 
-#: despri_admin/models.py:33 despri_admin/models.py:53
-#: despri_admin/models.py:156
+#: despri_admin/models.py:35 despri_admin/models.py:55
+#: despri_admin/models.py:158
 msgid "Secret"
 msgstr "Hemlighet"
 
-#: despri_admin/models.py:34
+#: despri_admin/models.py:36
 msgid "Contact"
 msgstr "Kontakt"
 
-#: despri_admin/models.py:35
+#: despri_admin/models.py:37
 msgid "Company"
 msgstr "Företag"
 
-#: despri_admin/models.py:36
+#: despri_admin/models.py:38
 msgid "Address"
 msgstr "Adress"
 
-#: despri_admin/models.py:37
+#: despri_admin/models.py:39
 msgid "Zipcode"
 msgstr "Postnummer"
 
-#: despri_admin/models.py:38
+#: despri_admin/models.py:40
 msgid "City"
 msgstr "Postort"
 
-#: despri_admin/models.py:39
+#: despri_admin/models.py:41
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: despri_admin/models.py:40 despri_admin/models.py:157
+#: despri_admin/models.py:42 despri_admin/models.py:159
 msgid "E-mail"
 msgstr "E-post"
 
-#: despri_admin/models.py:41
+#: despri_admin/models.py:43
 msgid "Homepage"
 msgstr "Hemsida"
 
-#: despri_admin/models.py:42
+#: despri_admin/models.py:44
 msgid "Invoice paid"
 msgstr "Faktura betald"
 
-#: despri_admin/models.py:47 despri_admin/models.py:52
+#: despri_admin/models.py:49 despri_admin/models.py:54
 msgid "Profile"
 msgstr "Profil"
 
-#: despri_admin/models.py:48
+#: despri_admin/models.py:50
 msgid "Profiles"
 msgstr "Profiler"
 
-#: despri_admin/models.py:54
+#: despri_admin/models.py:56
 msgid "Entry name"
 msgstr "Bidragsnamn"
 
-#: despri_admin/models.py:56
+#: despri_admin/models.py:58
 msgid "Source"
 msgstr "Källa"
 
-#: despri_admin/models.py:57
+#: despri_admin/models.py:59
 msgid "Designer"
 msgstr "Designer"
 
-#: despri_admin/models.py:58
+#: despri_admin/models.py:60
 msgid "Illustrator"
 msgstr "Illustratör"
 
-#: despri_admin/models.py:59
+#: despri_admin/models.py:61
 msgid "Leader"
 msgstr "Projektledare"
 
-#: despri_admin/models.py:60
+#: despri_admin/models.py:62
 msgid "Customer"
 msgstr "Kund"
 
-#: despri_admin/models.py:61
+#: despri_admin/models.py:63
 msgid "Avatar"
 msgstr "Avatar"
 
-#: despri_admin/models.py:62
+#: despri_admin/models.py:64
 msgid "Format"
 msgstr "Format"
 
-#: despri_admin/models.py:63
+#: despri_admin/models.py:65
 msgid "Size"
 msgstr "Storlek"
 
-#: despri_admin/models.py:64
+#: despri_admin/models.py:66
 msgid "Webpage"
 msgstr "Webbsida"
 
-#: despri_admin/models.py:65
+#: despri_admin/models.py:67
 msgid "Winner Gold"
 msgstr "Vinnare guld"
 
-#: despri_admin/models.py:66
+#: despri_admin/models.py:68
 msgid "Winner Silver"
 msgstr "Vinnare silver"
 
-#: despri_admin/models.py:67
+#: despri_admin/models.py:69
 msgid "Nominated"
 msgstr "Nominerad"
 
-#: despri_admin/models.py:68
+#: despri_admin/models.py:70
 msgid "Nominee notification date"
 msgstr "Noitifikationsdatum - nominering"
 
-#: despri_admin/models.py:69
+#: despri_admin/models.py:71
 msgid "Motivation"
 msgstr "Motivering"
 
-#: despri_admin/models.py:70 despri_admin/models.py:225
+#: despri_admin/models.py:72 despri_admin/models.py:232
 msgid "Year"
 msgstr "År"
 
-#: despri_admin/models.py:86
+#: despri_admin/models.py:88
 msgid "Total amount of entries:"
 msgstr "Totalt antal bidrag"
 
-#: despri_admin/models.py:90 despri_admin/models.py:160
+#: despri_admin/models.py:92 despri_admin/models.py:162
 msgid "Entry"
 msgstr "Bidrag"
 
-#: despri_admin/models.py:91
+#: despri_admin/models.py:93
 msgid "Entries"
 msgstr "Bidrag"
 
-#: despri_admin/models.py:96
+#: despri_admin/models.py:98
 msgid "Start"
 msgstr "Start"
 
-#: despri_admin/models.py:97
+#: despri_admin/models.py:99
 msgid "Stop"
 msgstr "Slut"
 
-#: despri_admin/models.py:102 despri_admin/models.py:162
+#: despri_admin/models.py:104 despri_admin/models.py:164
 msgid "Poll"
 msgstr "Omröstning"
 
-#: despri_admin/models.py:103
+#: despri_admin/models.py:105
 msgid "Polls"
 msgstr "Omröstningar"
 
-#: despri_admin/models.py:113
+#: despri_admin/models.py:115
 msgid "Content template"
 msgstr "Innehållsmall"
 
-#: despri_admin/models.py:114
+#: despri_admin/models.py:116
 msgid "Content templates"
 msgstr "Innehållsmallar"
 
-#: despri_admin/models.py:123
+#: despri_admin/models.py:125
 msgid "ContentPhase"
 msgstr "Innehållsfas"
 
-#: despri_admin/models.py:124
+#: despri_admin/models.py:126
 msgid "ContentPhases"
 msgstr "Innehållsfaser"
 
-#: despri_admin/models.py:141 despri_admin/models.py:178
+#: despri_admin/models.py:143 despri_admin/models.py:180
 msgid "Phase"
 msgstr "Fas"
 
-#: despri_admin/models.py:142
+#: despri_admin/models.py:144
 msgid "Title"
 msgstr "Titel"
 
-#: despri_admin/models.py:143 despri_admin/models.py:151
-#: despri_admin/models.py:203
+#: despri_admin/models.py:145 despri_admin/models.py:153
+#: despri_admin/models.py:205
 msgid "Content"
 msgstr "Innehåll"
 
-#: despri_admin/models.py:144
+#: despri_admin/models.py:146
 msgid "Image"
 msgstr "Bild"
 
-#: despri_admin/models.py:145
+#: despri_admin/models.py:147
 msgid "Order"
 msgstr "Ordning"
 
-#: despri_admin/models.py:146
+#: despri_admin/models.py:148
 msgid "Template"
 msgstr "Mall"
 
-#: despri_admin/models.py:152
+#: despri_admin/models.py:154
 msgid "Contents"
 msgstr "Innehåll"
 
-#: despri_admin/models.py:161
+#: despri_admin/models.py:163
 msgid "Verified"
 msgstr "Verifierad"
 
-#: despri_admin/models.py:163
+#: despri_admin/models.py:165
 msgid "Ip number"
 msgstr "Ip-adress"
 
-#: despri_admin/models.py:167
+#: despri_admin/models.py:169
 msgid "Vote"
 msgstr "Röst"
 
-#: despri_admin/models.py:168
+#: despri_admin/models.py:170
 msgid "Votes"
 msgstr "Röster"
 
-#: despri_admin/models.py:173
+#: despri_admin/models.py:175
 msgid "Start date"
 msgstr "Startdatum"
 
-#: despri_admin/models.py:179
+#: despri_admin/models.py:181
 msgid "Phases"
 msgstr "Faser"
 
-#: despri_admin/models.py:193
-msgid "Entry confirmation"
-msgstr "Bidragsbekräftelse"
-
-#: despri_admin/models.py:194
-msgid "Entry confirmation for Admin"
-msgstr "Bidragsbekräftelse för Admin"
-
-#: despri_admin/models.py:195
-msgid "Entry update confirmation"
-msgstr "Bidragsbekräftelse - uppdatering"
-
-#: despri_admin/models.py:196
-msgid "Entry update confirmation for admin"
-msgstr "Bidragsbekräftelse - uppdatering för Admin"
-
-#: despri_admin/models.py:197
-msgid "Nominee"
-msgstr "Nominerad"
-
-#: despri_admin/models.py:198
-msgid "Vote confirmation"
-msgstr "Röstbekräftelse"
-
-#: despri_admin/models.py:200
+#: despri_admin/models.py:202
 msgid "Type"
 msgstr "Typ"
 
-#: despri_admin/models.py:201
+#: despri_admin/models.py:203
 msgid "Sender"
 msgstr "Avsändare"
 
-#: despri_admin/models.py:202
+#: despri_admin/models.py:204
 msgid "Subject"
 msgstr "Ämne"
 
-#: despri_admin/models.py:208
+#: despri_admin/models.py:215
 msgid "Mail"
 msgstr "Mail"
 
-#: despri_admin/models.py:209
+#: despri_admin/models.py:216
 msgid "Mails"
 msgstr "Mail"
 
-#: despri_admin/models.py:214
+#: despri_admin/models.py:221
 msgid "Value"
 msgstr "Värde"
 
-#: despri_admin/models.py:219
+#: despri_admin/models.py:226
 msgid "MailVar"
 msgstr "Mail-värde"
 
-#: despri_admin/models.py:220
+#: despri_admin/models.py:227
 msgid "MailVars"
 msgstr "Mail-värden"
 
-#: despri_admin/models.py:228
+#: despri_admin/models.py:235
 msgid "Phase 1 start"
 msgstr "Fas 1 start"
 
-#: despri_admin/models.py:229
+#: despri_admin/models.py:236
 msgid "Phase 2 start"
 msgstr "Fas 2 start"
 
-#: despri_admin/models.py:230
+#: despri_admin/models.py:237
 msgid "Phase 3 start"
 msgstr "Fas 3 start"
 
-#: despri_admin/models.py:231
+#: despri_admin/models.py:238
 msgid "Phase 4 start"
 msgstr "Fas 4 start"
 
-#: despri_admin/models.py:232
+#: despri_admin/models.py:239
 msgid "Phase 5 start"
 msgstr "Fas 5 start"
 
-#: despri_admin/models.py:233
+#: despri_admin/models.py:240
 msgid "Register deadline date"
 msgstr "Sista inlämningsdatum"
 
-#: despri_admin/models.py:234
+#: despri_admin/models.py:241
 msgid "Nominees can edit Start"
 msgstr "Kan redigeras av nominerade - start"
 
-#: despri_admin/models.py:235
+#: despri_admin/models.py:242
 msgid "Nominees can edit End"
 msgstr "Kan redigeras av nominerade - slut"
 
-#: despri_admin/models.py:236
+#: despri_admin/models.py:243
+msgid "Delayed inofficial deadline end"
+msgstr ""
+
+#: despri_admin/models.py:244
 msgid "Price per entry"
 msgstr "Kostnad per bidrag"
 
-#: despri_admin/models.py:237
+#: despri_admin/models.py:245
 msgid "Award Place"
 msgstr "Plats för prisutdelning"
 
-#: despri_admin/models.py:238
+#: despri_admin/models.py:246
 msgid "Award Date"
 msgstr "Datum för prisutdelning"
 
-#: despri_admin/models.py:240
+#: despri_admin/models.py:248
 msgid "Winner Preview"
 msgstr "Vinnare - förhandsgranskning"
 
-#: despri_admin/models.py:246
+#: despri_admin/models.py:254
 msgid "Config"
 msgstr "Inställning"
 
-#: despri_admin/models.py:247
+#: despri_admin/models.py:255
 msgid "Configs"
 msgstr "Inställningar"
 
+#~ msgid "Entry confirmation"
+#~ msgstr "Bidragsbekräftelse"
+
+#~ msgid "Entry confirmation for Admin"
+#~ msgstr "Bidragsbekräftelse för Admin"
+
+#~ msgid "Entry update confirmation"
+#~ msgstr "Bidragsbekräftelse - uppdatering"
+
+#~ msgid "Entry update confirmation for admin"
+#~ msgstr "Bidragsbekräftelse - uppdatering för Admin"
+
+#~ msgid "Nominee"
+#~ msgstr "Nominerad"
+
+#~ msgid "Vote confirmation"
+#~ msgstr "Röstbekräftelse"
