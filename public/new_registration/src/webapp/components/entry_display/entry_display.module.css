@@ -4,7 +4,7 @@
 }
 
 .header {
-
+    
 }
 
 .section {
@@ -62,4 +62,32 @@
     /* text-decoration: underline;
     text-decoration-color: var(--PRIMARY_GOLD); */
     border-bottom: 1px solid var(--PRIMARY_GOLD);
+}
+
+@media screen and (max-width: 415px) {
+    .article_container {
+        height: fit-content;
+    }
+
+    .img_holder {
+        height: 100vw;
+        width: 100vw;
+    }
+
+    .container {
+        padding: 5px;
+        width: 100vw;
+    }
+
+    .button {
+        position: static;
+        margin-bottom: 10px;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
 }

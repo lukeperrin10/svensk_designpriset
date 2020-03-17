@@ -3,6 +3,7 @@ import styles from './entry_display.module.css'
 import { IEntry } from '../../model'
 import Image from 'react-bootstrap/Image'
 import Button from '../button'
+import { IS_MOBILE } from '../../config/style'
 
 interface props {
     entry: IEntry,
@@ -24,32 +25,41 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
         if (onPrevNextClick) onPrevNextClick(entry)
     }
 
+    const getButtons = () => {
+        if (onVoteClick) {
+            return (
+                <div className={styles.button}>
+                    {isVoted ?
+                        <Button className={styles.button_voted} onClick={onVote} title='Din röst' />
+                        :
+                        <Button onClick={onVote} title='Rösta' />
+                    }
+                    
+                </div>
+            )
+        } else return null
+        
+    }
+
     return (
         <div className={styles.container}>
             <header className={styles.header}>
-                <h1>{entry.year}</h1>
-                <h1>{categoryName}</h1>
+                <div>
+                    <h1>{entry.year}</h1>
+                    <h1>{categoryName}</h1>
+                </div>
+                {IS_MOBILE && getButtons()}
             </header>
             <section className={styles.section}>
                 <div className={styles.img_holder}></div>
                 <div className={styles.article_container}>
                     <article className={styles.article}>
                         <h2>{entry.entry_name}</h2>
+                        <h3>Byrå: {entry.profile_id}</h3>
                         <h3>Designer: {entry.designer}</h3>
                         <h3>Kund: {entry.customer}</h3>
                     </article>
-                    {onVoteClick &&
-                    <div className={styles.button}>
-                        {isVoted ?
-                            <Button className={styles.button_voted} onClick={onVote} title='Din röst' />
-                            :
-                            <Button onClick={onVote} title='Rösta' />
-                        }
-                        
-                    </div>
-                    }
-                    
-                    
+                    {!IS_MOBILE && getButtons()}
                 </div>
             </section>
             <hr></hr>

@@ -1,7 +1,26 @@
+@font-face {
+    font-family: ITC Franklin Gothic Std;
+    src: url(./webapp/assets/fonts/ITCFranklinGothicStd-Med.otf);
+  }
+
+@font-face {
+    font-family: ITC Franklin Gothic Std Book;
+    src: url(./webapp/assets/fonts/ITCFranklinGothicStd-Book.otf);
+}
+
+@font-face {
+    font-family: ITC Franklin Gothic Std Demi;
+    src: url(./webapp/assets/fonts/ITCFranklinGothicStd-Demi.otf);
+}
+
 :root {
     --TRANSITION_EASE_OUT: cubic-bezier(0.17, 0.67, 0.3, 1.01);
     --TRANSITION_DURATION: 250ms;
     --PRIMARY_SHADOW: 0px 3px 5px 0px rgba(0,0,0,0.31);
   
     --PRIMARY_GOLD: #c6a230;
+    --PRIMARY_TEXT_COLOR: #000000;
+    --SECONDARY_TEXT_COLOR: #151313;
+
+    --MOBILE_WIDTH: 415px;
 }

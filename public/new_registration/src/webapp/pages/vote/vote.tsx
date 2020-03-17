@@ -8,6 +8,8 @@ import AfterPost from './after_post'
 import {Md5} from 'ts-md5/dist/md5';
 import * as queryString from 'query-string'
 import AfterConfirmed from './after_confirmed'
+import Text from '../../components/text'
+import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
 // import styles from './vote.module.css'
 
 enum STAGES {

@@ -3,6 +3,8 @@ import { IEntry, IVote } from '../../../model'
 import EntryCard from '../../../components/entry_card'
 import Button from '../../../components/button'
 import styles from './summary.module.css'
+import Text from '../../../components/text'
+import { TEXT_TYPES } from '../../../components/text/text'
 
 interface ISummary {
     entries: IEntry[],
@@ -52,11 +54,11 @@ const Summary = ({entries, onPostVotes, onChangeVotes, pollId}: ISummary) => {
     // )
     return (
         <div className={styles.container}>
-            <p className={styles.text}>När du har röstat på de kategorier du vill rösta på, fyll i din e-postadress. Ett mejl kommer skickas till din e-postadress.
-            Din röst kommer räknas först när du klickat på denna länk.</p>
+            <Text type={TEXT_TYPES.P} className={styles.text}>När du har röstat på de kategorier du vill rösta på, fyll i din e-postadress. Ett mejl kommer skickas till din e-postadress.
+            Din röst kommer räknas först när du klickat på denna länk.</Text>
             <div className={styles.left}>
                 <div className={styles.input_container}>
-                    <label>Epostadress</label>
+                    <label><Text type={TEXT_TYPES.P}>Epostadress</Text></label>
                     <input type='text' onChange={onEmailChange}/>
                 </div>
                 <div>
