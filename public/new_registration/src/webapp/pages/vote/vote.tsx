@@ -162,13 +162,13 @@ const Vote = () => {
                         <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>
                     </div>
                 )
-            case STAGES.SUMMARY:
-                return (
-                    <div>
-                        {voteEntries.length > 0 &&
-                        <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>}
-                    </div>
-                )
+            // case STAGES.SUMMARY:
+            //     return (
+            //         <div>
+            //             {voteEntries.length > 0 &&
+            //             <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>}
+            //         </div>
+            //     )
             case STAGES.DID_SEND:
                 return <AfterPost />
             case STAGES.CONFIRMED:

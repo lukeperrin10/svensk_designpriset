@@ -12,7 +12,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -24,11 +24,20 @@
 }
 
 .header_right {
+    display: flex;
+    align-items: center;
+}
 
+.header_left p {
+    margin: 0 30px 0 0;
+}
+
+.header_right p {
+    margin: 0 30px 0 0;
+    color: var(--PRIMARY_GOLD);
 }
 
 .header p, h2 {
-    margin: 0;
     min-width: fit-content;
 }
 
@@ -63,4 +72,12 @@
 
 .list_mobile::-webkit-scrollbar {
     display: none;
-  }
+}
+
+.arrow {
+    transition: all 500ms;
+}
+
+.arrow_up {
+    transform: rotate(180deg);
+}
