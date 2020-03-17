@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 70px 0 120px 0;
+    flex-wrap: wrap;
+}
+
+.instruction_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.instruction_container p, h4 {
+    margin: 0 10px 0 10px;
+    padding: 0;
+}
+
+.number {
+    font-size: 40px;
+    line-height: 40px;
+}
+
+.instruction_text {
+    padding: 0;
+    width: 110px;
+}
+
+.instruction_text p {
+    font-size: 15px;
+    line-height: 15px;
+}
+
+.arrow {
+
+}

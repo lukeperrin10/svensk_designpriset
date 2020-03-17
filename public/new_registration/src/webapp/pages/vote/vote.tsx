@@ -10,7 +10,9 @@ import * as queryString from 'query-string'
 import AfterConfirmed from './after_confirmed'
 import Text, { P, H1 } from '../../components/text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
-// import styles from './vote.module.css'
+import { getDayWithMonth } from '../../helpers/dates'
+import styles from './vote.module.css'
+import VoteInstruction from '../../components/vote_instruction'
 
 enum STAGES {
     LIST = 'LIST',
@@ -147,8 +149,13 @@ const Vote = () => {
                     <div>
                         {didFetchPoll && poll !== undefined &&
                         <div>
-                            <H1>RöstningsTITEL!</H1>
-                            <h2>Sista dag datum</h2>
+                            <header className={styles.header}>
+                                <H1>{poll.name}</H1>
+                                <h2>Sista dag {getDayWithMonth(poll.stop)}</h2>
+                            </header>
+                            <summary>
+                                <VoteInstruction />
+                            </summary>
                             <EntryList categories={poll.categories} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries}/>
                         </div>
                         }
