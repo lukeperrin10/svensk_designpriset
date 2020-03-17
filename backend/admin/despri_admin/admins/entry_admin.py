@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
-from ..models import Entry
+from ..models import Entry, EntryImage
 from datetime import datetime
 import requests
 from .base_admin import BaseAdmin
 
 
-
+class ImageInline(admin.TabularInline):
+    model = EntryImage
 
 class EntryFilter(admin.SimpleListFilter):
     title = _('Entry status')
@@ -35,6 +36,8 @@ class EntryAdmin(BaseAdmin):
     list_filter = (EntryFilter, 'year')
     actions = ['send_nominee_action']
     change_list_template = 'admin/despri_admin/entry_change_list.html'
+
+    inlines = [ImageInline]
     
     def send_nominee_action(self, request, queryset):
         url = 'http://node:8001/mail'

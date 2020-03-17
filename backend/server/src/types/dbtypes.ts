@@ -88,7 +88,10 @@ export interface Profile {
 export interface Category {
     id: number,
     name: string,
-    shorttag: string
+    shorttag: string,
+    active: boolean,
+    created?: string,
+    modified?: string
 }
 
 export interface Entry {

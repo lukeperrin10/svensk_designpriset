@@ -92,6 +92,18 @@ class Entry(BaseModel):
         verbose_name = _('Entry')
         verbose_name_plural = _('Entries')
         db_table = 'entries'
+    
+class EntryImage(BaseModel):
+    image = models.ImageField(_('Image'), upload_to="avatars", null=True, blank=True)
+    entry = models.ForeignKey(Entry, verbose_name=_('Entry'), on_delete=models.CASCADE)
+    is_featured = models.BooleanField(_('Featured'), null=False, default=False)
+
+    def __str__(self):
+        return self.id
+    class Meta:
+        verbose_name = _('Entry image')
+        verbose_name_plural = _('Entry images')
+        db_table = 'entry_images'
 
 class Poll(BaseModel):
     name = models.CharField(_('Name'), max_length=255, null=False)
