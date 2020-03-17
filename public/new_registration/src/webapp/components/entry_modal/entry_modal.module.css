@@ -1,0 +1,8 @@
+.modal {
+    border-radius: 0;
+    max-width: fit-content;
+}
+
+.modal div {
+    border-radius: 0;
+}
