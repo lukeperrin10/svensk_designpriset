@@ -8,7 +8,7 @@ import AfterPost from './after_post'
 import {Md5} from 'ts-md5/dist/md5';
 import * as queryString from 'query-string'
 import AfterConfirmed from './after_confirmed'
-import Text from '../../components/text'
+import Text, { P, H1 } from '../../components/text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
 // import styles from './vote.module.css'
 
@@ -146,7 +146,11 @@ const Vote = () => {
                 return (
                     <div>
                         {didFetchPoll && poll !== undefined &&
-                        <EntryList categories={poll.categories} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries}/>
+                        <div>
+                            <H1>RöstningsTITEL!</H1>
+                            <h2>Sista dag datum</h2>
+                            <EntryList categories={poll.categories} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries}/>
+                        </div>
                         }
                         <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>
                     </div>
@@ -169,7 +173,7 @@ const Vote = () => {
     }
     
     return (
-        <div>hejsan röstning
+        <div>
            {getContent()}
            {isLoading &&
             <div style={{
@@ -180,7 +184,7 @@ const Vote = () => {
                 width: '100vw', 
                 textAlign: 'center',
                 backgroundColor: 'rgba(255,255,255,0.9)'}}>
-                    <p>LADDAR...</p>
+                    <P>LADDAR...</P>
                 </div>
             }
             {error &&
@@ -192,8 +196,8 @@ const Vote = () => {
                 width: '100vw', 
                 textAlign: 'center',
                 backgroundColor: 'rgba(255,255,255,0.9)'}}>
-                    <p>Något gick fel.</p>
-                    <p>{errorMessage}</p>
+                    <P>Något gick fel.</P>
+                    <P>{errorMessage}</P>
                     <button onClick={resetStage}>Försök igen</button>
                 </div>
             }

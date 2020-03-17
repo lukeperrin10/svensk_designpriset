@@ -4,6 +4,8 @@ import { IEntry } from '../../model'
 import Image from 'react-bootstrap/Image'
 import Button from '../button'
 import { IS_MOBILE } from '../../config/style'
+import Text, { P, H1, H2, H3, Label } from '../text'
+import { TEXT_TYPES, HEADLINE_SIZES } from '../text/text'
 
 interface props {
     entry: IEntry,
@@ -45,8 +47,8 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
         <div className={styles.container}>
             <header className={styles.header}>
                 <div>
-                    <h1>{entry.year}</h1>
-                    <h1>{categoryName}</h1>
+                    <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.year}</Text>
+                    <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{categoryName}</Text>
                 </div>
                 {IS_MOBILE && getButtons()}
             </header>
@@ -54,10 +56,16 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                 <div className={styles.img_holder}></div>
                 <div className={styles.article_container}>
                     <article className={styles.article}>
-                        <h2>{entry.entry_name}</h2>
-                        <h3>Byrå: {entry.profile_id}</h3>
-                        <h3>Designer: {entry.designer}</h3>
-                        <h3>Kund: {entry.customer}</h3>
+                        <Text className={styles.title} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.entry_name}</Text>
+                        <div className={styles.contents}>
+                            <Label>Byrå: </Label><P>{entry.profile_id}</P>
+                        </div>
+                        <div className={styles.contents}>
+                            <Label>Designer: </Label><P>{entry.designer}</P>    
+                        </div>
+                        <div className={styles.contents}>
+                            <Label>Kund: </Label><P>{entry.customer}</P>   
+                        </div>
                     </article>
                     {!IS_MOBILE && getButtons()}
                 </div>
@@ -66,12 +74,12 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                 <nav className={styles.nav}>
                     {prevEntry && 
                     <div className={styles.nav_button_container}>
-                        <p>Föregående bidrag</p>
+                        <Label>Föregående bidrag</Label>
                         <Button className={styles.nav_button} onClick={() => onPrevNext(prevEntry)} title={prevEntry.entry_name} />
                     </div>}
                     {nextEntry && 
                     <div className={styles.nav_button_container_right}>
-                        <p>Nästa bidrag</p>
+                        <Label>Nästa bidrag</Label>
                         <Button className={styles.nav_button} onClick={() => onPrevNext(nextEntry)} title={nextEntry.entry_name} />
                     </div>}
                 </nav>

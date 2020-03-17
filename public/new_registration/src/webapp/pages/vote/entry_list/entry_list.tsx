@@ -6,6 +6,7 @@ import styles from './entry_list.module.css'
 import Accordion from 'react-bootstrap/Accordion'
 import Button from '../../../components/button'
 import EntryModal from '../../../components/entry_modal'
+import { H2, P, Ingress, Label } from '../../../components/text'
 
 interface IEntryList {
     categories: IPollCategories
@@ -80,11 +81,11 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
                         <section key={cat} className={styles.section}>
                                 <header className={styles.header}>
                                     <div className={styles.header_left}>
-                                        <h2>{category.category_name}</h2>
-                                        <p>{getCountText(category.entries)}</p>
+                                        <Label>{category.category_name}</Label>
+                                        <Ingress>{getCountText(category.entries)}</Ingress>
                                     </div>
                                     <div className={styles.header_right}>
-                                        {checkCategoryIsVoted(parseInt(cat)) && <p>Röstat</p>}
+                                        {checkCategoryIsVoted(parseInt(cat)) && <P>Röstat</P>}
                                     </div>
                                     
                                 </header>
@@ -128,11 +129,11 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
                             <Accordion.Toggle as='div' eventKey={cat}>
                                 <header className={styles.header}>
                                     <div className={styles.header_left}>
-                                        <h2>{category.category_name}</h2>
-                                        <p>{getCountText(category.entries)}</p>
+                                        <Label>{category.category_name}</Label>
+                                        <Ingress>{getCountText(category.entries)}</Ingress>
                                     </div>
                                     <div className={styles.header_right}>
-                                        {checkCategoryIsVoted(parseInt(cat)) && <p>Röstat</p>}
+                                        {checkCategoryIsVoted(parseInt(cat)) && <P>Röstat</P>}
                                     </div>
                                     
                                 </header>
