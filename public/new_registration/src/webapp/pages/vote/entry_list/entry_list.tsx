@@ -108,7 +108,8 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
                                 categoryName={category.category_name}
                                 currentEntry={modalEntry || 0}
                                 entries={category.entries}
-                                onOtherEntryClick={changeModalEntry}
+                                onVoteClick={onVote}
+                                voteEntries={voteEntries}
                                 />
                         </section>
                     )
@@ -157,7 +158,8 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
                                 categoryName={category.category_name}
                                 currentEntry={modalEntry || 0}
                                 entries={category.entries}
-                                onOtherEntryClick={changeModalEntry}
+                                onVoteClick={onVote}
+                                voteEntries={voteEntries}
                                 />
                         </section>
                     )

@@ -38,6 +38,10 @@
     left: 0;
 }
 
+.button_voted {
+    background-color: var(--PRIMARY_GOLD);
+}
+
 .nav {
     margin-top: 30px;
     display: flex;

@@ -9,13 +9,15 @@ interface props {
     categoryName: string,
     prevEntry?: IEntry,
     nextEntry?: IEntry,
-    onPrevNextClick?: (entry: IEntry) => void
+    onPrevNextClick?: (entry: IEntry) => void,
+    onVoteClick?: (entry: IEntry) => void,
+    isVoted?: boolean
 }
 
-const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClick}:props) => {
+const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClick, onVoteClick, isVoted}:props) => {
 
     const onVote = () => {
-
+        if (onVoteClick) onVoteClick(entry)
     }
 
     const onPrevNext = (entry: IEntry) => {
@@ -36,9 +38,17 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                         <h3>Designer: {entry.designer}</h3>
                         <h3>Kund: {entry.customer}</h3>
                     </article>
+                    {onVoteClick &&
                     <div className={styles.button}>
-                        <Button onClick={onVote} title='Rösta' />
+                        {isVoted ?
+                            <Button className={styles.button_voted} onClick={onVote} title='Din röst' />
+                            :
+                            <Button onClick={onVote} title='Rösta' />
+                        }
+                        
                     </div>
+                    }
+                    
                     
                 </div>
             </section>

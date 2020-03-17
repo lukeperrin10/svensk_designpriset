@@ -8,16 +8,18 @@ import EntryDisplay from '../entry_display'
 interface props {
     show: boolean,
     onClose: () => void,
-    onOtherEntryClick: (id: number) => void,
     entries: IEntry[],
     currentEntry: number,
-    categoryName: string
+    categoryName: string,
+    onVoteClick?: (entry: IEntry) => void,
+    voteEntries?: IEntry[]
 }
 
 const EntryModal = ({show, 
     onClose, 
-    onOtherEntryClick, 
     entries, 
+    onVoteClick,
+    voteEntries,
     currentEntry, 
     categoryName}: props) => {
 
@@ -66,6 +68,13 @@ const EntryModal = ({show,
         setPrevNext()
     }
 
+    const checkIsVoted = (id: number) => {
+        if (voteEntries) {
+            return voteEntries.filter(e => e.id === id).length > 0
+        }
+        return false
+    }
+
     return (
         <Modal 
         dialogClassName={styles.modal}
@@ -78,6 +87,8 @@ const EntryModal = ({show,
             nextEntry={nextEntry}
             prevEntry={prevEntry}
             onPrevNextClick={onPrevNextClick}
+            onVoteClick={onVoteClick}
+            isVoted={checkIsVoted(entry.id)}
             entry={entry} />
             }
         </Modal>
