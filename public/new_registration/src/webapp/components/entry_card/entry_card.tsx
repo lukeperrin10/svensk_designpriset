@@ -3,6 +3,7 @@ import { IEntry } from '../../model'
 import styles from './entry_card.module.css'
 import Button from '../button'
 import {BUTTON_VARIANTS, BUTTON_SIZES} from '../button/button'
+import { assembleMediaUrl } from '../../helpers'
 
 interface IEntryCard {
     entry: IEntry,
@@ -23,10 +24,14 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEnt
         onShowClick(entry)
     }
 
+    const imageStyle = {
+        backgroundImage: `url(${assembleMediaUrl(entry.avatar)})`
+    }
+
     
     return (
         <div className={styles.container}>
-            <div className={styles.img_holder}></div>
+            <div style={imageStyle} className={styles.img_holder}></div>
             <div className={styles.overlay}>
                 <Button variant={BUTTON_VARIANTS.TERTIARY} className={styles.overlay_button} onClick={onShow} title="Visa" />    
             </div>
