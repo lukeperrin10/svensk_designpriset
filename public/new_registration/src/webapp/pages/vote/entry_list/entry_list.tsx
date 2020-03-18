@@ -85,13 +85,14 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
             </div>
             <div className={styles.header_right}>
                 {checkCategoryIsVoted(parseInt(cat)) && <Label>Röstat</Label>}
-                {arrowId && <img className={styles.arrow} id={arrowId} src={arrow} alt='' />}
+                {arrowId && <img className={[styles.arrow, isFirstCat(cat) && styles.arrow_up].join(' ')} id={arrowId} src={arrow} alt='' />}
                 
             </div>
             
         </header>
         )
     }
+
 
     const getList = (entries: IEntry[]) => {
         return (
@@ -132,6 +133,18 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
                 arr.classList.toggle(styles.arrow_up)
             }
         }
+    }
+
+    const isFirstCat = (cat: string) => {
+        return Object.keys(categories)[0] === cat
+    }
+
+    const isExpanded = (arrowId: string) => {
+        const arr = document.getElementById(arrowId)
+        if (arr) {
+            return arr.classList.contains(styles.arrow_up)
+        }
+        return false
     }
 
     if (IS_MOBILE) {
