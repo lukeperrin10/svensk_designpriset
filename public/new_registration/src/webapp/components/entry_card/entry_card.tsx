@@ -2,6 +2,7 @@ import * as React from 'react'
 import { IEntry } from '../../model'
 import styles from './entry_card.module.css'
 import Button from '../button'
+import {BUTTON_VARIANTS, BUTTON_SIZES} from '../button/button'
 
 interface IEntryCard {
     entry: IEntry,
@@ -27,16 +28,16 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEnt
         <div className={styles.container}>
             <div className={styles.img_holder}></div>
             <div className={styles.overlay}>
-                <Button className={styles.overlay_button} onClick={onShow} title="Visa" />    
+                <Button variant={BUTTON_VARIANTS.TERTIARY} className={styles.overlay_button} onClick={onShow} title="Visa" />    
             </div>
 
             <div className={styles.bottom}>
                 <p>{entry.entry_name}</p>
                 {!onlyDisplay ?
                 isVoted ?
-                    <Button className={styles.button_voted} onClick={onVote} title='Din röst' />
+                    <Button variant={BUTTON_VARIANTS.PRIMARY} size={BUTTON_SIZES.SMALL} onClick={onVote} title='Din röst' />
                     :                     
-                    <Button onClick={onVote} title='Rösta' />
+                    <Button variant={BUTTON_VARIANTS.TERTIARY} size={BUTTON_SIZES.SMALL} onClick={onVote} title='Rösta' />
                 
                     :
                     <div></div>

@@ -41,8 +41,6 @@
 
 .button {
     margin-left: 40px;
-    background-color: var(--PRIMARY_GOLD);
-    height: 50px;
 }
 
 @media screen and (max-width: 415px) {

@@ -82,7 +82,12 @@
     padding: 0;
     /* text-decoration: underline;
     text-decoration-color: var(--PRIMARY_GOLD); */
+    background-color: white;
     border-bottom: 1px solid var(--PRIMARY_GOLD);
+}
+
+.close {
+    margin-bottom: 20px;
 }
 
 @media screen and (max-width: 415px) {

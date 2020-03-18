@@ -6,6 +6,9 @@ import Button from '../button'
 import { IS_MOBILE } from '../../config/style'
 import Text, { P, H1, H2, H3, Label } from '../text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../text/text'
+import { BUTTON_VARIANTS, BUTTON_SIZES } from '../button/button'
+import CloseButton from '../close_button'
+import { MEDIA_URL } from '../../config/host'
 
 interface props {
     entry: IEntry,
@@ -14,10 +17,11 @@ interface props {
     nextEntry?: IEntry,
     onPrevNextClick?: (entry: IEntry) => void,
     onVoteClick?: (entry: IEntry) => void,
-    isVoted?: boolean
+    isVoted?: boolean,
+    onClose?: () => void
 }
 
-const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClick, onVoteClick, isVoted}:props) => {
+const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClick, onVoteClick, isVoted, onClose}:props) => {
 
     const onVote = () => {
         if (onVoteClick) onVoteClick(entry)
@@ -32,9 +36,18 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
             return (
                 <div className={styles.button}>
                     {isVoted ?
-                        <Button className={styles.button_voted} onClick={onVote} title='Din röst' />
+                        <Button 
+                        variant={BUTTON_VARIANTS.PRIMARY} 
+                        size={IS_MOBILE ? BUTTON_SIZES.SMALL : BUTTON_SIZES.STANDARD} 
+                        className={styles.button_voted} 
+                        onClick={onVote} 
+                        title='Din röst' />
                         :
-                        <Button onClick={onVote} title='Rösta' />
+                        <Button 
+                        variant={BUTTON_VARIANTS.TERTIARY} 
+                        size={IS_MOBILE ? BUTTON_SIZES.SMALL : BUTTON_SIZES.STANDARD} 
+                        onClick={onVote} 
+                        title='Rösta' />
                     }
                     
                 </div>
@@ -45,6 +58,11 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
 
     return (
         <div className={styles.container}>
+        {onClose &&
+            <div className={styles.close}>
+                <CloseButton onClick={onClose} />
+            </div>
+        }
             <header className={styles.header}>
                 <div>
                     <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.year}</Text>
@@ -75,12 +93,22 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                     {prevEntry && 
                     <div className={styles.nav_button_container}>
                         <Label>Föregående bidrag</Label>
-                        <Button className={styles.nav_button} onClick={() => onPrevNext(prevEntry)} title={prevEntry.entry_name} />
+                        <Button 
+                        variant={BUTTON_VARIANTS.NONE}
+                        size={BUTTON_SIZES.NONE}
+                        className={styles.nav_button} 
+                        onClick={() => onPrevNext(prevEntry)} 
+                        title={prevEntry.entry_name} />
                     </div>}
                     {nextEntry && 
                     <div className={styles.nav_button_container_right}>
                         <Label>Nästa bidrag</Label>
-                        <Button className={styles.nav_button} onClick={() => onPrevNext(nextEntry)} title={nextEntry.entry_name} />
+                        <Button 
+                        className={styles.nav_button} 
+                        variant={BUTTON_VARIANTS.NONE}
+                        size={BUTTON_SIZES.NONE}
+                        onClick={() => onPrevNext(nextEntry)} 
+                        title={nextEntry.entry_name} />
                     </div>}
                 </nav>
         </div>

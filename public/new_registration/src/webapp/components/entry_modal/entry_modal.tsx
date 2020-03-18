@@ -4,6 +4,7 @@ import styles from './entry_modal.module.css'
 import Modal from 'react-bootstrap/Modal'
 import { IEntry } from '../../model'
 import EntryDisplay from '../entry_display'
+import { IS_MOBILE } from '../../config/style'
 
 interface props {
     show: boolean,
@@ -12,7 +13,7 @@ interface props {
     currentEntry: number,
     categoryName: string,
     onVoteClick?: (entry: IEntry) => void,
-    voteEntries?: IEntry[]
+    voteEntries?: IEntry[],
 }
 
 const EntryModal = ({show, 
@@ -88,6 +89,7 @@ const EntryModal = ({show,
             prevEntry={prevEntry}
             onPrevNextClick={onPrevNextClick}
             onVoteClick={onVoteClick}
+            onClose={IS_MOBILE ? onClose : undefined}
             isVoted={checkIsVoted(entry.id)}
             entry={entry} />
             }
