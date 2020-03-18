@@ -180,15 +180,15 @@ const Vote = () => {
     }
     
     return (
-        <div>
+        <div className={styles.container}>
            {getContent()}
            {isLoading &&
             <div style={{
                 position: 'absolute', 
                 top: 0, 
                 left: 0, 
-                height: '100vh', 
-                width: '100vw', 
+                height: '90vh', 
+                width: '90vw', 
                 textAlign: 'center',
                 backgroundColor: 'rgba(255,255,255,0.9)'}}>
                     <P>LADDAR...</P>
@@ -199,8 +199,8 @@ const Vote = () => {
                 position: 'absolute', 
                 top: 0, 
                 left: 0, 
-                height: '100vh', 
-                width: '100vw', 
+                height: '90vh', 
+                width: '90vw', 
                 textAlign: 'center',
                 backgroundColor: 'rgba(255,255,255,0.9)'}}>
                     <P>Något gick fel.</P>

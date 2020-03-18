@@ -3,18 +3,24 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: flex-end;
+    
 }
 
 .text {
-    width: 38%;
+    width: 100%;
+    max-width: 550px;
     padding: 0;
     margin: 0;
 }
 
 .input_container input, label {
     display: block;
+}
+
+.bold {
+    font-family: ITC Franklin Gothic Std Demi;
 }
 
 .input_container input {

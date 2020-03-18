@@ -55,7 +55,7 @@ const Summary = ({entries, onPostVotes, onChangeVotes, pollId}: ISummary) => {
     return (
         <div className={styles.container}>
             <Text type={TEXT_TYPES.P} className={styles.text}>När du har röstat på de kategorier du vill rösta på, fyll i din e-postadress. Ett mejl kommer skickas till din e-postadress.
-            Din röst kommer räknas först när du klickat på denna länk.</Text>
+            <br></br><span className={styles.bold}>Din röst kommer räknas först när du klickat på denna länk.</span></Text>
             <div className={styles.left}>
                 <div className={styles.input_container}>
                     <label><Text type={TEXT_TYPES.P}>Epostadress</Text></label>
