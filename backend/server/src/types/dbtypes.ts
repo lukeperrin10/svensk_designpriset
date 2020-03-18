@@ -66,7 +66,8 @@ export interface Winner {
     is_winner_silver: number,
     is_nominated: number,
     motivation: string,
-    year: string
+    year: string,
+    entry_images?: Array<string>
 }
 // WARNING: Should dates be string?
 export interface Profile {
