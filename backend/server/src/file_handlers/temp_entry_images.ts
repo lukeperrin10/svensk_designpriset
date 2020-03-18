@@ -2,8 +2,6 @@ import * as express from 'express'
 import multer from 'multer'
 import Uniqid from 'uniqid'
 import { TEMP_AVATAR_PATH } from '../constants/temp_contants';
-import gm from 'gm'
-let imageMagick = gm.subClass({imageMagick: true})
 
 const folderPath = TEMP_AVATAR_PATH+'/'
 
@@ -31,7 +29,7 @@ const multerHandler = multer({
 })
 
 export default (req: express.Request, res: express.Response) => {
-    multerHandler.array('images', 12)(req, res, (error: Error) => {
+    multerHandler.array('images', 5)(req, res, (error: Error) => {
         if (error) {
             console.error(error)
             res.status(500).json({error: error.message})

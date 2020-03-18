@@ -7,6 +7,16 @@ export interface DBErrorMapping {
     [key: string]: STR_ID
 }
 
+export interface InsertResult {
+    fieldCount: number,
+    affectedRows: number,
+    insertId: number,
+    serverStatus: number,
+    warningCount: number,
+    message: string,
+    protocol41: boolean,
+    changedRows: number
+}
 export function handleDbError(err: Error, map?: Array<DBErrorMapping>) {
     if (!map) map = []
     function getFromMap(key: STR_ID) {

@@ -53,25 +53,6 @@ services:
             - media:/var/app/upload_assets/media
         networks:
             - internal_network
-    node_test:
-        depends_on:
-            - db
-        build: 
-            context: ./server
-            dockerfile: Dockerfile.test
-        env_file:
-            - common.env
-        environment:
-            - DP_BACKEND_REGISTER_ROOT_URL=http://myown.se:3000
-            - NODE_ENV=development
-            - NODE_PORT=8002
-            - NODE_MODE=testing
-        ports:
-            - "8002:8002"
-        volumes: 
-            - ./server:/var/app
-        networks:
-            - internal_network
 
 
 volumes:

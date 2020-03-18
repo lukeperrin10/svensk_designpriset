@@ -116,7 +116,17 @@ export interface Entry {
     is_nominated: number,
     sent_nominee_notification: string,
     motivation: string,
-    year: string
+    year: string,
+    entry_images?: Array<string>
+}
+
+export interface EntryImage {
+    id?: number,
+    image: string,
+    entry_id: number,
+    modified?: string,
+    created: string,
+    is_featured: boolean
 }
 
 export interface Content {
