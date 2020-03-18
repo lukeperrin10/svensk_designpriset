@@ -49,7 +49,10 @@ class FormContainer extends React.Component<IFormContainer> {
         checkShouldClear: false,
         enableDelete: true,
         editMode: false,
-        editModeNewEntries: {}
+        editModeNewEntries: {},
+        shouldSubmitProfile: false,
+        shouldSubmitEntries: false,
+        formError: false
     }
     constructor(p: any) {
         super(p)
@@ -255,6 +258,7 @@ class FormContainer extends React.Component<IFormContainer> {
             }
         })
         this.setState({didSaveEntry: disabled})
+        this.onShowConfirmButton()
     }
 
     saveContent() {
@@ -338,6 +342,8 @@ class FormContainer extends React.Component<IFormContainer> {
                 }
             }}>
                 <DpForm
+                onError={() => this.onFormError()}
+                shouldSubmit={this.state.shouldSubmitEntries}
                 fields={FORM_ENTRY_LABELS}
                 disabled={disabledEntries[key]}
                 onDisabled={() => this.setState({disabledEntries: {...this.state.disabledEntries, [key]: false}, didSaveEntry: false})}
@@ -399,9 +405,25 @@ class FormContainer extends React.Component<IFormContainer> {
         return content
     }
 
+    onFormError() {
+        this.setState({formError: true})
+    }
+
     onShowConfirmButton() {
-        this.scrollToTop()
-        this.setState({displayReview: true})
+        if (!this.state.formError && isEmptyObject(this.state.errorEntries)) {
+            this.scrollToTop()
+            this.setState({displayReview: true})
+        }
+    }
+
+    onTrySubmit() {
+        this.setState({formError: false}, () => {
+            this.setState({shouldSubmitProfile: true}, () => {
+                this.setState({shouldSubmitProfile: false, shouldSubmitEntries: true}, () => {
+                    this.setState({shouldSubmitEntries: false})
+                })
+            })
+        })
     }
 
     render() {
@@ -432,7 +454,9 @@ class FormContainer extends React.Component<IFormContainer> {
             :
             <div>
                 <DpForm 
+                    onError={() => this.onFormError()}
                     fields={FORM_PROFILE_LABELS}
+                    shouldSubmit={this.state.shouldSubmitProfile}
                     disabled={profileDisabled}
                     onDisabled={() => this.setState({profileDisabled: false, didSaveProfile: false})}
                     buttonText="Spara"
@@ -451,7 +475,6 @@ class FormContainer extends React.Component<IFormContainer> {
                 
                 <div style={styles.toolbarContainer}>
                     <div style={styles.toolbar}>
-                        {/* <div style={styles.addButtonContainer}> */}
                             <OverLay
                                 placement="right"
                                 overlay={
@@ -478,7 +501,8 @@ class FormContainer extends React.Component<IFormContainer> {
                                             Förhandsgrandsgranskning
                                         </ToolTip>
                                     }>
-                                    <Button style={styles.buttonPrimary} disabled={(!didSaveProfile || !didSaveEntry)} onClick={() => this.onShowConfirmButton()} variant="primary">Gå vidare</Button>
+                                    {/* <Button style={styles.buttonPrimary} disabled={(!didSaveProfile || !didSaveEntry)} onClick={() => this.onShowConfirmButton()} variant="primary">Gå vidare</Button> */}
+                                    <Button style={styles.buttonPrimary} onClick={() => this.onTrySubmit()} variant="primary">Gå vidare</Button>
                                 </OverLay>
                             </div>
                         {/* </div> */}

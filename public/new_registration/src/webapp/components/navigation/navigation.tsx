@@ -125,11 +125,14 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
     }
 
     const checkIfVoteAllowed = () => {
+        //WARNING: CHANGE BEFORE DEPLOY
         return true
         return yearConfig.current_phase === PHASES.FOUR
     }
 
     const checkIfRegisterAllowed = () => {
+        //WARNING: CHANGE BEFORE DEPLOY
+        return true
         const query = queryString.parse(window.location.search)
         if (yearConfig.current_phase === PHASES.ONE) return true
         const now = new Date()
