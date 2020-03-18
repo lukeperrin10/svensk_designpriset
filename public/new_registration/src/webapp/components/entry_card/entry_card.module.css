@@ -60,3 +60,19 @@
     visibility: visible;
     opacity: 1;
 }
+
+@media screen and (max-width: 415px) {
+    .container {
+        width: 276px;
+    }
+
+    .img_holder {
+        width: 276px;
+        height: 276px;
+    }
+
+    .overlay {
+        width: 276px;
+        height: 276px;
+    }
+}
