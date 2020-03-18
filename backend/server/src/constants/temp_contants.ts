@@ -9,7 +9,9 @@ export const REGISTER_DEADLINE_DATE = '14 Juni'
 export const REGISTER_ROOT_URL = process.env.DP_BACKEND_REGISTER_ROOT_URL
 export const ADMIN_EMAIL = process.env.NODE_ENV === 'production' ? "designpriset@gmail.com" : "johan@wopii.com"
 
-const ROOT_PATH = isProd ? '/var/www/www.designpriset.se/wwwroot/backend_api' : '.'
+//Not sure of what this should be in prd yet
+//const ROOT_PATH = isProd ? '/var/www/www.designpriset.se/wwwroot/backend_api' : '.'
+const ROOT_PATH = isProd ? '.' : '.'
 
 export const AVATAR_DIR = 'avatars'
 export const SOURCE_DIR = 'sources'

@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS old_winner_entries LIKE entries;
 CREATE TABLE IF NOT EXISTS old_winner_profiles LIKE profiles;
 CREATE OR REPLACE VIEW winner_view AS 
 SELECT 
+    e.id,
     e.entry_name, 
     e.source, 
     e.designer, 
@@ -25,6 +26,7 @@ JOIN categories c ON c.id = category_id
 JOIN profiles p ON p.id = profile_id
 UNION ALL
 SELECT 
+    NULL as id,
     e.entry_name, 
     e.source, 
     e.designer, 

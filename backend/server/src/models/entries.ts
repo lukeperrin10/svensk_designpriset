@@ -1,5 +1,5 @@
 import * as db from '../db'
-import {Entry as dbtype} from '../types/dbtypes'
+import {Entry as dbtype, EntryImage} from '../types/dbtypes'
 import fs from 'fs-extra'
 import { sendRegisterEmails } from '../mail_handler/mail_handler';
 import { TEMP_MEDIA_PATH } from '../constants/temp_contants';
@@ -19,40 +19,45 @@ export async function getId(id: number): Promise<Entry> {
     return query
 }
 
-
 export async function create(new_entry: Entry): Promise<Entry> {
-    const updateEntry = 'id' in new_entry
-    const updatedIds: number[] = []
-    console.log('update entry? '+updateEntry)
-    console.log(new_entry)
-    const post_entry = fill_entry(new_entry)
-    if (post_entry.avatar) await moveAvatar([post_entry.avatar])
-    if (post_entry.source) await moveSource([post_entry.source])
-    const queryString = updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?'
-    const args = updateEntry ? [post_entry, new_entry.id] : [post_entry]
+    return (await batch([new_entry], false))[0]
+}
+
+export async function batchCreate(new_entries: Array<Entry>): Promise<Entry[]> {
+    return await batch(new_entries, false)
+}
+
+export async function update(entry: Entry): Promise<Entry> {
+    return (await batch([entry], true))[0]
+}
+
+export async function batchUpdate(entries: Array<Entry>): Promise<Entry[]> {
+    return await batch(entries, true)
+}
+
+export async function remove(id: number): Promise<Entry> {
+    await db.query('DELETE from entry_images where entry_id = ?', [id])
+    const remove = await db.query('DELETE FROM entries WHERE ID = ? ', [id])
+    return remove
+}
+
+async function createImages(entry_id: number, images: string[]) {
+    const data: EntryImage[] = images.map(i => ({
+        image: `${AVATAR_DIR}/${i}`,
+        entry_id: entry_id,
+        modified: getDateTime(),
+        created: getDateTime(),
+        is_featured: false
+    }))
+    console.log(data)
+    moveAvatar(data.map(d => d.image))
+    const queries: db.queryObj[] = data.map(d => ({query: 'INSERT INTO entry_images SET ?', args: <any>d}))
+    queries.unshift({query: 'DELETE FROM entry_images WHERE entry_id = ?', args: [entry_id]})
+    
     try {
-        const insert = await db.query(queryString, args)
-        const id = updateEntry ? new_entry.id : insert.insertId
-        const query = updateEntry ? await db.query('SELECT * FROM entries WHERE profile_id = ?', [new_entry.profile_id]) : await db.query('SELECT * FROM entries WHERE id = ?', id)
-        if (query.length > 0) {
-            if('profile_id' in query[0]) {
-                if (updateEntry) {
-                    query.forEach((q: Entry) => {
-                        if ('id' in q) updatedIds.push(q.id)
-                })
-                }
-                const id = query[0].profile_id
-                const profile = await db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]) 
-                if (profile.length > 0 && 'id' in profile[0]) {
-                    sendRegisterEmails(profile[0], updateEntry ? query : [query[0]], updateEntry, updatedIds)
-                }
-            }
-        } else {
-            console.error('Did not send mail regarding entry: '+new_entry.id)
-        }
-        return query
-    } catch (err) {
-        return err
+        await db.batchQuery(queries)
+    } catch (e) {
+        throw e
     }
 }
 
@@ -66,6 +71,8 @@ async function moveAvatar(filenames: string[]) {
                 if (err) console.error(err)
                 console.log('Moved avatar')
             })
+        } else {
+            console.error("FILE DOES NOT EXIST")
         }
     }
 }
@@ -85,7 +92,7 @@ async function moveSource(filenames: string[]) {
     
 }
 
-async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry> {
+async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[]> {
     const querys: db.queryObj[] = []
     const avatars : string[] = []
     const sources : string[] = []
@@ -106,38 +113,29 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry>
     await moveSource(sources)
 
     try {
-        const batchInsert = await db.batchQuery(querys)
-        console.log('batchInsert: '+batchInsert)
-        const profileEntries = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id])
-        console.log(updatedEntrieIds)
+        const batchInsert: [db.InsertResult] = await db.batchQuery(querys)
+        const profileEntries: Entry[] = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id])
+
+        //Handle extra images
+        for (let i = 0; i < batchInsert.length; i++)  {
+            const entry = new_entries[i]
+            if (!entry || !entry.entry_images) continue
+            const id = batchInsert[i].insertId
+            const images = entry.entry_images
+            if (images && images.length > 0) {
+                await createImages(id, images)
+            }
+
+        }
+
         sendMails(profileEntries, update, updatedEntrieIds, new_entries[0].id)
-        return profileEntries
+        const ids = [...updatedEntrieIds, ...batchInsert.map(i => i.insertId)]
+        return profileEntries.filter(e => ids.includes(e.id))
     } catch (err) {
         return err
     }
 }
 
-export async function batchCreate(new_entries: Array<Entry>): Promise<Entry> {
-    return batch(new_entries, false)
-}
-
-export async function remove(id: number): Promise<Entry> {
-    const remove = await db.query('DELETE FROM entries WHERE ID = ? ', [id])
-    return remove
-}
-export async function update(entry: Entry): Promise<Entry> {
-    const update_entry = fill_entry(entry)
-    try {
-        const update =  await db.query('UPDATE entries SET ? WHERE ID = ?', [update_entry, entry.id])
-        return update
-    } catch (error) {
-        return error
-    }
-}
-
-export async function batchUpdate(entries: Array<Entry>): Promise<Entry> {
-    return batch(entries, true)
-}
 
 function fill_entry(entry: Entry): Entry {
     const new_entry: Entry = {
@@ -151,9 +149,9 @@ function fill_entry(entry: Entry): Entry {
         size: entry.size || null, 
         customer: entry.customer, 
         webpage: entry.webpage || null, 
-        source: `${SOURCE_DIR}/${entry.source}` || null, 
+        source: entry.source ? `${SOURCE_DIR}/${entry.source}` : null, 
         secret: entry.secret, 
-        avatar: `${AVATAR_DIR}/${entry.avatar}`, 
+        avatar: entry.avatar ? `${AVATAR_DIR}/${entry.avatar}` : null, 
         year: entry.year || `${new Date().getFullYear()}`,
         is_nominated: entry.is_nominated || 0,
         is_winner_gold: entry.is_winner_gold || 0,
@@ -179,7 +177,6 @@ function escapeDate(date: string) {
 
 async function sendMails(profileEntries: Entry[], update: boolean, updateIds: number[], entry_id: number) {
    if (Array.isArray(profileEntries)) {
-        console.log('yes')
         if (profileEntries[0] && profileEntries[0].profile_id) {
             const id = profileEntries[0].profile_id
             const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
@@ -197,40 +194,3 @@ async function sendMails(profileEntries: Entry[], update: boolean, updateIds: nu
         console.error('Did not send mail regarding entry: '+entry_id)
     }
 }
-
-// if (Array.isArray(entries)) {
-//     if (entries[0] && entries[0].profile_id) {
-//         const id = entries[0].profile_id
-//         const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
-//         if (Array.isArray(profile) && profile.length > 0) {
-//             if ('id' in profile[0]) {
-//                 const entries : dbtype[] = []
-//                 entries.forEach((batch: any) => {
-//                     entries.push(batch)
-//                 })
-//                 sendRegisterEmails(profile[0], entries, update, updateIds)
-//             }
-//         }
-//     }
-// } else {
-//     console.error('Did not send mail regarding entry: '+entry_id)
-// }
-
-// if (Array.isArray(profileEntries)) {
-    //     console.log('yes')
-    //     if (profileEntries[0] && profileEntries[0].profile_id) {
-    //         const id = profileEntries[0].profile_id
-    //         const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
-    //         if (Array.isArray(profile) && profile.length > 0) {
-    //             if ('id' in profile[0]) {
-    //                 const entries : dbtype[] = []
-    //                 profileEntries.forEach((batch: any) => {
-    //                     entries.push(batch)
-    //                 })
-    //                 sendRegisterEmails(profile[0], entries, update, updatedEntrieIds)
-    //             }
-    //         }
-    //     }
-    // } else {
-    //     console.error('Did not send mail regarding entry: '+new_entries[0].id)
-    // }

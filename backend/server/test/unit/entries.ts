@@ -1,5 +1,9 @@
 import {expect} from 'chai'
 import * as entries  from '../../src/models/entries'
+import {describe, it} from 'mocha'
+import rewire from 'rewire'
+import * as db from '../../src/db'
+const entries_rewired = rewire('../../src/models/entries')
 
 const test_entry: entries.Entry = {
     profile_id: 1,
@@ -19,26 +23,55 @@ const test_entry: entries.Entry = {
     is_nominated: 0,
     sent_nominee_notification: new Date().toISOString(),
     motivation: "test motivation",
-    year: "2020"
+    year: "2020",
+    entry_images: ["extra-x405wf8102k7x74scm.jpg","extra-x405wf8102k7x74scr.jpg"]
     
 }
 
 const create = () => {
+    let id: number
     describe('Entry creation', () => {
         it ('should create an entry', async () => {
             const res = await entries.create(test_entry)
-            expect((<any>res)[0].id).to.be.greaterThan(0)
+            id = res.id
+            expect(id).to.be.greaterThan(0)
+        })
+        it ('should remove the created entry', async () => {
+            await entries.remove(id)
         })
     })
 }
 
 const createBatch = () => {
     const test_entry_2 = {...test_entry, entry_name: "test_entry_2"}
+    let ids: number[]
     describe('Entry creation batch', () => {
         it ('should create multiple entries', async () => {
-            const res = await entries.batchCreate([test_entry, test_entry_2])
-            expect((<any>res)[0].id).to.be.greaterThan(0)
-            expect((<any>res)[1].id).to.be.greaterThan(1)
+            const res = (<entries.Entry[]>await entries.batchCreate([test_entry, test_entry_2]))
+            ids = [res[0].id, res[1].id]
+            expect(ids.length).to.equal(2)
+        })
+        it ('should remove the batch of entries', async () => {
+            ids.forEach(async id => await entries.remove(id))
+        })
+    })
+
+}
+
+const createImages = () => {
+    const f: (entry_id: number, images: string[]) => void = entries_rewired.__get__('createImages')
+    const entry_id = -1
+    const images = ['test1', 'test2']
+    describe('Images creation', () => {
+        it ('It should create two images', async () => {
+            await db.query('SET FOREIGN_KEY_CHECKS=0;')
+            await f(entry_id, images)
+            const res = await db.query('select * from entry_images where entry_id = ?', [entry_id])
+            expect(res.length).to.equal(images.length)
+        })
+        it ('should remove the images', async () => {
+            await db.query('delete from entry_images where entry_id = ?', [entry_id])
+            await db.query('SET FOREIGN_KEY_CHECKS=0;')
         })
     })
 
@@ -46,3 +79,4 @@ const createBatch = () => {
 
 create()
 createBatch()
+createImages()

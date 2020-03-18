@@ -11,30 +11,30 @@ export function getName() {
     return 'Winners'
 }
 
+async function addImages(winners: Winner[]) {
+    for (let i = 0; i < winners.length; i++) {
+        if (!winners[i].id) continue
+        winners[i].entry_images = await db.query('SELECT image, is_featured FROM entry_images WHERE entry_id = ?', [winners[i].id])
+    }
+    return winners
+}
+
 export async function get(): Promise<Array<Winner>> {
-    console.log('get winner')
-    const query = await db.query('SELECT * FROM winner_view WHERE is_winner_gold = 1')
-    return query
+    const winners = (<Winner[]>await db.query('SELECT * FROM winner_view WHERE is_winner_gold = 1'))
+    return await addImages(winners)
 }
 
 export async function getId(id: number): Promise<Winner> {
-    console.log('winner get')
-    console.log(id)
-    const query = await db.query('SELECT * FROM `entries` WHERE `id` = ?', [id])
-    return query
+    const winners = (<Winner[]>await db.query('SELECT * FROM `entries` WHERE `id` = ?', [id]))
+    return (await addImages(winners))[0]
 }
 
 export async function getYear(year: string, phase?: string) {
     const currentPhase = asserArgumentIsPhase(phase) ? phase : await getPhase()
-    console.log(currentPhase)
     const todayYear = new Date().getFullYear()
     const argYear = new Date(year).getFullYear()
-    let queryYear
-    //WARNING: Need more logic???
-    if (todayYear === argYear && currentPhase !== PHASES.FIVE) queryYear = argYear-1
-    else queryYear = year
-    console.log(queryYear)
-    const query = await db.query('SELECT * FROM winner_view WHERE year = ? AND is_winner_gold = 1', [queryYear])
-    
-    return query
+    const queryYear = todayYear === argYear && currentPhase !== PHASES.FIVE ? argYear - 1 : year
+
+    const winners = (<Winner[]>await db.query('SELECT * FROM winner_view WHERE year = ? AND is_winner_gold = 1', [queryYear]))
+    return await addImages(winners)
 }
