@@ -35,3 +35,17 @@
 .arrow {
 
 }
+
+@media screen and (max-width: 415px) {
+    .container {
+        flex-direction: column;  
+        margin-bottom: 20px; 
+    }
+    .instruction_text {
+        width: unset;
+    }
+    .instruction_container {
+        margin-bottom: 30px;
+    }
+
+}
