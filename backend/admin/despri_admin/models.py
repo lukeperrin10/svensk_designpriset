@@ -99,7 +99,7 @@ class EntryImage(BaseModel):
     is_featured = models.BooleanField(_('Featured'), null=False, default=False)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
     class Meta:
         verbose_name = _('Entry image')
         verbose_name_plural = _('Entry images')

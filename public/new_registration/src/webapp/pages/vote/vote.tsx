@@ -8,7 +8,11 @@ import AfterPost from './after_post'
 import {Md5} from 'ts-md5/dist/md5';
 import * as queryString from 'query-string'
 import AfterConfirmed from './after_confirmed'
-// import styles from './vote.module.css'
+import Text, { P, H1 } from '../../components/text'
+import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
+import { getDayWithMonth } from '../../helpers/dates'
+import styles from './vote.module.css'
+import VoteInstruction from '../../components/vote_instruction'
 
 enum STAGES {
     LIST = 'LIST',
@@ -144,27 +148,27 @@ const Vote = () => {
                 return (
                     <div>
                         {didFetchPoll && poll !== undefined &&
-                        <EntryList categories={poll.categories} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries}/>
-                        // Object.keys(poll.categories).map(cat => {
-                        //     const category = poll.categories[cat]
-                        //     console.log(category)
-                        //     return (
-                        //         <div key={cat}>
-                        //             <EntryList title={category.category_name} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries} entries={category.entries} />
-                        //         </div>
-                        //     )
-                        // })
-                        
+                        <div>
+                            <header className={styles.header}>
+                                <H1>{poll.name}</H1>
+                                <h2>Sista dag {getDayWithMonth(poll.stop)}</h2>
+                            </header>
+                            <summary>
+                                <VoteInstruction />
+                            </summary>
+                            <EntryList categories={poll.categories} onVote={onVote} onVotesDone={onVoteDone} voteEntries={voteEntries}/>
+                        </div>
                         }
+                        <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>
                     </div>
                 )
-            case STAGES.SUMMARY:
-                return (
-                    <div>
-                        {voteEntries.length > 0 &&
-                        <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>}
-                    </div>
-                )
+            // case STAGES.SUMMARY:
+            //     return (
+            //         <div>
+            //             {voteEntries.length > 0 &&
+            //             <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>}
+            //         </div>
+            //     )
             case STAGES.DID_SEND:
                 return <AfterPost />
             case STAGES.CONFIRMED:
@@ -176,18 +180,18 @@ const Vote = () => {
     }
     
     return (
-        <div>hejsan röstning
+        <div className={styles.container}>
            {getContent()}
            {isLoading &&
             <div style={{
                 position: 'absolute', 
                 top: 0, 
                 left: 0, 
-                height: '100vh', 
-                width: '100vw', 
+                height: '90vh', 
+                width: '90vw', 
                 textAlign: 'center',
                 backgroundColor: 'rgba(255,255,255,0.9)'}}>
-                    <p>LADDAR...</p>
+                    <P>LADDAR...</P>
                 </div>
             }
             {error &&
@@ -195,12 +199,12 @@ const Vote = () => {
                 position: 'absolute', 
                 top: 0, 
                 left: 0, 
-                height: '100vh', 
-                width: '100vw', 
+                height: '90vh', 
+                width: '90vw', 
                 textAlign: 'center',
                 backgroundColor: 'rgba(255,255,255,0.9)'}}>
-                    <p>Något gick fel.</p>
-                    <p>{errorMessage}</p>
+                    <P>Något gick fel.</P>
+                    <P>{errorMessage}</P>
                     <button onClick={resetStage}>Försök igen</button>
                 </div>
             }

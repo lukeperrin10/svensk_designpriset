@@ -1,0 +1,13 @@
+.header {
+    margin-top: 20px;
+}
+
+.container {
+    padding: var(--CONTAINER_PADDING);
+}
+
+@media screen and (max-width: 415px) {
+    .container {
+        padding: var(--CONTAINER_MOBILE_PADDING);
+    }
+}

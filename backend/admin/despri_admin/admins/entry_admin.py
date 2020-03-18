@@ -30,7 +30,7 @@ class EntryFilter(admin.SimpleListFilter):
 
 # @admin.register(Entry)
 class EntryAdmin(BaseAdmin):
-    readonly_fields = ('entry_name','entry_preview')
+    readonly_fields = ('entry_name_preview','entry_preview')
     list_display = ('entry_name', 'profile', 'category', 'customer', 'source', 'image', 'sent_nominee_notification', 'is_nominated', 'is_winner_gold', 'is_winner_silver')
     search_fields = ('entry_name', 'profile__company')
     list_filter = (EntryFilter, 'year')
@@ -65,6 +65,9 @@ class EntryAdmin(BaseAdmin):
 
     def entry_preview(self, obj):
         return format_html('<a href="{0}"><img height="500px" src="{0}" /></a>'.format(obj.avatar.url))
+
+    def entry_name_preview(self, obj):
+        return format_html('<p>{0}</p>'.format(obj.entry_name))
 
     def changelist_view(self, request, extra_context=None):
         response = super().changelist_view(

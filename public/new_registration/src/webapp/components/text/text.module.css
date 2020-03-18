@@ -1,0 +1,65 @@
+.large_headline {
+    font-family: ITC Franklin Gothic Std Demi;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 90%;
+    letter-spacing: -0.02em;
+    color: var(--PRIMARY_TEXT_COLOR);
+}
+
+.medium_headline {
+    font-family: ITC Franklin Gothic Std Demi;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 90%;
+    letter-spacing: -0.02em;
+    color: var(--PRIMARY_TEXT_COLOR);
+}
+
+.small_headline {
+    font-family: ITC Franklin Gothic Std Demi;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 90%;
+    letter-spacing: -0.02em;
+    color: var(--PRIMARY_TEXT_COLOR);
+}
+
+.extra_small_headline {
+    font-family: ITC Franklin Gothic Std Demi;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 90%;
+    letter-spacing: -0.02em;
+    color: var(--PRIMARY_TEXT_COLOR);
+}
+
+.ingress {
+    font-family: ITC Franklin Gothic Std Book;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 140%;
+    color: var(--SECONDARY_TEXT_COLOR);
+}
+
+.plain_text {
+    font-family: ITC Franklin Gothic Std Book;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 140%;
+    color: var(--SECONDARY_TEXT_COLOR);
+}
+
+.label {
+    font-family: ITC Franklin Gothic Std Demi;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 140%;
+}

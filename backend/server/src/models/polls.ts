@@ -12,6 +12,8 @@ interface PollCategories {
 }
 interface PollCollection {
     id: number,
+    name: string,
+    stop: string,
     categories: PollCategories | undefined
 }
 
@@ -19,6 +21,8 @@ export interface Polls extends Partial<PollCollection> {}
 
 interface PollQuery  {
     poll_id: number,
+    name: string,
+    stop: string,
     category_id: number,
     category_name: string
 }
@@ -32,7 +36,7 @@ export function getName() {
 export async function get(): Promise<Array<Polls>> {
     const today = getDateTime()
     try {
-        let query = 'SELECT p.id as poll_id, pc.category_id, c.name as category_name '
+        let query = 'SELECT p.id as poll_id, p.name, p.stop, pc.category_id, c.name as category_name '
         // query += 'e.id, e.entry_name, e.source, e.designer '
         // query += 'e.* '
         // query += 'GROUP_CONCAT(e.*) AS entry '
@@ -70,6 +74,8 @@ function assemblePoll(cats: Entry[][], polls: PollQuery[]) {
     })
     const result : PollCollection = {
         id: polls[0].poll_id,
+        name: polls[0].name,
+        stop: polls[0].stop,
         categories: undefined
     }
     // result.id = polls[0].poll_id

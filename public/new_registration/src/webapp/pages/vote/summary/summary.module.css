@@ -1,0 +1,62 @@
+.container {
+    margin: 30px 0px 30px 0px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    
+}
+
+.text {
+    width: 100%;
+    max-width: 550px;
+    padding: 0;
+    margin: 0;
+}
+
+.input_container input, label {
+    display: block;
+}
+
+.bold {
+    font-family: ITC Franklin Gothic Std Demi;
+}
+
+.input_container input {
+    height: 50px;
+    border: 1px solid gainsboro;
+}
+
+.button_container {
+
+}
+
+.left {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.button {
+    margin-left: 40px;
+}
+
+@media screen and (max-width: 415px) {
+    .text {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+    .left {
+        justify-content: center;
+    }
+    .input_container input {
+        width: 80vw;
+    }
+    .button {
+        width: 80vw;
+        margin: 20px 0 0 0;
+    }
+
+}

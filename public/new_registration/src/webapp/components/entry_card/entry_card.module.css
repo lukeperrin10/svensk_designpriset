@@ -10,7 +10,7 @@
     background-color: gainsboro;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     height: 300px;
     width: 300px;
 }
@@ -42,8 +42,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    /* background-color: rgba(0,0,0,0.3); */
-    background-color: hotpink;    
+    background-color: rgba(0,0,0,0.2);  
     justify-content: center;
     align-items: center;
     visibility: hidden;
@@ -52,7 +51,6 @@
 }
 
 .overlay_button {
-    
     height: 50px;
     width: 100px;
     border: none;
@@ -61,4 +59,20 @@
 .img_holder:hover + .overlay, .overlay:hover {
     visibility: visible;
     opacity: 1;
+}
+
+@media screen and (max-width: 415px) {
+    .container {
+        width: 276px;
+    }
+
+    .img_holder {
+        width: 276px;
+        height: 276px;
+    }
+
+    .overlay {
+        width: 276px;
+        height: 276px;
+    }
 }

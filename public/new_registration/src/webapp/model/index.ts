@@ -152,5 +152,7 @@ export interface IPollCategories {
 }
 export interface IPollCollection {
     id: number,
+    name: string,
+    stop: string,
     categories: IPollCategories
 }
