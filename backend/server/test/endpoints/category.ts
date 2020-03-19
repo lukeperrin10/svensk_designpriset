@@ -7,7 +7,8 @@ const data: Category = {
     shorttag: "131",
     created: new Date().toISOString().slice(0, 19).replace('T', ' '),
     modified: new Date().toISOString().slice(0, 19).replace('T', ' '),
-    active: true
+    active: true,
+    type: 'digital'
 }
 
 const category_test = new Test<Category>(category, data)

@@ -148,6 +148,7 @@ function fill_entry(entry: Entry): Entry {
         size: entry.size || null, 
         customer: entry.customer, 
         webpage: entry.webpage || null, 
+        video_url: entry.video_url || null,
         source: entry.source ? `${SOURCE_DIR}/${entry.source}` : null, 
         secret: entry.secret, 
         avatar: entry.avatar ? `${AVATAR_DIR}/${entry.avatar}` : null, 

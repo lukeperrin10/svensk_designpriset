@@ -14,11 +14,13 @@ SELECT
     e.format, 
     e.size, 
     e.webpage, 
+    e.video_url,
     e.is_winner_gold, 
     e.is_winner_silver, 
     e.motivation, 
     e.year, 
     c.name as category_name,
+    c.type as category_type,
     p.company,
     p.homepage
 FROM entries e
@@ -26,7 +28,7 @@ JOIN categories c ON c.id = category_id
 JOIN profiles p ON p.id = profile_id
 UNION ALL
 SELECT 
-    NULL as id,
+    -1*e.id as id,
     e.entry_name, 
     e.source, 
     e.designer, 
@@ -37,11 +39,13 @@ SELECT
     e.format, 
     e.size, 
     e.webpage, 
+    NULL as video_url,
     e.is_winner_gold, 
     e.is_winner_silver, 
     e.motivation, 
     e.year,
     c.name as category_name,
+    c.type as category_type,
     p.company,
     p.homepage
 FROM old_winner_entries e

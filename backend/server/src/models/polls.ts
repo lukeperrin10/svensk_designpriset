@@ -37,7 +37,7 @@ export async function get(): Promise<Array<Polls>> {
     const today = getDateTime()
     try {
         const query = `
-        SELECT p.id as poll_id, p.name, p.stop, pc.category_id, c.name as category_name
+        SELECT p.id as poll_id, p.name, p.stop, pc.category_id, c.name as category_name, c.type as category_type
         FROM polls p 
         JOIN polls_categories pc on p.id = pc.poll_id
         JOIN categories c on pc.category_id = c.id
