@@ -5,7 +5,9 @@ export interface formItems {
         required: boolean,
         type: string,
         selectList?: {id: number,name: string, short: string}[],
-        maxLength?: number
+        maxLength?: number,
+        small?: boolean,
+        medium?: boolean
     }
 }
 
@@ -21,13 +23,13 @@ export interface formItems {
 // }
 
 export const FORM_PROFILE_LABELS: formItems = {
-    contact: {key: "contact", label: "Namn/Kontakt", required: true, type: "text"},
     company: {label: "Företag", key: "company", required: true, type: "text"},
-    address: {label: "Adress", key: "address", required: true, type: "text"},
-    zip: {label: "Postnummer", key: "zip", required: true, type: "text", maxLength: 9},
-    city: {label: "Ort", key: "city", required: true, type: "text"},
-    phone: {label: "Telefonnummer", key: "phone", required: true, type: "text", maxLength: 20},
+    contact: {key: "contact", label: "Namn/Kontakt", required: true, type: "text"},
     mail: {label: "E-post", key: "mail", required: true, type: "email"},
+    phone: {label: "Telefonnummer", key: "phone", required: true, type: "text", maxLength: 20},
+    address: {label: "Adress", key: "address", required: true, type: "text"},
+    zip: {label: "Postnummer", key: "zip", required: true, type: "text", maxLength: 9, small: true},
+    city: {label: "Ort", key: "city", required: true, type: "text", medium: true},
     homepage: {label: "Webbplats", key: "homepage", required: false, type: "text"}
 }
 // WARNING: Se över vilka som ska vara required eller inte

@@ -15,9 +15,11 @@ interface IDpImageUpload {
     url: string,
     uploadedImage?: string,
     displayUploadName?: boolean,
-    deleteImage?: () => void,
+    deleteImage?: (image?: string) => void,
     displayErrorProps: boolean,
-    errorMessageProps: string
+    errorMessageProps: string,
+    cancelSub?: boolean,
+    uploadedImageAbsolute?: string
 }
 
 export enum LIMIT_EXTENSIONS {
@@ -60,7 +62,14 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
     }
 
     deleteImage() {
-        if (this.props.deleteImage) this.props.deleteImage()
+        const {uploadedImageAbsolute, deleteImage} = this.props
+        if (deleteImage) {
+            if (uploadedImageAbsolute) deleteImage(uploadedImageAbsolute)
+            else {
+                deleteImage()
+            }
+            
+        } 
     }
 
     slugify(s: string) {
@@ -93,7 +102,7 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                     this.setState({didUpLoad: true})
                     this.props.onSave(result)
                 }
-                this.setState({isLoading: false})
+                if (!this.props.cancelSub) this.setState({isLoading: false})
             } catch (error) {
                 // this.setState({errorUploading: true, errorMessage: getErrorMessage(JSON.parse(error)), isLoading: false})
             }

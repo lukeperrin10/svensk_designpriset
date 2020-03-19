@@ -73,7 +73,8 @@ export interface INewEntry {
     webpage: string,
     avatar: string,
     secret: string,
-    year: string
+    year: string,
+    entry_images: Array<string>
 }
 
 export interface IEntry {
@@ -98,7 +99,8 @@ export interface IEntry {
     is_nominated: number,
     sent_nominee_notification: string,
     motivation: string,
-    year: string
+    year: string,
+    entry_images: Array<string>
 }
 
 export interface ICategory {

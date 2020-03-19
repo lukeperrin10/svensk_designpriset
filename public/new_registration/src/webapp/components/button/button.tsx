@@ -20,9 +20,10 @@ interface props {
     className?: string,
     variant?: BUTTON_VARIANTS,
     size?: BUTTON_SIZES,
+    preventDefault?: boolean
 }
 
-const Button = ({onClick, title, className, variant, size}:props) => {
+const Button = ({onClick, title, className, variant, size, preventDefault}:props) => {
 
     const getVariant = () => {
         switch (variant) {
@@ -51,8 +52,16 @@ const Button = ({onClick, title, className, variant, size}:props) => {
                 return [styles.standard, styles.text].join(' ')
         }
     }
+
+    const onButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        if (preventDefault) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+        onClick()
+    }
     return (
-        <button className={[styles.button, getVariant(), getSize(), className].join(' ')} onClick={onClick}>{title}</button>
+        <button className={[styles.button, getVariant(), getSize(), className].join(' ')} onClick={onButtonClick}>{title}</button>
     )
 }
 

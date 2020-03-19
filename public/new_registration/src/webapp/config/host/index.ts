@@ -22,12 +22,14 @@ export const POST_AVATAR_URL = `${BASE_URL}/avatar`
 export const POST_ENTRY_MEDIA_URL = `${BASE_URL}/entry_media`
 export const POST_TEMP_ENTRY_MEDIA_URL = `${BASE_URL}/temp_entry_media`
 export const POST_TEMP_AVATAR_URL = `${BASE_URL}/temp_avatar`
+export const POST_TEMP_ENTRY_IMAGES_URL = `${BASE_URL}/temp_entry_images`
 
 export const MEDIA_URL = `${BASE_URL}/media`
 export const ENTRY_MEDIA_URL = MEDIA_URL
 export const AVATAR_URL = MEDIA_URL
 export const TEMP_AVATAR_URL = `${BASE_URL}/temp_avatars`
 export const TEMP_ENTRY_MEDIA_URL = `${BASE_URL}/temp_media`
+export const TEMP_ENTRY_IMAGES_URL = TEMP_AVATAR_URL
 
 
 

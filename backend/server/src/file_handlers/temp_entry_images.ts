@@ -29,12 +29,12 @@ const multerHandler = multer({
 })
 
 export default (req: express.Request, res: express.Response) => {
-    multerHandler.array('images', 5)(req, res, (error: Error) => {
+    multerHandler.single('media')(req, res, (error: Error) => {
         if (error) {
             console.error(error)
             res.status(500).json({error: error.message})
         } else {
-            res.json((<Express.Multer.File[]>req.files).map((f: Express.Multer.File) => f.filename))
+            res.json(req.file.filename)
         }
     })
 }

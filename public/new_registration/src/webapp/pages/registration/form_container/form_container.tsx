@@ -1,22 +1,24 @@
 import * as React from 'react'
 import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS, GENERAL_TEXT, formItems} from '../../../config/text'
-import styles from './styles'
+import styles from './form_container.module.css'
 import {Md5} from 'ts-md5/dist/md5';
 import { INewProfile, INewEntry, ICategory, IProfile, IEntry } from '../../../model';
 import DpForm from './dp_form';
 import { IEnteredValues } from './dp_form/dp_form';
-import Button from 'react-bootstrap/Button'
+import Button from '../../../components/button'
 import OverLay from 'react-bootstrap/OverlayTrigger'
 import ToolTip from 'react-bootstrap/Tooltip'
 import { isEmptyObject } from '../../../helpers';
 import DpImageUpload from './dp_image_upload';
 import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
-import { POST_TEMP_AVATAR_URL, POST_TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_URL , AVATAR_URL} from '../../../config/host';
+import { POST_TEMP_AVATAR_URL, POST_TEMP_ENTRY_MEDIA_URL, TEMP_AVATAR_URL , AVATAR_URL, POST_TEMP_ENTRY_IMAGES_URL} from '../../../config/host';
 import SubmitedFormContent from '../../../components/submited_form_content';
 import { textContent } from '../../../components/submited_form_content/submited_form_content';
 import Modal from 'react-bootstrap/Modal'
 import {CACHED_ENTRIES, CACHED_PROFILE} from '../../../model/constants'
 import Logo from '../../../assets/img/logo.png'
+import DpMultipleImageUpload from './dp_multiple_image_upload';
+import { BUTTON_VARIANTS } from '../../../components/button/button';
 
 
 interface existingContent {
@@ -223,7 +225,7 @@ class FormContainer extends React.Component<IFormContainer> {
         } else {
              savedEntry = {profile_id: 9999999,entry_name: '',designer: '',
             illustrator: '',leader: '', avatar: '', secret: '', year: '',customer: '',
-            source: '', format: '', size: '', category_id: 99999999999, webpage: ''} as INewEntry
+            source: '', format: '', size: '', category_id: 99999999999, webpage: '', entry_images: []} as INewEntry
         }
         
         Object.keys(savedEntry).forEach(key => {
@@ -288,6 +290,7 @@ class FormContainer extends React.Component<IFormContainer> {
     }
 
     addMediaToEntry(key: string, type: string, url: string) {
+        const isEntryImages = type === 'entry_images'
         const obj = this.state.tempEntries
         const errors = JSON.parse(JSON.stringify(this.state.errorEntries))
         if (key in errors) {
@@ -295,18 +298,33 @@ class FormContainer extends React.Component<IFormContainer> {
             this.setState({errorEntries: errors})
         } 
         if (key in obj) {
-            obj[key][type] = url
+            if (isEntryImages) {
+                obj[key][type].push(url)
+            } else {
+                obj[key][type] = url
+            }
             this.setState({tempEntries: obj})
         } else {
-            this.setState({tempEntries: {...this.state.tempEntries, [key]: {[type]: url} }})
+            this.setState({tempEntries: {...this.state.tempEntries, [key]: {[type]: isEntryImages ? [url] : url} }})
         }
     }
 
     //WARNING DELETE FILE BACKEND???
-    removeMediaFromEntry(key: string, type: string) {
+    removeMediaFromEntry(key: string, type: string, image?: string) {
+        console.log('remove media')
         const obj = this.state.tempEntries
         if (key in obj && type in obj[key]) {
-            delete obj[key][type] 
+            if (type === 'entry_images') {
+                console.log(image)
+                const entryImages = Array.from(obj[key][type]).filter(e => {
+                    console.log(e === image)
+                    return e !== image
+                })
+                console.log(entryImages)
+                obj[key][type] = entryImages
+            } else {
+                delete obj[key][type] 
+            }
             this.setState({tempEntries: obj})
         }
     }
@@ -333,6 +351,7 @@ class FormContainer extends React.Component<IFormContainer> {
         for(let i = 0; i < amountOfForms; i++) {
             const uploadedAvatar = tempEntries[`${i}`] ? tempEntries[`${i}`].avatar || false : false
             const uploadedMedia = tempEntries[`${i}`] ? tempEntries[`${i}`].source || false : false
+            const uploadedEntryImages = tempEntries[`${i}`] ? tempEntries[`${i}`].entry_images || false : false
             const key = `${i}`
             const editPath = key in editModeNewEntries ? TEMP_AVATAR_URL : AVATAR_URL
             const form = <div key={i} ref={el => {
@@ -376,7 +395,19 @@ class FormContainer extends React.Component<IFormContainer> {
                         uploadedImage={uploadedMedia ? `${tempEntries[key].source}` : undefined}
                         displayUploadName={true}
                         deleteImage={uploadedMedia ? () => this.removeMediaFromEntry(key, 'source') : undefined}
-                        />
+                        />,
+                    <DpMultipleImageUpload 
+                        onSave={(url: string) => this.addMediaToEntry(key, 'entry_images', url)} 
+                        url={POST_TEMP_ENTRY_IMAGES_URL}
+                        label={GENERAL_TEXT.thumbnail_label} 
+                        errorMessageProps={key in errorEntries ? errorEntries[key] : undefined}
+                        displayErrorProps={key in errorEntries}
+                        key={'entry_images'} 
+                        limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}
+                        readUrl={editContent ? editPath : TEMP_AVATAR_URL}
+                        uploadedImages={uploadedEntryImages}
+                        deleteImage={(image?: string) => this.removeMediaFromEntry(key, 'entry_images', image)}
+                    />
                 ]}
                 onSubmit={(e: IEnteredValues) => this.saveEntry(e, key)}/>
                 
@@ -386,6 +417,8 @@ class FormContainer extends React.Component<IFormContainer> {
         }
         return forms
     }
+
+    
 
     getCategoryName(short: string) {
         return this.props.categories.filter(c => c.id === parseInt(short))[0].name
@@ -428,6 +461,7 @@ class FormContainer extends React.Component<IFormContainer> {
 
     render() {
         const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview, checkShouldClear, editMode} = this.state 
+        console.log(tempEntries)
         const modalTitle = editMode ? 'Bekräfta uppdatering av uppgifter' : 'Bekräfta uppgifter'
         const ignoreLabels = [
             'created', 
@@ -448,7 +482,7 @@ class FormContainer extends React.Component<IFormContainer> {
             'modified'
         ]
         return (
-            <div style={styles.container}>
+            <div className={styles.container}>
             {!this.state.didLoad ?
             <div>laddar</div>
             :
@@ -461,7 +495,7 @@ class FormContainer extends React.Component<IFormContainer> {
                     onDisabled={() => this.setState({profileDisabled: false, didSaveProfile: false})}
                     buttonText="Spara"
                     onSubmit={(e: IEnteredValues) => this.saveProfile(e)}
-                    title="Allmänna uppgifter"
+                    title="Kontaktuppgifter"
                     buttonDisabledText="Redigera"
                     onValueChange={(v: IEnteredValues) => this.onValueChange('profile', v)}
                     defaultValue={!isEmptyObject(tempProfile) ? tempProfile : null}
@@ -472,45 +506,15 @@ class FormContainer extends React.Component<IFormContainer> {
                     ]}
                 />
                 {this.getEntryForms()}
-                
-                <div style={styles.toolbarContainer}>
-                    <div style={styles.toolbar}>
-                            <OverLay
-                                placement="right"
-                                overlay={
-                                    <ToolTip id="hej">
-                                        Lägg till bidrag
-                                    </ToolTip>
-                                }>
-                                <Button style={styles.addButton} onClick={() => this.addNewEntryForm()} variant="secondary">Lägg till bidrag</Button>
-                            </OverLay>
-                            <div style={styles.toolbarRight}>
-                                <OverLay
-                                    placement="left"
-                                    overlay={
-                                        <ToolTip id="hej">
-                                            Rensa allt innehåll i formuläret
-                                        </ToolTip>
-                                    }>
-                                    <Button style={styles.button} onClick={() => {this.setState({checkShouldClear: true})}} variant="secondary">Rensa</Button>
-                                </OverLay>
-                                <OverLay
-                                    placement="left"
-                                    overlay={
-                                        <ToolTip id="hej">
-                                            Förhandsgrandsgranskning
-                                        </ToolTip>
-                                    }>
-                                    {/* <Button style={styles.buttonPrimary} disabled={(!didSaveProfile || !didSaveEntry)} onClick={() => this.onShowConfirmButton()} variant="primary">Gå vidare</Button> */}
-                                    <Button style={styles.buttonPrimary} onClick={() => this.onTrySubmit()} variant="primary">Gå vidare</Button>
-                                </OverLay>
-                            </div>
-                        {/* </div> */}
+                <div>
+                    <div>
+                        <Button className={styles.button} onClick={() => this.addNewEntryForm()} variant={BUTTON_VARIANTS.SECONDARY} title={'+ Lägg till bidrag'} />
+                        <Button onClick={() => this.onTrySubmit()} variant={BUTTON_VARIANTS.PRIMARY} title={'Förhandsgranska anmälan'}/>
                     </div>
                 </div>
             </div>
             }
-            <Modal dialogClassName="custom-modal" size="lg" centered show={displayReview} onHide={() => this.setState({displayReview: false})}>
+            {/* <Modal dialogClassName="custom-modal" size="lg" centered show={displayReview} onHide={() => this.setState({displayReview: false})}>
                 <Modal.Header>
                     <Modal.Title>{modalTitle}</Modal.Title>
                     <img style={styles.logo} src={Logo} alt='Logo' />
@@ -538,8 +542,8 @@ class FormContainer extends React.Component<IFormContainer> {
                     <Button onClick={() => this.setState({displayReview: false})} variant="secondary">Redigera</Button>
                     <Button style={styles.buttonPrimary} onClick={() => this.saveContent()} variant="primary">Skicka in</Button>
                 </Modal.Footer>
-            </Modal>
-            <Modal centered show={checkShouldClear}>
+            </Modal> */}
+            {/* <Modal centered show={checkShouldClear}>
             <Modal.Header>
                 <Modal.Title>Vill du rensa formuläret?</Modal.Title>
             </Modal.Header>
@@ -547,10 +551,10 @@ class FormContainer extends React.Component<IFormContainer> {
                     All din data kommer att försvinna
             </Modal.Body>
             <Modal.Footer>
-                <Button style={styles.buttonPrimary} variant='primary' onClick={() => this.setState({checkShouldClear: false})}>Avbryt</Button>
+                <Button variant='primary' onClick={() => this.setState({checkShouldClear: false})}>Avbryt</Button>
                 <Button variant='secondary' onClick={() => this.clearForm()}>Rensa</Button>
             </Modal.Footer>
-            </Modal>
+            </Modal> */}
             </div>
         )
     }
