@@ -1,9 +1,6 @@
 import * as React from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { FormControlProps } from 'react-bootstrap/FormControl';
-import OverLay from 'react-bootstrap/OverlayTrigger'
-import ToolTip from 'react-bootstrap/Tooltip'
 import styles from './styles'
 import { formItems } from '../../../../config/text';
 
@@ -22,13 +19,21 @@ interface IDpFormProps {
     customComponents?: JSX.Element[],
     disabled: boolean,
     onDisabled: () => void,
-    onDelete?: () => void
+    onDelete?: () => void,
+    shouldSubmit: boolean, 
+    onError: () => void
 }
 class DpForm extends React.Component<IDpFormProps> {
     state = {
         formValidated: false,
         formInput: this.defineFormInput(),
-        
+    }
+
+    private formRef : React.RefObject<Form<"form"> & HTMLFormElement>
+
+    constructor(p: IDpFormProps) {
+        super(p)
+        this.formRef = React.createRef()
     }
 
     defineFormInput() {
@@ -36,9 +41,28 @@ class DpForm extends React.Component<IDpFormProps> {
         return fi
     }
 
+    componentWillReceiveProps(p: IDpFormProps) {
+        if (p.shouldSubmit !== this.props.shouldSubmit) {
+            if (p.shouldSubmit) {
+                this.onOutsideSubmit()
+            }
+        }
+    }
+
+    onOutsideSubmit() {
+        if (this.formRef.current?.reportValidity()) {
+            this.props.onSubmit(this.state.formInput)
+        } else {
+            this.props.onError()
+        }
+    }
+
     onSubmit(e: React.FormEvent<HTMLFormElement>) {
+        console.log('ON SUBMIT')
         const form = e.currentTarget
+        console.log(form)
         if (form.checkValidity() === false) {
+            console.log('nepp')
             e.preventDefault()
             e.stopPropagation()
         } else {
@@ -84,7 +108,7 @@ class DpForm extends React.Component<IDpFormProps> {
     formatNumber(number: string) {
         return parseInt(number.replace(/ /g,''))
     }
-    // FORTSÄTT HÄR MED SELECT VALIDERING!
+    
     render() {
         const {formValidated, } = this.state
         const {fields, disabled} = this.props
@@ -100,13 +124,12 @@ class DpForm extends React.Component<IDpFormProps> {
                     :null}
                 </div> 
                 <Form
+                    ref={this.formRef}
                     validated={formValidated}
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.onSubmit(e)}>
                     <div style={styles.formGroup}>
                         {Object.keys(fields).map(key => {
                             const item = fields[key]
-                            console.log(item)
-                            console.log(key)
                             return (
                                 <div key={key} style={styles.inputContainer}>
                                     <Form.Group >
@@ -144,9 +167,6 @@ class DpForm extends React.Component<IDpFormProps> {
                                                 defaultValue={this.getDefaultValue(item.key, item.type)}
                                                 onChange={this.onControlChange(key)}/>
                                         }
-                                        {/* <Form.Control.Feedback type="invalid">
-                                            Får inte vara tomt!
-                                        </Form.Control.Feedback> */}
                                     </Form.Group>  
                                 </div>
                             )
@@ -159,19 +179,6 @@ class DpForm extends React.Component<IDpFormProps> {
                     :null}
                     {!disabled ? 
                     <div style={styles.buttonContainer}>
-                    <OverLay
-                        placement="left"
-                        overlay={
-                            <ToolTip id="hej">
-                                Du kan redigera senare
-                            </ToolTip>
-                        }>
-                            <Button style={styles.button} variant="primary" type="submit">
-                                {this.props.buttonText}
-                            </Button>
-                        </OverLay>
-
-                        
                     </div> 
                     :null}
                 </Form>

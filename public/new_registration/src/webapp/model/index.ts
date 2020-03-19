@@ -110,7 +110,8 @@ export interface ICategory {
 export enum CONTENT_TEMPLATES {
     STANDARD = 'standard',
     START_DATES = 'start_dates',
-    START_INFO = 'start_info'
+    START_INFO = 'start_info',
+    REGISTER_INFO = 'register_info'
 }
 
 export interface IContent {

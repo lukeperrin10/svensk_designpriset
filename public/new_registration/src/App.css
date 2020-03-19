@@ -27,4 +27,22 @@
 
     --CONTAINER_PADDING: 50px;
     --CONTAINER_MOBILE_PADDING: 0px;
+
+    --PRIMARY_HEADER_FONT: ITC Franklin Gothic Std Demi;
+    --PRIMARY_TEXT_FONT: ITC Franklin Gothic Std Book;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: ITC Franklin Gothic Std Demi;
+    font-style: normal;
+    font-weight: 500;
+}
+
+p, span, a {
+    font-family: ITC Franklin Gothic Std Book;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 140%;
+    color: var(--SECONDARY_TEXT_COLOR);
 }

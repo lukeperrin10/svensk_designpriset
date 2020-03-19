@@ -134,7 +134,7 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                     </p>
                     :null}
                     <input onChange={this.inputOnChange} 
-                        type="file" />
+                        type="file"/>
                     <Button style={styles.uploadButton} disabled={isLoading || buttonDisabled} variant="secondary" onClick={() => this.saveImage()}>
                         {isLoading ?
                         <div>
