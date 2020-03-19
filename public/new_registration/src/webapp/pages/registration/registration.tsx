@@ -4,7 +4,7 @@ import { IState, IProfileState, IEntriesState, ICategoryState} from '../../model
 import FormContainer from './form_container'
 import ConfirmationContainer from './confirmation_container'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import { INewProfile, INewEntry, IProfile, IYearConfig } from '../../model';
+import { INewProfile, INewEntry, IProfile, IYearConfig, IContent } from '../../model';
 import { saveProfile, getProfile } from '../../redux/actions/profile';
 import { getEntries, saveEntries, deleteEntry } from '../../redux/actions/entries';
 import { getCategories } from '../../redux/actions/categories';
@@ -32,7 +32,11 @@ interface DispatchProps {
     deleteEntry: (id: number) => Promise<any>
 }
 
-type Props = ReduxProps & DispatchProps
+interface ReactProps {
+    registerInfo: IContent[]
+}
+
+type Props = ReduxProps & DispatchProps & ReactProps
 interface State {}
 
 const Loader = () => {
@@ -68,6 +72,11 @@ class Registration extends React.Component<Props, State> {
 
     // http://www.designpriset.se/register2/edit?id=251&secret=e3eb159e23b8e62f6b0ec1b153f78b80
 
+    componentWillReceiveProps(p: Props) {
+        if (p.registerInfo.length !== this.props.registerInfo.length) {
+            console.log(p.registerInfo)
+        }
+    }
 
     componentDidMount() {
         this.checkLocalStorage()
@@ -199,7 +208,7 @@ class Registration extends React.Component<Props, State> {
                     <Switch>
                         <Route exact path="/anmalan" render={() => (
                             <div>
-                                <RegistrationInfo />
+                                <RegistrationInfo registerInfo={this.props.registerInfo} />
                                 <FormContainer adminMode={false} categories={categories} saveContent={this.postContent} />
                                 {didUpload ? <Redirect to='anmalan/bekraftelse' /> : null}
                             </div>
@@ -207,7 +216,7 @@ class Registration extends React.Component<Props, State> {
                         }/>
                         <Route path="/anmalan/edit" render={() => (
                             <div>
-                                <RegistrationInfo />
+                                <RegistrationInfo registerInfo={this.props.registerInfo} />
                                 <FormContainer onDeleteEntry={this.deleteEntry} adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
                                 {didUpload ? <Redirect to='anmalan/bekraftelse' /> : null}
                             </div>

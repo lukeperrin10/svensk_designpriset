@@ -34,12 +34,12 @@ type props = ReduxProps & DispatchProps
 const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
 
     const [content, setContent] = useState<IContent[]>([])
+    const [registerInfoContent, setRegisterInfoContent] = useState<IContent[]>([])
     const [standardPages, setStandardPages] = useState<IContent[]>([])
     const [startContent, setStartContent] = useState<IContent[]>([])
     const [footerLinks, setFooterLinks] = useState<ILink[]>([])
+    const [didFetch, setDidFetch] = useState(false)
     const isDevVersion = process.env.REACT_APP_IS_DEV === "true"
-
-    console.log('is dev: '+isDevVersion)
     
     useEffect(() => {
         fetchConfig()
@@ -57,7 +57,6 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
 
     const fetchConfig = async() => {
         await getConfig()
-        console.log(yearConfig)
     }
 
     const sortContent = () => {
@@ -75,6 +74,9 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
         if (CONTENT_TEMPLATES.START_INFO in sortedContent) {
             setStartContent(sortedContent[CONTENT_TEMPLATES.START_INFO])
         }
+        if (CONTENT_TEMPLATES.REGISTER_INFO in sortedContent) {
+            setRegisterInfoContent(sortedContent[CONTENT_TEMPLATES.REGISTER_INFO])
+        }
     }
 
     const sortLinks = () => {
@@ -88,10 +90,10 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             }
         })
         setFooterLinks(links)
+        setDidFetch(true)
     }
 
     const fetchContent = async () => {
-        console.log('fetch content')
         try {
             const response = await fetch(hosts.CONTENT_URL)
             const json = await response.json()
@@ -152,6 +154,8 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             currentPhase={yearConfig.current_phase} 
             changePhase={onChangePhase}
             />}
+            {didFetch &&
+            <div>
             <Header />
             <Switch>
                 <Route exact path='/' render={() => {
@@ -170,13 +174,15 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 }} />}
 
                 <Route path={PATHS.REGISTRATION} render={() => {
-                    if (checkIfRegisterAllowed()) return <Registration />
+                    if (checkIfRegisterAllowed()) return <Registration registerInfo={registerInfoContent} />
                     else return redirect()
                 }} />
 
                 {standardPages.length > 0 && getStandardRoutes(standardPages)}
             </Switch>
             <Footer links={footerLinks}/>
+            </div>
+            }
         </Router>
     )
 }
