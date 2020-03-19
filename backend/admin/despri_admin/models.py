@@ -22,6 +22,7 @@ class Category(BaseModel):
     description = models.TextField(_('Description'), null=True, blank=True)
     shorttag = models.CharField(_('Shorttag'), max_length=20, null=False,unique=True)
     active = models.BooleanField(_('Active'), null=False, blank=True, default=True)
+    type = models.CharField(_('Type'), max_length=255, choices=(('print', _('Print')), ('digital', _('Digital'))), default='digital')
 
     def __str__(self):
         return self.name
