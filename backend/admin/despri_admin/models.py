@@ -65,6 +65,7 @@ class Entry(BaseModel):
     format = models.CharField(_('Format'), max_length=20, null=True, blank=True)
     size = models.CharField(_('Size'), max_length=20, null=True, blank=True)
     webpage = models.URLField(_('Webpage'), max_length=255, null=True, blank=True)
+    video_url = models.URLField(_('Video URL'), max_length=511, null=True, blank=True)
     is_winner_gold = models.BooleanField(_('Winner Gold'), null=False, default=False)
     is_winner_silver = models.BooleanField(_('Winner Silver'), null=False, default=False)
     is_nominated = models.BooleanField(_('Nominated'), null=False, default=False)
