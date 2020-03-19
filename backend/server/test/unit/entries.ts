@@ -70,8 +70,9 @@ const createImages = () => {
             expect(res.length).to.equal(images.length)
         })
         it ('should remove the images', async () => {
-            await db.query('delete from entry_images where entry_id = ?', [entry_id])
             await db.query('SET FOREIGN_KEY_CHECKS=0;')
+            await db.query('delete from entry_images where entry_id = ?', [entry_id])
+            await db.query('SET FOREIGN_KEY_CHECKS=1;')
         })
     })
 

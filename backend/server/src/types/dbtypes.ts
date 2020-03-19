@@ -67,7 +67,7 @@ export interface Winner {
     is_nominated: number,
     motivation: string,
     year: string,
-    entry_images?: Array<string>
+    entry_images?: EntryImages
 }
 // WARNING: Should dates be string?
 export interface Profile {
@@ -118,15 +118,17 @@ export interface Entry {
     sent_nominee_notification: string,
     motivation: string,
     year: string,
-    entry_images?: Array<string>
+    entry_images?: EntryImages
 }
+
+export type EntryImages = Array<string> | Array<EntryImage>
 
 export interface EntryImage {
     id?: number,
     image: string,
-    entry_id: number,
+    entry_id?: number,
     modified?: string,
-    created: string,
+    created?: string,
     is_featured: boolean
 }
 

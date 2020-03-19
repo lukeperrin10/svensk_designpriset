@@ -49,7 +49,6 @@ async function createImages(entry_id: number, images: string[]) {
         created: getDateTime(),
         is_featured: false
     }))
-    console.log(data)
     moveAvatar(data.map(d => d.image))
     const queries: db.queryObj[] = data.map(d => ({query: 'INSERT INTO entry_images SET ?', args: <any>d}))
     queries.unshift({query: 'DELETE FROM entry_images WHERE entry_id = ?', args: [entry_id]})
@@ -123,7 +122,7 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[
             const id = batchInsert[i].insertId
             const images = entry.entry_images
             if (images && images.length > 0) {
-                await createImages(id, images)
+                await createImages(id, <string[]>images)
             }
 
         }
