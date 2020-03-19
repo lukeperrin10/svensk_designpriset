@@ -42,11 +42,13 @@ export class Test<T extends Test_Data> {
         const agent = this.getAgent()
         describe(`/GET ${this.name}`, () => {
             it(`It should get all ${this.model.getName()}s`, async () => {
+                await db.query('SET FOREIGN_KEY_CHECKS=0;')
                 const res = await agent.get(this.endpoint)
                 .query(this.query_data)
                 expect(res.status).to.equal(200)
                 expect(res.body).to.be.an('array')
                 expect(res.body.length).to.be.greaterThan(0)
+                await db.query('SET FOREIGN_KEY_CHECKS=1;')
             })
         })
     }
