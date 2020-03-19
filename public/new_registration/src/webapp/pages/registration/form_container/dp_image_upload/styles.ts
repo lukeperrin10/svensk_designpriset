@@ -9,8 +9,6 @@ export default {
         flexWrap: 'wrap' as 'wrap',
         maxWidth: 500,
         // alignItems: 'center',
-        border: '1px solid rgba(0,0,0,0.1)',
-        borderRadius: 10,
         backgroundColor: 'white'
     },
     errors: {

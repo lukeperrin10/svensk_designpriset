@@ -201,7 +201,7 @@ class Registration extends React.Component<Props, State> {
         return (
             // <Router basename={ROUTER_BAS_NAME}>
             <Router>
-                <div>
+                <div className='designpriset_container'>
                     {!didLoad ?
                     <Loader />
                     :

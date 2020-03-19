@@ -1,8 +1,12 @@
 import * as React from 'react'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import styles from './styles'
+import Button from '../../../../components/button'
+// import styles from './styles'
+import styles from './dp_form.module.css'
 import { formItems } from '../../../../config/text';
+import { BUTTON_VARIANTS, BUTTON_SIZES } from '../../../../components/button/button';
+import Text from '../../../../components/text';
+import { TEXT_TYPES } from '../../../../components/text/text';
 
 export interface IEnteredValues {
     [key: string]: string
@@ -114,31 +118,37 @@ class DpForm extends React.Component<IDpFormProps> {
         const {formValidated, } = this.state
         const {fields, disabled} = this.props
         return (
-            <div style={styles.container}>
-                <div style={styles.headerContainer}>
-                    <h3 style={styles.title}>{this.props.title}</h3>
+            <div className={styles.container}>
+                <hr></hr>
+                <header className={styles.header}>
+                    <h3>{this.props.title}</h3>
                     {this.props.onDelete? 
-                        <Button variant="outline-secondary" onClick={() => this.deleteForm()}>
-                            Ta bort
-                        </Button>
-                    
+                        <Button variant={BUTTON_VARIANTS.TERTIARY} size={BUTTON_SIZES.SMALL} onClick={() => this.deleteForm()} title={'Ta bort'}/>
                     :null}
-                </div> 
+                </header> 
                 <Form
+
                     ref={this.formRef}
                     validated={formValidated}
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.onSubmit(e)}>
-                    <div style={styles.formGroup}>
+                    <div className={styles.form}>
                         {Object.keys(fields).map(key => {
                             const item = fields[key]
+                            if (item.type === 'header') {
+                                return (
+                                    <Text key={item.key} className={styles.header_label} type={TEXT_TYPES.LABEL}>{item.label}</Text>
+                                )
+                            }
                             return (
-                                <div key={key} style={styles.inputContainer}>
+                                <div key={key} className={[styles.input_container, 
+                                item.singleRow && styles.single_row, 
+                                item.marginBottom && styles.margin_bottom].join(' ')}>
                                     <Form.Group >
-                                        <Form.Label>{item.label}</Form.Label>
+                                        <Form.Label className={styles.label}>{item.label}</Form.Label>
                                         {item.type === 'select' ?
                                             <Form.Control
                                             as='select'
-                                            style={styles.input} 
+                                            className={styles.input}
                                             required
                                             disabled={disabled}
                                             type={item.type}
@@ -159,7 +169,9 @@ class DpForm extends React.Component<IDpFormProps> {
                                             :
                                         
                                             <Form.Control
-                                                style={styles.input} 
+                                                className={[styles.input, 
+                                                    item.small && styles.small_input, 
+                                                    item.medium && styles.medium_input].join(' ')}
                                                 required={item.required}
                                                 disabled={disabled}
                                                 maxLength={item.maxLength || undefined}
@@ -173,25 +185,17 @@ class DpForm extends React.Component<IDpFormProps> {
                             )
                         })}
                     </div>
-                    {this.props.customComponents ?
-                    <div style={styles.customComponentContainer}>
-                        {this.props.customComponents}
-                    </div>
-                    :null}
+                    
                     {!disabled ? 
-                    <div style={styles.buttonContainer}>
+                    <div>
                     </div> 
                     :null}
                 </Form>
-                {disabled ? 
-                <div style={styles.buttonContainer}>
-                    <Button style={styles.button} variant="primary" onClick={() => this.props.onDisabled()}>
-                        {this.props.buttonDisabledText || this.props.buttonText}
-                    </Button>
-                </div> 
-                :null}
-                
-                
+                {this.props.customComponents ?
+                    <div>
+                        {this.props.customComponents}
+                    </div>
+                    :null}
             </div>
         )
     }

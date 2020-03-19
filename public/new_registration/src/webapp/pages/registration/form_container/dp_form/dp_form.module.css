@@ -1,0 +1,59 @@
+.container {
+    width: 90%;
+    margin-bottom: 100px;
+}
+.container hr {
+    margin-bottom: 100px;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.label {
+    color: var(--LIGTH_TEXT_COLOR);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.input {
+    height: 70px;
+    width: 516px;
+    border-radius: 0;
+    border: 1px solid var(--PRIMARY_BORDER_COLOR);
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.small_input {
+    
+}
+
+.medium_input {
+    
+}
+
+.margin_bottom {
+    margin-bottom: 88px;
+}
+
+.single_row {
+    width: 100%;
+}
+
+.header_label {
+    width: 90vw;
+    margin-bottom: 8px;
+}
+

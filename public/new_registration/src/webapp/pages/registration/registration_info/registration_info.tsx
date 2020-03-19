@@ -17,7 +17,7 @@ class RegistrationInfo extends React.Component<props> {
     render() {
         const {registerInfo} = this.props
         return (
-            <div>
+            <div className={styles.container}>
                 {registerInfo.length > 0 &&
                 <div className={styles.instruction_container} dangerouslySetInnerHTML={{__html: registerInfo[0].content}} />
                 }

@@ -1,11 +1,14 @@
 import * as React from 'react'
-import Button from 'react-bootstrap/Button';
+import Button from '../../../../components/button';
 import fetch from 'cross-fetch'
 import { getErrorMessage } from '../../../../helpers/errors';
 import Spinner from 'react-bootstrap/Spinner'
-import styles from './styles';
+import styles from './dp_image_upload.module.css'
 import check from '../../../../assets/ui/check.png'
 import Slug from 'slug'
+import { BUTTON_VARIANTS, BUTTON_SIZES } from '../../../../components/button/button';
+import Text from '../../../../components/text';
+import { TEXT_TYPES } from '../../../../components/text/text';
 
 
 interface IDpImageUpload {
@@ -104,48 +107,48 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                 }
                 if (!this.props.cancelSub) this.setState({isLoading: false})
             } catch (error) {
-                // this.setState({errorUploading: true, errorMessage: getErrorMessage(JSON.parse(error)), isLoading: false})
+                this.setState({errorUploading: true, errorMessage: getErrorMessage(JSON.parse(error)), isLoading: false})
             }
         }
     }
 
     inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({image: (e.target.files as any)[0], buttonDisabled: false})
+        this.setState({image: (e.target.files as any)[0], buttonDisabled: false}, () => {
+            this.saveImage()
+        })
     }
 
 
     render() {
         const {isLoading, buttonDisabled, errorUploading, errorMessage, didUpLoad} = this.state
         const {limits, uploadedImage, displayUploadName, errorMessageProps, displayErrorProps} = this.props
-        const containerStyle = didUpLoad || uploadedImage ? {...styles.container, ...styles.okColor} : styles.container
         return (
-            <div style={containerStyle}>
-                <div style={styles.labelContainer}>
-                    <p style={styles.label}>{this.props.label}</p>
-                </div>
+            <div className={styles.container}>
+                <Text type={TEXT_TYPES.P}>{this.props.label}</Text>
                 {uploadedImage ? 
-                <div style={styles.uploadedContainer}>
+                <div className={styles.image_container}>
                     {displayUploadName ? 
-                        <p style={styles.uploadedFileName}>{uploadedImage}</p>    
+                        <p>{uploadedImage}</p>    
                         :
-                        // <div style={styles.uploadedImageContainer}>
-                            <img src={uploadedImage} alt='image' style={styles.uploadedImage} />
-                            
-                        // </div>
+                        <img className={styles.img} src={uploadedImage} alt='image'/>
                     }
-                    <Button onClick={() => this.deleteImage()} style={styles.deleteButton} variant="secondary">Ta bort</Button>
+                    <Button onClick={() => this.deleteImage()}  variant={BUTTON_VARIANTS.TERTIARY} size={BUTTON_SIZES.SMALL} title='Ta bort bild'/>
                 </div>
                 :
                 <div>
                     {limits ? 
-                    <p style={styles.limits}>Accepterade format:
+                    <p className={styles.label}>Accepterade format:
                     {limits.map(l => ` ${l}  `)}
                     </p>
                     :null}
-                    <input onChange={this.inputOnChange} 
-                        type="file"/>
-                    <Button style={styles.uploadButton} disabled={isLoading || buttonDisabled} variant="secondary" onClick={() => this.saveImage()}>
-                        {isLoading ?
+                    <label className={styles.input_label}>
+                        <input 
+                            className={styles.input}
+                            onChange={this.inputOnChange} 
+                            type="file"/>
+                            Tryck eller släpp här för att ladda upp bild
+                    </label>
+                        {isLoading &&
                         <div>
                             <Spinner
                                 as="span"
@@ -155,24 +158,17 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                                 aria-hidden="true"
                             />
                             Laddar...
-                        </div>
-                        : <div>Ladda upp</div> }
-                    </Button>    
+                        </div>}
                 </div>
                 }
-                <div style={styles.errors}>
+                <div className={styles.error}>
                     {errorUploading ? errorMessage : null}
                 </div>
                 {displayErrorProps ?
-                <div style={styles.errors}>
+                <div>
                     {errorMessageProps}
                 </div>
                 :null}
-                {didUpLoad || uploadedImage ? 
-                <img style={styles.checkImg} src={check} /> 
-                : 
-                null
-            }
             </div>
         )
     }

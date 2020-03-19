@@ -30,10 +30,10 @@ export default {
         margin: 10
     },
     input: {
-        minWidth: 200,
-        width: '30vw',
-        maxWidth: 500
-        
+        width: 516,
+        maxWidth: '100%',
+        height: 70,
+        borderRadius: 0
     },
     customComponentContainer: {
         display: 'flex',

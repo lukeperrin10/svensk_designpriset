@@ -1,0 +1,43 @@
+.container {
+    margin: 50px 0 50px 0;
+    width: 100%;
+    max-width: 500px;
+}
+
+.image_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.label {
+    color: var(--LIGTH_TEXT_COLOR);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.input {
+    display: none;
+}
+
+.input_label {
+    height: 200px;
+    width: 90vw;
+    max-width: 516px;
+    background-color: white;
+    border: 1px dashed #707070;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img {
+    height: 200px;
+    margin-right: 20px;
+}
+
+.error {
+    color: red;
+}

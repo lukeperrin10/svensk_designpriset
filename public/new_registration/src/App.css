@@ -22,14 +22,21 @@
     --BUTTON_GOLD: #C29D25;
     --PRIMARY_TEXT_COLOR: #000000;
     --SECONDARY_TEXT_COLOR: #151313;
+    --LIGTH_TEXT_COLOR: #707070;
 
     --MOBILE_WIDTH: 415px;
+
+    --PRIMARY_BORDER_COLOR: #707070;
 
     --CONTAINER_PADDING: 50px;
     --CONTAINER_MOBILE_PADDING: 0px;
 
     --PRIMARY_HEADER_FONT: ITC Franklin Gothic Std Demi;
     --PRIMARY_TEXT_FONT: ITC Franklin Gothic Std Book;
+}
+
+.designpriset_container {
+    padding: 0 80px 0 80px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -45,4 +52,8 @@ p, span, a {
     font-size: 19px;
     line-height: 140%;
     color: var(--SECONDARY_TEXT_COLOR);
+}
+
+hr {
+    border-color: black;
 }

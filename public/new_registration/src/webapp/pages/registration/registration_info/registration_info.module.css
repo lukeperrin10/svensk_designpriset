@@ -1,6 +1,11 @@
+.container {
+    margin-bottom: 120px;
+}
+
 .instruction_container { 
     width: 100%;
     max-width: 600px;
+    margin-bottom: 100px
 }
 
 .instruction_container div {

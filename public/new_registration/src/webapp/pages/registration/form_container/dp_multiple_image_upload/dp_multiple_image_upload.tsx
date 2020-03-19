@@ -21,37 +21,9 @@ interface props {
 const DpMultipleImageUpload = (props:props) => {
 
     const [showForm, setShowForm] = useState(false)
-    const [imageForms, setImageForms] = useState<JSX.Element[]>([])
-    const [addedImages, setAddedImages] = useState<JSX.Element[]>([])
 
-    useEffect(() => {
-        getAddedImages()
-    },[])
-
-    useEffect(() => {
-        getAddedImages()
-    },[props.uploadedImages])
-
-    // const addMoreImages = () => {
-    //     console.log('add more')
-    //     const forms = Array.from(imageForms)
-    //     forms.push(<DpImageUpload 
-    //             onSave={onSave} 
-    //             url={props.url}
-    //             label={props.label} 
-    //             key={'entry_images'+amount} 
-    //             errorMessageProps=""
-    //             displayErrorProps={false}
-    //             limits={props.limits}
-    //             displayUploadName={false}
-    //             deleteImage={props.deleteImage}
-    //             />)
-    //     setImageForms(forms)
-    // }
-
-    const getAddedImages = () => {
-        if (props.uploadedImages) {
-            const uploaded = props.uploadedImages.map(image => {
+    const getAddedImages = (images: string[]) => {
+            const uploaded = images.map(image => {
                 return (
                     <DpImageUpload 
                     onSave={onSave} 
@@ -68,20 +40,19 @@ const DpMultipleImageUpload = (props:props) => {
                 />
                 )
             })  
-            setAddedImages(uploaded)
-        } 
+            console.log(uploaded)
+            return uploaded
     }
 
     const onSave = (url: string) => {
-        setShowForm(false)
         props.onSave(url)
+        setShowForm(false)
     }
 
     return (
         <div>
-            
             <div>
-                {addedImages.map(image => image)}
+                {props.uploadedImages && getAddedImages(props.uploadedImages)}
             </div>
             {showForm &&
                 <DpImageUpload 
@@ -95,8 +66,9 @@ const DpMultipleImageUpload = (props:props) => {
                 limits={props.limits}
                 displayUploadName={false}
                 />}
-            <Button preventDefault={true} title={'+ Lägg till fler bilder'} onClick={() => setShowForm(true)}/>
-            
+            {!showForm &&
+            <Button className={styles.button} preventDefault={true} title={'+ Lägg till fler bilder'} onClick={() => setShowForm(true)}/>
+            }
         </div>
     )
 }

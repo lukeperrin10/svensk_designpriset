@@ -7,7 +7,9 @@ export interface formItems {
         selectList?: {id: number,name: string, short: string}[],
         maxLength?: number,
         small?: boolean,
-        medium?: boolean
+        medium?: boolean,
+        marginBottom?: boolean,
+        singleRow?: boolean
     }
 }
 
@@ -35,20 +37,25 @@ export const FORM_PROFILE_LABELS: formItems = {
 // WARNING: Se över vilka som ska vara required eller inte
 export const FORM_ENTRY_LABELS: formItems = {
     entry_name: {key: "entry_name", label: "Bidragets namn", required: true, type: "text"},
-    customer: {key: 'customer', label: 'Uppdragsgivare', required: true, type: 'text'},
+    customer: {key: 'customer', label: 'Uppdragsgivare', required: true, type: 'text', marginBottom: true},
+    category_id: {key: 'category_id', label: 'Tävlingskategori', required: true, type: 'select', singleRow: true},
+    webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer", required: false, type: "text", singleRow: true, marginBottom: true},
+    format: {key: 'format', label: 'Omfång (Gäller trycksaker)', required: false, type: 'text'},
+    size: {key: 'size', label: 'Storlek (Gäller trycksaker)', required: false, type: 'text', marginBottom: true},
+    video: {key: "video", label: "Länk video (endast Vimeo/Youtube)", required: false, type: "text", singleRow: true, marginBottom: true},
+    work_force: {key: 'work_force', label: 'Arbetsgrupp', required: false, type:'header'},
     designer: {key: 'designer', label: 'Designer', required: true, type: 'text'},
     illustrator: {key: 'illustrator', label: 'Illustratör/fotograf', required: false, type: 'text'},
     leader: {key: 'leader', label: 'Projektledare', required: true, type: 'text'},
-    format: {key: 'format', label: 'Omfång (Gäller trycksaker)', required: false, type: 'text'},
-    size: {key: 'size', label: 'Storlek (Gäller trycksaker)', required: false, type: 'text'},
-    category_id: {key: 'category_id', label: 'Tävlingskategori', required: true, type: 'select'},
-    webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer", required: false, type: "text"}
+    
+    
 }
 
 export const TEMP_PRICE_PER_ENTRY = "3995"
 
 export enum GENERAL_TEXT {
-    thumbnail_label = "Bild för tumnagel (rekommenderad storlek – 770x1030px)",
+    thumbnail_label = "Huvudbild (rekommenderad storlek – 1000x1000px, beskärs kvadratiskt)",
+    entry_images = 'Ytterligare bild (frivilligt)',
     entry_media = "Bifoga pdf-fil för printbidrag, (max filstorlek 5 Mb, undvik ÅÄÖ i filnamn)",
     after_submit = "Anmälan är klar. Du får ett mail med länk till din personliga sida där du kan ändra och lägga till fler bidrag. Kansliet skickar också en bekräftelse. Varje bidrag kostar 3995 :- exkl. moms. Faktura med 10 dagars betalning skickas från Svenska Designpriset.",
     after_update = "Updateringen av uppgifter och bidrag är klar",

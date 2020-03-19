@@ -352,6 +352,7 @@ class FormContainer extends React.Component<IFormContainer> {
             const uploadedAvatar = tempEntries[`${i}`] ? tempEntries[`${i}`].avatar || false : false
             const uploadedMedia = tempEntries[`${i}`] ? tempEntries[`${i}`].source || false : false
             const uploadedEntryImages = tempEntries[`${i}`] ? tempEntries[`${i}`].entry_images || false : false
+            console.log(uploadedEntryImages)
             const key = `${i}`
             const editPath = key in editModeNewEntries ? TEMP_AVATAR_URL : AVATAR_URL
             const form = <div key={i} ref={el => {
@@ -399,7 +400,7 @@ class FormContainer extends React.Component<IFormContainer> {
                     <DpMultipleImageUpload 
                         onSave={(url: string) => this.addMediaToEntry(key, 'entry_images', url)} 
                         url={POST_TEMP_ENTRY_IMAGES_URL}
-                        label={GENERAL_TEXT.thumbnail_label} 
+                        label={GENERAL_TEXT.entry_images} 
                         errorMessageProps={key in errorEntries ? errorEntries[key] : undefined}
                         displayErrorProps={key in errorEntries}
                         key={'entry_images'} 
