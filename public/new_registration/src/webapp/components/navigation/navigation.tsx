@@ -38,6 +38,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
     const [standardPages, setStandardPages] = useState<IContent[]>([])
     const [startContent, setStartContent] = useState<IContent[]>([])
     const [footerLinks, setFooterLinks] = useState<ILink[]>([])
+    const [footerRightContent, setFooterRightContent] = useState<IContent[]>([])
     const [didFetch, setDidFetch] = useState(false)
     const isDevVersion = process.env.REACT_APP_IS_DEV === "true"
     
@@ -76,6 +77,9 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
         }
         if (CONTENT_TEMPLATES.REGISTER_INFO in sortedContent) {
             setRegisterInfoContent(sortedContent[CONTENT_TEMPLATES.REGISTER_INFO])
+        }
+        if (CONTENT_TEMPLATES.FOOTER_RIGHT_CONTENT in sortedContent) {
+            setFooterRightContent(sortedContent[CONTENT_TEMPLATES.FOOTER_RIGHT_CONTENT])
         }
     }
 
@@ -183,7 +187,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
 
                 {standardPages.length > 0 && getStandardRoutes(standardPages)}
             </Switch>
-            <Footer links={footerLinks}/>
+            <Footer content={footerRightContent} links={footerLinks}/>
             </div>
             }
         </Router>

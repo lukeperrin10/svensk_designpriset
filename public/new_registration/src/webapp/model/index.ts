@@ -113,7 +113,8 @@ export enum CONTENT_TEMPLATES {
     STANDARD = 'standard',
     START_DATES = 'start_dates',
     START_INFO = 'start_info',
-    REGISTER_INFO = 'register_info'
+    REGISTER_INFO = 'register_info',
+    FOOTER_RIGHT_CONTENT = 'footer_right_content'
 }
 
 export interface IContent {
