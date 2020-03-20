@@ -156,7 +156,10 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             />}
             {didFetch &&
             <div>
-            <Header />
+            <Header 
+                buttonOnClick={() =>{}}
+                buttonTitle='Anmäl bidrag'
+            />
             <Switch>
                 <Route exact path='/' render={() => {
                     return (
