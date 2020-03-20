@@ -9,3 +9,29 @@
 .button {
     margin-right: 40px;
 }
+
+.custom_modal {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0px !important;
+    border-radius: none !important;
+    height: 100vh;
+}
+
+.modal_content {
+    min-height: 100vh;
+    padding: var(--CONTAINER_PADDING);
+}
+.custom_modal div {
+    border-radius: 0px !important;
+    border: none;
+
+}
+
+.modal_header {
+    margin-bottom: 60px;
+}
+
+.button {
+    margin-right: 20px;
+}

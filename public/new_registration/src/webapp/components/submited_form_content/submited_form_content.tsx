@@ -1,5 +1,9 @@
 import * as React from 'react'
-import styles from './style'
+import styles from './submited_form_content.module.css'
+import {H2, P} from '../text/text_semantict'
+import { IProfile , IEntry} from '../../model'
+import Text from '../text'
+import { TEXT_TYPES, HEADLINE_SIZES } from '../text/text'
 
 export interface textContent {
     label: string,
@@ -9,33 +13,55 @@ export interface textContent {
 
 interface ISubmitedFormContent {
     title: string
-    content: textContent[],
+    entry?: IEntry,
+    profile?: IProfile
 }
 
-class SubmitedFormContent extends React.Component<ISubmitedFormContent> {
-    render() {
-        return (
-            <div style={styles.container}>
-                <h2>{this.props.title}</h2>
-                {this.props.content.map((c, i) => {
-                    return (
-                        <div style={styles.contentItem} key={i}>
-                            <p style={{...styles.p, ...styles.label}}>{c.label}:</p>
-                            {c.imageUrl ?
-                            // <div style={styles.uploadedImageContainer}>
-                                <img style={styles.image} src={c.imageUrl} />
-                            // </div>
-                            
-                            :
-                            <p style={styles.p}>{c.content}</p>
-                            }
-                            
-                        </div>
-                    )
-                })}
-            </div>
-        )
-    }
+const SubmitedFormContent = ({profile, title, entry}:ISubmitedFormContent) => {
+    return (
+        <section className={styles.container}>
+            <Text className={styles.headline} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{title}</Text>
+            {profile &&
+            <section className={styles.section}>
+                <div>
+                    <Text className={styles.label} type={TEXT_TYPES.P}>Företag</Text>
+                    <div className={styles.section_content}>
+                        <P>{profile.company}</P>
+                        <P>{profile.address}</P>
+                        <P>{profile.zip} {profile.city}</P>
+                        <div className={styles.web}>
+                            <P>{profile.homepage}</P>
+                        </div>        
+                    </div>
+                </div>
+                <div>
+                    <Text className={styles.label} type={TEXT_TYPES.P}>Kontaktperson</Text>
+                    <div className={styles.section_content}>
+                        <P>{profile.contact}</P>
+                        <P>{profile.mail}</P>
+                        <P>{profile.phone}</P>
+                    </div>
+                </div>
+            </section>
+            }
+            {entry &&
+                <section className={styles.section}>
+                <div>
+                    <Text className={styles.label} type={TEXT_TYPES.P}>Bidragets namn</Text>
+                    <div className={styles.section_content}>
+                        <P>{entry.entry_name}</P>
+                    </div>
+                </div>
+                <div>
+                    <Text className={styles.label} type={TEXT_TYPES.P}>Uppdragsgivare</Text>
+                    <div className={styles.section_content}>
+                        <P>{entry.customer}</P>
+                    </div>
+                </div>
+            </section>
+            }
+        </section>
+    )
 }
 
 export default SubmitedFormContent

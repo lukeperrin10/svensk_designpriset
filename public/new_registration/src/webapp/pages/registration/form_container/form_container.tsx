@@ -19,6 +19,7 @@ import {CACHED_ENTRIES, CACHED_PROFILE} from '../../../model/constants'
 import Logo from '../../../assets/img/logo.png'
 import DpMultipleImageUpload from './dp_multiple_image_upload';
 import { BUTTON_VARIANTS } from '../../../components/button/button';
+import { H1 } from '../../../components/text';
 
 
 interface existingContent {
@@ -365,7 +366,6 @@ class FormContainer extends React.Component<IFormContainer> {
                 onError={() => this.onFormError()}
                 shouldSubmit={this.state.shouldSubmitEntries}
                 fields={FORM_ENTRY_LABELS}
-                disabled={disabledEntries[key]}
                 onDisabled={() => this.setState({disabledEntries: {...this.state.disabledEntries, [key]: false}, didSaveEntry: false})}
                 buttonText="Spara"
                 buttonDisabledText="Redigera"
@@ -492,7 +492,6 @@ class FormContainer extends React.Component<IFormContainer> {
                     onError={() => this.onFormError()}
                     fields={FORM_PROFILE_LABELS}
                     shouldSubmit={this.state.shouldSubmitProfile}
-                    disabled={profileDisabled}
                     onDisabled={() => this.setState({profileDisabled: false, didSaveProfile: false})}
                     buttonText="Spara"
                     onSubmit={(e: IEnteredValues) => this.saveProfile(e)}
@@ -515,47 +514,35 @@ class FormContainer extends React.Component<IFormContainer> {
                 </div>
             </div>
             }
-            {/* <Modal dialogClassName="custom-modal" size="lg" centered show={displayReview} onHide={() => this.setState({displayReview: false})}>
-                <Modal.Header>
-                    <Modal.Title>{modalTitle}</Modal.Title>
-                    <img style={styles.logo} src={Logo} alt='Logo' />
-                </Modal.Header>
-                <Modal.Body style={styles.modalBody}>
-                    <p>Kontrollera uppgifterna noggrant och se till att allt stämmer.</p>
-                    <p>Klicka sedan på knappen "Skicka in"</p>
-                    <SubmitedFormContent 
-                        title="Användaruppgifter" 
-                        content={this.submitedFormContent(tempProfile,ignoreLabels, FORM_PROFILE_LABELS)} />
-                    {Object.keys(tempEntries).map((e, i) => {
-                        return (
-                            <SubmitedFormContent 
-                                key={i} 
-                                title={`Bidrag ${i+1}`} 
-                                content={this.submitedFormContent(
-                                    tempEntries[e], 
-                                    ignoreLabels, 
-                                    FORM_ENTRY_LABELS, 'avatar')
-                                } />
-                        )
-                    })}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={() => this.setState({displayReview: false})} variant="secondary">Redigera</Button>
-                    <Button style={styles.buttonPrimary} onClick={() => this.saveContent()} variant="primary">Skicka in</Button>
-                </Modal.Footer>
-            </Modal> */}
-            {/* <Modal centered show={checkShouldClear}>
-            <Modal.Header>
-                <Modal.Title>Vill du rensa formuläret?</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                    All din data kommer att försvinna
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant='primary' onClick={() => this.setState({checkShouldClear: false})}>Avbryt</Button>
-                <Button variant='secondary' onClick={() => this.clearForm()}>Rensa</Button>
-            </Modal.Footer>
-            </Modal> */}
+            <Modal 
+            dialogClassName={styles.custom_modal} 
+            size="lg" 
+            centered 
+            show={displayReview} 
+            onHide={() => this.setState({displayReview: false})}>
+                <div className={styles.modal_content}>
+                    <section className={styles.modal}>
+                        <header className={styles.modal_header}>
+                            <H1>Granska anmälan</H1>
+                        </header>
+                        <SubmitedFormContent 
+                            title="Kontaktuppgifter" 
+                            profile={tempProfile as IProfile} />
+                        {Object.keys(tempEntries).map((e, i) => {
+                            return (
+                                <SubmitedFormContent 
+                                    key={i} 
+                                    title={`Bidrag ${i+1}`} 
+                                    entry={tempEntries[e]} />
+                            )
+                        })}
+                    </section>
+                    <footer>
+                        <Button className={styles.button} onClick={() => this.setState({displayReview: false})} variant={BUTTON_VARIANTS.SECONDARY} title='Redigera' />
+                        <Button onClick={() => this.saveContent()} variant={BUTTON_VARIANTS.PRIMARY} title='Skicka in' />
+                    </footer>
+                </div>
+            </Modal> 
             </div>
         )
     }

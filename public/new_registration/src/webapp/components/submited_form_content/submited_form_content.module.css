@@ -1,0 +1,30 @@
+.label {
+    color: var(--LIGTH_TEXT_COLOR);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.container {
+    margin-bottom: 80px;
+}
+
+.section {
+    display: flex;
+    flex-direction: row;
+}
+
+.section_content {
+    margin-left: 2px;
+    min-width: 300px;
+}
+
+.section_content p {
+    margin-bottom: 1px;
+}
+
+
+.web {
+    margin-top: 25px;
+}

@@ -16,6 +16,7 @@
     line-height: 90%;
     letter-spacing: -0.02em;
     color: var(--PRIMARY_TEXT_COLOR);
+    margin-top:10px;
 }
 
 .small_headline {

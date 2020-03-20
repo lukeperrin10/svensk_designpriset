@@ -21,7 +21,6 @@ interface IDpFormProps {
     defaultValue?: any,
     onValueChange?: Function,
     customComponents?: JSX.Element[],
-    disabled: boolean,
     onDisabled: () => void,
     onDelete?: () => void,
     shouldSubmit: boolean, 
@@ -116,7 +115,7 @@ class DpForm extends React.Component<IDpFormProps> {
     
     render() {
         const {formValidated, } = this.state
-        const {fields, disabled} = this.props
+        const {fields} = this.props
         return (
             <div className={styles.container}>
                 <hr></hr>
@@ -150,7 +149,6 @@ class DpForm extends React.Component<IDpFormProps> {
                                             as='select'
                                             className={styles.input}
                                             required
-                                            disabled={disabled}
                                             type={item.type}
                                             placeholder={item.label} 
                                             value={this.getDefaultValue(item.key, item.type) || ''}
@@ -173,7 +171,6 @@ class DpForm extends React.Component<IDpFormProps> {
                                                     item.small && styles.small_input, 
                                                     item.medium && styles.medium_input].join(' ')}
                                                 required={item.required}
-                                                disabled={disabled}
                                                 maxLength={item.maxLength || undefined}
                                                 type={item.type}
                                                 placeholder={item.label} 
@@ -185,11 +182,6 @@ class DpForm extends React.Component<IDpFormProps> {
                             )
                         })}
                     </div>
-                    
-                    {!disabled ? 
-                    <div>
-                    </div> 
-                    :null}
                 </Form>
                 {this.props.customComponents ?
                     <div>
