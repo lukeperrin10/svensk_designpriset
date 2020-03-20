@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import DevHeader from '../dev_header'
 import { PHASES } from '../../model/constants'
 import * as queryString from 'query-string'
+import {createBrowserHistory} from 'history'
 
 interface ReduxProps {
     yearConfig: IYearConfig
@@ -32,7 +33,7 @@ interface DispatchProps {
 type props = ReduxProps & DispatchProps
 
 const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
-
+    const browserHistory = createBrowserHistory()
     const [content, setContent] = useState<IContent[]>([])
     const [registerInfoContent, setRegisterInfoContent] = useState<IContent[]>([])
     const [standardPages, setStandardPages] = useState<IContent[]>([])
@@ -48,7 +49,6 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
     }, [])
 
     useEffect(() => {
-        console.log(yearConfig)
     }, [yearConfig])
 
     useEffect(() => {
@@ -151,6 +151,41 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
         return <Redirect to="/" />
     }
 
+    const getHeaderClick = (phase: string) => {
+        switch (phase) {
+            case PHASES.ONE:
+                return {
+                    title: 'Anmäl bidrag',
+                    path: '/anmalan'
+                }
+            case PHASES.TWO:
+                return {
+                    title: 'Vinnare',
+                    path: '/vinnare'
+                }
+            case PHASES.THREE:
+                return {
+                    title: 'Rösta',
+                    path: '/rostning'
+                }
+            case PHASES.FOUR:
+                return {
+                    title: 'Prisutdelningen',
+                    path: '/prisutdelning'
+                }
+            case PHASES.FIVE:
+                return {
+                    title: 'Vinnare',
+                    path: '/vinnare'
+                }
+            default:
+                return {
+                    title: 'Vinnare',
+                    path: '/vinnare'
+                }
+        }
+    }
+
     return (
         <Router>
             {isDevVersion && 
@@ -160,10 +195,9 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             />}
             {didFetch &&
             <div>
-            <Header 
-                buttonOnClick={() =>{}}
-                buttonTitle='Anmäl bidrag'
-                isRoot={true}
+                <Header 
+                path={getHeaderClick(yearConfig.current_phase).path}
+                buttonTitle={getHeaderClick(yearConfig.current_phase).title}
             />
             <Switch>
                 <Route exact path='/' render={() => {

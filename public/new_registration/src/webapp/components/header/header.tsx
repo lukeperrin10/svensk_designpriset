@@ -5,20 +5,21 @@ import Button from '../button'
 import { BUTTON_VARIANTS } from '../button/button'
 import logo from '../../assets/logo/logo.svg'
 import crown from '../../assets/logo/crown.svg'
+import {useHistory} from 'react-router-dom'
 
 interface props {
-    buttonOnClick: () => void,
+    path: string,
     buttonTitle: string,
-    isRoot?: boolean
 }
 
 const headerId = 'xxxx_header_id'
 const imageContId = 'xxxx_image_cont_id'
 const imageId = 'xxxx_image_id'
 
-const Header  = ({buttonOnClick, buttonTitle, isRoot}:props) => {
+const Header  = ({path, buttonTitle}:props) => {
     let didExpand = false
     let didMinimize = false
+    let history = useHistory()
 
     useEffect(() => {
         window.addEventListener('scroll', onScroll)
@@ -64,7 +65,12 @@ const Header  = ({buttonOnClick, buttonTitle, isRoot}:props) => {
     }
 
     const onButtonClick = () => {
-        buttonOnClick()
+        if (isRoot()) history.push(path)
+        else history.goBack()
+    }
+
+    const isRoot = () => {
+        return history.location.pathname === '/'
     }
 
     return (        
@@ -75,7 +81,7 @@ const Header  = ({buttonOnClick, buttonTitle, isRoot}:props) => {
             </div>
             <div className={styles.border} />
             
-            <Button onClick={onButtonClick} title={buttonTitle} variant={isRoot ? BUTTON_VARIANTS.PRIMARY : BUTTON_VARIANTS.TERTIARY} />
+            <Button onClick={onButtonClick} title={isRoot() ? buttonTitle : 'Tillbaka till start'} variant={isRoot() ? BUTTON_VARIANTS.PRIMARY : BUTTON_VARIANTS.TERTIARY} />
         </div>
     )
 }
