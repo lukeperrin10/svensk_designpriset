@@ -15,12 +15,13 @@
     max-width: 100vw !important;
     margin: 0px !important;
     border-radius: none !important;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 .modal_content {
     min-height: 100vh;
     padding: var(--CONTAINER_PADDING);
+    margin-top: 30px;  
 }
 .custom_modal div {
     border-radius: 0px !important;
@@ -34,4 +35,15 @@
 
 .button {
     margin-right: 20px;
+}
+
+@media screen and (max-width: 415px) {
+    .modal_content {
+        padding: var(--CONTAINER_MOBILE_PADDING);  
+           
+    }
+
+    .modal_header {
+        margin-bottom: 60px;
+    }
 }

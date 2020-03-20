@@ -29,7 +29,7 @@
     --PRIMARY_BORDER_COLOR: #707070;
 
     --CONTAINER_PADDING: 0 80px 0 80px;
-    --CONTAINER_MOBILE_PADDING: 0px;
+    --CONTAINER_MOBILE_PADDING: 0px 20px 0 20px; 
 
     --PRIMARY_HEADER_FONT: ITC Franklin Gothic Std Demi;
     --PRIMARY_TEXT_FONT: ITC Franklin Gothic Std Book;
@@ -39,10 +39,17 @@
     padding: var(--CONTAINER_PADDING);
 }
 
+@media screen and (max-width: 415px) {
+    .designpriset_container {
+        padding: var(--CONTAINER_MOBILE_PADDING);
+    }   
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: ITC Franklin Gothic Std Demi;
     font-style: normal;
     font-weight: 500;
+    margin-top: 0;
 }
 
 p, span, a {

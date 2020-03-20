@@ -19,7 +19,8 @@ import {CACHED_ENTRIES, CACHED_PROFILE} from '../../../model/constants'
 import Logo from '../../../assets/img/logo.png'
 import DpMultipleImageUpload from './dp_multiple_image_upload';
 import { BUTTON_VARIANTS } from '../../../components/button/button';
-import { H1 } from '../../../components/text';
+import Text, { H1 } from '../../../components/text';
+import { TEXT_TYPES, HEADLINE_SIZES } from '../../../components/text/text';
 
 
 interface existingContent {
@@ -445,7 +446,7 @@ class FormContainer extends React.Component<IFormContainer> {
 
     onShowConfirmButton() {
         if (!this.state.formError && isEmptyObject(this.state.errorEntries)) {
-            this.scrollToTop()
+            // this.scrollToTop()
             this.setState({displayReview: true})
         }
     }
@@ -501,7 +502,7 @@ class FormContainer extends React.Component<IFormContainer> {
                     defaultValue={!isEmptyObject(tempProfile) ? tempProfile : null}
                     customComponents={[
                         <div key={1}>
-                            <p>Separat fakturaadress mejlas till <a href="mailto:info@designpriset.se">info@designpriset.se</a></p>
+                            {/* <p>Separat fakturaadress mejlas till <a href="mailto:info@designpriset.se">info@designpriset.se</a></p> */}
                         </div>
                     ]}
                 />
@@ -519,11 +520,12 @@ class FormContainer extends React.Component<IFormContainer> {
             size="lg" 
             centered 
             show={displayReview} 
+            // show={true}
             onHide={() => this.setState({displayReview: false})}>
                 <div className={styles.modal_content}>
                     <section className={styles.modal}>
                         <header className={styles.modal_header}>
-                            <H1>Granska anmälan</H1>
+                            <Text type={TEXT_TYPES.H1} headlineSize={HEADLINE_SIZES.LARGE}>Granska anmälan</Text>
                         </header>
                         <SubmitedFormContent 
                             title="Kontaktuppgifter" 

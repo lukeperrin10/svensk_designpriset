@@ -28,6 +28,15 @@
     border: 1px solid var(--PRIMARY_BORDER_COLOR);
 }
 
+@media screen and (max-width: 550px) {
+    .input {
+        width: 90vw;
+    }
+    .container {
+        width: unset;
+    }
+}
+
 .header {
     display: flex;
     flex-direction: row;

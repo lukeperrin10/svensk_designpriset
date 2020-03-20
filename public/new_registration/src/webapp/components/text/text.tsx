@@ -37,7 +37,7 @@ const Text : React.FunctionComponent<props> = ({type, headlineSize, className, c
             case HEADLINE_SIZES.EXTRA_SMALL:
                 return styles.extra_small_headline
             default:
-                return styles.medium_headline
+                return styles.small_headline
         }
     }
 

@@ -47,3 +47,10 @@
 .small_text {
     
 }
+
+@media screen and (max-width: 415px) {
+    .standard {
+        width: 90vw;
+        margin-bottom: 10px;
+    }
+}

@@ -64,3 +64,18 @@
     font-size: 19px;
     line-height: 140%;
 }
+
+
+@media screen and (max-width: 415px) {
+    .large_headline {
+        font-size: 48px;
+    }
+
+    .medium_headline {
+        
+    }
+
+    .small_headline {
+        font-size: 24px;
+    }
+}

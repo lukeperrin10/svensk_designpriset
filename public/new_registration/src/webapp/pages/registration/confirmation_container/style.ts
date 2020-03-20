@@ -2,10 +2,9 @@ import { PRIMARY_BACKGROUND_COLOR, PRIMARY_GOLD, STANDARD_TEXT_COLOR } from '../
 
 export default {
     container: {
-        backgroundColor: PRIMARY_BACKGROUND_COLOR,
         height: '100vh',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center'
     },
     card: {
@@ -16,7 +15,8 @@ export default {
     },
     header: {
         textAlign: 'center' as 'center',
-        color: PRIMARY_GOLD
+        color: PRIMARY_GOLD,
+        marginTop: 50
     },
     textContainer: {
         padding: 30,

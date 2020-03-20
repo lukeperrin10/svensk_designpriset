@@ -7,6 +7,7 @@ import { formItems } from '../../../../config/text';
 import { BUTTON_VARIANTS, BUTTON_SIZES } from '../../../../components/button/button';
 import Text from '../../../../components/text';
 import { TEXT_TYPES } from '../../../../components/text/text';
+import { H3 } from '../../../../components/text/text_semantict';
 
 export interface IEnteredValues {
     [key: string]: string
@@ -120,7 +121,7 @@ class DpForm extends React.Component<IDpFormProps> {
             <div className={styles.container}>
                 <hr></hr>
                 <header className={styles.header}>
-                    <h3>{this.props.title}</h3>
+                    <H3>{this.props.title}</H3>
                     {this.props.onDelete? 
                         <Button variant={BUTTON_VARIANTS.TERTIARY} size={BUTTON_SIZES.SMALL} onClick={() => this.deleteForm()} title={'Ta bort'}/>
                     :null}
