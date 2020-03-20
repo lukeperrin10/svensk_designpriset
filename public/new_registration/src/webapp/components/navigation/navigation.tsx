@@ -163,6 +163,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             <Header 
                 buttonOnClick={() =>{}}
                 buttonTitle='Anmäl bidrag'
+                isRoot={true}
             />
             <Switch>
                 <Route exact path='/' render={() => {

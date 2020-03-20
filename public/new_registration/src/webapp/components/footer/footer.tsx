@@ -23,7 +23,7 @@ const Footer = ({links, content}:props) => {
                     }
                 </nav>
                     {content && content.map(cont => {
-                        return <div className={styles.content_container} dangerouslySetInnerHTML={{__html: cont.content}} />
+                        return <div key={cont.title} className={styles.content_container} dangerouslySetInnerHTML={{__html: cont.content}} />
                     })}
             </div>
         </footer>
