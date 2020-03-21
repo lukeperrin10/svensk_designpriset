@@ -48,7 +48,7 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
     return (
         <main>
             {getMeta()}
-            <WinnerGallery entries={winners} />
+            {/* <WinnerGallery entries={winners} /> */}
         </main>
     )
 }

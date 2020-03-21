@@ -1,0 +1,4 @@
+.main {
+    padding: var(--CONTAINER_PADDING);
+    width: 100vw;
+}
