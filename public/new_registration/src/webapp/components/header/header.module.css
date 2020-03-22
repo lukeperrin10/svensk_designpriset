@@ -4,9 +4,7 @@
 }
 
 .container {
-    width: 100vw;
     height: 250px;
-    padding: var(--CONTAINER_PADDING);
     position: sticky;
     top: 0;
     background-color: white;

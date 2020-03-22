@@ -20,6 +20,7 @@ import DevHeader from '../dev_header'
 import { PHASES } from '../../model/constants'
 import * as queryString from 'query-string'
 import {createBrowserHistory} from 'history'
+import styles from './navigation.module.css'
 
 interface ReduxProps {
     yearConfig: IYearConfig
@@ -194,7 +195,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             changePhase={onChangePhase}
             />}
             {didFetch &&
-            <div>
+            <div className={styles.container}>
                 <Header 
                 path={getHeaderClick(yearConfig.current_phase).path}
                 buttonTitle={getHeaderClick(yearConfig.current_phase).title}
