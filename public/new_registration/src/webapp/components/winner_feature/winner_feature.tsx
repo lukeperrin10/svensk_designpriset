@@ -14,7 +14,7 @@ const WinnerFeature = ({entry}:props) => {
         <section className={styles.section}>
             <img className={styles.img} src={assembleMediaUrl(entry.avatar)} alt={entry.entry_name} />
             <div className={styles.text_container}>
-                <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.MEDIUM}>{entry.entry_name}</Text>
+                <Text className={styles.headline} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.MEDIUM}>{entry.entry_name}</Text>
                 <Ingress>Guld {entry.year}</Ingress>
                 <Ingress>Fixa kategori</Ingress>
             </div>

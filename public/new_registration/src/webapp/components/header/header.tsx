@@ -81,7 +81,7 @@ const Header  = ({path, buttonTitle}:props) => {
             </div>
             <div className={styles.border} />
             
-            <Button onClick={onButtonClick} title={isRoot() ? buttonTitle : 'Tillbaka till start'} variant={isRoot() ? BUTTON_VARIANTS.PRIMARY : BUTTON_VARIANTS.TERTIARY} />
+            <Button className={styles.button} onClick={onButtonClick} title={isRoot() ? buttonTitle : 'Tillbaka till start'} variant={isRoot() ? BUTTON_VARIANTS.PRIMARY : BUTTON_VARIANTS.TERTIARY} />
         </div>
     )
 }

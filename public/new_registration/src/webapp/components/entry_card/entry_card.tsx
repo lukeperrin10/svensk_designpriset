@@ -4,6 +4,7 @@ import styles from './entry_card.module.css'
 import Button from '../button'
 import {BUTTON_VARIANTS, BUTTON_SIZES} from '../button/button'
 import { assembleMediaUrl } from '../../helpers'
+import { IS_MOBILE } from '../../config/style'
 
 interface IEntryCard {
     entry: IEntry,
@@ -30,11 +31,19 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEnt
 
     
     return (
-        <div className={styles.container}>
-            <div style={imageStyle} className={styles.img_holder}></div>
-            <div className={styles.overlay}>
-                <Button variant={BUTTON_VARIANTS.TERTIARY} className={styles.overlay_button} onClick={onShow} title="Visa" />    
-            </div>
+        <div className={[styles.container, onlyDisplay && styles.container_min].join(' ')}>
+            {IS_MOBILE ?
+            <div onClick={onShow} style={imageStyle} className={[styles.img_holder, onlyDisplay && styles.img_holder_min].join(' ')}></div>
+            :
+            <div style={imageStyle} className={[styles.img_holder, onlyDisplay && styles.img_holder_min].join(' ')}></div>
+            }
+            
+            {!IS_MOBILE &&
+                <div className={[styles.overlay, onlyDisplay && styles.overlay_min].join(' ')}>
+                    <Button variant={BUTTON_VARIANTS.TERTIARY} className={styles.overlay_button} onClick={onShow} title="Visa" />    
+                </div>
+            }
+            
 
             <div className={styles.bottom}>
                 <p>{entry.entry_name}</p>

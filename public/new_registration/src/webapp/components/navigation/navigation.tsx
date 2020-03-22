@@ -199,7 +199,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 <Header 
                 path={getHeaderClick(yearConfig.current_phase).path}
                 buttonTitle={getHeaderClick(yearConfig.current_phase).title}
-            />
+                />
             <Switch>
                 <Route exact path='/' render={() => {
                     return (

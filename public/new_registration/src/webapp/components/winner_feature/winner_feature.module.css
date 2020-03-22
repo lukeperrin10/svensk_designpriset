@@ -1,5 +1,5 @@
 .img {
-    height: 496px;
+    max-height: 496px;
 }
 
 .section {
@@ -12,9 +12,27 @@
 
 .text_container {
     margin-left: 29px;
-   width: 160px;
+    width: 160px;
 }
 
 .text_container p {
     margin-bottom: 0;
+}
+
+@media screen and (max-width: 415px) {
+    .section {
+        flex-wrap: wrap;
+    }
+
+    .img {
+        height: 226px;
+        margin-bottom: 32px;
+    }
+    .text_container {
+        width: unset;
+        margin-left: 0;
+    }
+    .headline {
+        font-size: 32px;
+    }
 }

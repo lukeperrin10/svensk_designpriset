@@ -63,6 +63,7 @@
 @media screen and (max-width: 415px) {
     .container {
         width: 276px;
+        margin: 10px 30px 10px 0px;
     }
 
     .img_holder {
@@ -73,5 +74,20 @@
     .overlay {
         width: 276px;
         height: 276px;
+    }
+
+    .container_min {
+        width: 38vw;
+        margin: 10px 0px 10px 0px;
+    }
+
+    .overlay_min {
+        width: 38vw;
+        height: 38vw;
+    }
+
+    .img_holder_min {
+        width: 38vw;
+        height: 38vw;
     }
 }
