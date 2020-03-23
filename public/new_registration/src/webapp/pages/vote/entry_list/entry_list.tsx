@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { IEntry, IPollCategories } from '../../../model'
 import EntryCard from '../../../components/entry_card'
 import styles from './entry_list.module.css'
@@ -27,10 +27,11 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
     const [modalCategory, setModalCategory] = useState('')
     const [showModalCat, setShowModalCat] = useState<number>()
     const [modalEntry, setModalEntry] = useState<number>()
+    const [arrowIds, setArrowIds] = useState<string[]>([])
 
-    React.useEffect(() => {
-        console.log(voteEntries)
-    }, [voteEntries])
+    useEffect(() => {
+        addIds(categories)
+    },[])
 
     const onCardClicked = (entry: IEntry) => {
         // console.log('list vote')
@@ -126,6 +127,13 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
 
     const onAccordionToggle = (cat: string, arrowId: string) => {
         const arr = document.getElementById(arrowId)
+        const minArr = arrowIds.filter(id => id !== arrowId)
+        console.log(arrowIds)
+        console.log(minArr)
+        minArr.forEach(minId => {
+            const a = document.getElementById(minId)
+            if (a) a.classList.remove(styles.arrow_up)
+        })
         if (arr) {
             if (arr.classList.contains(styles.arrow_up)) {
                 arr.classList.remove(styles.arrow_up)
@@ -145,6 +153,11 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
             return arr.classList.contains(styles.arrow_up)
         }
         return false
+    }
+
+    const addIds = (cats: IPollCategories) => {
+        const ids = Object.keys(cats).map(cat => arrowPrefix+cat)
+        setArrowIds(ids)
     }
 
     if (IS_MOBILE) {
