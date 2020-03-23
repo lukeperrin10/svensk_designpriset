@@ -37,7 +37,6 @@ const EntryModal = ({show,
     },[currentEntry])
 
     useEffect(() => {
-        console.log(prevEntry)
     }, [prevEntry])
 
     useEffect(() => {

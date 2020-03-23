@@ -1,14 +1,16 @@
 import * as React from 'react'
 import styles from './entry_display.module.css'
-import { IEntry } from '../../model'
+import { IEntry, IEntryImage } from '../../model'
 import Image from 'react-bootstrap/Image'
+import Carousel from 'react-bootstrap/Carousel'
 import Button from '../button'
 import { IS_MOBILE } from '../../config/style'
 import Text, { P, H1, H2, H3, Label } from '../text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../text/text'
 import { BUTTON_VARIANTS, BUTTON_SIZES } from '../button/button'
 import CloseButton from '../close_button'
-import { MEDIA_URL } from '../../config/host'
+import { assembleMediaUrl } from '../../helpers'
+import arrow from '../../assets/ui/arrow.svg'
 
 interface props {
     entry: IEntry,
@@ -56,6 +58,37 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
         
     }
 
+    const getCarousel = (e: IEntry) => {
+        console.log(entry)
+        const images = e.entry_images as IEntryImage[]
+        const featureStyle = {
+            backgroundImage: `url(${assembleMediaUrl(e.avatar)})`
+        }
+        return (
+            <Carousel 
+                nextIcon={<img src={arrow} className={styles.arrow_next} />}
+                prevIcon={<img src={arrow} className={styles.arrow_prev} />}
+                >
+                <Carousel.Item>
+                    <div className={styles.img_holder}>
+                        <div className={styles.feature_img} style={featureStyle}></div>
+                    </div>
+                    <div className={styles.dot_container}></div>
+                </Carousel.Item>
+                {images.map((image:IEntryImage) => {
+                    return (
+                        <Carousel.Item key={image.image}>
+                            <div className={styles.img_holder}>
+                                <img className={styles.car_img} src={assembleMediaUrl(image.image)} alt={image.image} />
+                            </div>
+                            <div className={styles.dot_container}></div>
+                        </Carousel.Item>
+                    )
+                })}
+            </Carousel>
+        )
+    }
+
     return (
         <div className={styles.container}>
         {onClose &&
@@ -71,7 +104,9 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                 {IS_MOBILE && getButtons()}
             </header>
             <section className={styles.section}>
-                <div className={styles.img_holder}></div>
+                <div className={styles.car_container}>
+                    {getCarousel(entry)}
+                </div>
                 <div className={styles.article_container}>
                     <article className={styles.article}>
                         <Text className={styles.title} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.entry_name}</Text>

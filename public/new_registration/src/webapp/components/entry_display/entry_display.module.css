@@ -19,11 +19,22 @@
     position: relative;
     /* display: flex;
     justify-content: space-between; */
-    height: 500px;
+    height: 550px;
 }
 
 .article {
     min-width: 218px;
+    max-width: 300px;
+}
+
+@media screen and (max-width: 1090px) {
+    .article {
+        margin-top: 40px;
+        max-width: unset;
+    }
+    .article_container {
+        height: fit-content;
+    }
 }
 
 .title {
@@ -38,10 +49,58 @@
     margin-right: 5px;
 }
 
-.img_holder {
-    background-color: gainsboro;
+.feature_img {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     height: 500px;
     width: 500px;
+}
+
+.img_holder {
+    height: 500px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.arrow_next {
+    transform: rotate(-90deg);
+    margin-bottom: 13px;
+}
+
+.arrow_prev {
+    transform: rotate(90deg);
+    margin-bottom: 13px;
+}
+
+.dot_container {
+    height: 50px;
+}
+
+.car_container {
+    height: 550px;
+    width: 500px;
+}
+
+.car_container li {
+    background-color: black !important;
+    border: none !important;
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 16px !important;
+    opacity: 0.1;
+}
+
+.car_container a {
+    align-items: flex-end !important;
+}
+
+.car_img {
+    max-height: 500px;
+    max-width: 500px;
+    margin: auto;
 }
 
 .button {
@@ -95,8 +154,18 @@
         height: fit-content;
     }
 
-    .img_holder {
+    .arrow_next, .arrow_prev {
+        display: none;
+    }
+
+    .img_holder, .feature_img {
         height: 100vw;
+        width: 100vw;
+    }
+
+    .car_container {
+        /* height: 100vw; */
+        height: unset;
         width: 100vw;
     }
 
