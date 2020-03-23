@@ -190,17 +190,13 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
     }
 
     const getCurrentWinnerYear = (yearConfig: IYearConfig) => {
-        console.log('get Current yar')
-        console.log(yearConfig)
         const today = new Date()
+        if (yearConfig.year === '') return today.getFullYear()-1
         const phaseFiveStart = new Date(yearConfig.phase_5_start)
         if (today < phaseFiveStart) {
-            const y = today.getFullYear()-1
-            console.log(y)
-            return y
+            return today.getFullYear()-1
         } 
         else {
-            console.log(today.getFullYear())
             return today.getFullYear()
         }
     }
@@ -217,7 +213,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 path={getHeaderClick(yearConfig.current_phase).path}
                 buttonTitle={getHeaderClick(yearConfig.current_phase).title}
                 />
-            {didFetch && yearConfig.year !== '' &&
+            {didFetch &&
             
             <Switch>
                 <Route exact path='/' render={() => {
