@@ -11,17 +11,22 @@ import { assembleMediaUrl } from '../../helpers'
 import {useHistory} from 'react-router-dom'
 
 
-type WinnersParams = {
+export type WinnersParams = {
     year: string
 }
 
-const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
+interface props {
+    currentWinnerYear: number
+}
+
+const Winners = ({ match, currentWinnerYear }:RouteComponentProps<WinnersParams> & props) => {
     let history = useHistory()
     const [winners, setWinners] = useState<IEntry[]>([])
     const [selectedYear, setSelectedYear] = useState<string>()
 
     useEffect(() => {
         fetchWinners()
+        console.log(currentWinnerYear)
     }, [])
 
     useEffect(() => {
@@ -30,7 +35,7 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
 
     const fetchWinners = async () => {
         const {year} = match.params
-        let arg = year ? year : selectedYear ? selectedYear : '2021'
+        let arg = year ? year : selectedYear ? selectedYear : currentWinnerYear
         try {
             const response = await fetch(`${hosts.WINNER_URL}?year=${arg}`)
             let json = await response.json()
@@ -41,7 +46,7 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
                 arg = date.toString()
             }
             setWinners(json)
-            setSelectedYear(arg)
+            setSelectedYear(arg.toString())
         } catch(error) {
             console.log(error)
         }
@@ -60,8 +65,13 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
         )
     }
 
-    const getYears = () => {
-        return ['2020', '2019', '2018', '2017']
+    const getYears = (current: number) => {
+        // console.log(current)
+        const years = []
+        for (let i = current;i>=2007;i--) {
+            years.push(i.toString())
+        }
+        return years
     }
 
     const dropDownAction = (year: string) => {
@@ -71,7 +81,7 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
     return (
         <PageContainer>
             {getMeta()}
-            <DropDown items={getYears()} label={selectedYear ? selectedYear : '2020'} onAction={dropDownAction}/>
+            <DropDown items={getYears(currentWinnerYear)} label={selectedYear ? selectedYear : currentWinnerYear.toString()} onAction={dropDownAction}/>
             {winners.length > 0 &&
             <WinnerGallery entries={winners} />
             }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useState, useEffect} from 'react'
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, Redirect, RouteComponentProps} from 'react-router-dom'
 import Registration from '../../pages/registration'
 import Vote from '../../pages/vote'
 import Start from '../../pages/start'
@@ -42,6 +42,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
     const [footerLinks, setFooterLinks] = useState<ILink[]>([])
     const [footerRightContent, setFooterRightContent] = useState<IContent[]>([])
     const [didFetch, setDidFetch] = useState(false)
+    const [currentWinnerYear, setCurrentWinnerYear] = useState<number>()
     const isDevVersion = process.env.REACT_APP_IS_DEV === "true"
     
     useEffect(() => {
@@ -50,6 +51,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
     }, [])
 
     useEffect(() => {
+        setCurrentWinnerYear(getCurrentWinnerYear(yearConfig))
     }, [yearConfig])
 
     useEffect(() => {
@@ -187,6 +189,22 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
         }
     }
 
+    const getCurrentWinnerYear = (yearConfig: IYearConfig) => {
+        console.log('get Current yar')
+        console.log(yearConfig)
+        const today = new Date()
+        const phaseFiveStart = new Date(yearConfig.phase_5_start)
+        if (today < phaseFiveStart) {
+            const y = today.getFullYear()-1
+            console.log(y)
+            return y
+        } 
+        else {
+            console.log(today.getFullYear())
+            return today.getFullYear()
+        }
+    }
+
     return (
         <Router>
             {isDevVersion && 
@@ -199,7 +217,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 path={getHeaderClick(yearConfig.current_phase).path}
                 buttonTitle={getHeaderClick(yearConfig.current_phase).title}
                 />
-            {didFetch &&
+            {didFetch && yearConfig.year !== '' &&
             
             <Switch>
                 <Route exact path='/' render={() => {
@@ -207,7 +225,16 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                         <Start content={startContent[0]}/>
                     )
                 }}/>
-                <Route path={`${PATHS.WINNERS}/:year?`} component={Winners}/>
+
+                <Route 
+                path={`${PATHS.WINNERS}/:year?`} 
+                render={
+                    ({ match, history, location }:RouteComponentProps<{year:string}>) => <Winners 
+                    history={history} 
+                    location={location} 
+                    match={match} 
+                    currentWinnerYear={currentWinnerYear || new Date('2019').getFullYear()} />}/>
+
                 {yearConfig.current_phase !== "" &&
                 <Route path={PATHS.VOTE} render={() => {
                     if (checkIfVoteAllowed()) return <Vote />
