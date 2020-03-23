@@ -33,6 +33,10 @@
     background-color: var(--PRIMARY_GOLD) !important;
 }
 
+.title {
+    max-width: 80%;
+}
+
 
 
 .overlay {

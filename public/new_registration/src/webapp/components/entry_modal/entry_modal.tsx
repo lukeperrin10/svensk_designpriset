@@ -44,7 +44,6 @@ const EntryModal = ({show,
     }, [entry])
 
     const setCurrentEntry = (newCurrEntry?: IEntry) => {
-        console.log('set current entry')
         if (entries.length > 0) {
             const currE = newCurrEntry || currentEntry
             const curr = entries.findIndex(e => e.id === currE)

@@ -2,7 +2,7 @@ import * as React from 'react'
 import styles from './footer.module.css'
 import { ILink, IContent } from '../../model'
 import { Link, NavLink } from 'react-router-dom'
-import logo from '../../assets/logo/logo.svg'
+import logo from '../../assets/logo/logo_white.svg'
 
 interface props {
     links: ILink[],

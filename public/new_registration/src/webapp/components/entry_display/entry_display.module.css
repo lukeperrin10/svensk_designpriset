@@ -49,6 +49,10 @@
     margin-right: 5px;
 }
 
+.old_img {
+
+}
+
 .feature_img {
     background-position: center;
     background-repeat: no-repeat;
@@ -82,6 +86,7 @@
 .car_container {
     height: 550px;
     width: 500px;
+    text-align: center;
 }
 
 .car_container li {
@@ -161,6 +166,11 @@
     .img_holder, .feature_img {
         height: 100vw;
         width: 100vw;
+    }
+
+    .car_img {
+        max-height: 100vw;
+        max-width: 100vw;
     }
 
     .car_container {

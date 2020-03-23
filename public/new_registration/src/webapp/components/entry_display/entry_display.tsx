@@ -59,7 +59,6 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
     }
 
     const getCarousel = (e: IEntry) => {
-        console.log(entry)
         const images = e.entry_images as IEntryImage[]
         const featureStyle = {
             backgroundImage: `url(${assembleMediaUrl(e.avatar)})`
@@ -105,7 +104,7 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
             </header>
             <section className={styles.section}>
                 <div className={styles.car_container}>
-                    {getCarousel(entry)}
+                    {entry.entry_images.length > 0 ? getCarousel(entry) : <img src={assembleMediaUrl(entry.avatar)} className={styles.car_img} />}
                 </div>
                 <div className={styles.article_container}>
                     <article className={styles.article}>

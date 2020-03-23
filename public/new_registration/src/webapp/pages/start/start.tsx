@@ -13,9 +13,10 @@ import { IState } from '../../model/state'
 import {useHistory} from 'react-router-dom'
 import styles from './start.module.css'
 import WinnerFeature from '../../components/winner_feature'
+import StartContent from '../../components/start_content'
 
 interface props {
-    content?: IContent
+    content?: IContent[]
 }
 const Start = ({content}:props) => {
     let history = useHistory()
@@ -43,8 +44,7 @@ const Start = ({content}:props) => {
         try {
             const response = await fetch(`${hosts.WINNER_URL}?year=${year}&phase=${yearConfig.current_phase}`)
             const json = await response.json()
-            setWinners(json)
-            console.log(json)
+            setWinners(json)            
         } catch(error) {
             console.log(error)
         }
@@ -56,8 +56,11 @@ const Start = ({content}:props) => {
             {featureWinner &&
             <WinnerFeature entry={featureWinner} />
             }
-            {content && 
-            <div dangerouslySetInnerHTML={{__html: content.content}}/>
+
+            {content &&
+                content.map(cont => {
+                    return <StartContent key={cont.title} content={cont}/>
+                })
             }
 
             <Link to="/rostning">Rösta</Link>

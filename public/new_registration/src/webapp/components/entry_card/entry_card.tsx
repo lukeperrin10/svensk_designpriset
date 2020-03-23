@@ -5,6 +5,8 @@ import Button from '../button'
 import {BUTTON_VARIANTS, BUTTON_SIZES} from '../button/button'
 import { assembleMediaUrl } from '../../helpers'
 import { IS_MOBILE } from '../../config/style'
+import gold from '../../assets/ui/crown_gold.svg'
+import silver from '../../assets/ui/crown_silver.svg'
 
 interface IEntryCard {
     entry: IEntry,
@@ -17,7 +19,6 @@ interface IEntryCard {
 const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEntryCard) => {
 
     const onVote = () => {
-        console.log('card vote')
         if (onVoteClick) onVoteClick(entry)
     }
 
@@ -28,6 +29,8 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEnt
     const imageStyle = {
         backgroundImage: `url(${assembleMediaUrl(entry.avatar)})`
     }
+
+    
 
     
     return (
@@ -46,7 +49,7 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEnt
             
 
             <div className={styles.bottom}>
-                <p>{entry.entry_name}</p>
+                <p className={onlyDisplay ? styles.title : ''}>{entry.entry_name}</p>
                 {!onlyDisplay ?
                 isVoted ?
                     <Button variant={BUTTON_VARIANTS.PRIMARY} size={BUTTON_SIZES.SMALL} onClick={onVote} title='Din röst' />
@@ -54,7 +57,7 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEnt
                     <Button variant={BUTTON_VARIANTS.TERTIARY} size={BUTTON_SIZES.SMALL} onClick={onVote} title='Rösta' />
                 
                     :
-                    <div></div>
+                    <img src={entry.is_winner_gold ? gold : entry.is_winner_silver ? silver : ''} alt="Krona" />
                 }
             </div>
         </div>

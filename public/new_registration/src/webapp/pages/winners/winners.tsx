@@ -26,7 +26,6 @@ const Winners = ({ match, currentWinnerYear }:RouteComponentProps<WinnersParams>
 
     useEffect(() => {
         fetchWinners()
-        console.log(currentWinnerYear)
     }, [])
 
     useEffect(() => {

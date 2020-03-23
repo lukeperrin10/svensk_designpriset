@@ -75,8 +75,8 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
         if (CONTENT_TEMPLATES.STANDARD in sortedContent) {
             setStandardPages(sortedContent[CONTENT_TEMPLATES.STANDARD])
         }
-        if (CONTENT_TEMPLATES.START_INFO in sortedContent) {
-            setStartContent(sortedContent[CONTENT_TEMPLATES.START_INFO])
+        if (CONTENT_TEMPLATES.START_CONTENT in sortedContent) {
+            setStartContent(sortedContent[CONTENT_TEMPLATES.START_CONTENT])
         }
         if (CONTENT_TEMPLATES.REGISTER_INFO in sortedContent) {
             setRegisterInfoContent(sortedContent[CONTENT_TEMPLATES.REGISTER_INFO])
@@ -218,7 +218,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             <Switch>
                 <Route exact path='/' render={() => {
                     return (
-                        <Start content={startContent[0]}/>
+                        <Start content={startContent}/>
                     )
                 }}/>
 

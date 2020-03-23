@@ -1,0 +1,13 @@
+.section h1, h2, h3, h4 {
+    color: var(--PRIMARY_GOLD);
+}
+
+.content {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 150px;
+}
+
+.content p {
+    margin-right: 20px;
+}

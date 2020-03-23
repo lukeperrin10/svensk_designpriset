@@ -35,6 +35,6 @@ export async function getYear(year: string, phase?: string) {
     const argYear = new Date(year).getFullYear()
     const queryYear = todayYear === argYear && currentPhase !== PHASES.FIVE ? argYear - 1 : year
 
-    const winners = (<Winner[]>await db.query('SELECT * FROM winner_view WHERE year = ? AND is_winner_gold = 1', [queryYear]))
+    const winners = (<Winner[]>await db.query('SELECT * FROM winner_view WHERE year = ? AND (is_winner_gold = 1 OR is_winner_silver = 1)', [queryYear]))
     return await addImages(winners)
 }
