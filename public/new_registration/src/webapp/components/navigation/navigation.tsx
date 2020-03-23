@@ -194,20 +194,20 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             currentPhase={yearConfig.current_phase} 
             changePhase={onChangePhase}
             />}
-            {didFetch &&
             <div className={styles.container}>
-                <Header 
+            <Header 
                 path={getHeaderClick(yearConfig.current_phase).path}
                 buttonTitle={getHeaderClick(yearConfig.current_phase).title}
                 />
+            {didFetch &&
+            
             <Switch>
                 <Route exact path='/' render={() => {
                     return (
                         <Start content={startContent[0]}/>
                     )
                 }}/>
-                <Route path={`${PATHS.WINNERS}/:year`} component={Winners}/>
-                <Route path={`${PATHS.WINNERS}`} component={Winners}/>
+                <Route path={`${PATHS.WINNERS}/:year?`} component={Winners}/>
                 <Route path={`${PATHS.WINNER_ENTRY}/:id`} component={Winner}/>
 
                 {yearConfig.current_phase !== "" &&
@@ -222,10 +222,13 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 }} />
 
                 {standardPages.length > 0 && getStandardRoutes(standardPages)}
-            </Switch>
-            <Footer content={footerRightContent} links={footerLinks}/>
-            </div>
+            </Switch> 
+            
             }
+            <Footer content={footerRightContent} links={footerLinks}/>
+
+            </div>
+            
         </Router>
     )
 }

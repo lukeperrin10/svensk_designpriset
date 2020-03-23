@@ -3,6 +3,7 @@ import styles from './standard_page.module.css'
 import {Helmet} from 'react-helmet'
 import Meta from '../meta'
 import { assembleMediaUrl } from '../../helpers'
+import PageContainer from '../page_container'
 
 interface props {
     title: string
@@ -12,7 +13,7 @@ interface props {
 
 const StandardPage = ({title, content, image}:props) => {
     return (
-        <main>
+        <PageContainer>
             <Meta
             title={title}
             image={image} />
@@ -21,7 +22,7 @@ const StandardPage = ({title, content, image}:props) => {
                 <img src={assembleMediaUrl(image)} alt={`${title}_image`} />
                 <div dangerouslySetInnerHTML={{__html: content}} />
             </article>
-        </main>
+        </PageContainer>
     )
 }
 

@@ -1,12 +1,11 @@
 import * as React from 'react'
 import {useEffect, useState} from 'react'
-import styles from './winners.module.css'
 import { IEntry } from '../../model'
 import * as hosts from '../../config/host'
 import WinnerGallery from '../../components/winner_gallery'
 import { RouteComponentProps } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
 import Meta from '../../components/meta'
+import PageContainer from '../../components/page_container'
 
 type WinnersParams = {
     year: string
@@ -37,6 +36,7 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
         const {year} = match.params
         const arg = year ? year : new Date().getFullYear()
         /* WARNING: Vänta in design för bild ??*/
+        
         return (    
             <Meta 
             title={`Vinnare ${arg}`} 
@@ -46,10 +46,12 @@ const Winners = ({ match }:RouteComponentProps<WinnersParams>) => {
     }
 
     return (
-        <main className={styles.container}>
+        <PageContainer>
             {getMeta()}
+            {winners.length > 0 &&
             <WinnerGallery entries={winners} />
-        </main>
+            }
+        </PageContainer>
     )
 }
 

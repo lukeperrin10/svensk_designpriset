@@ -6,6 +6,7 @@ import { BUTTON_VARIANTS } from '../button/button'
 import logo from '../../assets/logo/logo.svg'
 import crown from '../../assets/logo/crown.svg'
 import {useHistory} from 'react-router-dom'
+import PageContainer from '../page_container'
 
 interface props {
     path: string,
@@ -73,7 +74,7 @@ const Header  = ({path, buttonTitle}:props) => {
         return history.location.pathname === '/'
     }
 
-    return (        
+    return (   
         <div id={headerId} className={styles.container}>
             <div id={imageContId} className={[styles.logo_container, styles.logo_container_maximized].join(' ')}>
                 <img id={imageId} src={logo} className={styles.logo} alt="Logga" />

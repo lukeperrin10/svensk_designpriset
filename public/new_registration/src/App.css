@@ -37,6 +37,7 @@
 
 /* .designpriset_container {
     padding: var(--CONTAINER_PADDING);
+    width: 100vw;
 }
 
 @media screen and (max-width: 415px) {
@@ -44,6 +45,8 @@
         padding: var(--CONTAINER_MOBILE_PADDING);
     }   
 } */
+
+
 
 h1, h2, h3, h4, h5, h6 {
     font-family: ITC Franklin Gothic Std Demi;
@@ -66,5 +69,5 @@ hr {
 }
 
 body {
-    max-width: 1400px;
+    /* max-width: 1400px; */
 }

@@ -6,6 +6,8 @@ import Navigation from './webapp/components/navigation';
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap/dist/css/bootstrap-theme.css'
 import './App.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import './bootstrap.css'
 
 class App extends React.Component {
   	public render() {
