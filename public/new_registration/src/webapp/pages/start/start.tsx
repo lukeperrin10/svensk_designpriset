@@ -14,6 +14,8 @@ import {useHistory} from 'react-router-dom'
 import styles from './start.module.css'
 import WinnerFeature from '../../components/winner_feature'
 import StartContent from '../../components/start_content'
+import Text, { H2 } from '../../components/text'
+import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
 
 interface props {
     content?: IContent[]
@@ -62,11 +64,15 @@ const Start = ({content}:props) => {
                     return <StartContent key={cont.title} content={cont}/>
                 })
             }
-
-            <Link to="/rostning">Rösta</Link>
-            <Link to="/anmalan">Anmälan</Link>
+            <div className={styles.winner_header}>
+                <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.LARGE}>
+                    Vinnare {winners.length > 0 && winners[0].year}
+                </Text>
+                <Link to={PATHS.WINNERS}>{getText("Alla vinnare")}</Link>
+            </div>
+            
             <WinnerGallery entries={winners}/>
-            <Link to={PATHS.WINNERS}>{getText("Se alla vinnare")}</Link>
+            
         </main>
     )
 }

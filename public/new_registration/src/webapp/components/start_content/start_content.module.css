@@ -4,10 +4,26 @@
 
 .content {
     display: flex;
-    justify-content: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 150px;
 }
 
 .content p {
     margin-right: 20px;
+    max-width: 400px;
+    min-width: 300px;
+    width: 40%;
+}
+
+.content div {
+    width: 100%;
+    
+}
+
+@media screen and (max-width: 1000px) {
+    .content {
+        flex-wrap: wrap;
+    }
 }

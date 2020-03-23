@@ -1,3 +1,11 @@
 .main {
 
 }
+
+.winner_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}

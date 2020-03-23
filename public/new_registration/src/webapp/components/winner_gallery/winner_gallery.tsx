@@ -8,6 +8,7 @@ import { createSlug } from '../../helpers'
 import EntryCard from '../entry_card'
 import EntryModal from '../entry_modal'
 import Loader from '../loader'
+import { H2 } from '../text'
 
 interface props {
     entries: IEntry[],
