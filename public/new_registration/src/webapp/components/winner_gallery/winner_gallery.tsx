@@ -7,10 +7,11 @@ import { PATHS } from '../../config/path'
 import { createSlug } from '../../helpers'
 import EntryCard from '../entry_card'
 import EntryModal from '../entry_modal'
+import Loader from '../loader'
 
 interface props {
     entries: IEntry[],
-    onEntryClick?: (id: number) => void
+    onEntryClick?: (id: number) => void,
 }
 
 const WinnerGallery = ({entries, onEntryClick}:props) => {
@@ -34,7 +35,7 @@ const WinnerGallery = ({entries, onEntryClick}:props) => {
         <div>
             <section>
                 <ul className={styles.list}>
-                    {entries.length > 0 &&
+                    {entries.length > 0 ?
                     entries.map(entry => {
                         return (
                             <EntryCard
@@ -45,6 +46,8 @@ const WinnerGallery = ({entries, onEntryClick}:props) => {
                             />
                             )
                         })
+                        :
+                        <Loader />
                     }
                 </ul>
             </section>

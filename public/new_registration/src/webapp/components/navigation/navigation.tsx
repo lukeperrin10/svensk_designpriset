@@ -208,8 +208,6 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                     )
                 }}/>
                 <Route path={`${PATHS.WINNERS}/:year?`} component={Winners}/>
-                <Route path={`${PATHS.WINNER_ENTRY}/:id`} component={Winner}/>
-
                 {yearConfig.current_phase !== "" &&
                 <Route path={PATHS.VOTE} render={() => {
                     if (checkIfVoteAllowed()) return <Vote />

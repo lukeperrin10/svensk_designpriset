@@ -1,0 +1,29 @@
+.dropdown button {
+    background-color: white;
+    border: none;
+    color: black;
+    font-size: 48px;
+    font-family: var(--PRIMARY_HEADER_FONT);
+    padding: 0;
+    border-radius: 0;
+    border-bottom: 1px solid var(--PRIMARY_GOLD);
+    height: 55px;
+}
+
+.dropdown button:hover, button:focus {
+    background-color: white !important;
+    color: black !important;
+    padding: 0 !important;
+    border-color: white !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--PRIMARY_GOLD) !important;
+}
+
+.dropdown .dropdown-toggle::after {
+    display: none;
+}
+
+.dropdown {
+    margin-bottom: 100px;
+}
