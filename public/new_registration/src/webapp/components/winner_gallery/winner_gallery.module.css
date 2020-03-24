@@ -9,4 +9,33 @@
     flex-wrap: wrap;
     padding: 0;
     justify-content: space-around;
+    /* width: 100%; */
+}
+
+.category {
+    width: 50%;
+    min-width: 610px;
+    margin-bottom: 100px;
+}
+
+.entries {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.header {
+    margin-bottom: 23px;
+}
+
+@media screen and (max-width: 415px) {
+    .header {
+        margin-bottom: 0px;
+    }   
+
+    .category {
+        width: 100%;
+        min-width: unset;
+        margin-bottom: 20px;
+    }
 }

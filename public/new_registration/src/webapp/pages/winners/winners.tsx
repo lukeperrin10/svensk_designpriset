@@ -22,7 +22,7 @@ interface props {
 
 const Winners = ({ match, currentWinnerYear }:RouteComponentProps<WinnersParams> & props) => {
     let history = useHistory()
-    const [winners, setWinners] = useState<IEntry[]>([])
+    const [winners, setWinners] = useState<IEntry[]>([])    
     const [selectedYear, setSelectedYear] = useState<string>()
 
     useEffect(() => {
@@ -32,6 +32,8 @@ const Winners = ({ match, currentWinnerYear }:RouteComponentProps<WinnersParams>
     useEffect(() => {
         fetchWinners()
     },[match])
+
+   
 
     const fetchWinners = async () => {
         const {year} = match.params

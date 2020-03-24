@@ -70,13 +70,18 @@ const Header  = ({path, buttonTitle}:props) => {
         else history.goBack()
     }
 
+    const onLogoClick = () => {
+        console.log('logo click')
+        history.push('/')
+    }
+
     const isRoot = () => {
         return history.location.pathname === '/'
     }
 
     return (   
         <div id={headerId} className={styles.container}>
-            <div id={imageContId} className={[styles.logo_container, styles.logo_container_maximized].join(' ')}>
+            <div onClick={onLogoClick} id={imageContId} className={[styles.logo_container, styles.logo_container_maximized].join(' ')}>
                 <img id={imageId} src={logo} className={styles.logo} alt="Logga" />
                 <img src={crown} className={styles.crown} alt="Logga" />
             </div>

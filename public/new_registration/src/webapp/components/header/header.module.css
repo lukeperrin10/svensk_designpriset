@@ -39,6 +39,7 @@
     width: 90px;
     max-height: 54px;
     transition: all 300ms;
+    cursor: pointer;
 }
 
 .logo {

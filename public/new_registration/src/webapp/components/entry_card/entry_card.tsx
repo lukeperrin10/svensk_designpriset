@@ -13,10 +13,11 @@ interface IEntryCard {
     onVoteClick?: (entry: IEntry) => void,
     onShowClick: (entry: IEntry) => void
     isVoted?: boolean,
-    onlyDisplay?: boolean
+    onlyDisplay?: boolean,
+    noMargin?: boolean
 }
 
-const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEntryCard) => {
+const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick, noMargin}: IEntryCard) => {
 
     const onVote = () => {
         if (onVoteClick) onVoteClick(entry)
@@ -34,7 +35,7 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick}: IEnt
 
     
     return (
-        <div className={[styles.container, onlyDisplay && styles.container_min].join(' ')}>
+        <div className={[styles.container, onlyDisplay && styles.container_min, !noMargin && styles.margin].join(' ')}>
             {IS_MOBILE ?
             <div onClick={onShow} style={imageStyle} className={[styles.img_holder, onlyDisplay && styles.img_holder_min].join(' ')}></div>
             :
