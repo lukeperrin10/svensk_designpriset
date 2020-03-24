@@ -103,7 +103,8 @@ export interface IEntry {
     year: string,
     entry_images: IEntryImage[] | Array<string>,
     video_url: string,
-    company?: string
+    company?: string,
+    category_name?: string
 }
 
 export interface IEntryImage {

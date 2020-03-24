@@ -45,7 +45,11 @@ const Start = ({content}:props) => {
         const year = new Date().getFullYear()
         try {
             const response = await fetch(`${hosts.WINNER_URL}?year=${year}&phase=${yearConfig.current_phase}`)
-            const json = await response.json()
+            let json = await response.json()
+            if (json.length === 0) {
+                const response = await fetch(`${hosts.WINNER_URL}?year=${year-1}&phase=${yearConfig.current_phase}`)
+                json = await response.json()
+            }
             setWinners(json)            
         } catch(error) {
             console.log(error)

@@ -11,7 +11,7 @@ interface props {
     onClose: () => void,
     entries: IEntry[],
     currentEntry: number,
-    categoryName: string,
+    categoryName?: string,
     onVoteClick?: (entry: IEntry) => void,
     voteEntries?: IEntry[],
 }
@@ -82,7 +82,7 @@ const EntryModal = ({show,
         show={show}>
             {entry &&
             <EntryDisplay 
-            categoryName={categoryName} 
+            categoryName={categoryName || entry.category_name || ''} 
             nextEntry={nextEntry}
             prevEntry={prevEntry}
             onPrevNextClick={onPrevNextClick}

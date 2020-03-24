@@ -12,6 +12,8 @@ import CloseButton from '../close_button'
 import { assembleMediaUrl } from '../../helpers'
 import arrow from '../../assets/ui/arrow.svg'
 import VideoPlayer from '../video_player'
+import gold from '../../assets/ui/crown_gold.svg'
+import silver from '../../assets/ui/crown_silver.svg'
 
 interface props {
     entry: IEntry,
@@ -110,13 +112,22 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                     <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.year}</Text>
                     <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{categoryName}</Text>
                 </div>
-                {IS_MOBILE && getButtons()}
+                {IS_MOBILE ? getButtons() : 
+                <div>
+                    {entry.is_winner_gold ? <img className={styles.crowns} src={gold} alt='Guldkrona'/> :
+                    entry.is_winner_silver ? <img className={styles.crowns} src={silver} alt='Silverkrona'/> : null}
+                </div>}
             </header>
             <section className={styles.section}>
                 <div className={styles.car_container}>
                     {entry.entry_images.length > 0 || entry.video_url !== '' ? getCarousel(entry) : <img src={assembleMediaUrl(entry.avatar)} className={styles.car_img} />}
                 </div>
                 <div className={styles.article_container}>
+                    {IS_MOBILE && 
+                    <div>
+                        {entry.is_winner_gold ? <img className={styles.crowns} src={gold} alt='Guldkrona'/> :
+                        entry.is_winner_silver ? <img className={styles.crowns} src={silver} alt='Silverkrona'/> : null}
+                    </div>}
                     <article className={styles.article}>
                         <Text className={styles.title} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.entry_name}</Text>
                         <div className={styles.contents}>

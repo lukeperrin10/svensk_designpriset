@@ -55,7 +55,6 @@ const WinnerGallery = ({entries, onEntryClick}:props) => {
             <EntryModal 
             show={showModal} 
             onClose={onModalClose}
-            categoryName={'FIXA!'}
             currentEntry={modalId || 0}
             entries={entries}
             />

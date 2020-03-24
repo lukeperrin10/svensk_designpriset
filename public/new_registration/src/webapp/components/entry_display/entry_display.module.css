@@ -5,6 +5,13 @@
 
 .header {
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.crowns {
+    height: 56px;
 }
 
 .section {
@@ -201,6 +208,10 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-end;
+    }
+
+    .crowns {
+        height: 34px;
     }
 
 }
