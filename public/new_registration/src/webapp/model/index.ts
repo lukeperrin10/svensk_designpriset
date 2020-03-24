@@ -113,7 +113,9 @@ export interface IEntryImage {
 export interface ICategory {
     id: number,
     name: string,
-    shorttag: string
+    shorttag: string,
+    active: number,
+    type: string
 }
 
 export enum CONTENT_TEMPLATES {

@@ -9,9 +9,11 @@ export interface formItems {
         small?: boolean,
         medium?: boolean,
         marginBottom?: boolean,
-        singleRow?: boolean
+        singleRow?: boolean,
+        categoryType?: string
     }
 }
+
 
 // export const FORM_PROFILE_LABELS: formItems = {
 //     contact: {key: "contact", label: "Namn/Kontakt", required: true, type: "text", controlId: "formBasicContact"},
@@ -39,10 +41,10 @@ export const FORM_ENTRY_LABELS: formItems = {
     entry_name: {key: "entry_name", label: "Bidragets namn", required: true, type: "text"},
     customer: {key: 'customer', label: 'Uppdragsgivare', required: true, type: 'text', marginBottom: true},
     category_id: {key: 'category_id', label: 'Tävlingskategori', required: true, type: 'select', singleRow: true},
-    webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer", required: false, type: "text", singleRow: true, marginBottom: true},
-    format: {key: 'format', label: 'Omfång (Gäller trycksaker)', required: false, type: 'text'},
-    size: {key: 'size', label: 'Storlek (Gäller trycksaker)', required: false, type: 'text', marginBottom: true},
-    video: {key: "video", label: "Länk video (endast Vimeo/Youtube)", required: false, type: "text", singleRow: true, marginBottom: true},
+    webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer", required: false, type: "text", singleRow: true, marginBottom: true, categoryType: 'digital'},
+    format: {key: 'format', label: 'Omfång (Gäller trycksaker)', required: false, type: 'text', categoryType: 'print'},
+    size: {key: 'size', label: 'Storlek (Gäller trycksaker)', required: false, type: 'text', marginBottom: true, categoryType: 'print'},
+    video_url: {key: "video_url", label: "Länk video (endast Vimeo/Youtube)", required: false, type: "text", singleRow: true, marginBottom: true},
     work_force: {key: 'work_force', label: 'Arbetsgrupp', required: false, type:'header'},
     designer: {key: 'designer', label: 'Designer', required: true, type: 'text'},
     illustrator: {key: 'illustrator', label: 'Illustratör/fotograf', required: false, type: 'text'},

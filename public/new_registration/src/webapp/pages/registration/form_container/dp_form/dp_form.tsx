@@ -25,7 +25,8 @@ interface IDpFormProps {
     onDisabled: () => void,
     onDelete?: () => void,
     shouldSubmit: boolean, 
-    onError: () => void
+    onError: () => void,
+    categoryType?: string
 }
 class DpForm extends React.Component<IDpFormProps> {
     state = {
@@ -54,7 +55,6 @@ class DpForm extends React.Component<IDpFormProps> {
     }
 
     onOutsideSubmit() {
-        console.log('on outside submit')
         if (this.formRef.current?.reportValidity()) {
             this.props.onSubmit(this.state.formInput)
         } else {
@@ -63,11 +63,8 @@ class DpForm extends React.Component<IDpFormProps> {
     }
 
     onSubmit(e: React.FormEvent<HTMLFormElement>) {
-        console.log('ON SUBMIT')
         const form = e.currentTarget
-        console.log(form)
         if (form.checkValidity() === false) {
-            console.log('nepp')
             e.preventDefault()
             e.stopPropagation()
         } else {
@@ -78,7 +75,6 @@ class DpForm extends React.Component<IDpFormProps> {
 
     onControlChange = (name: string) => (e: React.FormEvent<HTMLInputElement>)  => {
         let obj = this.state.formInput
-        console.log(name)
         obj[name] = e.currentTarget.value
         this.setState({newProfile: obj})
         if(this.props.onValueChange) {
@@ -116,7 +112,7 @@ class DpForm extends React.Component<IDpFormProps> {
     
     render() {
         const {formValidated, } = this.state
-        const {fields} = this.props
+        const {fields, categoryType} = this.props
         return (
             <div className={styles.container}>
                 <hr></hr>
@@ -134,6 +130,9 @@ class DpForm extends React.Component<IDpFormProps> {
                     <div className={styles.form}>
                         {Object.keys(fields).map(key => {
                             const item = fields[key]
+                            if (item.categoryType && item.categoryType !== categoryType) {
+                                return null
+                            }
                             if (item.type === 'header') {
                                 return (
                                     <Text key={item.key} className={styles.header_label} type={TEXT_TYPES.LABEL}>{item.label}</Text>

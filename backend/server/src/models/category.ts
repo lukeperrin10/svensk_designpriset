@@ -9,11 +9,11 @@ export function getName() {
 }
 
 export async function get(): Promise<Array<Category>> {
-    const query = await db.query('SELECT id, name, shorttag, type FROM categories')
+    const query = await db.query('SELECT id, name, shorttag, type, active FROM categories')
     return query
 }
 
 export async function getId(id: number): Promise<Category> {
-    const query = await db.query('SELECT id, name, shorttag, type FROM categories WHERE `id` = ?', [id])
+    const query = await db.query('SELECT id, name, shorttag, type, active FROM categories WHERE `id` = ?', [id])
     return query
 }

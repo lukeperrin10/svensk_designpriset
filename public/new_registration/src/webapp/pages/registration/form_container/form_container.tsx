@@ -56,7 +56,8 @@ class FormContainer extends React.Component<IFormContainer> {
         editModeNewEntries: {},
         shouldSubmitProfile: false,
         shouldSubmitEntries: false,
-        formError: false
+        formError: false,
+        selectedCategory: ''
     }
     constructor(p: any) {
         super(p)
@@ -158,11 +159,11 @@ class FormContainer extends React.Component<IFormContainer> {
         
         switch(form) {
             case 'profile':
-            Object.keys(values).forEach(v => {
-                tempProfile[v] = values[v]
-            })
-            this.setState({tempProfile: tempProfile})
-            break;
+                Object.keys(values).forEach(v => {
+                    tempProfile[v] = values[v]
+                })
+                this.setState({tempProfile: tempProfile})
+                break;
             case 'entry':
                 if(key) {
                     if(key in tempEntries) {
@@ -173,10 +174,17 @@ class FormContainer extends React.Component<IFormContainer> {
                         tempEntries[key] = values
                     }
                 }
-            this.setState({tempEntries: tempEntries})
-            break;
+                this.setCurrentCategory(values)
+                this.setState({tempEntries: tempEntries})
+                break;
             default:
-            break;
+                break;
+        }
+    }
+
+    setCurrentCategory(values: IEnteredValues) {
+        if ('category_id' in values) {
+            this.setState({selectedCategory: values['category_id']})
         }
     }
 
@@ -313,16 +321,12 @@ class FormContainer extends React.Component<IFormContainer> {
 
     //WARNING DELETE FILE BACKEND???
     removeMediaFromEntry(key: string, type: string, image?: string) {
-        console.log('remove media')
         const obj = this.state.tempEntries
         if (key in obj && type in obj[key]) {
             if (type === 'entry_images') {
-                console.log(image)
                 const entryImages = Array.from(obj[key][type]).filter(e => {
-                    console.log(e === image)
                     return e !== image
                 })
-                console.log(entryImages)
                 obj[key][type] = entryImages
             } else {
                 delete obj[key][type] 
@@ -331,19 +335,28 @@ class FormContainer extends React.Component<IFormContainer> {
         }
     }
 
+    getCategoryType(cat:{id:number,name:string,short:string,type:string}[]) {
+        const {selectedCategory} = this.state
+        const selected = cat.filter(c => c.id === parseInt(selectedCategory))
+        if (selected && selected.length > 0) {
+            return selected[0].type
+        }
+        return undefined
+    }
+
     getEntryForms() {
-        const {tempEntries, disabledEntries, errorEntries, enableDelete, editModeNewEntries} = this.state
+        const {tempEntries, disabledEntries, errorEntries, enableDelete, editModeNewEntries, selectedCategory} = this.state
         const {categories, editContent} = this.props
         const amountOfForms = isEmptyObject(tempEntries) ? 1 : Object.keys(tempEntries).length
         const forms = []
-        const cat: {id:number,name:string,short:string}[] = []
+        const cat: {id:number,name:string,short:string,type:string}[] = []
         categories.forEach(c => {
-            // Exlcude 3 specific categories
-            if (c.id !== 30 && c.id !== 29 && c.id !== 51) {
+            if (c.active === 1) {
                 cat.push({
                     id: c.id,
                     name: c.name,
-                    short: c.shorttag
+                    short: c.shorttag,
+                    type: c.type
                 })    
             }
         })
@@ -354,7 +367,6 @@ class FormContainer extends React.Component<IFormContainer> {
             const uploadedAvatar = tempEntries[`${i}`] ? tempEntries[`${i}`].avatar || false : false
             const uploadedMedia = tempEntries[`${i}`] ? tempEntries[`${i}`].source || false : false
             const uploadedEntryImages = tempEntries[`${i}`] ? tempEntries[`${i}`].entry_images || false : false
-            console.log(uploadedEntryImages)
             const key = `${i}`
             const editPath = key in editModeNewEntries ? TEMP_AVATAR_URL : AVATAR_URL
             const form = <div key={i} ref={el => {
@@ -364,6 +376,7 @@ class FormContainer extends React.Component<IFormContainer> {
                 }
             }}>
                 <DpForm
+                categoryType={this.getCategoryType(cat)}
                 onError={() => this.onFormError()}
                 shouldSubmit={this.state.shouldSubmitEntries}
                 fields={FORM_ENTRY_LABELS}
@@ -386,7 +399,7 @@ class FormContainer extends React.Component<IFormContainer> {
                         uploadedImage={uploadedAvatar ? `${editContent ? editPath : TEMP_AVATAR_URL}/${tempEntries[key].avatar}` : undefined}
                         deleteImage={uploadedAvatar ? () => this.removeMediaFromEntry(key, 'avatar') : undefined}
                         />,
-                    <DpImageUpload 
+                        this.getCategoryType(cat) === 'print' ? <DpImageUpload 
                         onSave={(url: string) => this.addMediaToEntry(key, 'source', url)} 
                         url={POST_TEMP_ENTRY_MEDIA_URL}
                         label={GENERAL_TEXT.entry_media} 
@@ -397,7 +410,7 @@ class FormContainer extends React.Component<IFormContainer> {
                         uploadedImage={uploadedMedia ? `${tempEntries[key].source}` : undefined}
                         displayUploadName={true}
                         deleteImage={uploadedMedia ? () => this.removeMediaFromEntry(key, 'source') : undefined}
-                        />,
+                        /> : <div key='media'></div>,
                     <DpMultipleImageUpload 
                         onSave={(url: string) => this.addMediaToEntry(key, 'entry_images', url)} 
                         url={POST_TEMP_ENTRY_IMAGES_URL}
@@ -463,7 +476,6 @@ class FormContainer extends React.Component<IFormContainer> {
 
     render() {
         const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview, checkShouldClear, editMode} = this.state 
-        console.log(tempEntries)
         const modalTitle = editMode ? 'Bekräfta uppdatering av uppgifter' : 'Bekräfta uppgifter'
         const ignoreLabels = [
             'created', 
