@@ -1,0 +1,21 @@
+.img {
+    width: 100%;
+    max-width: 844px;
+    margin-bottom: 100px;
+    margin-top: 80px;
+}
+
+.content {
+    margin-bottom: 200px;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 415px) {
+    .img {
+        margin-bottom: 70px;
+        margin-top: 60px;
+    }
+}
