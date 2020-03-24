@@ -54,7 +54,6 @@ const Vote = () => {
         try {
             const response = await fetch(hosts.POLL_URL)
             const json = await response.json()
-            console.log(json)
             setPoll(json[0])
         } catch(error) {
             console.log(error)
@@ -81,7 +80,6 @@ const Vote = () => {
     }
 
     const confirmVotes = async (secret: string) => {
-        console.log(secret)
         setError(false)
         try {
             const method = "POST"
@@ -135,7 +133,6 @@ const Vote = () => {
 
     const onPostVotes = (votes: IVote[]) => {
         postVotes(votes)
-        console.log(votes)
     }
 
     const onChangeVotes = () => {

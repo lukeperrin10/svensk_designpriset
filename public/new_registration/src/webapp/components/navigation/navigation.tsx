@@ -11,7 +11,6 @@ import { CONTENT_TEMPLATES, IContent, ILink, IYearConfig } from '../../model'
 import { createSlug } from '../../helpers'
 import StandardPage from '../standard_page'
 import { PATHS } from '../../config/path'
-import Winner from '../../pages/winner'
 import Winners from '../../pages/winners'
 import { IState } from '../../model/state'
 import {getConfig, changePhase} from '../../redux/actions/year_config'
@@ -19,7 +18,6 @@ import { connect } from 'react-redux'
 import DevHeader from '../dev_header'
 import { PHASES } from '../../model/constants'
 import * as queryString from 'query-string'
-import {createBrowserHistory} from 'history'
 import styles from './navigation.module.css'
 
 interface ReduxProps {
@@ -33,8 +31,8 @@ interface DispatchProps {
 
 type props = ReduxProps & DispatchProps
 
-const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
-    const browserHistory = createBrowserHistory()
+const Navigation = ({yearConfig, getConfig, changePhase}:props) => { 
+    
     const [content, setContent] = useState<IContent[]>([])
     const [registerInfoContent, setRegisterInfoContent] = useState<IContent[]>([])
     const [standardPages, setStandardPages] = useState<IContent[]>([])

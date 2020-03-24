@@ -102,7 +102,8 @@ export interface IEntry {
     motivation: string,
     year: string,
     entry_images: IEntryImage[] | Array<string>,
-    video_url: string
+    video_url: string,
+    company?: string
 }
 
 export interface IEntryImage {

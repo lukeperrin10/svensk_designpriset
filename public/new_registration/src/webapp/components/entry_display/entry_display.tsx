@@ -86,7 +86,7 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                         </Carousel.Item>
                     )
                 })}
-                {e.video_url !== '' &&
+                {e.video_url !== '' && e.video_url !== null &&
                 <Carousel.Item>
                     <div className={styles.img_holder}>
                         <VideoPlayer className={styles.video} videoUrl={e.video_url} />
@@ -120,7 +120,7 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                     <article className={styles.article}>
                         <Text className={styles.title} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.entry_name}</Text>
                         <div className={styles.contents}>
-                            <Label>Byrå: </Label><P>{entry.profile_id}</P>
+                            <Label>Byrå: </Label><P>{entry.company}</P>
                         </div>
                         <div className={styles.contents}>
                             <Label>Designer: </Label><P>{entry.designer}</P>    
