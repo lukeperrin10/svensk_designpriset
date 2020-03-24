@@ -74,7 +74,8 @@ export interface INewEntry {
     avatar: string,
     secret: string,
     year: string,
-    entry_images: Array<string> | IEntryImage[]
+    entry_images: Array<string> | IEntryImage[],
+    video_url: string
 }
 
 export interface IEntry {
@@ -100,7 +101,8 @@ export interface IEntry {
     sent_nominee_notification: string,
     motivation: string,
     year: string,
-    entry_images: IEntryImage[] | Array<string>
+    entry_images: IEntryImage[] | Array<string>,
+    video_url: string
 }
 
 export interface IEntryImage {

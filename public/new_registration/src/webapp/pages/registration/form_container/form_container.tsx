@@ -227,7 +227,7 @@ class FormContainer extends React.Component<IFormContainer> {
         } else {
              savedEntry = {profile_id: 9999999,entry_name: '',designer: '',
             illustrator: '',leader: '', avatar: '', secret: '', year: '',customer: '',
-            source: '', format: '', size: '', category_id: 99999999999, webpage: '', entry_images: []} as INewEntry
+            source: '', format: '', size: '', category_id: 99999999999, webpage: '', entry_images: [], video_url: ''} as INewEntry
         }
         
         Object.keys(savedEntry).forEach(key => {

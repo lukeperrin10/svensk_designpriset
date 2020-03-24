@@ -9,6 +9,7 @@ import PageContainer from '../../components/page_container'
 import DropDown from '../../components/dropdown'
 import { assembleMediaUrl } from '../../helpers'
 import {useHistory} from 'react-router-dom'
+import VideoPlayer from '../../components/video_player'
 
 
 export type WinnersParams = {

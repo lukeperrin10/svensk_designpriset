@@ -11,6 +11,7 @@ import { BUTTON_VARIANTS, BUTTON_SIZES } from '../button/button'
 import CloseButton from '../close_button'
 import { assembleMediaUrl } from '../../helpers'
 import arrow from '../../assets/ui/arrow.svg'
+import VideoPlayer from '../video_player'
 
 interface props {
     entry: IEntry,
@@ -64,7 +65,8 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
             backgroundImage: `url(${assembleMediaUrl(e.avatar)})`
         }
         return (
-            <Carousel 
+            <Carousel
+                interval={null} 
                 nextIcon={<img src={arrow} className={styles.arrow_next} />}
                 prevIcon={<img src={arrow} className={styles.arrow_prev} />}
                 >
@@ -84,6 +86,14 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                         </Carousel.Item>
                     )
                 })}
+                {e.video_url !== '' &&
+                <Carousel.Item>
+                    <div className={styles.img_holder}>
+                        <VideoPlayer className={styles.video} videoUrl={e.video_url} />
+                    </div>
+                    <div className={styles.dot_container}></div>
+                </Carousel.Item>
+                }
             </Carousel>
         )
     }

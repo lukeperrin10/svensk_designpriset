@@ -88,6 +88,10 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
 
     const sortLinks = () => {
         const links: ILink[] = []
+        links.push({
+            title: 'Vinnare',
+            path: 'vinnare'
+        })
         content.forEach(cont => {
             if (cont.template === CONTENT_TEMPLATES.STANDARD) {
                 links.push({

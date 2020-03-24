@@ -108,6 +108,13 @@
     margin: auto;
 }
 
+.video {
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
 .button {
     position: absolute;
     bottom: 0;
