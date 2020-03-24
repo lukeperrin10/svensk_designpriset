@@ -114,7 +114,7 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
             </header>
             <section className={styles.section}>
                 <div className={styles.car_container}>
-                    {entry.entry_images.length > 0 ? getCarousel(entry) : <img src={assembleMediaUrl(entry.avatar)} className={styles.car_img} />}
+                    {entry.entry_images.length > 0 || entry.video_url !== '' ? getCarousel(entry) : <img src={assembleMediaUrl(entry.avatar)} className={styles.car_img} />}
                 </div>
                 <div className={styles.article_container}>
                     <article className={styles.article}>

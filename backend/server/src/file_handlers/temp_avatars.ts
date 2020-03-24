@@ -50,8 +50,8 @@ export default (req: express.Request, res: express.Response) => {
 }
 
 function cropImage(filename: string, callBack: Function) {
-    const endWidth = 770
-    const endHeight = 1030
+    const endWidth = 1000
+    const endHeight = 1000
 
     let newWidth = 0
     let newHeigth = 0
@@ -62,7 +62,7 @@ function cropImage(filename: string, callBack: Function) {
         } else {
             newWidth = val.width
             newHeigth = val.height
-            const ratio = 1030 / newHeigth
+            const ratio = 1000 / newHeigth
             newHeigth = newHeigth * ratio
             newWidth = newWidth * ratio
             const x = newWidth - endWidth / 2
