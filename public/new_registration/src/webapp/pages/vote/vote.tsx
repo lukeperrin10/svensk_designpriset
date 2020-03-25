@@ -13,6 +13,7 @@ import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
 import { getDayWithMonth } from '../../helpers/dates'
 import styles from './vote.module.css'
 import VoteInstruction from '../../components/vote_instruction'
+import ShareButton from '../../components/share_button'
 
 enum STAGES {
     LIST = 'LIST',
@@ -178,6 +179,7 @@ const Vote = () => {
     
     return (
         <div className={styles.container}>
+            <ShareButton />
            {getContent()}
            {isLoading &&
             <div style={{

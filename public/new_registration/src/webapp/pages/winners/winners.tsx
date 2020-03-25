@@ -10,6 +10,7 @@ import DropDown from '../../components/dropdown'
 import { assembleMediaUrl } from '../../helpers'
 import {useHistory} from 'react-router-dom'
 import VideoPlayer from '../../components/video_player'
+import ShareButton from '../../components/share_button'
 
 
 export type WinnersParams = {
@@ -82,6 +83,7 @@ const Winners = ({ match, currentWinnerYear }:RouteComponentProps<WinnersParams>
     return (
         <PageContainer>
             {getMeta()}
+            <ShareButton />
             <DropDown items={getYears(currentWinnerYear)} label={selectedYear ? selectedYear : currentWinnerYear.toString()} onAction={dropDownAction}/>
             {winners.length > 0 &&
             <WinnerGallery entries={winners} />

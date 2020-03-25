@@ -14,7 +14,7 @@ export const CONTENT_URL = `${BASE_URL}/content`
 export const YEAR_CONFIG_URL = `${BASE_URL}/config`
 export const CONFIRMED_VOTE_URL = `${BASE_URL}/votes/confirmed_vote`
 
-export const FRONTEND_URL = isProd ? PROD_DOMAIN : "http://myown.se:8011"
+export const FRONTEND_URL = isProd ? PROD_DOMAIN : "http://myown.se:3000"
 
 const ASSETS_URL = `${BASE_URL}/upload_assets`
 

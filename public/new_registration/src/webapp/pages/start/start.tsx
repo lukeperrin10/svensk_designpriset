@@ -60,7 +60,7 @@ const Start = ({content}:props) => {
     return (
         <main className={styles.main}>
             <Meta />
-            <ShareButton />
+            <ShareButton/>
             {featureWinner &&
             <WinnerFeature entry={featureWinner} />
             }

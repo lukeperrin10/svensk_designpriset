@@ -30,6 +30,7 @@
 
     --CONTAINER_PADDING: 0 80px 0 80px;
     --CONTAINER_MOBILE_PADDING: 0px 20px 0 20px; 
+    --CONTAINER_PADDING_RIGHT: 80px;
 
     --PRIMARY_HEADER_FONT: ITC Franklin Gothic Std Demi;
     --PRIMARY_TEXT_FONT: ITC Franklin Gothic Std Book;
