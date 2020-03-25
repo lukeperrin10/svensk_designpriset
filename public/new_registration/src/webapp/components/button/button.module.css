@@ -5,6 +5,10 @@
     transition: all 200ms;
 }
 
+.button:focus {
+    padding: 5px 15px 5px 15px !important;
+}
+
 .button:hover {
     opacity: 0.8;
 }
@@ -15,17 +19,34 @@
     border: none;
 }
 
+.primary:focus {
+    background-color: var(--BUTTON_GOLD) !important;
+    color: black !important;
+    border: none !important;
+}
+
 .secondary {
     background-color: black;
     color: white;
     border: none;
 }
 
+.secondary:focus {
+    background-color: black !important;
+    color: white !important;
+    border: none !important;
+}
+
 .tertiary {
     background-color: white;
     color: black;
     border-color: black;
-    
+}
+
+.tertiary:focus {
+    background-color: white !important;
+    color: black !important;
+    border-color: black !important;
 }
 
 .standard {
@@ -49,6 +70,10 @@
     font-size: 19px;
     text-align: center;
     line-height: 64px;
+}
+
+.text:focus {
+    line-height: 64px !important;
 }
 
 .small_text {

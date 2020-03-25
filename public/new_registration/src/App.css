@@ -69,5 +69,20 @@ hr {
 }
 
 body {
-    /* max-width: 1400px; */
+    max-width: 1400px;
 }
+
+#root {
+    position: absolute;
+    max-width: 1400px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+/* @media screen and (max-width: 415px) {
+    #root {
+        position: static;
+        max-width: unset;
+    }
+} */
