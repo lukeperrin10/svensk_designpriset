@@ -16,6 +16,7 @@ import WinnerFeature from '../../components/winner_feature'
 import StartContent from '../../components/start_content'
 import Text, { H2 } from '../../components/text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
+import ShareButton from '../../components/share_button'
 
 interface props {
     content?: IContent[]
@@ -59,6 +60,7 @@ const Start = ({content}:props) => {
     return (
         <main className={styles.main}>
             <Meta />
+            <ShareButton />
             {featureWinner &&
             <WinnerFeature entry={featureWinner} />
             }
