@@ -40,7 +40,6 @@ const DpMultipleImageUpload = (props:props) => {
                 />
                 )
             })  
-            console.log(uploaded)
             return uploaded
     }
 

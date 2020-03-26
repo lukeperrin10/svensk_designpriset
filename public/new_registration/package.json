@@ -2,7 +2,7 @@
   "name": "new_registration",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "/",
   "dependencies": {
     "bootstrap": "^4.4.1",
     "cross-fetch": "^3.0.4",

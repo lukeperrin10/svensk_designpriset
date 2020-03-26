@@ -309,7 +309,12 @@ class FormContainer extends React.Component<IFormContainer> {
         } 
         if (key in obj) {
             if (isEntryImages) {
-                obj[key][type].push(url)
+                if (obj[key][type] && obj[key][type].length > 0) {
+                    obj[key][type].push(url)
+                } else {
+                    obj[key][type] = [url]
+                }
+                
             } else {
                 obj[key][type] = url
             }
