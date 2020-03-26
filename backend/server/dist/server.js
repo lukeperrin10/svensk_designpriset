@@ -19,7 +19,10 @@ const router_1 = require("./src/router");
 const bodyParser = __importStar(require("body-parser"));
 require("console-stamp")(console, { pattern: "yyyy-mm-dd--HH:MM:ss" });
 // logger.token('date');
-app.use(morgan_1.default('[:date[iso]] [ACCESS] :req[x-forwarded-for] - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
+if (process.env.NODE_MODE != 'testing') {
+    app.use(morgan_1.default('[:date[iso]] [ACCESS] :req[x-forwarded-for] - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'));
+}
+app.use(express.static('upload_assets'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
@@ -59,10 +62,11 @@ if (process.env.NODE_ENV === 'development') {
         // }
     });
 }
-const port = 8001;
+const port = process.env.NODE_PORT || 8001;
 router_1.initRouter(app);
 app.listen(port, () => {
     console.log('Server listening on port 8001!');
     console.log('Node env: ' + process.env.NODE_ENV);
 });
+exports.default = app;
 //# sourceMappingURL=server.js.map

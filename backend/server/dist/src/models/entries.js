@@ -25,20 +25,11 @@ const temp_contants_1 = require("../constants/temp_contants");
 const temp_contants_2 = require("../constants/temp_contants");
 const temp_contants_3 = require("../constants/temp_contants");
 const temp_contants_4 = require("../constants/temp_contants");
+const helpers_1 = require("../helpers");
 function getName() {
     return 'Entries';
 }
 exports.getName = getName;
-function get() {
-    return __awaiter(this, void 0, void 0, function* () {
-        console.log('ENTRIES GET');
-        const query = yield db.query('SELECT * FROM entries');
-        if (query)
-            console.log('ENTRIES GET query response recieved');
-        return query;
-    });
-}
-exports.get = get;
 function getId(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const query = yield db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [id]);
@@ -48,47 +39,62 @@ function getId(id) {
 exports.getId = getId;
 function create(new_entry) {
     return __awaiter(this, void 0, void 0, function* () {
-        const updateEntry = 'id' in new_entry;
-        const updatedIds = [];
-        console.log('update entry? ' + updateEntry);
-        console.log(new_entry);
-        const post_entry = fill_entry(new_entry);
-        if (post_entry.avatar)
-            yield moveAvatar([post_entry.avatar]);
-        if (post_entry.source)
-            yield moveSource([post_entry.source]);
-        const queryString = updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?';
-        const args = updateEntry ? [post_entry, new_entry.id] : [post_entry];
-        const insert = yield db.query(queryString, args);
-        const id = updateEntry ? new_entry.id : insert.insertId;
-        const query = updateEntry ? yield db.query('SELECT * FROM entries WHERE profile_id = ?', [new_entry.profile_id]) : yield db.query('SELECT * FROM entries WHERE id = ?', id);
-        if (query.length > 0) {
-            if ('profile_id' in query[0]) {
-                if (updateEntry) {
-                    query.forEach((q) => {
-                        if ('id' in q)
-                            updatedIds.push(q.id);
-                    });
-                }
-                const id = query[0].profile_id;
-                const profile = yield db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]);
-                if (profile.length > 0 && 'id' in profile[0]) {
-                    mail_handler_1.sendRegisterEmails(profile[0], updateEntry ? query : [query[0]], updateEntry, updatedIds);
-                }
-            }
-        }
-        else {
-            console.error('Did not send mail regarding entry: ' + new_entry.id);
-        }
-        return query;
+        return (yield batch([new_entry], false))[0];
     });
 }
 exports.create = create;
+function batchCreate(new_entries) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield batch(new_entries, false);
+    });
+}
+exports.batchCreate = batchCreate;
+function update(entry) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return (yield batch([entry], true))[0];
+    });
+}
+exports.update = update;
+function batchUpdate(entries) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield batch(entries, true);
+    });
+}
+exports.batchUpdate = batchUpdate;
+function remove(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield db.query('DELETE from entry_images where entry_id = ?', [id]);
+        const remove = yield db.query('DELETE FROM entries WHERE ID = ? ', [id]);
+        return remove;
+    });
+}
+exports.remove = remove;
+function createImages(entry_id, images) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const data = images.map(i => ({
+            image: `${temp_contants_4.AVATAR_DIR}/${i}`,
+            entry_id: entry_id,
+            modified: helpers_1.getDateTime(),
+            created: helpers_1.getDateTime(),
+            is_featured: false
+        }));
+        moveAvatar(data.map(d => d.image));
+        const queries = data.map(d => ({ query: 'INSERT INTO entry_images SET ?', args: d }));
+        queries.unshift({ query: 'DELETE FROM entry_images WHERE entry_id = ?', args: [entry_id] });
+        try {
+            yield db.batchQuery(queries);
+        }
+        catch (e) {
+            throw e;
+        }
+    });
+}
 function moveAvatar(filenames) {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < filenames.length; i++) {
-            const origin = `${temp_contants_3.TEMP_AVATAR_PATH}/${filenames[i]}`;
-            const dest = `${temp_contants_4.AVATAR_PATH}/${filenames[i]}`;
+            const filename = filenames[i].split('/').pop();
+            const origin = `${temp_contants_3.TEMP_AVATAR_PATH}/${filename}`;
+            const dest = `${temp_contants_4.AVATAR_PATH}/${filename}`;
             if (fs_extra_1.default.existsSync(origin)) {
                 yield fs_extra_1.default.move(origin, dest, (err) => {
                     if (err)
@@ -96,14 +102,18 @@ function moveAvatar(filenames) {
                     console.log('Moved avatar');
                 });
             }
+            else {
+                console.error("FILE DOES NOT EXIST");
+            }
         }
     });
 }
 function moveSource(filenames) {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < filenames.length; i++) {
-            const origin = `${temp_contants_1.TEMP_MEDIA_PATH}/${filenames[i]}`;
-            const dest = `${temp_contants_2.MEDIA_PATH}/${filenames[i]}`;
+            const filename = filenames[i].split('/').pop();
+            const origin = `${temp_contants_1.TEMP_MEDIA_PATH}/${filename}`;
+            const dest = `${temp_contants_2.MEDIA_PATH}/${filename}`;
             if (fs_extra_1.default.existsSync(origin)) {
                 yield fs_extra_1.default.move(origin, dest, (err) => {
                     if (err)
@@ -136,67 +146,53 @@ function batch(new_entries, update) {
         });
         yield moveAvatar(avatars);
         yield moveSource(sources);
-        const batchInsert = yield db.batchQuery(querys);
-        console.log('batchInsert: ' + batchInsert);
-        const profileEntries = yield db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id]);
-        console.log(updatedEntrieIds);
-        sendMails(profileEntries, update, updatedEntrieIds, new_entries[0].id);
-        return profileEntries;
-    });
-}
-function batchCreate(new_entries) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return batch(new_entries, false);
-    });
-}
-exports.batchCreate = batchCreate;
-function remove(id) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const remove = yield db.query('DELETE FROM entries WHERE ID = ? ', [id]);
-        return remove;
-    });
-}
-exports.remove = remove;
-function update(entry) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const update_entry = fill_entry(entry);
         try {
-            const update = yield db.query('UPDATE entries SET ? WHERE ID = ?', [update_entry, entry.id]);
-            return update;
+            const batchInsert = yield db.batchQuery(querys);
+            const profileEntries = yield db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id]);
+            //Handle extra images
+            for (let i = 0; i < batchInsert.length; i++) {
+                const entry = new_entries[i];
+                if (!entry || !entry.entry_images)
+                    continue;
+                const id = batchInsert[i].insertId;
+                const images = entry.entry_images;
+                if (images && images.length > 0) {
+                    yield createImages(id, images);
+                }
+            }
+            sendMails(profileEntries, update, updatedEntrieIds, new_entries[0].id);
+            const ids = [...updatedEntrieIds, ...batchInsert.map(i => i.insertId)];
+            return profileEntries.filter(e => ids.includes(e.id));
         }
-        catch (error) {
-            return error;
+        catch (err) {
+            return err;
         }
     });
 }
-exports.update = update;
-function batchUpdate(entries) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return batch(entries, true);
-    });
-}
-exports.batchUpdate = batchUpdate;
 function fill_entry(entry) {
     const new_entry = {
         profile_id: entry.profile_id,
         entry_name: entry.entry_name,
-        category: entry.category,
+        category_id: entry.category_id,
         designer: entry.designer,
-        illustrator: entry.illustrator || '',
+        illustrator: entry.illustrator || null,
         leader: entry.leader,
-        format: entry.format || '',
-        size: entry.size || '',
+        format: entry.format || null,
+        size: entry.size || null,
         customer: entry.customer,
-        webpage: entry.webpage || '',
-        source: entry.source || '',
+        webpage: entry.webpage || null,
+        video_url: entry.video_url || null,
+        source: entry.source ? `${temp_contants_4.SOURCE_DIR}/${entry.source}` : null,
         secret: entry.secret,
-        avatar: entry.avatar,
+        avatar: entry.avatar ? `${temp_contants_4.AVATAR_DIR}/${entry.avatar}` : null,
         year: entry.year || `${new Date().getFullYear()}`,
         is_nominated: entry.is_nominated || 0,
         is_winner_gold: entry.is_winner_gold || 0,
         is_winner_silver: entry.is_winner_silver || 0,
-        sent_nominee_notification: escapeDate(entry.sent_nominee_notification) || "1000-01-01",
+        sent_nominee_notification: escapeDate(entry.sent_nominee_notification) || null,
         motivation: entry.motivation || "",
+        created: helpers_1.getDateTime(),
+        modified: helpers_1.getDateTime()
     };
     if ('id' in entry)
         new_entry.id = entry.id;
@@ -214,7 +210,6 @@ function escapeDate(date) {
 function sendMails(profileEntries, update, updateIds, entry_id) {
     return __awaiter(this, void 0, void 0, function* () {
         if (Array.isArray(profileEntries)) {
-            console.log('yes');
             if (profileEntries[0] && profileEntries[0].profile_id) {
                 const id = profileEntries[0].profile_id;
                 const profile = yield db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]);
@@ -234,39 +229,4 @@ function sendMails(profileEntries, update, updateIds, entry_id) {
         }
     });
 }
-// if (Array.isArray(entries)) {
-//     if (entries[0] && entries[0].profile_id) {
-//         const id = entries[0].profile_id
-//         const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
-//         if (Array.isArray(profile) && profile.length > 0) {
-//             if ('id' in profile[0]) {
-//                 const entries : dbtype[] = []
-//                 entries.forEach((batch: any) => {
-//                     entries.push(batch)
-//                 })
-//                 sendRegisterEmails(profile[0], entries, update, updateIds)
-//             }
-//         }
-//     }
-// } else {
-//     console.error('Did not send mail regarding entry: '+entry_id)
-// }
-// if (Array.isArray(profileEntries)) {
-//     console.log('yes')
-//     if (profileEntries[0] && profileEntries[0].profile_id) {
-//         const id = profileEntries[0].profile_id
-//         const profile = await  db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id])
-//         if (Array.isArray(profile) && profile.length > 0) {
-//             if ('id' in profile[0]) {
-//                 const entries : dbtype[] = []
-//                 profileEntries.forEach((batch: any) => {
-//                     entries.push(batch)
-//                 })
-//                 sendRegisterEmails(profile[0], entries, update, updatedEntrieIds)
-//             }
-//         }
-//     }
-// } else {
-//     console.error('Did not send mail regarding entry: '+new_entries[0].id)
-// }
 //# sourceMappingURL=entries.js.map

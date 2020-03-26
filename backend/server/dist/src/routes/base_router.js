@@ -19,13 +19,11 @@ const express = __importStar(require("express"));
 // export type Methods = 'GET' | 'POST'
 class DPRouter {
     constructor(model, params) {
-        console.log('create DPRouter');
         this.router = express.Router();
         this.model = model;
         this.params = params;
     }
     activate() {
-        console.log('DP Router activate');
         this.get();
         this.getId();
         this.put();
@@ -40,22 +38,18 @@ class DPRouter {
     }
     get() {
         this.router.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
-            console.log('DP Router get');
             console.log(req.query);
             res.json(yield this.model.get(req.query));
         }));
     }
     getId() {
         this.router.get('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
-            console.log('DP Router get ID');
             res.json(yield this.model.getId(req.params.id));
         }));
     }
     // WARNING: Se över denna och POST
     put() {
         this.router.put('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
-            console.log(req.params.id);
-            console.log(req.body.id);
             if (!('id' in req.params)) {
                 res.status(400).json('Put request should contain an id');
             }
@@ -67,8 +61,6 @@ class DPRouter {
     }
     post() {
         this.router.post('/', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            console.log('DP Router get post');
-            console.log(req.body);
             res.json(yield this.model.create(req.body));
         }));
     }

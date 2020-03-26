@@ -16,26 +16,25 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = __importStar(require("../db"));
+const helpers_1 = require("../helpers");
 function getName() {
     return 'Profiles';
 }
 exports.getName = getName;
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Profiles get');
-        // try {
-        const query = yield db.query('SELECT * FROM profiles');
-        return query;
-        // } catch (error) {
-        //     console.log('profile get error: '+error)
-        // }
+        try {
+            const query = yield db.query('SELECT * FROM profiles');
+            return query;
+        }
+        catch (error) {
+            return error;
+        }
     });
 }
 exports.get = get;
 function getId(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Profiles get');
-        console.log(id);
         const query = yield db.query('SELECT * FROM `profiles` WHERE `id` = ?', [id]);
         return query;
     });
@@ -45,12 +44,14 @@ function create(new_profile) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('Create new profile');
         const post_profile = create_profile(new_profile);
-        // try {
-        const insert = yield db.query('INSERT INTO profiles SET ?', [post_profile]);
-        const query = yield db.query('SELECT * FROM profiles WHERE id = ?', [insert.insertId]);
-        return query;
-        // } catch (err) {
-        // }
+        try {
+            const insert = yield db.query('INSERT INTO profiles SET ?', [post_profile]);
+            const query = yield db.query('SELECT * FROM profiles WHERE id = ?', [insert.insertId]);
+            return query;
+        }
+        catch (err) {
+            return err;
+        }
     });
 }
 exports.create = create;
@@ -75,7 +76,9 @@ function create_profile(profile) {
         phone: profile.phone,
         mail: profile.mail,
         homepage: profile.homepage,
-        invoice_paid: profile.invoice_paid || 0
+        invoice_paid: profile.invoice_paid || 0,
+        created: helpers_1.getDateTime(),
+        modified: helpers_1.getDateTime()
     };
     return new_profile;
 }

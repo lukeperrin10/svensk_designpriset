@@ -99,6 +99,7 @@
         height: 36px;
         line-height: 15px;
         font-size: 15px;
+        width: fit-content;
         min-width: 136px;
         
     }

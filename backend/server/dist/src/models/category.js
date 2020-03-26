@@ -22,17 +22,14 @@ function getName() {
 exports.getName = getName;
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Category get');
-        const query = yield db.query('SELECT id, name, shorttag FROM categories ORDER BY shorttag');
-        if (query)
-            console.log('Category get query response recieved');
+        const query = yield db.query('SELECT id, name, shorttag, type, active FROM categories');
         return query;
     });
 }
 exports.get = get;
 function getId(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const query = yield db.query('SELECT id, name, shorttag FROM categories WHERE `id` = ?', [id]);
+        const query = yield db.query('SELECT id, name, shorttag, type, active FROM categories WHERE `id` = ?', [id]);
         return query;
     });
 }

@@ -18,7 +18,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const nodeMailer = __importStar(require("nodemailer"));
 const temp_contants_1 = require("../constants/temp_contants");
 const mail_content_1 = require("./mail_content");
+const dbtypes_1 = require("../types/dbtypes");
 const category_1 = require("../models/category");
+const db = __importStar(require("../db"));
+const mail_content_handler_1 = require("./mail_content_handler");
 // WARNING : Change user and pass!
 function mail(to, subject, message, html) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -68,6 +71,18 @@ function generateAdminLink(id, secret) {
     return `${temp_contants_1.REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`;
 }
 exports.generateAdminLink = generateAdminLink;
+function generateConfirmVotesLink(secret) {
+    return `${temp_contants_1.REGISTER_ROOT_URL}/rostning?confirm=${secret}`;
+}
+exports.generateConfirmVotesLink = generateConfirmVotesLink;
+function sendConfirmVotesMail(email, secret) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const mailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.VOTE_CONFIRM, secret = secret);
+        yield mail(email, mailContent.subject, '', mailContent.content);
+        // await mail(email, 'Bekräfta röst', getConfirmVotesContent(generateConfirmVotesLink(secret)))
+    });
+}
+exports.sendConfirmVotesMail = sendConfirmVotesMail;
 // WARNING CHANGE EMAIL ADRESS!
 function sendRegisterEmails(profile, entries, update, updatedIds) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -83,14 +98,40 @@ function sendRegisterEmails(profile, entries, update, updatedIds) {
 exports.sendRegisterEmails = sendRegisterEmails;
 function exludeEntries(ids, entries) {
     const includedEntries = [];
-    console.log('ids: ' + ids);
     entries.forEach(entry => {
         if (!(ids.indexOf(entry.id) > -1)) {
             includedEntries.push(entry);
         }
     });
-    console.log('included entries');
-    console.log(includedEntries);
     return includedEntries;
+}
+function sendNomineeMailBatch(ids) {
+    return __awaiter(this, void 0, void 0, function* () {
+        for (let i = 0; i < ids.length; i++) {
+            yield sendNomineeMail(ids[i]);
+        }
+    });
+}
+exports.sendNomineeMailBatch = sendNomineeMailBatch;
+function sendNomineeMail(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const query = `SELECT entry_name, p.mail FROM entries e 
+    JOIN profiles p on e.profile_id = p.id
+    WHERE e.id = ?`;
+        try {
+            const entry = yield db.query(query, [id]);
+            if (entry[0] && entry[0].mail && entry[0].entry_name) {
+                yield mail(entry[0].mail, mail_content_1.getNomineeMailSubject(), mail_content_1.getNomineeMailContent(entry[0].entry_name));
+            }
+            else {
+                console.log('faulty values before sending nominee email');
+            }
+            return true;
+        }
+        catch (error) {
+            console.log(error);
+            return false;
+        }
+    });
 }
 //# sourceMappingURL=mail_handler.js.map

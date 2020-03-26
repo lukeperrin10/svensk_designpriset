@@ -70,6 +70,12 @@ function getRegisterMailContent(update, registerLink, profile, entries, categori
     return message;
 }
 exports.getRegisterMailContent = getRegisterMailContent;
+function addButton(registerLink) {
+    const buttonstyle = "background: url(http://www.designpriset.se/img/plus-cirkel.png) no-repeat left center; display: block; height: 46px; line-height: 46px; padding-left: 52px; margin-bottom: 40px; color:#c6a230;";
+    const button = `<a id="add_more_button" style="${buttonstyle}" target="_blank" href='${registerLink}'>Lägg till fler bidrag</a>`;
+    return button;
+}
+exports.addButton = addButton;
 function getRegisterMailAdminContent(update, registerLink, profile, entries, categories) {
     const title = update ? `${profile.company} har uppdaterat sitt bidrag` : `Ny anmälan: ${profile.company}`;
     let content = getProfileContent(profile);
@@ -139,6 +145,7 @@ function getProfileContent(profile) {
     content += '<br>';
     return content;
 }
+exports.getProfileContent = getProfileContent;
 function getEntryContent(entries, categories) {
     const subheading = "font-family:Arial;Helvetica;font-size:25px;font-weight:bold; margin-bottom:10px; color:#c6a230;";
     // const targets: {[key: string]: string} = {
@@ -158,17 +165,17 @@ function getEntryContent(entries, categories) {
     content += '<ul style="list-style:none;padding:0;">';
     entries.forEach(entry => {
         i++;
-        let cat = '';
-        categories.forEach(category => {
-            if (category.shorttag === entry.category) {
-                cat = category.name;
-            }
-        });
+        // let cat : string = ''
+        // categories.forEach(category => {
+        //     if (category.shorttag === entry.category) {
+        //         cat = category.name
+        //     }
+        // })
         const avatar = `${temp_contants_1.SITE_URL}/admin/avatars/${entry.avatar}`;
         content += `<h3 style="${subheading}">Bidrag ${i}</h3>`;
         content += `<a target="_blank" href="${avatar}"><img height="200px;" src="${avatar}"/></a><br/><br/>`;
         content += `<li>Namn: ${entry.entry_name}</li>`;
-        content += `<li>Kategori: ${cat}</li>`;
+        content += `<li>Kategori: ${entry.category_id}</li>`;
         content += `<li>Designer: ${entry.designer}</li>`;
         content += entry.illustrator ? `<li>Illustratör/fotograf: ${entry.illustrator}</li>` : '';
         content += `<li>Projektledare: ${entry.leader}</li>`;
@@ -180,4 +187,27 @@ function getEntryContent(entries, categories) {
     });
     return content;
 }
+exports.getEntryContent = getEntryContent;
+function getConfirmVotesContent(confirmLink) {
+    const message = `Tack, vänligen bekräfta röst här: ${confirmLink}`;
+    // let mailContent = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+    // <html>
+    //     <head>
+    //         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    //     </head>
+    //     <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="'. $this->get_body_style() .'">
+    //       <p>${message}</p>
+    //     </body>
+    // </html>`
+    return message;
+}
+exports.getConfirmVotesContent = getConfirmVotesContent;
+function getNomineeMailContent(entryName) {
+    return `Ditt bidrag ${entryName} har blivit nominerat!`;
+}
+exports.getNomineeMailContent = getNomineeMailContent;
+function getNomineeMailSubject() {
+    return 'Ditt bidrag har blivit nominerat';
+}
+exports.getNomineeMailSubject = getNomineeMailSubject;
 //# sourceMappingURL=mail_content.js.map

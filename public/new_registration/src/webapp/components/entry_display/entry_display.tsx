@@ -151,7 +151,7 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                         <Button 
                         variant={BUTTON_VARIANTS.NONE}
                         size={BUTTON_SIZES.NONE}
-                        className={styles.nav_button} 
+                        className={[styles.nav_button, styles.nav_button_left].join(' ')} 
                         onClick={() => onPrevNext(prevEntry)} 
                         title={prevEntry.entry_name} />
                     </div>}
@@ -159,7 +159,7 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                     <div className={styles.nav_button_container_right}>
                         <Label>Nästa bidrag</Label>
                         <Button 
-                        className={styles.nav_button} 
+                        className={[styles.nav_button, styles.nav_button_right].join(' ')} 
                         variant={BUTTON_VARIANTS.NONE}
                         size={BUTTON_SIZES.NONE}
                         onClick={() => onPrevNext(nextEntry)} 

@@ -4,6 +4,7 @@
     opacity: 1;
     transition: all 200ms;
     margin-bottom: 20px;
+    background-color: rgba(0,0,0,0);
 }
 
 .button:focus {
@@ -37,4 +38,11 @@
     right: var(--CONTAINER_PADDING_RIGHT);
     text-align: right;
     z-index: 100;
+}
+
+@media screen and (max-width: 415px) {
+    .container {
+        right: var(--CONTAINER_MOBILE_PADDING_RIGHT);
+    }
+    
 }

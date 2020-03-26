@@ -39,10 +39,10 @@ function handleDbError(err, map) {
 exports.handleDbError = handleDbError;
 exports.pool = mysql_1.default.createPool({
     connectionLimit: 9,
-    host: process.env.DP_BACKEND_MYSQL_HOST,
-    user: process.env.DP_BACKEND_MYSQL_USER,
-    password: process.env.DP_BACKEND_MYSQL_PASSWORD,
-    database: process.env.DP_BACKEND_MYSQL_DATABASE,
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
 });
 // pool.on('acquire', (connection) => {
 //     console.log('POOL ACQUIRE ----------------------------------- Connection %d acquired', connection.threadId)
@@ -58,7 +58,8 @@ exports.pool = mysql_1.default.createPool({
 // })
 function query(query, args) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('DB QUERY: ' + query);
+        if (process.env.NODE_MODE != 'testing')
+            console.log('DB QUERY: ' + query);
         return new Promise((resolve, reject) => {
             exports.pool.query(query, args, (error, results, fields) => {
                 if (error) {
@@ -66,19 +67,18 @@ function query(query, args) {
                     reject(error);
                 }
                 else {
-                    console.log('DB QUERY SUCCESS');
                     resolve(results);
                 }
             });
         }).catch((error) => {
             console.error('error single query: ' + error);
+            handleDbError(error);
         });
     });
 }
 exports.query = query;
 function batchQuery(queries) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('DB BATCH QUERY: ');
         let i = queries.length;
         return new Promise((resolve, reject) => {
             exports.pool.getConnection((e, c) => {
@@ -110,6 +110,7 @@ function batchQuery(queries) {
             });
         }).catch((error) => {
             console.error('error batch query: ' + error);
+            handleDbError(error);
             // handleDbError(error)
         });
     });
