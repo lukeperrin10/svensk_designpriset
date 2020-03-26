@@ -1,13 +1,18 @@
+const FormData = require('form-data');
+const fs = require('fs')
+
 const fetch = require('node-fetch')
 
 const BASE_URL = 'http://myown.se:8001'
 const PROFILE_URL = `${BASE_URL}/profiles`
 const ENTRIES_URL = `${BASE_URL}/entries`
 const CATEGORY_URL = `${BASE_URL}/categories`
+const AVATATAR_URL = `${BASE_URL}/temp_avatar`
 
 async function makeProfileAndEntriesRequest(amountOfEntries) {
     const headers = {"Content-Type": "application/json; charset=utf-8"}
     try {
+        const cat = await getCategories()
         const profile = await fetch(PROFILE_URL, {
             method: "POST",
             headers: headers,
@@ -15,10 +20,12 @@ async function makeProfileAndEntriesRequest(amountOfEntries) {
         })
         const profileId = await profile.json()
         console.log('post profile: '+stringify(profileId))
+        const avatar = await postAvatar()
+        console.log('post avatar: '+stringify(avatar))
         const entries = await fetch(ENTRIES_URL, {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(createEntries(profileId[0]['id'], amountOfEntries))
+            body: JSON.stringify(createEntries(profileId[0]['id'], amountOfEntries, avatar, cat))
         })
         const entriesResult = await entries.json()
         console.log('post entries: '+stringify(entriesResult))
@@ -28,7 +35,24 @@ async function makeProfileAndEntriesRequest(amountOfEntries) {
     
 }
 
-function createEntries(profileId, amountOfEntries) {
+async function postAvatar() {
+    const formdata = new FormData()
+    const img = await fs.createReadStream('./test-avatar-xxxx.jpg', {})
+    formdata.append('media', img)
+    try {
+        const req = await fetch(AVATATAR_URL, {
+            method: 'POST',
+            body: formdata
+        })
+        const res = await req.json()
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+function createEntries(profileId, amountOfEntries, avatar, category) {
     const entries = []
     
     console.log(`creating ${amountOfEntries} entries`)
@@ -43,10 +67,12 @@ function createEntries(profileId, amountOfEntries) {
             source: 'WOPII_TEST',
             format: 'WOPII_TEST',
             size: 'WOPII_TEST',
-            category_id: 1,
+            video_url: 'WOPII_TEST',
+            category_id: category,
             webpage: 'WOPII_TEST',
-            avatar: 'xxxx-test-avatar',
-            year: '2019'
+            avatar: avatar,
+            year: '2019',
+            entry_images: []
         }
         entries.push(entry)
     }
@@ -95,6 +121,7 @@ async function getCategories() {
         const categories = await fetch(CATEGORY_URL)
         const result = await categories.json()
         console.log('get categories: '+stringify(result))
+        return result[0].id
     } catch (err) {
         console.log(err)
     }
@@ -112,7 +139,6 @@ function stringify(obj) {
 function tryCalls(amountOfCalls, amountOfEntries) {
     
     for (let i = 0; i<amountOfCalls;i++) {
-        getCategories()
         makeProfileAndEntriesRequest(amountOfEntries)
     }
 }
@@ -120,7 +146,7 @@ function tryCalls(amountOfCalls, amountOfEntries) {
 // Calls
 
 // tryCalls(amountOfCalls, amountOfEntries)
-tryCalls(1, 2)
+tryCalls(1, 1)
 
 
 

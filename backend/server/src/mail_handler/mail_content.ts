@@ -157,30 +157,11 @@ export function getProfileContent(profile: Profile) {
 export function getEntryContent(entries: Entry[], categories?: Category[]) {
     const subheading = "font-family:Arial;Helvetica;font-size:25px;font-weight:bold; margin-bottom:10px; color:#c6a230;"
 
-    // const targets: {[key: string]: string} = {
-    //     'entry_name': 'Bidragets namn', 
-    //     'category': 'Kategori', 
-    //     'designer': 'Designer', 
-    //     'illustrator': 'Illustratör/fotograf', 
-    //     'leader': 'Projektledare', 
-    //     'customer': 'Uppdragsgivare', 
-    //     'webpage': 'Länk till digitala bidrag/casefilmer', 
-    //     'format': 'Omfång', 
-    //     'size': 'Storlek', 
-    //     'source': 'Bifogad fil'
-    // }
-
     let content = ''
     let i = 0
     content += '<ul style="list-style:none;padding:0;">'
     entries.forEach(entry => {
-        i++
-        // let cat : string = ''
-        // categories.forEach(category => {
-        //     if (category.shorttag === entry.category) {
-        //         cat = category.name
-        //     }
-        // })
+        i++      
         const avatar = `${SITE_URL}/admin/avatars/${entry.avatar}`
         content += `<h3 style="${subheading}">Bidrag ${i}</h3>`
         content += `<a target="_blank" href="${avatar}"><img height="200px;" src="${avatar}"/></a><br/><br/>`

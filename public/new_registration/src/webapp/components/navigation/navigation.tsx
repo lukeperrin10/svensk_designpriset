@@ -143,8 +143,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
         const query = queryString.parse(window.location.search)
         if (yearConfig.current_phase === PHASES.ONE) return true
         const now = new Date()
-        const nomineeCanEdit = now > new Date(yearConfig.nominees_can_edit_start) 
-        && now < new Date(yearConfig.nominees_can_edit_end)
+        const nomineeCanEdit = now > new Date(yearConfig.nominees_can_edit_start) && now < new Date(yearConfig.nominees_can_edit_end)
         return 'secret' in query && nomineeCanEdit
     }
 
@@ -211,7 +210,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 path={getHeaderClick(yearConfig.current_phase).path}
                 buttonTitle={getHeaderClick(yearConfig.current_phase).title}
                 />
-            {didFetch &&
+            {didFetch && yearConfig.year !== '' &&
             
             <Switch>
                 <Route exact path='/' render={() => {

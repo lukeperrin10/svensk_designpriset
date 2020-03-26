@@ -63,48 +63,66 @@ export function generateConfirmVotesLink(secret: string) {
 export async function sendConfirmVotesMail(email: string, secret: string) {
     const mailContent = await getMailContent(MailType.VOTE_CONFIRM, secret = secret)
     await mail(email, mailContent.subject, '', mailContent.content)
-    // await mail(email, 'Bekräfta röst', getConfirmVotesContent(generateConfirmVotesLink(secret)))
 }
-// WARNING CHANGE EMAIL ADRESS!
+
 export async function sendRegisterEmails(profile: Profile, entries: Entry[], update: boolean, updatedIds: number[]) {
-    const categories = await get() as Category[]
-    await mail(profile.mail, getSubjectRegister(profile, update), 'text', 
-        getRegisterMailContent(false, generateUserLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
-
-    const includedEntries = exludeEntries(updatedIds, entries)
-
-    if (includedEntries.length > 0) {
-        console.log('will send admin mail')
-        await mail(ADMIN_EMAIL, getSubjectRegister(profile, update), 'text', 
-        getRegisterMailAdminContent(false, generateAdminLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
+    console.log('send register mail')
+    console.log(entries)
+    console.log('update ids:')
+    console.log(updatedIds)
+    if (updatedIds.length === 0) {
+        const mailContent = await getMailContent(MailType.ENTRY_CONFIRM, undefined, profile, entries)
+        await mail(profile.mail, mailContent.subject, mailContent.content, mailContent.content)
+        const adminMailContent = await getMailContent(MailType.ENTRY_CONFIRM_ADMIN, undefined, profile, entries)
+        await mail(ADMIN_EMAIL, adminMailContent.subject, adminMailContent.content, adminMailContent.content)
+    } else {
+        console.log('mail update!')
+        const includedEntries = exludeEntries(updatedIds, entries)
+        console.log(includedEntries)
+        const mailContent = await getMailContent(MailType.ENTRY_UPDATE, undefined, profile, includedEntries)
+        await mail(profile.mail, mailContent.subject, mailContent.content, mailContent.content)
+        const adminMailContent = await getMailContent(MailType.ENTRY_UPDATE_ADMIN, undefined, profile, includedEntries)
+        await mail(ADMIN_EMAIL, adminMailContent.subject, adminMailContent.content, adminMailContent.content)
     }
-    
 }
 
 function exludeEntries(ids: number[], entries: Entry[]) {
     const includedEntries: Entry[] = []
     entries.forEach(entry => {
-        if (!(ids.indexOf(entry.id) > -1)) {
+        if (ids.indexOf(entry.id) !== -1) {
             includedEntries.push(entry)
         }
     })
+    console.log('exclude entries')
     return includedEntries
 }
 
 export async function sendNomineeMailBatch(ids: number[]) {
-    for(let i=0; i<ids.length;i++) {
-        await sendNomineeMail(ids[i])
+    console.log(ids)
+    if (Array.isArray(ids)) {
+        for(let i=0; i<ids.length;i++) {
+            await sendNomineeMail(ids[i])
+        }
+    }
+    else {
+        await sendNomineeMail(ids)
     }
 }
 
 async function sendNomineeMail(id: number) {
-    const query = `SELECT entry_name, p.mail FROM entries e 
-    JOIN profiles p on e.profile_id = p.id
-    WHERE e.id = ?`
+    console.log('SEND NOMINEE MAIL NODE')
+    console.log('id: '+id)
+    const query = `SELECT * FROM entries WHERE id = ?`
+    const profileQuery = `SELECT * FROM profiles WHERE id = ?`
+    
     try {
         const entry = await db.query(query, [id])
-        if (entry[0] && entry[0].mail && entry[0].entry_name) {
-            await mail(entry[0].mail, getNomineeMailSubject(), getNomineeMailContent(entry[0].entry_name))
+        console.log('ENTRY: ')
+        console.log(entry)
+        if (entry[0] && entry[0].entry_name) {
+            const profile = await db.query(profileQuery, entry[0].profile_id)
+            const mailContent = await getMailContent(MailType.NOMINEE, undefined, profile[0], entry)
+            await mail(profile[0].mail, mailContent.subject, mailContent.content, mailContent.content)
         } else {
             console.log('faulty values before sending nominee email')
         }
