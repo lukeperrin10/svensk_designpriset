@@ -42,6 +42,7 @@ services:
             - common.env
         environment:
             - DP_FRONTEND_ROOT=http://myown.se:3000
+            - DP_API_URL=http://myown.se:8001
             - DP_BACKEND_SITE_URL=http://localhost:8011/clone
             - NODE_ENV=development
         ports:
