@@ -218,7 +218,7 @@ class Registration extends React.Component<Props, State> {
                             <div>
                                 <RegistrationInfo registerInfo={this.props.registerInfo} />
                                 <FormContainer onDeleteEntry={this.deleteEntry} adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
-                                {didUpload ? <Redirect to='anmalan/bekraftelse' /> : null}
+                                {didUpload ? <Redirect to='/anmalan/bekraftelse' /> : null}
                             </div>
                             )
                         }/>

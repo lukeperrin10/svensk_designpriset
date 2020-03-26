@@ -2,11 +2,10 @@ export const isProd = process.env.NODE_ENV === 'production'
 
 export const PRICE_PER_ENTRY = 3995
 export const CURRENT_YEAR = '2019'
-// export const SITE_URL = 'http://www.designpriset.se'
 export const BACKEND_SITE_URL = process.env.DP_BACKEND_SITE_URL
-export const SITE_URL = isProd ? 'http://www.designpriset.se' : "http://myown.se:8011"
+export const SITE_URL = process.env.DP_FRONTEND_ROOT
 export const REGISTER_DEADLINE_DATE = '14 Juni'
-export const REGISTER_ROOT_URL = process.env.DP_BACKEND_REGISTER_ROOT_URL
+export const REGISTER_ROOT_URL = `${process.env.DP_FRONTEND_ROOT}${'/anmalan'}`
 export const ADMIN_EMAIL = process.env.NODE_ENV === 'production' ? "designpriset@gmail.com" : "johan@wopii.com"
 
 //Not sure of what this should be in prd yet

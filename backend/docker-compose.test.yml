@@ -12,7 +12,7 @@ services:
         env_file:
             - common.env
         environment:
-            - DP_BACKEND_REGISTER_ROOT_URL=http://myown.se:3000
+            - DP_FRONTEND_ROOT=http://myown.se:3000
             - NODE_ENV=development
             - NODE_PORT=8002
             - NODE_MODE=testing

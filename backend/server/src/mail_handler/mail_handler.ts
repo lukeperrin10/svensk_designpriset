@@ -1,8 +1,6 @@
 import * as nodeMailer from 'nodemailer'
 import { REGISTER_ROOT_URL, ADMIN_EMAIL } from '../constants/temp_contants';
-import { getRegisterMailContent, getSubjectRegister, getRegisterMailAdminContent, getConfirmVotesContent, getNomineeMailSubject, getNomineeMailContent } from './mail_content';
-import { Entry, Profile, Category, MailType } from '../types/dbtypes';
-import { get } from '../models/category';
+import { Entry, Profile, MailType } from '../types/dbtypes';
 import * as db from '../db'
 import {getMailContent} from './mail_content_handler'
 
@@ -66,19 +64,13 @@ export async function sendConfirmVotesMail(email: string, secret: string) {
 }
 
 export async function sendRegisterEmails(profile: Profile, entries: Entry[], update: boolean, updatedIds: number[]) {
-    console.log('send register mail')
-    console.log(entries)
-    console.log('update ids:')
-    console.log(updatedIds)
     if (updatedIds.length === 0) {
         const mailContent = await getMailContent(MailType.ENTRY_CONFIRM, undefined, profile, entries)
         await mail(profile.mail, mailContent.subject, mailContent.content, mailContent.content)
         const adminMailContent = await getMailContent(MailType.ENTRY_CONFIRM_ADMIN, undefined, profile, entries)
         await mail(ADMIN_EMAIL, adminMailContent.subject, adminMailContent.content, adminMailContent.content)
     } else {
-        console.log('mail update!')
         const includedEntries = exludeEntries(updatedIds, entries)
-        console.log(includedEntries)
         const mailContent = await getMailContent(MailType.ENTRY_UPDATE, undefined, profile, includedEntries)
         await mail(profile.mail, mailContent.subject, mailContent.content, mailContent.content)
         const adminMailContent = await getMailContent(MailType.ENTRY_UPDATE_ADMIN, undefined, profile, includedEntries)
@@ -93,12 +85,10 @@ function exludeEntries(ids: number[], entries: Entry[]) {
             includedEntries.push(entry)
         }
     })
-    console.log('exclude entries')
     return includedEntries
 }
 
 export async function sendNomineeMailBatch(ids: number[]) {
-    console.log(ids)
     if (Array.isArray(ids)) {
         for(let i=0; i<ids.length;i++) {
             await sendNomineeMail(ids[i])
@@ -110,15 +100,11 @@ export async function sendNomineeMailBatch(ids: number[]) {
 }
 
 async function sendNomineeMail(id: number) {
-    console.log('SEND NOMINEE MAIL NODE')
-    console.log('id: '+id)
     const query = `SELECT * FROM entries WHERE id = ?`
     const profileQuery = `SELECT * FROM profiles WHERE id = ?`
     
     try {
         const entry = await db.query(query, [id])
-        console.log('ENTRY: ')
-        console.log(entry)
         if (entry[0] && entry[0].entry_name) {
             const profile = await db.query(profileQuery, entry[0].profile_id)
             const mailContent = await getMailContent(MailType.NOMINEE, undefined, profile[0], entry)

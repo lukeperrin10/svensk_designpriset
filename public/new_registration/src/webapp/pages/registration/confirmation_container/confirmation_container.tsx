@@ -14,9 +14,9 @@ class ConfirmationContainer extends React.Component<IConf> {
         super(p)
     }
     componentDidMount() {
+        window.scrollTo(0,0)
         window.addEventListener('beforeunload', (e: Event) => {
             localStorage.clear()
-            
         })
     }
     componentWillUnmount() {
