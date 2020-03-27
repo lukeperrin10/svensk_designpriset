@@ -136,7 +136,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
     }
 
     const checkIfVoteAllowed = () => {
-        return yearConfig.current_phase === PHASES.FOUR
+        return yearConfig.current_phase === PHASES.THREE
     }
 
     const checkIfRegisterAllowed = () => {

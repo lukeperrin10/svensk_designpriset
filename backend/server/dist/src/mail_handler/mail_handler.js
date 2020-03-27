@@ -17,9 +17,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const nodeMailer = __importStar(require("nodemailer"));
 const temp_contants_1 = require("../constants/temp_contants");
-const mail_content_1 = require("./mail_content");
 const dbtypes_1 = require("../types/dbtypes");
-const category_1 = require("../models/category");
 const db = __importStar(require("../db"));
 const mail_content_handler_1 = require("./mail_content_handler");
 // WARNING : Change user and pass!
@@ -79,19 +77,23 @@ function sendConfirmVotesMail(email, secret) {
     return __awaiter(this, void 0, void 0, function* () {
         const mailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.VOTE_CONFIRM, secret = secret);
         yield mail(email, mailContent.subject, '', mailContent.content);
-        // await mail(email, 'Bekräfta röst', getConfirmVotesContent(generateConfirmVotesLink(secret)))
     });
 }
 exports.sendConfirmVotesMail = sendConfirmVotesMail;
-// WARNING CHANGE EMAIL ADRESS!
 function sendRegisterEmails(profile, entries, update, updatedIds) {
     return __awaiter(this, void 0, void 0, function* () {
-        const categories = yield category_1.get();
-        yield mail(profile.mail, mail_content_1.getSubjectRegister(profile, update), 'text', mail_content_1.getRegisterMailContent(false, generateUserLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
-        const includedEntries = exludeEntries(updatedIds, entries);
-        if (includedEntries.length > 0) {
-            console.log('will send admin mail');
-            yield mail(temp_contants_1.ADMIN_EMAIL, mail_content_1.getSubjectRegister(profile, update), 'text', mail_content_1.getRegisterMailAdminContent(false, generateAdminLink(profile.id, profile.secret), profile, entries, categories)).catch(err => console.log(err));
+        if (updatedIds.length === 0) {
+            const mailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.ENTRY_CONFIRM, undefined, profile, entries);
+            yield mail(profile.mail, mailContent.subject, mailContent.content, mailContent.content);
+            const adminMailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.ENTRY_CONFIRM_ADMIN, undefined, profile, entries);
+            yield mail(temp_contants_1.ADMIN_EMAIL, adminMailContent.subject, adminMailContent.content, adminMailContent.content);
+        }
+        else {
+            const includedEntries = exludeEntries(updatedIds, entries);
+            const mailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.ENTRY_UPDATE, undefined, profile, includedEntries);
+            yield mail(profile.mail, mailContent.subject, mailContent.content, mailContent.content);
+            const adminMailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.ENTRY_UPDATE_ADMIN, undefined, profile, includedEntries);
+            yield mail(temp_contants_1.ADMIN_EMAIL, adminMailContent.subject, adminMailContent.content, adminMailContent.content);
         }
     });
 }
@@ -99,7 +101,7 @@ exports.sendRegisterEmails = sendRegisterEmails;
 function exludeEntries(ids, entries) {
     const includedEntries = [];
     entries.forEach(entry => {
-        if (!(ids.indexOf(entry.id) > -1)) {
+        if (ids.indexOf(entry.id) !== -1) {
             includedEntries.push(entry);
         }
     });
@@ -107,21 +109,27 @@ function exludeEntries(ids, entries) {
 }
 function sendNomineeMailBatch(ids) {
     return __awaiter(this, void 0, void 0, function* () {
-        for (let i = 0; i < ids.length; i++) {
-            yield sendNomineeMail(ids[i]);
+        if (Array.isArray(ids)) {
+            for (let i = 0; i < ids.length; i++) {
+                yield sendNomineeMail(ids[i]);
+            }
+        }
+        else {
+            yield sendNomineeMail(ids);
         }
     });
 }
 exports.sendNomineeMailBatch = sendNomineeMailBatch;
 function sendNomineeMail(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const query = `SELECT entry_name, p.mail FROM entries e 
-    JOIN profiles p on e.profile_id = p.id
-    WHERE e.id = ?`;
+        const query = `SELECT * FROM entries WHERE id = ?`;
+        const profileQuery = `SELECT * FROM profiles WHERE id = ?`;
         try {
             const entry = yield db.query(query, [id]);
-            if (entry[0] && entry[0].mail && entry[0].entry_name) {
-                yield mail(entry[0].mail, mail_content_1.getNomineeMailSubject(), mail_content_1.getNomineeMailContent(entry[0].entry_name));
+            if (entry[0] && entry[0].entry_name) {
+                const profile = yield db.query(profileQuery, entry[0].profile_id);
+                const mailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.NOMINEE, undefined, profile[0], entry);
+                yield mail(profile[0].mail, mailContent.subject, mailContent.content, mailContent.content);
             }
             else {
                 console.log('faulty values before sending nominee email');

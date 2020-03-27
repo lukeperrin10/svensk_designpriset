@@ -80,7 +80,7 @@ const Start = ({content}:props) => {
             <WinnerFeature entry={featureWinner} />
             }
             {getPuff()}
-            {content && <StartContent content={content[0]}/>}
+            {content && content.length > 0 && <StartContent content={content[0]}/>}
             <div className={styles.winner_header}>
                 <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.LARGE}>
                     Vinnare {winners.length > 0 && winners[0].year}

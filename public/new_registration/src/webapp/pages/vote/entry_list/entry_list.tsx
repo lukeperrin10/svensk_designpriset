@@ -34,10 +34,6 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
     },[])
 
     const onCardClicked = (entry: IEntry) => {
-        // console.log('list vote')
-        // const arr = Array.from(voteEntries)
-        // arr.push(entry)
-        // setVoteEntries(arr)
         onVote(entry)
     }
 
@@ -128,8 +124,6 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
     const onAccordionToggle = (cat: string, arrowId: string) => {
         const arr = document.getElementById(arrowId)
         const minArr = arrowIds.filter(id => id !== arrowId)
-        console.log(arrowIds)
-        console.log(minArr)
         minArr.forEach(minId => {
             const a = document.getElementById(minId)
             if (a) a.classList.remove(styles.arrow_up)
