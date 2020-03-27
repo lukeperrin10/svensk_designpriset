@@ -17,6 +17,8 @@ import StartContent from '../../components/start_content'
 import Text, { H2 } from '../../components/text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
 import ShareButton from '../../components/share_button'
+import Puff from '../../components/puff'
+import { PHASES } from '../../model/constants'
 
 interface props {
     content?: IContent[]
@@ -56,6 +58,19 @@ const Start = ({content}:props) => {
             console.log(error)
         }
     }
+
+    const getPuff = () => {
+        switch(yearConfig.current_phase) {
+            case PHASES.ONE:
+                return <Puff variant='register' date={new Date(yearConfig.phase_1_start)} awardPlace={yearConfig.award_place} />
+            case PHASES.THREE:
+                return <Puff variant='vote' date={new Date(yearConfig.phase_3_start)} awardPlace={yearConfig.award_place} />
+            case PHASES.FOUR:
+                return <Puff variant='award' date={new Date(yearConfig.phase_4_start)} awardPlace={yearConfig.award_place} />
+            default:
+                return null
+        }
+    }
     
     return (
         <main className={styles.main}>
@@ -64,12 +79,8 @@ const Start = ({content}:props) => {
             {featureWinner &&
             <WinnerFeature entry={featureWinner} />
             }
-
-            {content &&
-                content.map(cont => {
-                    return <StartContent key={cont.title} content={cont}/>
-                })
-            }
+            {getPuff()}
+            {content && <StartContent content={content[0]}/>}
             <div className={styles.winner_header}>
                 <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.LARGE}>
                     Vinnare {winners.length > 0 && winners[0].year}

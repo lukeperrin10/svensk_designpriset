@@ -1,0 +1,163 @@
+.container {
+    min-height: 368px;
+    margin-bottom: 126px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0px 75px 0px 75px;
+}
+
+.left {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.right {
+    position: relative;
+    text-align: center;
+}
+
+.black {
+    background-color: black;
+}
+
+.gold {
+    background-color: var(--PRIMARY_GOLD);
+}
+
+.day {
+    font-size: 270px;
+    line-height: 270px;
+    margin: 0px;
+    position: relative;
+    top: 76px;
+}
+
+.month {
+    margin: 0px;
+    font-family: ITC Franklin Gothic Std;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 57.9581px;
+}
+
+.text {
+    margin: 0px;
+    font-family: ITC Franklin Gothic Std;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    max-width: 250px;
+    min-width: 200px;
+    
+}
+
+.text_container {
+    position: relative;
+    bottom: 40px;
+    flex-grow: 1;
+}
+
+.black_text {
+    color: #1C1B19;
+}
+
+.gold_text {
+    color: var(--PRIMARY_GOLD);
+}
+
+.ticket_button {
+    border: 1px solid var(--PRIMARY_GOLD);
+    color: var(--PRIMARY_GOLD);
+    background-color: black;
+    height: 190px;
+    max-width: 407px;
+    width: 25vw;
+    min-width: 200px;
+}
+
+.right_button {
+    background-color: rgba(0,0,0,0);
+    border: none;
+}
+
+.vote_headline {
+    font-family: ITC Franklin Gothic Std;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 200px;
+    letter-spacing: -0.03em;
+    top: 83px;
+    margin-right: 5px;
+}
+
+.vote_date {
+    position: relative;
+    top: 30px;
+}
+
+.vote_text {
+    min-width: 100px;
+}
+
+@media screen and (max-width: 1274px) {
+    .vote_headline {
+        font-size: 150px;
+        top: 92px;
+    }
+}
+
+@media screen and (max-width: 1178px) {
+    .vote_headline {
+        font-size: 200px;
+        top: 83px;
+    }
+    .container {
+        padding-bottom: 75px;
+        justify-content: center;
+    }
+    .left {
+        margin-bottom: 20px;
+    }
+    .ticket_button {
+        max-width: 407px;
+        width: 407px;
+        min-width: 200px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .left {
+        flex-wrap: wrap;
+    }
+    .day {
+        font-size: 240px;
+    }
+    .month {
+        font-size: 48px;
+    }
+    .text {
+        font-size: 24px;
+        max-width: unset;
+    }
+    .text_container {
+        bottom: 0
+    }
+    .ticket_button {
+        max-width: unset;
+        width: 257px;
+        min-width: unset;
+    }
+    .vote_headline {
+        font-size: 107px;
+        line-height: 140px;
+        top: 40px;
+    }
+}
+
+

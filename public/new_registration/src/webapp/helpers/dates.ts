@@ -19,7 +19,7 @@ export const getDayWithMonth = (date: string | Date) => {
 
 }
 
-const getMonth = (month: number) => {
+export const getMonth = (month: number) => {
     if (month in months) return months[month]
     return 'januri'
 }
