@@ -1,362 +1,392 @@
 [
-    {
-      "model": "despri_admin.category",
-      "pk": 9,
-      "fields": {
-        "created": "2014-09-05T12:06:06Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Redaktionellt - Dagstidning - print",
-        "description": "",
-        "shorttag": "1A",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 11,
-      "fields": {
-        "created": "2014-09-05T12:06:09Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Redaktionellt - Bok - print",
-        "description": "",
-        "shorttag": "1B",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 13,
-      "fields": {
-        "created": "2014-09-05T12:06:12Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Redaktionellt - Magasin - print",
-        "description": "",
-        "shorttag": "1C",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 15,
-      "fields": {
-        "created": "2014-09-05T12:06:16Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Redaktionellt - Kundtidning - print",
-        "description": "",
-        "shorttag": "1D",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 16,
-      "fields": {
-        "created": "2014-04-28T10:49:03Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Information - print",
-        "description": "",
-        "shorttag": "2Aa",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 17,
-      "fields": {
-        "created": "2014-04-28T10:49:55Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Information - Årsredovisning - print",
-        "description": "",
-        "shorttag": "2Ba",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 19,
-      "fields": {
-        "created": "2014-04-28T10:52:36Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Information - Årsredovisning - digital",
-        "description": "",
-        "shorttag": "2Bb",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 20,
-      "fields": {
-        "created": "2014-04-28T10:53:49Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Identitet - Förpackning",
-        "description": "",
-        "shorttag": "3B",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 21,
-      "fields": {
-        "created": "2014-04-28T10:54:20Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Identitet - Grafisk identitet",
-        "description": "",
-        "shorttag": "3A",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 22,
-      "fields": {
-        "created": "2014-04-28T10:54:49Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Identitet - Produktdesign",
-        "description": "",
-        "shorttag": "3C",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 23,
-      "fields": {
-        "created": "2014-04-28T10:57:25Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Reklam - print",
-        "description": "",
-        "shorttag": "4A",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 24,
-      "fields": {
-        "created": "2014-04-28T10:57:18Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Reklam - digital",
-        "description": "",
-        "shorttag": "4B",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 25,
-      "fields": {
-        "created": "2017-04-25T17:16:21Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Digitalt - Smarttelefon",
-        "description": "",
-        "shorttag": "5A",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 26,
-      "fields": {
-        "created": "2017-04-25T17:16:28Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Digitalt - Läsplatta ",
-        "description": null,
-        "shorttag": "5B",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 28,
-      "fields": {
-        "created": "2017-04-25T17:21:10Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Bildkommunikation  - Rörlig bild/film",
-        "description": "",
-        "shorttag": "6B",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 29,
-      "fields": {
-        "created": "2015-05-07T15:11:01Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Årets Våghals",
-        "description": "",
-        "shorttag": "8C",
-        "active": false
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 30,
-      "fields": {
-        "created": "2015-05-07T15:10:40Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Juryns Pris",
-        "description": "",
-        "shorttag": "8B",
-        "active": false
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 32,
-      "fields": {
-        "created": "2017-04-25T17:20:45Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Event - Display, monter, event",
-        "description": "",
-        "shorttag": "7A",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 33,
-      "fields": {
-        "created": "2014-04-28T10:55:10Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Identitet - digital",
-        "description": "",
-        "shorttag": "3D",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 35,
-      "fields": {
-        "created": "2014-09-05T12:06:43Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Redaktionellt - Personal/medlemstidning - print",
-        "description": "",
-        "shorttag": "1E",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 37,
-      "fields": {
-        "created": "2014-04-28T10:48:46Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Information - digital",
-        "description": "",
-        "shorttag": "2Ab",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 38,
-      "fields": {
-        "created": "2015-05-07T15:07:50Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Redaktionell - digital",
-        "description": "Samlingskategori för redaktionella & digitala kategorier",
-        "shorttag": "1F",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 41,
-      "fields": {
-        "created": "2017-04-25T17:20:52Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Event - Visual Merchandising",
-        "description": "Visual Merchandising",
-        "shorttag": "7B",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 42,
-      "fields": {
-        "created": "2017-06-09T13:44:47Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Identitet - Grafisk identitet Hantverk (typsnitt, logotype, grafik - enstaka)",
-        "description": null,
-        "shorttag": "3Ab",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 43,
-      "fields": {
-        "created": "2017-04-25T17:21:07Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Bildkommunikation  - Illustration och infographic",
-        "description": null,
-        "shorttag": "6Ab",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 44,
-      "fields": {
-        "created": "2017-04-25T17:21:03Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Bildkommunikation  - Foto",
-        "description": null,
-        "shorttag": "6Aa",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 48,
-      "fields": {
-        "created": "2017-04-25T17:16:54Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Digitalt - Internet of things/Wearables",
-        "description": "",
-        "shorttag": "5C",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 49,
-      "fields": {
-        "created": "2017-04-25T17:17:08Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Digitalt - Speldesign/Gaming",
-        "description": "",
-        "shorttag": "5D",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 50,
-      "fields": {
-        "created": "2017-05-03T17:49:42Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Digitalt - E-handel",
-        "description": "",
-        "shorttag": "5E",
-        "active": true
-      }
-    },
-    {
-      "model": "despri_admin.category",
-      "pk": 51,
-      "fields": {
-        "created": "2018-04-23T06:23:22Z",
-        "modified": "2020-03-04T00:00:00Z",
-        "name": "Årets Designer",
-        "description": "",
-        "shorttag": "8D",
-        "active": false
-      }
+  {
+    "model": "despri_admin.category",
+    "pk": 9,
+    "fields": {
+      "created": "2014-09-05T12:06:06Z",
+      "modified": "2020-03-24T07:40:20.182Z",
+      "name": "Redaktionellt - Dagstidning - print",
+      "description": "",
+      "shorttag": "1A",
+      "active": true,
+      "type": "print"
     }
-  ]
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 11,
+    "fields": {
+      "created": "2014-09-05T12:06:09Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Redaktionellt - Bok - print",
+      "description": "",
+      "shorttag": "1B",
+      "active": true,
+      "type": "print"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 13,
+    "fields": {
+      "created": "2014-09-05T12:06:12Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Redaktionellt - Magasin - print",
+      "description": "",
+      "shorttag": "1C",
+      "active": true,
+      "type": "print"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 15,
+    "fields": {
+      "created": "2014-09-05T12:06:16Z",
+      "modified": "2020-03-24T07:40:12.305Z",
+      "name": "Redaktionellt - Kundtidning - print",
+      "description": "",
+      "shorttag": "1D",
+      "active": true,
+      "type": "print"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 16,
+    "fields": {
+      "created": "2014-04-28T10:49:03Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Information - print",
+      "description": "",
+      "shorttag": "2Aa",
+      "active": true,
+      "type": "print"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 17,
+    "fields": {
+      "created": "2014-04-28T10:49:55Z",
+      "modified": "2020-03-24T07:40:02.459Z",
+      "name": "Information - Årsredovisning - print",
+      "description": "",
+      "shorttag": "2Ba",
+      "active": true,
+      "type": "print"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 19,
+    "fields": {
+      "created": "2014-04-28T10:52:36Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Information - Årsredovisning - digital",
+      "description": "",
+      "shorttag": "2Bb",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 20,
+    "fields": {
+      "created": "2014-04-28T10:53:49Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Identitet - Förpackning",
+      "description": "",
+      "shorttag": "3B",
+      "active": true,
+      "type": "print"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 21,
+    "fields": {
+      "created": "2014-04-28T10:54:20Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Identitet - Grafisk identitet",
+      "description": "",
+      "shorttag": "3A",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 22,
+    "fields": {
+      "created": "2014-04-28T10:54:49Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Identitet - Produktdesign",
+      "description": "",
+      "shorttag": "3C",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 23,
+    "fields": {
+      "created": "2014-04-28T10:57:25Z",
+      "modified": "2020-03-24T07:39:45.084Z",
+      "name": "Reklam - print",
+      "description": "",
+      "shorttag": "4A",
+      "active": true,
+      "type": "print"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 24,
+    "fields": {
+      "created": "2014-04-28T10:57:18Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Reklam - digital",
+      "description": "",
+      "shorttag": "4B",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 25,
+    "fields": {
+      "created": "2017-04-25T17:16:21Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Digitalt - Smarttelefon",
+      "description": "",
+      "shorttag": "5A",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 26,
+    "fields": {
+      "created": "2017-04-25T17:16:28Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Digitalt - Läsplatta ",
+      "description": null,
+      "shorttag": "5B",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 28,
+    "fields": {
+      "created": "2017-04-25T17:21:10Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Bildkommunikation  - Rörlig bild/film",
+      "description": "",
+      "shorttag": "6B",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 29,
+    "fields": {
+      "created": "2015-05-07T15:11:01Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Årets Våghals",
+      "description": "",
+      "shorttag": "8C",
+      "active": false,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 30,
+    "fields": {
+      "created": "2015-05-07T15:10:40Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Juryns Pris",
+      "description": "",
+      "shorttag": "8B",
+      "active": false,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 32,
+    "fields": {
+      "created": "2017-04-25T17:20:45Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Event - Display, monter, event",
+      "description": "",
+      "shorttag": "7A",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 33,
+    "fields": {
+      "created": "2014-04-28T10:55:10Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Identitet - digital",
+      "description": "",
+      "shorttag": "3D",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 35,
+    "fields": {
+      "created": "2014-09-05T12:06:43Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Redaktionellt - Personal/medlemstidning - print",
+      "description": "",
+      "shorttag": "1E",
+      "active": true,
+      "type": "print"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 37,
+    "fields": {
+      "created": "2014-04-28T10:48:46Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Information - digital",
+      "description": "",
+      "shorttag": "2Ab",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 38,
+    "fields": {
+      "created": "2015-05-07T15:07:50Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Redaktionell - digital",
+      "description": "Samlingskategori för redaktionella & digitala kategorier",
+      "shorttag": "1F",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 41,
+    "fields": {
+      "created": "2017-04-25T17:20:52Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Event - Visual Merchandising",
+      "description": "Visual Merchandising",
+      "shorttag": "7B",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 42,
+    "fields": {
+      "created": "2017-06-09T13:44:47Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Identitet - Grafisk identitet Hantverk (typsnitt, logotype, grafik - enstaka)",
+      "description": null,
+      "shorttag": "3Ab",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 43,
+    "fields": {
+      "created": "2017-04-25T17:21:07Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Bildkommunikation  - Illustration och infographic",
+      "description": null,
+      "shorttag": "6Ab",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 44,
+    "fields": {
+      "created": "2017-04-25T17:21:03Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Bildkommunikation  - Foto",
+      "description": null,
+      "shorttag": "6Aa",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 48,
+    "fields": {
+      "created": "2017-04-25T17:16:54Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Digitalt - Internet of things/Wearables",
+      "description": "",
+      "shorttag": "5C",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 49,
+    "fields": {
+      "created": "2017-04-25T17:17:08Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Digitalt - Speldesign/Gaming",
+      "description": "",
+      "shorttag": "5D",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 50,
+    "fields": {
+      "created": "2017-05-03T17:49:42Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Digitalt - E-handel",
+      "description": "",
+      "shorttag": "5E",
+      "active": true,
+      "type": "digital"
+    }
+  },
+  {
+    "model": "despri_admin.category",
+    "pk": 51,
+    "fields": {
+      "created": "2018-04-23T06:23:22Z",
+      "modified": "2020-03-04T00:00:00Z",
+      "name": "Årets Designer",
+      "description": "",
+      "shorttag": "8D",
+      "active": false,
+      "type": "digital"
+    }
+  }
+]
