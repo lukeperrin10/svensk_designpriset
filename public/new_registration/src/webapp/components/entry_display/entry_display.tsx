@@ -100,6 +100,12 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
         )
     }
 
+    const displayCarousel = (e: IEntry) => {
+        if (e.entry_images.length > 0) return true
+        if (e.video_url !== '' && e.video_url !== null) return true
+        return false
+    }
+
     return (
         <div className={styles.container}>
         {onClose &&
@@ -120,7 +126,7 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
             </header>
             <section className={styles.section}>
                 <div className={styles.car_container}>
-                    {entry.entry_images.length > 0 || entry.video_url !== '' ? getCarousel(entry) : <img src={assembleMediaUrl(entry.avatar)} className={styles.car_img} />}
+                    {displayCarousel(entry) ? getCarousel(entry) : <img src={assembleMediaUrl(entry.avatar)} className={styles.car_img} />}
                 </div>
                 <div className={styles.article_container}>
                     {IS_MOBILE && 
