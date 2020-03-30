@@ -10,7 +10,8 @@ export interface formItems {
         medium?: boolean,
         marginBottom?: boolean,
         singleRow?: boolean,
-        categoryType?: string
+        categoryType?: string,
+        largeTextInput?: boolean
     }
 }
 
@@ -40,6 +41,7 @@ export const FORM_PROFILE_LABELS: formItems = {
 export const FORM_ENTRY_LABELS: formItems = {
     entry_name: {key: "entry_name", label: "Bidragets namn", required: true, type: "text"},
     customer: {key: 'customer', label: 'Uppdragsgivare', required: true, type: 'text', marginBottom: true},
+    description: {key: 'description', label: 'Beskrivning (max 200 tecken)', required: true, type: 'text', marginBottom:true, largeTextInput: true, singleRow: true, maxLength: 200},
     category_id: {key: 'category_id', label: 'Tävlingskategori', required: true, type: 'select', singleRow: true},
     webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer", required: false, type: "text", singleRow: true, marginBottom: true, categoryType: 'digital'},
     format: {key: 'format', label: 'Omfång (Gäller trycksaker)', required: false, type: 'text', categoryType: 'print'},

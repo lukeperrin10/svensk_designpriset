@@ -165,7 +165,6 @@ class DpForm extends React.Component<IDpFormProps> {
                                             }):null}
                                             </Form.Control>
                                             :
-                                        
                                             <Form.Control
                                                 className={[styles.input, 
                                                     item.small && styles.small_input, 
@@ -173,6 +172,8 @@ class DpForm extends React.Component<IDpFormProps> {
                                                 required={item.required}
                                                 maxLength={item.maxLength || undefined}
                                                 type={item.type}
+                                                as={item.largeTextInput? 'textarea' : 'input'}
+                                                rows={item.largeTextInput ? '4' : '1'}
                                                 placeholder={item.label} 
                                                 defaultValue={this.getDefaultValue(item.key, item.type)}
                                                 onChange={this.onControlChange(key)}/>

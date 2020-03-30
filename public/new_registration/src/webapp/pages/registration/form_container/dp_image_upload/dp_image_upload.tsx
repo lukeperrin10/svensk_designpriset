@@ -126,12 +126,15 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
             <div className={styles.container}>
                 <Text type={TEXT_TYPES.P}>{this.props.label}</Text>
                 {uploadedImage ? 
-                <div className={styles.image_container}>
-                    {displayUploadName ? 
-                        <p>{uploadedImage}</p>    
-                        :
-                        <img className={styles.img} src={uploadedImage} alt='image'/>
-                    }
+                <div>
+                    <div className={styles.image_container}>
+                        {displayUploadName ? 
+                            <p>{uploadedImage}</p>    
+                            :
+                            <img className={styles.img} src={uploadedImage} alt='image'/>
+                        }
+                        
+                    </div>
                     <Button onClick={() => this.deleteImage()}  variant={BUTTON_VARIANTS.TERTIARY} size={BUTTON_SIZES.SMALL} title='Ta bort bild'/>
                 </div>
                 :

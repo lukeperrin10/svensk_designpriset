@@ -75,7 +75,8 @@ export interface INewEntry {
     secret: string,
     year: string,
     entry_images: Array<string> | IEntryImage[],
-    video_url: string
+    video_url: string,
+    description: string
 }
 
 export interface IEntry {
@@ -104,7 +105,8 @@ export interface IEntry {
     entry_images: IEntryImage[] | Array<string>,
     video_url: string,
     company?: string,
-    category_name?: string
+    category_name?: string,
+    description: string
 }
 
 export interface IEntryImage {

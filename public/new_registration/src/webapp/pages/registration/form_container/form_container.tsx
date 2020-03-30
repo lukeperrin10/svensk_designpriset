@@ -233,7 +233,7 @@ class FormContainer extends React.Component<IFormContainer> {
             savedEntry = tempEntries[entryKey] as IEntry
             
         } else {
-             savedEntry = {profile_id: 9999999,entry_name: '',designer: '',
+             savedEntry = {profile_id: 9999999,entry_name: '',designer: '', description: '',
             illustrator: '',leader: '', avatar: '', secret: '', year: '',customer: '',
             source: '', format: '', size: '', category_id: 99999999999, webpage: '', entry_images: [], video_url: ''} as INewEntry
         }
