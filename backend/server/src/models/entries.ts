@@ -158,6 +158,7 @@ function fill_entry(entry: Entry): Entry {
         is_winner_silver: entry.is_winner_silver || 0,
         sent_nominee_notification: escapeDate(entry.sent_nominee_notification) || null,
         motivation: entry.motivation || "",
+        description: entry.description || null,
         created: getDateTime(),
         modified: getDateTime()
     }

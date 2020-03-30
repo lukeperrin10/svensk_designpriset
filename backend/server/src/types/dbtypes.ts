@@ -68,7 +68,8 @@ export interface Winner {
     motivation: string,
     year: string,
     entry_images?: EntryImages,
-    video_url?: string 
+    video_url?: string,
+    description?: string
 }
 // WARNING: Should dates be string?
 export interface Profile {
@@ -121,7 +122,8 @@ export interface Entry {
     motivation: string,
     year: string,
     entry_images?: EntryImages,
-    video_url?: string 
+    video_url?: string,
+    description?: string
 }
 
 export type EntryImages = Array<string> | Array<EntryImage>
