@@ -137,13 +137,16 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                     <article className={styles.article}>
                         <Text className={styles.title} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.entry_name}</Text>
                         <div className={styles.contents}>
-                            <Label>Byrå: </Label><P>{entry.company}</P>
+                            <P>{entry.description}</P>
                         </div>
                         <div className={styles.contents}>
-                            <Label>Designer: </Label><P>{entry.designer}</P>    
+                            <P><span className={styles.bold}>Byrå:</span> {entry.company}</P>
                         </div>
                         <div className={styles.contents}>
-                            <Label>Kund: </Label><P>{entry.customer}</P>   
+                        <P><span className={styles.bold}>Designer: </span>{entry.designer}</P>    
+                        </div>
+                        <div className={styles.contents}>
+                        <P><span className={styles.bold}>Kund: </span>{entry.customer}</P>   
                         </div>
                     </article>
                     {!IS_MOBILE && getButtons()}

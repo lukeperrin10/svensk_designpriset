@@ -34,6 +34,10 @@
     max-width: 300px;
 }
 
+.bold {
+    font-family: ITC Franklin Gothic Std Demi;
+}
+
 @media screen and (max-width: 1090px) {
     .article {
         margin-top: 40px;
