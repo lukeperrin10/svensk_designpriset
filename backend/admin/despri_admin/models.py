@@ -61,7 +61,7 @@ class Entry(BaseModel):
     illustrator = models.CharField(_('Illustrator'), max_length=511, null=True, blank=False)
     leader = models.CharField(_('Leader'), max_length=511, null=False, blank=False)
     customer = models.CharField(_('Customer'), max_length=511, null=False, blank=False)
-    avatar = models.ImageField(_('Avatar'), upload_to="avatars", null=True, blank=True)
+    avatar = models.ImageField(_('Avatar'), upload_to="avatars", null=True, blank=False)
     format = models.CharField(_('Format'), max_length=20, null=True, blank=True)
     size = models.CharField(_('Size'), max_length=20, null=True, blank=True)
     webpage = models.URLField(_('Webpage'), max_length=255, null=True, blank=True)
@@ -72,6 +72,7 @@ class Entry(BaseModel):
     sent_nominee_notification = models.DateField(_('Nominee notification date'), null=True, blank=True)
     motivation = models.TextField(_('Motivation'), null=True, blank=True)
     year = models.CharField(_('Year'), max_length=4, null=False, blank=False)
+    description = models.CharField(_('Description'), max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.entry_name
