@@ -99,6 +99,8 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[
     new_entries.forEach(new_entry => {
         const updateEntry = 'id' in new_entry
         const entry = fill_entry(new_entry)
+        console.log(new_entry.avatar)
+        console.log(entry.avatar)
         querys.push({
             query: updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?',
             args: updateEntry ? [entry, entry.id] : [entry]
@@ -135,8 +137,19 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[
     }
 }
 
+function checkAvatarSource(path?: string, pattern?: string) {
+    if (path && pattern) {
+        return path.indexOf(pattern) === -1
+    }
+    return false
+}
+
 
 function fill_entry(entry: Entry): Entry {
+    const avatarIsNew = checkAvatarSource(entry.avatar, `${AVATAR_DIR}/`)
+    const sourceIsNew = checkAvatarSource(entry.source, `${SOURCE_DIR}/`)
+    const avatar = avatarIsNew ? `${AVATAR_DIR}/${entry.avatar}` : entry.avatar
+    const source = entry.source && sourceIsNew ? `${SOURCE_DIR}/${entry.source}` : entry.source
     const new_entry: Entry = {
         profile_id: entry.profile_id,
         entry_name: entry.entry_name, 
@@ -149,9 +162,9 @@ function fill_entry(entry: Entry): Entry {
         customer: entry.customer, 
         webpage: entry.webpage || null, 
         video_url: entry.video_url || null,
-        source: entry.source ? `${SOURCE_DIR}/${entry.source}` : null, 
+        source: source || null, 
         secret: entry.secret, 
-        avatar: entry.avatar ? `${AVATAR_DIR}/${entry.avatar}` : null, 
+        avatar: avatar, 
         year: entry.year || `${new Date().getFullYear()}`,
         is_nominated: entry.is_nominated || 0,
         is_winner_gold: entry.is_winner_gold || 0,
