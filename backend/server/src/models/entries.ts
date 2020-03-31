@@ -113,11 +113,9 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[
     new_entries.forEach(new_entry => {
         const updateEntry = 'id' in new_entry
         const entry = fill_entry(new_entry)
-        console.log(new_entry.avatar)
-        console.log(entry.avatar)
         querys.push({
-            query: updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?',
-            args: updateEntry ? [entry, entry.id] : [entry]
+            query: updateEntry ? 'UPDATE entries SET id = last_insert_id(?), ? WHERE ID = ?' : 'INSERT INTO entries SET ?',
+            args: updateEntry ? [entry.id, entry, entry.id] : [entry]
         })
         if (entry.avatar) avatars.push(entry.avatar)
         if (entry.source) sources.push(entry.source)

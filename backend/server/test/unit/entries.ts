@@ -24,7 +24,7 @@ const test_entry: entries.Entry = {
     sent_nominee_notification: new Date().toISOString(),
     motivation: "test motivation",
     year: "2020",
-    entry_images: ["extra-x405wf8102k7x74scm.jpg","extra-x405wf8102k7x74scr.jpg"]
+    entry_images: [{image: "extra-x405wf8102k7x74scm.jpg", is_featured: false},{image: "extra-x405wf8102k7x74scr.jpg", is_featured: false}]
     
 }
 
@@ -40,6 +40,30 @@ const create = () => {
             await entries.remove(id)
         })
     })
+}
+
+const update = () => {
+    let id: number
+    let entry: entries.Entry
+    let new_entry_name = 'New entry name'
+    describe('Entry creation for update', () => {
+        it ('should create an entry', async () => {
+            const res = await entries.create(test_entry)
+            id = res.id
+            entry = res
+            expect(id).to.be.greaterThan(0)
+        })
+        it ('should update the entry', async () => {
+            entry.entry_name = new_entry_name
+            const res = await entries.update(entry)
+            expect(res.id).equal(id)
+            expect(res.entry_name).equal(new_entry_name)
+        })
+        it ('should remove the created entry', async () => {
+            await entries.remove(id)
+        })
+    })
+
 }
 
 const createBatch = () => {
@@ -78,6 +102,8 @@ const createImages = () => {
 
 }
 
+
 create()
 createBatch()
-createImages()
+//createImages()
+update()
