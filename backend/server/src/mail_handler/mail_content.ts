@@ -37,7 +37,7 @@ export function getEntryContent(entries: Entry[], categories?: Category[]) {
     content += '<ul style="list-style:none;padding:0;">'
     entries.forEach(entry => {
         i++      
-        const avatar = `${STATIC_MEDIA_URL}/avatars/${entry.avatar}`
+        const avatar = `${STATIC_MEDIA_URL}/${entry.avatar}`
         content += `<h3 style="${subheading}">Bidrag ${i}</h3>`
         content += `<a target="_blank" href="${avatar}"><img height="200px;" src="${avatar}"/></a><br/><br/>`
         content += `<li>Namn: ${entry.entry_name}</li>`
@@ -49,7 +49,7 @@ export function getEntryContent(entries: Entry[], categories?: Category[]) {
         content += entry.webpage ?  `<li>Webbplats: ${entry.webpage}</li>` : ''
         content += entry.format ? `<li>Omfång: ${entry.format}</li>` : ''
         content += entry.size ? `<li>Storlek: ${entry.size}</li>` : ''
-        content += entry.source ? `<li>Bifogad fil: <a target="_blank" href="${STATIC_MEDIA_URL}/sources/${entry.source}">${entry.source}</a></li>` : ''
+        content += entry.source ? `<li>Bifogad fil: <a target="_blank" href="${STATIC_MEDIA_URL}/${entry.source}">${entry.source}</a></li>` : ''
     })   
     return content
 }
