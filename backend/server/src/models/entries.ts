@@ -50,14 +50,18 @@ export async function remove(id: number): Promise<Entry> {
     return remove
 }
 
-async function createImages(entry_id: number, images: string[]) {
-    const data: EntryImage[] = images.map(i => ({
-        image: `${AVATAR_DIR}/${i}`,
-        entry_id: entry_id,
-        modified: getDateTime(),
-        created: getDateTime(),
-        is_featured: false
-    }))
+async function createImages(entry_id: number, images: EntryImages) {
+    const data: EntryImage[] = images.map(i => {
+        const imageIsNew = checkAvatarSource(i.image, `${AVATAR_DIR}/`)
+        const image = imageIsNew ? `${AVATAR_DIR}/${i.image}` : i.image
+        return {
+            image: image,
+            entry_id: entry_id,
+            modified: getDateTime(),
+            created: getDateTime(),
+            is_featured: i.is_featured || false
+        }
+    })
     moveAvatar(data.map(d => d.image))
     const queries: db.queryObj[] = data.map(d => ({query: 'INSERT INTO entry_images SET ?', args: <any>d}))
     queries.unshift({query: 'DELETE FROM entry_images WHERE entry_id = ?', args: [entry_id]})
@@ -101,6 +105,7 @@ async function moveSource(filenames: string[]) {
 }
 
 async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[]> {
+    console.log(new_entries)
     const querys: db.queryObj[] = []
     const avatars : string[] = []
     const sources : string[] = []
@@ -125,15 +130,15 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[
     try {
         const batchInsert: [db.InsertResult] = await db.batchQuery(querys)
         const profileEntries: Entry[] = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [new_entries[0].profile_id])
-
         //Handle extra images
         for (let i = 0; i < batchInsert.length; i++)  {
             const entry = new_entries[i]
             if (!entry || !entry.entry_images) continue
             const id = batchInsert[i].insertId
+            console.log(batchInsert[i])
             const images = entry.entry_images
             if (images && images.length > 0) {
-                await createImages(id, <string[]>images)
+                await createImages(id, images)
             }
 
         }

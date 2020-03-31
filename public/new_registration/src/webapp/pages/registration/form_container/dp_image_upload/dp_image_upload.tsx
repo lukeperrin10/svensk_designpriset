@@ -66,7 +66,6 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
 
     deleteImage() {
         const {uploadedImageAbsolute, deleteImage} = this.props
-        console.log(uploadedImageAbsolute)
         if (deleteImage) {
             if (uploadedImageAbsolute) deleteImage(uploadedImageAbsolute)
             else {

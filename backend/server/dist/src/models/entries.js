@@ -32,11 +32,22 @@ function getName() {
 exports.getName = getName;
 function getId(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const query = yield db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [id]);
-        return query;
+        const query = 'SELECT * FROM `entries` WHERE `profile_id` = ?';
+        const entries = yield db.query(query, [id]);
+        return yield (addImages(entries));
     });
 }
 exports.getId = getId;
+function addImages(entries) {
+    return __awaiter(this, void 0, void 0, function* () {
+        for (let i = 0; i < entries.length; i++) {
+            if (!entries[i].id)
+                continue;
+            entries[i].entry_images = yield db.query('SELECT image FROM entry_images WHERE entry_id = ?', [entries[i].id]);
+        }
+        return entries;
+    });
+}
 function create(new_entry) {
     return __awaiter(this, void 0, void 0, function* () {
         return (yield batch([new_entry], false))[0];
@@ -126,6 +137,7 @@ function moveSource(filenames) {
 }
 function batch(new_entries, update) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(new_entries);
         const querys = [];
         const avatars = [];
         const sources = [];
@@ -133,6 +145,8 @@ function batch(new_entries, update) {
         new_entries.forEach(new_entry => {
             const updateEntry = 'id' in new_entry;
             const entry = fill_entry(new_entry);
+            console.log(new_entry.avatar);
+            console.log(entry.avatar);
             querys.push({
                 query: updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?',
                 args: updateEntry ? [entry, entry.id] : [entry]
@@ -169,7 +183,17 @@ function batch(new_entries, update) {
         }
     });
 }
+function checkAvatarSource(path, pattern) {
+    if (path && pattern) {
+        return path.indexOf(pattern) === -1;
+    }
+    return false;
+}
 function fill_entry(entry) {
+    const avatarIsNew = checkAvatarSource(entry.avatar, `${temp_contants_4.AVATAR_DIR}/`);
+    const sourceIsNew = checkAvatarSource(entry.source, `${temp_contants_4.SOURCE_DIR}/`);
+    const avatar = avatarIsNew ? `${temp_contants_4.AVATAR_DIR}/${entry.avatar}` : entry.avatar;
+    const source = entry.source && sourceIsNew ? `${temp_contants_4.SOURCE_DIR}/${entry.source}` : entry.source;
     const new_entry = {
         profile_id: entry.profile_id,
         entry_name: entry.entry_name,
@@ -182,15 +206,16 @@ function fill_entry(entry) {
         customer: entry.customer,
         webpage: entry.webpage || null,
         video_url: entry.video_url || null,
-        source: entry.source ? `${temp_contants_4.SOURCE_DIR}/${entry.source}` : null,
+        source: source || null,
         secret: entry.secret,
-        avatar: entry.avatar ? `${temp_contants_4.AVATAR_DIR}/${entry.avatar}` : null,
+        avatar: avatar,
         year: entry.year || `${new Date().getFullYear()}`,
         is_nominated: entry.is_nominated || 0,
         is_winner_gold: entry.is_winner_gold || 0,
         is_winner_silver: entry.is_winner_silver || 0,
         sent_nominee_notification: escapeDate(entry.sent_nominee_notification) || null,
         motivation: entry.motivation || "",
+        description: entry.description || null,
         created: helpers_1.getDateTime(),
         modified: helpers_1.getDateTime()
     };

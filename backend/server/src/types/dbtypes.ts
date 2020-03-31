@@ -126,7 +126,7 @@ export interface Entry {
     description?: string
 }
 
-export type EntryImages = Array<string> | Array<EntryImage>
+export type EntryImages = Array<EntryImage>
 
 export interface EntryImage {
     id?: number,

@@ -18,7 +18,8 @@ interface props {
     displayErrorProps: boolean,
     errorMessageProps: string,
     readUrl: string,
-    deletedImages: string[]
+    deletedImages: string[],
+    newlyAddedImages: IEntryImage[]
 }
 
 const DpMultipleImageUpload = (props:props) => {
@@ -26,13 +27,16 @@ const DpMultipleImageUpload = (props:props) => {
     const [showForm, setShowForm] = useState(false)
 
     const getUrl = (image: string) => {
-        console.log(props.deletedImages)
-        if (props.deletedImages.indexOf(image) !== -1) return TEMP_AVATAR_URL
-        return props.readUrl
+        console.log(props.readUrl)
+        let url = props.readUrl
+        if (props.deletedImages.indexOf(image) !== -1) url = TEMP_AVATAR_URL
+        props.newlyAddedImages.forEach(newly => {
+            if (newly.image === image) url = TEMP_AVATAR_URL
+        })
+        return url
     }
 
     const getAddedImages = (images: IEntryImage[]) => {
-        console.log(images)
             const uploaded = images.map(image => {
                 return (
                     <DpImageUpload 

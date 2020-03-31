@@ -2,7 +2,7 @@ import * as React from 'react'
 import {FORM_PROFILE_LABELS, FORM_ENTRY_LABELS, GENERAL_TEXT, formItems} from '../../../config/text'
 import styles from './form_container.module.css'
 import {Md5} from 'ts-md5/dist/md5';
-import { INewProfile, INewEntry, ICategory, IProfile, IEntry } from '../../../model';
+import { INewProfile, INewEntry, ICategory, IProfile, IEntry, IEntryImage } from '../../../model';
 import DpForm from './dp_form';
 import { IEnteredValues } from './dp_form/dp_form';
 import Button from '../../../components/button'
@@ -58,7 +58,8 @@ class FormContainer extends React.Component<IFormContainer> {
         shouldSubmitEntries: false,
         formError: false,
         selectedCategory: '',
-        deletedExtraImages: ['']
+        deletedExtraImages: [''],
+        newlyAddedExtraImages: []
     }
     constructor(p: any) {
         super(p)
@@ -257,8 +258,8 @@ class FormContainer extends React.Component<IFormContainer> {
         if (!error) {
             const obj: {} = JSON.parse(JSON.stringify(this.state.savedEntries))
             obj[entryKey] = savedEntry
+            console.log(savedEntry)
             this.setState({savedEntries: obj, disabledEntries: {...this.state.disabledEntries, [entryKey]: true}}, () => this.entriesSaved())
-            
         }
     }
 
@@ -319,7 +320,9 @@ class FormContainer extends React.Component<IFormContainer> {
                 } else {
                     obj[key][type] = [newEntryImage]
                 }
-                
+                const addedImages : IEntryImage[] = Array.from(this.state.newlyAddedExtraImages)
+                addedImages.push(newEntryImage)
+                this.setState({newlyAddedExtraImages: addedImages})
             } else {
                 obj[key][type] = url
             }
@@ -334,14 +337,14 @@ class FormContainer extends React.Component<IFormContainer> {
         const obj = this.state.tempEntries
         if (key in obj && type in obj[key]) {
             if (type === 'entry_images') {
-                console.log(obj[key][type])
                 const entryImages = Array.from(obj[key][type]).filter(e => {
                     if (typeof e === 'object' && e !== null && 'image' in e) return e['image'] !== image
                 })
                 if (image) {
                     const deletedImages : string[] = Array.from(this.state.deletedExtraImages)
+                    const addedImages : IEntryImage[] = Array.from(this.state.newlyAddedExtraImages).filter((i: IEntryImage) => i.image !== image)
                     deletedImages.push(image)
-                    this.setState({deletedExtraImages: deletedImages})
+                    this.setState({deletedExtraImages: deletedImages, newlyAddedExtraImages: addedImages})
                 }
                 obj[key][type] = entryImages
             } else {
@@ -441,6 +444,7 @@ class FormContainer extends React.Component<IFormContainer> {
                         readUrl={editContent ? AVATAR_URL : TEMP_AVATAR_URL}
                         uploadedImages={uploadedEntryImages}
                         deletedImages={this.state.deletedExtraImages}
+                        newlyAddedImages={this.state.newlyAddedExtraImages}
                         deleteImage={(image?: string) => this.removeMediaFromEntry(key, 'entry_images', image)}
                     />
                 ]}

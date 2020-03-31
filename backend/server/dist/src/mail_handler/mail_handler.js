@@ -36,7 +36,8 @@ function mail(to, subject, message, html) {
         }
         else {
             transporter = nodeMailer.createTransport({
-                host: "smtp02.ports.local",
+                // host: "smtp02.ports.local",
+                host: 'mail03.portsit.se',
                 port: 25
             });
         }
