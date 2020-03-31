@@ -1,5 +1,5 @@
 import * as db from '../db'
-import {Entry as dbtype, EntryImage} from '../types/dbtypes'
+import {Entry as dbtype, EntryImage, EntryImages} from '../types/dbtypes'
 import fs from 'fs-extra'
 import { sendRegisterEmails } from '../mail_handler/mail_handler';
 import { TEMP_MEDIA_PATH } from '../constants/temp_contants';
@@ -14,9 +14,18 @@ export function getName() {
     return 'Entries'
 }
 
-export async function getId(id: number): Promise<Entry> {
-    const query = await db.query('SELECT * FROM `entries` WHERE `profile_id` = ?', [id])
-    return query
+export async function getId(id: number): Promise<Entry[]> {
+    const query = 'SELECT * FROM `entries` WHERE `profile_id` = ?'
+    const entries : Entry[] = await db.query(query, [id])
+    return await (addImages(entries))
+}
+
+async function addImages(entries: Entry[]) {
+    for (let i = 0; i < entries.length; i++) {
+        if (!entries[i].id) continue
+        entries[i].entry_images = await db.query('SELECT image FROM entry_images WHERE entry_id = ?', [entries[i].id])
+    }
+    return entries
 }
 
 export async function create(new_entry: Entry): Promise<Entry> {

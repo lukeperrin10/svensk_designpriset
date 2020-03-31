@@ -57,7 +57,8 @@ class FormContainer extends React.Component<IFormContainer> {
         shouldSubmitProfile: false,
         shouldSubmitEntries: false,
         formError: false,
-        selectedCategory: ''
+        selectedCategory: '',
+        deletedExtraImages: ['']
     }
     constructor(p: any) {
         super(p)
@@ -309,10 +310,14 @@ class FormContainer extends React.Component<IFormContainer> {
         } 
         if (key in obj) {
             if (isEntryImages) {
+                const newEntryImage = {
+                    image: url,
+                    is_featured: 0
+                }
                 if (obj[key][type] && obj[key][type].length > 0) {
-                    obj[key][type].push(url)
+                    obj[key][type].push(newEntryImage)
                 } else {
-                    obj[key][type] = [url]
+                    obj[key][type] = [newEntryImage]
                 }
                 
             } else {
@@ -329,14 +334,23 @@ class FormContainer extends React.Component<IFormContainer> {
         const obj = this.state.tempEntries
         if (key in obj && type in obj[key]) {
             if (type === 'entry_images') {
+                console.log(obj[key][type])
                 const entryImages = Array.from(obj[key][type]).filter(e => {
-                    return e !== image
+                    if (typeof e === 'object' && e !== null && 'image' in e) return e['image'] !== image
                 })
+                if (image) {
+                    const deletedImages : string[] = Array.from(this.state.deletedExtraImages)
+                    deletedImages.push(image)
+                    this.setState({deletedExtraImages: deletedImages})
+                }
                 obj[key][type] = entryImages
             } else {
                 delete obj[key][type] 
             }
             this.setState({tempEntries: obj})
+            if (this.props.editContent !== undefined && type !== 'entry_images') {
+                this.setState({editModeNewEntries: {...this.state.editModeNewEntries, [key]: true}})
+            }
         }
     }
 
@@ -424,8 +438,9 @@ class FormContainer extends React.Component<IFormContainer> {
                         displayErrorProps={key in errorEntries}
                         key={'entry_images'} 
                         limits={[LIMIT_EXTENSIONS.JPEG, LIMIT_EXTENSIONS.JPG, LIMIT_EXTENSIONS.PNG]}
-                        readUrl={editContent ? editPath : TEMP_AVATAR_URL}
+                        readUrl={editContent ? AVATAR_URL : TEMP_AVATAR_URL}
                         uploadedImages={uploadedEntryImages}
+                        deletedImages={this.state.deletedExtraImages}
                         deleteImage={(image?: string) => this.removeMediaFromEntry(key, 'entry_images', image)}
                     />
                 ]}
