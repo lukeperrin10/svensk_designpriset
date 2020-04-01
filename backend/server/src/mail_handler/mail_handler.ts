@@ -46,12 +46,10 @@ export async function mail(to: string, subject: string, message: string, html?: 
 }
 
 export function generateUserLink(id: number, secret: string) {
-    console.log(`gen user:  id: ${id}, secret: ${secret}`)
     return `${REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}`
 }
 
 export function generateAdminLink(id: number, secret: string) {
-    console.log(`gen admin:  id: ${id}, secret: ${secret}`)
     return `${REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`
 }
 

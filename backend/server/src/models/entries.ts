@@ -105,7 +105,6 @@ async function moveSource(filenames: string[]) {
 }
 
 async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[]> {
-    console.log(new_entries)
     const querys: db.queryObj[] = []
     const avatars : string[] = []
     const sources : string[] = []
@@ -133,7 +132,6 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[
             const entry = new_entries[i]
             if (!entry || !entry.entry_images) continue
             const id = batchInsert[i].insertId
-            console.log(batchInsert[i])
             const images = entry.entry_images
             if (images && images.length > 0) {
                 await createImages(id, images)

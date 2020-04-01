@@ -81,7 +81,6 @@ export async function replaceVars(content: string, secret?:string, profile?: Pro
     
     while (content.match(findAll) !== null) {
         const replacement = await getVar(content.match(findOne))
-        console.log(replacement)
         const res = content.replace(findOne, replacement)
         content = res
     }
