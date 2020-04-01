@@ -16,6 +16,7 @@ interface props {
 const headerId = 'xxxx_header_id'
 const imageContId = 'xxxx_image_cont_id'
 const imageId = 'xxxx_image_id'
+const buttonId = 'xxxx_button_header_id'
 
 const Header  = ({path, buttonTitle}:props) => {
     let didExpand = false
@@ -68,6 +69,7 @@ const Header  = ({path, buttonTitle}:props) => {
     const onButtonClick = () => {
         if (isRoot()) history.push(path)
         else history.goBack()
+        
     }
 
     const onLogoClick = () => {
@@ -86,8 +88,7 @@ const Header  = ({path, buttonTitle}:props) => {
                 <img src={crown} className={styles.crown} alt="Logga" />
             </div>
             <div className={styles.border} />
-            
-            <Button className={styles.button} onClick={onButtonClick} title={isRoot() ? buttonTitle : 'Tillbaka'} variant={isRoot() ? BUTTON_VARIANTS.PRIMARY : BUTTON_VARIANTS.TERTIARY} />
+            <Button id={buttonId} className={[styles.button].join(' ')} onClick={onButtonClick} title={isRoot() ? buttonTitle : 'Tillbaka'} variant={isRoot() ? BUTTON_VARIANTS.PRIMARY : BUTTON_VARIANTS.TERTIARY} />
         </div>
     )
 }

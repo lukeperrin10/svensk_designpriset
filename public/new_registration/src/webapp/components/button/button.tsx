@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {useRef, useEffect} from 'react'
 import styles from './button.module.css'
 
 export enum BUTTON_VARIANTS {
@@ -20,11 +21,19 @@ interface props {
     className?: string,
     variant?: BUTTON_VARIANTS,
     size?: BUTTON_SIZES,
-    preventDefault?: boolean
+    preventDefault?: boolean,
+    id?: string,
+    blur?: boolean
 }
 
-const Button = ({onClick, title, className, variant, size, preventDefault}:props) => {
+const Button = ({onClick, title, className, variant, size, preventDefault, id, blur}:props) => {
 
+    const buttonRef = useRef<HTMLButtonElement>(null)
+    
+
+    const blurButton = () => {
+        buttonRef.current?.blur()
+    }
     const getVariant = () => {
         switch (variant) {
             case BUTTON_VARIANTS.PRIMARY:
@@ -54,6 +63,7 @@ const Button = ({onClick, title, className, variant, size, preventDefault}:props
     }
 
     const onButtonClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        if (!blur) blurButton()
         if (preventDefault) {
             e.preventDefault()
             e.stopPropagation()
@@ -61,7 +71,7 @@ const Button = ({onClick, title, className, variant, size, preventDefault}:props
         onClick()
     }
     return (
-        <button className={[styles.button, getVariant(), getSize(), className].join(' ')} onClick={onButtonClick}>{title}</button>
+        <button ref={buttonRef} id={id} onFocus={() => console.log('f cap')} className={[styles.button, getVariant(), getSize(), className].join(' ')} onClick={onButtonClick}>{title}</button>
     )
 }
 

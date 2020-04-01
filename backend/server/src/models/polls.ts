@@ -49,7 +49,7 @@ export async function get(): Promise<Array<Polls>> {
                 query: `
                 SELECT e.*, p.company FROM entries e
                 JOIN profiles p ON e.profile_id = p.id
-                WHERE e.category_id= ?
+                WHERE e.category_id= ? AND e.is_nominated = 1 
                 `,
                 args: [poll.category_id]
             })
@@ -65,7 +65,7 @@ export async function get(): Promise<Array<Polls>> {
         ))
 
         const result = assemblePoll(entriesWithImages, pollWithCategories)
-        
+        console.log(result)
         return [result]
 
     } catch (error) {

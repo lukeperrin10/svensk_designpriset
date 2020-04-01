@@ -8,7 +8,7 @@ import AfterPost from './after_post'
 import {Md5} from 'ts-md5/dist/md5';
 import * as queryString from 'query-string'
 import AfterConfirmed from './after_confirmed'
-import Text, { P, H1 } from '../../components/text'
+import Text, { P, H1, H2, H3 } from '../../components/text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
 import { getDayWithMonth } from '../../helpers/dates'
 import styles from './vote.module.css'
@@ -145,11 +145,11 @@ const Vote = () => {
             case STAGES.LIST:
                 return (
                     <div>
-                        {didFetchPoll && poll !== undefined &&
+                        {didFetchPoll && poll !== undefined && poll.categories !== undefined &&
                         <div>
                             <header className={styles.header}>
-                                <H1>{poll.name}</H1>
-                                <h2>Sista dag {getDayWithMonth(poll.stop)}</h2>
+                                <Text type={TEXT_TYPES.H1} headlineSize={HEADLINE_SIZES.LARGE}>{poll.name}</Text>
+                                <Text className={styles.subheader} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>Sista dag {getDayWithMonth(poll.stop)}</Text>
                             </header>
                             <summary>
                                 <VoteInstruction />
