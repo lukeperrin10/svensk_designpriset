@@ -1,5 +1,5 @@
 import * as nodeMailer from 'nodemailer'
-import { REGISTER_ROOT_URL, ADMIN_EMAIL } from '../constants/temp_contants';
+import { REGISTER_ROOT_URL, ADMIN_EMAIL, SITE_URL } from '../constants/temp_contants';
 import { Entry, Profile, MailType } from '../types/dbtypes';
 import * as db from '../db'
 import {getMailContent} from './mail_content_handler'
@@ -54,7 +54,7 @@ export function generateAdminLink(id: number, secret: string) {
 }
 
 export function generateConfirmVotesLink(secret: string) {
-    return `${REGISTER_ROOT_URL}/rostning?confirm=${secret}`
+    return `${SITE_URL}/rostning?confirm=${secret}`
 }
 
 export async function sendConfirmVotesMail(email: string, secret: string) {
