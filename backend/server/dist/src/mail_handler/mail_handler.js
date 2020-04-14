@@ -61,12 +61,10 @@ function mail(to, subject, message, html) {
 }
 exports.mail = mail;
 function generateUserLink(id, secret) {
-    console.log(`gen user:  id: ${id}, secret: ${secret}`);
     return `${temp_contants_1.REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}`;
 }
 exports.generateUserLink = generateUserLink;
 function generateAdminLink(id, secret) {
-    console.log(`gen admin:  id: ${id}, secret: ${secret}`);
     return `${temp_contants_1.REGISTER_ROOT_URL}/edit?id=${id}&secret=${secret}&adm=true`;
 }
 exports.generateAdminLink = generateAdminLink;

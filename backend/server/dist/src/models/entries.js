@@ -82,13 +82,17 @@ function remove(id) {
 exports.remove = remove;
 function createImages(entry_id, images) {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = images.map(i => ({
-            image: `${temp_contants_4.AVATAR_DIR}/${i}`,
-            entry_id: entry_id,
-            modified: helpers_1.getDateTime(),
-            created: helpers_1.getDateTime(),
-            is_featured: false
-        }));
+        const data = images.map(i => {
+            const imageIsNew = checkAvatarSource(i.image, `${temp_contants_4.AVATAR_DIR}/`);
+            const image = imageIsNew ? `${temp_contants_4.AVATAR_DIR}/${i.image}` : i.image;
+            return {
+                image: image,
+                entry_id: entry_id,
+                modified: helpers_1.getDateTime(),
+                created: helpers_1.getDateTime(),
+                is_featured: i.is_featured || false
+            };
+        });
         moveAvatar(data.map(d => d.image));
         const queries = data.map(d => ({ query: 'INSERT INTO entry_images SET ?', args: d }));
         queries.unshift({ query: 'DELETE FROM entry_images WHERE entry_id = ?', args: [entry_id] });
@@ -137,7 +141,6 @@ function moveSource(filenames) {
 }
 function batch(new_entries, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(new_entries);
         const querys = [];
         const avatars = [];
         const sources = [];
@@ -145,11 +148,9 @@ function batch(new_entries, update) {
         new_entries.forEach(new_entry => {
             const updateEntry = 'id' in new_entry;
             const entry = fill_entry(new_entry);
-            console.log(new_entry.avatar);
-            console.log(entry.avatar);
             querys.push({
-                query: updateEntry ? 'UPDATE entries SET ? WHERE ID = ?' : 'INSERT INTO entries SET ?',
-                args: updateEntry ? [entry, entry.id] : [entry]
+                query: updateEntry ? 'UPDATE entries SET id = last_insert_id(?), ? WHERE ID = ?' : 'INSERT INTO entries SET ?',
+                args: updateEntry ? [entry.id, entry, entry.id] : [entry]
             });
             if (entry.avatar)
                 avatars.push(entry.avatar);
