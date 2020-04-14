@@ -154,6 +154,7 @@ export interface IYearConfig {
     register_deadline_date: string,
     nominees_can_edit_start: string,
     nominees_can_edit_end: string,
+    delayed_deadline_end: string
     price: string,
     award_place: string,
     award_date: string,

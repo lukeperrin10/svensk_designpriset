@@ -141,8 +141,14 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
 
     const checkIfRegisterAllowed = () => {
         const query = queryString.parse(window.location.search)
+
         if (yearConfig.current_phase === PHASES.ONE) return true
+
         const now = new Date()
+        console.log(yearConfig)
+        console.log(yearConfig.delayed_deadline_end)
+        if (now < new Date(yearConfig.delayed_deadline_end)) return true
+
         const nomineeCanEdit = now > new Date(yearConfig.nominees_can_edit_start) && now < new Date(yearConfig.nominees_can_edit_end)
         return 'secret' in query && nomineeCanEdit
     }

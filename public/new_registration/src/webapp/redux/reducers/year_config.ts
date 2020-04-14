@@ -18,7 +18,8 @@ const initConfig = {
     award_place: "",
     award_date: "",
     winner_preview: "",
-    current_phase: ""
+    current_phase: "",
+    delayed_deadline_end: ""
 }
 
 const initialState: IYearConfigState = {
