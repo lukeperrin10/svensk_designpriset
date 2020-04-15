@@ -84,7 +84,11 @@ const WinnerGallery = ({entries, onEntryClick}:props) => {
                 <div key={cat} className={styles.category}>
                     <Text className={styles.header} type={TEXT_TYPES.LABEL}>{cat}</Text>
                     <div className={styles.entries}>
-                    { category.entries.map(entry => {
+                    { category.entries.sort((a,b) => {
+                        if (a.is_winner_gold) return -1
+                        if (a.is_winner_silver) return 1
+                        return 0
+                    }).map(entry => {
                         return (
                             <EntryCard
                                 key={entry.id}
