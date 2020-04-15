@@ -6,8 +6,6 @@ import { INewProfile, INewEntry, ICategory, IProfile, IEntry, IEntryImage } from
 import DpForm from './dp_form';
 import { IEnteredValues } from './dp_form/dp_form';
 import Button from '../../../components/button'
-import OverLay from 'react-bootstrap/OverlayTrigger'
-import ToolTip from 'react-bootstrap/Tooltip'
 import { isEmptyObject } from '../../../helpers';
 import DpImageUpload from './dp_image_upload';
 import { LIMIT_EXTENSIONS } from './dp_image_upload/dp_image_upload';
@@ -16,10 +14,9 @@ import SubmitedFormContent from '../../../components/submited_form_content';
 import { textContent } from '../../../components/submited_form_content/submited_form_content';
 import Modal from 'react-bootstrap/Modal'
 import {CACHED_ENTRIES, CACHED_PROFILE} from '../../../model/constants'
-import Logo from '../../../assets/img/logo.png'
 import DpMultipleImageUpload from './dp_multiple_image_upload';
 import { BUTTON_VARIANTS } from '../../../components/button/button';
-import Text, { H1 } from '../../../components/text';
+import Text from '../../../components/text';
 import { TEXT_TYPES, HEADLINE_SIZES } from '../../../components/text/text';
 
 
@@ -222,6 +219,10 @@ class FormContainer extends React.Component<IFormContainer> {
         }
     }
 
+    saveEntryHandler(entry: IEnteredValues, entryKey: string, delay: number) {
+        
+    }
+
     saveEntry(entry: IEnteredValues, entryKey: string) {
         let error = false
         const {tempEntries, errorEntries} = this.state
@@ -256,13 +257,16 @@ class FormContainer extends React.Component<IFormContainer> {
             this.setState({errorEntries: {...this.state.errorEntries, [entryKey]: "Bild saknas"}})
         }
         if (!error) {
-            const obj: {} = JSON.parse(JSON.stringify(this.state.savedEntries))
+            const obj = JSON.parse(JSON.stringify(this.state.savedEntries))
             obj[entryKey] = savedEntry
-            console.log(savedEntry)
-            this.setState({savedEntries: obj, disabledEntries: {...this.state.disabledEntries, [entryKey]: true}}, () => this.entriesSaved())
+            this.setState({
+                savedEntries: {...this.state.savedEntries, [entryKey]: savedEntry}, 
+                disabledEntries: {...this.state.disabledEntries, [entryKey]: true}
+            }, () => this.entriesSaved())
         }
     }
 
+    
     entriesSaved() {
         const {tempEntries, disabledEntries} = this.state
         let disabled = true
@@ -276,10 +280,10 @@ class FormContainer extends React.Component<IFormContainer> {
     }
 
     saveContent() {
-        const {savedProfile, savedEntries, editMode} = this.state
+        const {savedProfile, savedEntries, editMode, tempEntries} = this.state
         const entries : INewEntry[] = []
-        Object.keys(savedEntries).forEach(entry => {
-            entries.push(savedEntries[entry])
+        Object.keys(tempEntries).forEach(entry => {
+            entries.push(tempEntries[entry])
         })
         
         if (editMode && this.props.editContent) {
