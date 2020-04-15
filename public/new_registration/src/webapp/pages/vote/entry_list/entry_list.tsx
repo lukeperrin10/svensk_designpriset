@@ -134,7 +134,13 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
             } else {
                 arr.classList.toggle(styles.arrow_up)
             }
+            window.scrollTo({
+                top: arr.offsetTop-600,
+                left: 0,
+                behavior: 'smooth'
+            })
         }
+
     }
 
     const isFirstCat = (cat: string) => {
