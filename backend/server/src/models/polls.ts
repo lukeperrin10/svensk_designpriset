@@ -34,7 +34,7 @@ export function getName() {
 }
 
 export async function get(): Promise<Array<Polls>> {
-    const today = getDateTime()
+    const today = new Date()
     try {
         const query = `
         SELECT p.id as poll_id, p.name, p.stop, pc.category_id, c.name as category_name, c.type as category_type
