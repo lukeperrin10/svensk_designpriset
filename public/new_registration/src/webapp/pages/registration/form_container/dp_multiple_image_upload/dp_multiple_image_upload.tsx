@@ -80,7 +80,7 @@ const DpMultipleImageUpload = (props:props) => {
                 displayUploadName={false}
                 />}
             {!showForm &&
-            <Button className={styles.button} preventDefault={true} title={'+ Lägg till fler bilder'} onClick={() => setShowForm(true)}/>
+            <Button link={true} className={styles.button} preventDefault={true} title={'+ Lägg till fler bilder'} onClick={() => setShowForm(true)}/>
             }
         </div>
     )

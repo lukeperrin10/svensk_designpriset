@@ -550,7 +550,7 @@ class FormContainer extends React.Component<IFormContainer> {
                 <div>
                     <div>
                         <Button className={styles.button} onClick={() => this.addNewEntryForm()} variant={BUTTON_VARIANTS.SECONDARY} title={'+ Lägg till bidrag'} />
-                        <Button onClick={() => this.onTrySubmit()} variant={BUTTON_VARIANTS.PRIMARY} title={'Förhandsgranska anmälan'}/>
+                        <Button className={styles.previewButton} onClick={() => this.onTrySubmit()} variant={BUTTON_VARIANTS.PRIMARY} title={'Förhandsgranska anmälan'}/>
                     </div>
                 </div>
             </div>

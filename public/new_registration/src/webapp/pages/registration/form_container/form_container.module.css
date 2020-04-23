@@ -37,6 +37,11 @@
     margin-right: 20px;
 }
 
+.previewButton {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
 @media screen and (max-width: 415px) {
     .modal_content {
         padding: var(--CONTAINER_MOBILE_PADDING);  

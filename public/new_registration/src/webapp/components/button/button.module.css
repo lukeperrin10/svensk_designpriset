@@ -77,7 +77,7 @@
 }
 
 .small_text {
-    
+    font-size: 14px;
 }
 
 @media screen and (max-width: 415px) {

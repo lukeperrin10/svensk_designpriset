@@ -119,7 +119,7 @@ class DpForm extends React.Component<IDpFormProps> {
                 <header className={styles.header}>
                     <H3>{this.props.title}</H3>
                     {this.props.onDelete? 
-                        <Button variant={BUTTON_VARIANTS.TERTIARY} size={BUTTON_SIZES.SMALL} onClick={() => this.deleteForm()} title={'Ta bort'}/>
+                        <Button variant={BUTTON_VARIANTS.SECONDARY} size={BUTTON_SIZES.SMALL} onClick={() => this.deleteForm()} title={'Ta bort'}/>
                     :null}
                 </header> 
                 <Form

@@ -23,10 +23,11 @@ interface props {
     size?: BUTTON_SIZES,
     preventDefault?: boolean,
     id?: string,
-    blur?: boolean
+    blur?: boolean,
+    link?:boolean
 }
 
-const Button = ({onClick, title, className, variant, size, preventDefault, id, blur}:props) => {
+const Button = ({onClick, title, className, variant, size, preventDefault, id, blur, link}:props) => {
 
     const buttonRef = useRef<HTMLButtonElement>(null)
     
@@ -50,11 +51,12 @@ const Button = ({onClick, title, className, variant, size, preventDefault, id, b
     }
 
     const getSize = () => {
+        if (link) return styles.text
         switch (size) {
             case BUTTON_SIZES.STANDARD:
                 return [styles.standard, styles.text].join(' ')
             case BUTTON_SIZES.SMALL:
-                return styles.small
+                return [styles.small, styles.small_text].join(' ')
             case BUTTON_SIZES.NONE:
                 return ''
             default:

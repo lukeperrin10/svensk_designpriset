@@ -33,7 +33,8 @@ interface DispatchProps {
 }
 
 interface ReactProps {
-    registerInfo: IContent[]
+    registerInfo: IContent[],
+    lastDate: Date
 }
 
 type Props = ReduxProps & DispatchProps & ReactProps
@@ -209,7 +210,7 @@ class Registration extends React.Component<Props, State> {
                     <Switch>
                         <Route exact path="/anmalan" render={() => (
                             <div>
-                                <RegistrationInfo registerInfo={this.props.registerInfo} />
+                                <RegistrationInfo lastDate={this.props.lastDate} registerInfo={this.props.registerInfo} />
                                 <FormContainer adminMode={false} categories={categories} saveContent={this.postContent} />
                                 {didUpload ? <Redirect to='anmalan/bekraftelse' /> : null}
                             </div>
@@ -217,7 +218,7 @@ class Registration extends React.Component<Props, State> {
                         }/>
                         <Route path="/anmalan/edit" render={() => (
                             <div>
-                                <RegistrationInfo registerInfo={this.props.registerInfo} />
+                                <RegistrationInfo lastDate={this.props.lastDate} registerInfo={this.props.registerInfo} />
                                 <FormContainer onDeleteEntry={this.deleteEntry} adminMode={editIsAdmin} editContent={edit ? this.getEditContent() : undefined} categories={categories} saveContent={this.postContent} />
                                 {didUpload ? <Redirect to='/anmalan/bekraftelse' /> : null}
                             </div>

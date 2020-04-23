@@ -204,6 +204,12 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
         }
     }
 
+    const getLastRegisterDate = (yearConfig: IYearConfig) => {
+        const p2 = new Date(yearConfig.phase_2_start)
+        p2.setDate(p2.getDate() -1)
+        return p2
+    }
+
     return (
         <Router>
             {isDevVersion && 
@@ -241,7 +247,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 }} />}
 
                 <Route path={PATHS.REGISTRATION} render={() => {
-                    if (checkIfRegisterAllowed()) return <Registration registerInfo={registerInfoContent} />
+                    if (checkIfRegisterAllowed()) return <Registration lastDate={getLastRegisterDate(yearConfig)} registerInfo={registerInfoContent} />
                     else return redirect()
                 }} />
 
