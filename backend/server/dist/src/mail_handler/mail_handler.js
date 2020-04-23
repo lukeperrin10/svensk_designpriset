@@ -69,7 +69,7 @@ function generateAdminLink(id, secret) {
 }
 exports.generateAdminLink = generateAdminLink;
 function generateConfirmVotesLink(secret) {
-    return `${temp_contants_1.REGISTER_ROOT_URL}/rostning?confirm=${secret}`;
+    return `${temp_contants_1.SITE_URL}/rostning?confirm=${secret}`;
 }
 exports.generateConfirmVotesLink = generateConfirmVotesLink;
 function sendConfirmVotesMail(email, secret) {
