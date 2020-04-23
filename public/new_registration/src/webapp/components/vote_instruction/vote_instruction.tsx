@@ -28,8 +28,8 @@ const VoteInstruction = () => {
                 )
             }
             return (
-                <div className={styles.instruction_super_container}>
-                <div key={i} className={styles.instruction_container}>
+                <div key={i} className={styles.instruction_super_container}>
+                <div className={styles.instruction_container}>
                     <Text className={styles.number} type={TEXT_TYPES.P} headlineSize={HEADLINE_SIZES.MEDIUM}>{i}</Text>
                     <div className={styles.instruction_text}>
                         <P>{instruction}</P>

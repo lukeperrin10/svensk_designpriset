@@ -58,8 +58,8 @@ const Summary = ({entries, onPostVotes, onChangeVotes, pollId}: ISummary) => {
             <br></br><span className={styles.bold}>Din röst kommer räknas först när du klickat på denna länk.</span></Text>
             <div className={styles.left}>
                 <div className={styles.input_container}>
-                    <label><Text type={TEXT_TYPES.P}>Epostadress</Text></label>
-                    <input type='text' onChange={onEmailChange}/>
+                    <label><Text className={styles.label} type={TEXT_TYPES.INGRESS}>E-postadress</Text></label>
+                    <input placeholder='name@domain.com' type='text' onChange={onEmailChange}/>
                 </div>
                 <div>
                     <Button className={styles.button} onClick={onSubmit} title='Skicka'/>
