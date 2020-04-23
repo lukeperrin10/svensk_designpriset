@@ -249,10 +249,10 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             </Switch> 
             
             }
-            <Footer content={footerRightContent} links={footerLinks}/>
+            
 
             </div>
-            
+            <Footer content={footerRightContent} links={footerLinks}/>
         </Router>
     )
 }
