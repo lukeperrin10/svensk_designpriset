@@ -81,8 +81,12 @@ const WinnerGallery = ({entries, onEntryClick}:props) => {
         const sections = Object.keys(categories).map(cat => {
             const category = categories[cat]
             return (
-                <div key={cat} className={styles.category}>
-                    <Text className={styles.header} type={TEXT_TYPES.LABEL}>{cat}</Text>
+                <div key={cat} className={category.entries.length > 1 ? styles.category : styles.singleCat}>
+                    <div className={styles.entries}>
+                        <Text className={category.entries.length > 1 ? styles.header : styles.singleHeader} type={TEXT_TYPES.LABEL}>{cat}</Text>
+                        <div className={styles.spacer} />
+                    </div>
+                    
                     <div className={styles.entries}>
                     { category.entries.sort((a,b) => {
                         if (a.is_winner_gold) return -1
