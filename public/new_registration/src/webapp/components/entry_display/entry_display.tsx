@@ -118,22 +118,19 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                     <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.year}</Text>
                     <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{categoryName}</Text>
                 </div>
-                {IS_MOBILE ? getButtons() : 
-                <div>
-                    {entry.is_winner_gold ? <img className={styles.crowns} src={gold} alt='Guldkrona'/> :
-                    entry.is_winner_silver ? <img className={styles.crowns} src={silver} alt='Silverkrona'/> : null}
-                </div>}
+                {IS_MOBILE && getButtons()}
             </header>
             <section className={styles.section}>
-                <div className={styles.car_container}>
-                    {displayCarousel(entry) ? getCarousel(entry) : <img src={assembleMediaUrl(entry.avatar)} className={styles.car_img} />}
+                <div className={displayCarousel(entry) ? styles.car_container : styles.car_container_single}>
+                    {displayCarousel(entry) ? getCarousel(entry) : <img src={assembleMediaUrl(entry.avatar)} className={styles.single_img} />}
                 </div>
                 <div className={styles.article_container}>
-                    {IS_MOBILE && 
+                    {/* {IS_MOBILE &&  */}
                     <div>
                         {entry.is_winner_gold ? <img className={styles.crowns} src={gold} alt='Guldkrona'/> :
                         entry.is_winner_silver ? <img className={styles.crowns} src={silver} alt='Silverkrona'/> : null}
-                    </div>}
+                    </div>
+                    {/* } */}
                     <article className={styles.article}>
                         <Text className={styles.title} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.entry_name}</Text>
                         <div className={styles.contents}>

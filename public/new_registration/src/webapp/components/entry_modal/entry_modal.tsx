@@ -87,7 +87,7 @@ const EntryModal = ({show,
             prevEntry={prevEntry}
             onPrevNextClick={onPrevNextClick}
             onVoteClick={onVoteClick}
-            onClose={IS_MOBILE ? onClose : undefined}
+            onClose={onClose}
             isVoted={checkIsVoted(entry.id)}
             entry={entry} />
             }
