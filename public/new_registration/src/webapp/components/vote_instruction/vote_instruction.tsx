@@ -28,12 +28,15 @@ const VoteInstruction = () => {
                 )
             }
             return (
+                <div className={styles.instruction_super_container}>
                 <div key={i} className={styles.instruction_container}>
                     <Text className={styles.number} type={TEXT_TYPES.P} headlineSize={HEADLINE_SIZES.MEDIUM}>{i}</Text>
                     <div className={styles.instruction_text}>
                         <P>{instruction}</P>
                     </div>
-                    {i !== instructions.length &&
+                    
+                </div>
+                {i !== instructions.length &&
                     <img className={styles.arrow} src={arrow} alt="pil" />
                     }
                 </div>
