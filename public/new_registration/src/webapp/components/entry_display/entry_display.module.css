@@ -118,6 +118,7 @@
 
 .car_container a {
     align-items: flex-end !important;
+    width: unset !important;
 }
 
 .car_img {
