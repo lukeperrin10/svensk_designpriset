@@ -71,4 +71,8 @@
     .border {
         margin: 0 0 0 33px;   
     }
+
+    .logo_container {
+        height: 73px;
+    }
 }
