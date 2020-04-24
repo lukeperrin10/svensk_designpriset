@@ -118,6 +118,9 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
         })
     }
 
+    formatSource = (source: string) => {
+        return source.split('/')[1]
+    }
 
     render() {
         const {isLoading, buttonDisabled, errorUploading, errorMessage, didUpLoad} = this.state
@@ -129,7 +132,7 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                 <div>
                     <div className={styles.image_container}>
                         {displayUploadName ? 
-                            <p>{uploadedImage}</p>    
+                            <p>{this.formatSource(uploadedImage)}</p>    
                             :
                             <img className={styles.img} src={uploadedImage} alt='image'/>
                         }

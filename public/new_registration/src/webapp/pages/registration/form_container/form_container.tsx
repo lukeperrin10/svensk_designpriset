@@ -173,6 +173,7 @@ class FormContainer extends React.Component<IFormContainer> {
                         tempEntries[key] = values
                     }
                 }
+                console.log(tempEntries)
                 this.setCurrentCategory(values)
                 this.setState({tempEntries: tempEntries})
                 break;
@@ -183,6 +184,7 @@ class FormContainer extends React.Component<IFormContainer> {
 
     setCurrentCategory(values: IEnteredValues) {
         if ('category_id' in values) {
+            console.log(values['category_id'])
             this.setState({selectedCategory: values['category_id']})
         }
     }
@@ -361,9 +363,11 @@ class FormContainer extends React.Component<IFormContainer> {
         }
     }
 
-    getCategoryType(cat:{id:number,name:string,short:string,type:string}[]) {
+    getCategoryType(cat:{id:number,name:string,short:string,type:string}[], catId?:string) {
         const {selectedCategory} = this.state
-        const selected = cat.filter(c => c.id === parseInt(selectedCategory))
+        const compare = catId ? parseInt(catId) : parseInt(selectedCategory)
+        let selected = cat.filter(c => c.id === compare)
+        console.log(selected)
         if (selected && selected.length > 0) {
             return selected[0].type
         }
@@ -395,6 +399,9 @@ class FormContainer extends React.Component<IFormContainer> {
             const uploadedEntryImages = tempEntries[`${i}`] ? tempEntries[`${i}`].entry_images || false : false
             const key = `${i}`
             const editPath = key in editModeNewEntries ? TEMP_AVATAR_URL : AVATAR_URL
+            console.log(tempEntries[key])
+            console.log(this.getCategoryType(cat, tempEntries[key] ? tempEntries[key].category_id : undefined))
+            if (tempEntries[key]) console.log(tempEntries[key].category_id)
             const form = <div key={i} ref={el => {
                 if (!el) return
                 if (this.state.shouldScrollToEntry) {
@@ -402,7 +409,8 @@ class FormContainer extends React.Component<IFormContainer> {
                 }
             }}>
                 <DpForm
-                categoryType={this.getCategoryType(cat)}
+                categoryType={this.getCategoryType(cat, tempEntries[key] ? tempEntries[key].category_id : undefined)}
+                
                 onError={() => this.onFormError()}
                 shouldSubmit={this.state.shouldSubmitEntries}
                 fields={FORM_ENTRY_LABELS}
@@ -425,7 +433,7 @@ class FormContainer extends React.Component<IFormContainer> {
                         uploadedImage={uploadedAvatar ? `${editContent ? editPath : TEMP_AVATAR_URL}/${tempEntries[key].avatar}` : undefined}
                         deleteImage={uploadedAvatar ? () => this.removeMediaFromEntry(key, 'avatar') : undefined}
                         />,
-                        this.getCategoryType(cat) === 'print' ? <DpImageUpload 
+                        this.getCategoryType(cat, tempEntries[key] ? tempEntries[key].category_id : undefined) === 'print' ? <DpImageUpload 
                         onSave={(url: string) => this.addMediaToEntry(key, 'source', url)} 
                         url={POST_TEMP_ENTRY_MEDIA_URL}
                         label={GENERAL_TEXT.entry_media} 
