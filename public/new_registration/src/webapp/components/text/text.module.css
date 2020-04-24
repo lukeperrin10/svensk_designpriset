@@ -42,6 +42,7 @@
 
 .ingress {
     font-family: ITC Franklin Gothic Std Book;
+    /* font-family: 'Libre Franklin', sans-serif; */
     font-style: normal;
     font-weight: normal;
     font-size: 24px;
@@ -50,7 +51,8 @@
 }
 
 .plain_text {
-    font-family: ITC Franklin Gothic Std Book;
+    /* font-family: ITC Franklin Gothic Std Book; */
+    font-family: 'Libre Franklin', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 19px;

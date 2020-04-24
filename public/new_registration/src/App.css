@@ -1,4 +1,47 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3894255, 2020-04-23T05:39:36-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: FranklinGothicLTPro-Bk by ITC
+ * URL: https://www.myfonts.com/fonts/itc/franklin-gothic/franklin-got/
+ * 
+ * Webfont: FranklinGothicLTPro-Dm by ITC
+ * URL: https://www.myfonts.com/fonts/itc/franklin-gothic/franklin-got-demi/
+ * 
+ * 
+ * Webfonts copyright: Copyright &amp;#x00A9; 2014 Monotype ITC Inc. All rights reserved.
+ * 
+ * © 2020 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/3b6bef");
+  
 @font-face {
+  font-family: ITC Franklin Gothic Std Book;
+  src: url(./webapp/assets/fonts/webFonts/FranklinGothicLTPro-Bk/font.woff2) format('woff2'), url(./webapp/assets/fonts/webFonts/FranklinGothicLTPro-Bk/font.woff) format('woff');
+}
+@font-face {
+  font-family: ITC Franklin Gothic Std Demi;
+  src: url(./webapp/assets/fonts/webFonts/FranklinGothicLTPro-Dm/font.woff2) format('woff2'), url(./webapp/assets/fonts/webFonts/FranklinGothicLTPro-Dm/font.woff) format('woff');
+}
+
+
+
+/* @import url(./norm.css) */
+/* @import url(./reset.css); */
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;800&display=swap');
+
+
+/* @font-face {
     font-family: ITC Franklin Gothic Std;
     src: url(./webapp/assets/fonts/ITCFranklinGothicStd-Med.otf);
   }
@@ -11,7 +54,7 @@
 @font-face {
     font-family: ITC Franklin Gothic Std Demi;
     src: url(./webapp/assets/fonts/ITCFranklinGothicStd-Demi.otf);
-}
+} */
 
 :root {
     --TRANSITION_EASE_OUT: cubic-bezier(0.17, 0.67, 0.3, 1.01);
