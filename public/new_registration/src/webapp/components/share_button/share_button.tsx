@@ -15,12 +15,14 @@ import {
     RedditIcon,
 } from 'react-share'
 import { FRONTEND_URL } from '../../config/host'
+import { IS_MOBILE } from '../../config/style'
 
 interface props {
-    url?: string
+    url?: string,
+    topAlign?: boolean
 }
 
-const ShareButton = ({url}:props) => {
+const ShareButton = ({url, topAlign}:props) => {
     const contId = 'share_button_id'
     const size = 50
     const history = useHistory()
@@ -39,9 +41,10 @@ const ShareButton = ({url}:props) => {
         // const url = window.location.href
     }
     return (
+        <div>
         <div className={styles.container}>
             <button className={styles.button} onClick={onShareClick}>
-                <img  src={share} alt="Dela" />
+                <img className={styles.icon} src={share} alt="Dela" />
             </button>
             <div id={contId} className={styles.share_buttons}>
                 <FacebookShareButton url={getUrl()}>
@@ -57,6 +60,8 @@ const ShareButton = ({url}:props) => {
                     <RedditIcon size={size} />
                 </RedditShareButton>
             </div>
+        </div>
+        {topAlign || IS_MOBILE && <div className={styles.spacer}></div>}
         </div>
         
     )

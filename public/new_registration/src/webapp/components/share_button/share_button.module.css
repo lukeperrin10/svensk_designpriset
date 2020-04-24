@@ -40,9 +40,24 @@
     z-index: 100;
 }
 
+.spacer {
+    height: 40px;
+}
+
 @media screen and (max-width: 415px) {
     .container {
         right: var(--CONTAINER_MOBILE_PADDING_RIGHT);
+        
+    }
+
+    .button {
+        height: 22px;
+        position: relative;
+        top: -10px;
+    }
+
+    .icon {
+        height: 22px;
     }
     
 }

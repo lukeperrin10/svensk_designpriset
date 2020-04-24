@@ -179,7 +179,7 @@ const Vote = () => {
     
     return (
         <div className={styles.container}>
-            <ShareButton />
+            <ShareButton topAlign={true} />
            {getContent()}
            {isLoading &&
             <div style={{
