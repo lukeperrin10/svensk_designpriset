@@ -3,7 +3,7 @@
     font-style: normal;
     font-weight: 700;
     font-size: 60px;
-    line-height: 90%;
+    line-height: 100%;
     letter-spacing: -0.02em;
     color: var(--PRIMARY_TEXT_COLOR);
 }
@@ -13,7 +13,7 @@
     font-style: normal;
     font-weight: 700;
     font-size: 46px;
-    line-height: 90%;
+    line-height: 100%;
     letter-spacing: -0.02em;
     color: var(--PRIMARY_TEXT_COLOR);
     margin-top:10px;
