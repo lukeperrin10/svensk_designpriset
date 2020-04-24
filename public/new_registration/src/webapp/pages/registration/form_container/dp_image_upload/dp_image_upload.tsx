@@ -147,12 +147,13 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                     {limits.map(l => ` ${l}  `)}
                     </p>
                     :null}
-                    <label className={styles.input_label}>
+                    <label htmlFor='image-input-drop' className={styles.input_label}>
+                        Tryck eller släpp här för att ladda upp bild
                         <input 
+                            name='image-input-drop'
                             className={styles.input}
                             onChange={this.inputOnChange} 
                             type="file"/>
-                            Tryck eller släpp här för att ladda upp bild
                     </label>
                         {isLoading &&
                         <div>
