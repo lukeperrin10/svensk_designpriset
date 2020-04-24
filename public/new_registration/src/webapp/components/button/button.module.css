@@ -91,4 +91,7 @@
     .text:focus {
         line-height: 30px !important;
     }
+    .button:hover {
+        opacity: 1;
+    }
 }

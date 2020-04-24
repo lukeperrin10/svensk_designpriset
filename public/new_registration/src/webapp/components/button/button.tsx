@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {useRef, useEffect} from 'react'
 import styles from './button.module.css'
+import { IS_MOBILE } from '../../config/style'
 
 export enum BUTTON_VARIANTS {
     PRIMARY = 'PRIMARY',
