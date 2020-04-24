@@ -24,7 +24,8 @@
 }
 
 .bold {
-    font-family: ITC Franklin Gothic Std Demi;
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
 }
 
 .input_container input {

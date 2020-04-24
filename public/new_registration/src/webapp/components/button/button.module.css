@@ -64,16 +64,15 @@
 }
 
 .text {
-    font-family: ITC Franklin Gothic Std Demi;
+    font-family: 'Libre Franklin', sans-serif;
     font-style: normal;
-    font-weight: 500;
-    font-size: 19px;
+    font-weight: 700;
+    font-size: 18px;
     text-align: center;
-    line-height: 64px;
 }
 
 .text:focus {
-    line-height: 64px !important;
+    /* line-height: 64px !important; */
 }
 
 .small_text {
@@ -86,10 +85,10 @@
         margin-bottom: 10px;
     }
     .text {
-        line-height: 30px !important;
+        /* line-height: 30px !important; */
     }
     .text:focus {
-        line-height: 30px !important;
+        /* line-height: 30px !important; */
     }
     .button:hover {
         opacity: 1;

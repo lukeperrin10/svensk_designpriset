@@ -7,7 +7,9 @@
 }
 
 .subheader {
-    font-family: ITC Franklin Gothic Std Book;
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 400;
+    font-size: 32px;
 }
 
 @media screen and (max-width: 415px) {

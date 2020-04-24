@@ -1,8 +1,95 @@
 .large_headline {
-    font-family: ITC Franklin Gothic Std Demi;
-    /* font-family: 'Franklin Gothic Medium'; */
+    font-family: 'Libre Franklin', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 90%;
+    letter-spacing: -0.02em;
+    color: var(--PRIMARY_TEXT_COLOR);
+}
+
+.medium_headline {
+    font-family: 'Libre Franklin', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 46px;
+    line-height: 90%;
+    letter-spacing: -0.02em;
+    color: var(--PRIMARY_TEXT_COLOR);
+    margin-top:10px;
+}
+
+.small_headline {
+    font-family: 'Libre Franklin', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 31px;
+    line-height: 100%;
+    letter-spacing: -0.02em;
+    color: var(--PRIMARY_TEXT_COLOR);
+}
+
+.extra_small_headline {
+    font-family: 'Libre Franklin', sans-serif;
     font-style: normal;
     font-weight: 500;
+    font-size: 24px;
+    line-height: 90%;
+    letter-spacing: -0.02em;
+    color: var(--PRIMARY_TEXT_COLOR);
+}
+
+.ingress {
+    font-family: 'Libre Franklin', sans-serif;
+    /* font-family: 'Libre Franklin', sans-serif; */
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 115%;
+    color: var(--SECONDARY_TEXT_COLOR);
+}
+
+.plain_text {
+    /* font-family: ITC Franklin Gothic Std Book; */
+    font-family: 'Libre Franklin', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 145%;
+    letter-spacing: 0.01em;
+    word-spacing: 0.02em;
+    color: var(--SECONDARY_TEXT_COLOR);
+}
+
+.label {
+    font-family: 'Libre Franklin', sans-serif;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 19px;
+    line-height: 140%;
+    letter-spacing: -0.01em;
+}
+
+
+@media screen and (max-width: 415px) {
+    .large_headline {
+        font-size: 44px;
+    }
+
+    .medium_headline {
+        
+    }
+
+    .small_headline {
+        font-size: 23px;
+    }
+}
+
+/* 
+.large_headline {
+    font-family: ITC Franklin Gothic Std Demi;
+    font-style: normal;
+    font-weight: 700;
     font-size: 64px;
     line-height: 90%;
     letter-spacing: -0.02em;
@@ -42,7 +129,6 @@
 
 .ingress {
     font-family: ITC Franklin Gothic Std Book;
-    /* font-family: 'Libre Franklin', sans-serif; */
     font-style: normal;
     font-weight: normal;
     font-size: 24px;
@@ -51,8 +137,7 @@
 }
 
 .plain_text {
-    /* font-family: ITC Franklin Gothic Std Book; */
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: ITC Franklin Gothic Std Book;
     font-style: normal;
     font-weight: normal;
     font-size: 19px;
@@ -81,4 +166,4 @@
     .small_headline {
         font-size: 24px;
     }
-}
+} */

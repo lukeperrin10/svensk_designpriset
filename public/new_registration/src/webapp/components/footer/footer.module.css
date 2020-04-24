@@ -33,11 +33,16 @@
 }
 
 .link {
-    font-family: ITC Franklin Gothic Std Demi;
+    font-family: 'Libre Franklin', sans-serif;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 800;
     font-size: 19px;
     line-height: 140%;
+}
+
+.link:hover {
+    text-decoration: none;
+    opacity: 0.8;
 }
 
 .container a {

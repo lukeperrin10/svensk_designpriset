@@ -34,11 +34,12 @@
 
 .article {
     min-width: 218px;
-    max-width: 300px;
+    max-width: 400px;
 }
 
 .bold {
-    font-family: ITC Franklin Gothic Std Demi;
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 700;
 }
 
 @media screen and (max-width: 1090px) {

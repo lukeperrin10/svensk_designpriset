@@ -149,7 +149,7 @@ const Vote = () => {
                         <div>
                             <header className={styles.header}>
                                 <Text type={TEXT_TYPES.H1} headlineSize={HEADLINE_SIZES.LARGE}>{poll.name}</Text>
-                                <Text className={styles.subheader} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>Sista dag {getDayWithMonth(poll.stop)}</Text>
+                                <Text className={styles.subheader} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>Sista dag är {getDayWithMonth(poll.stop)}</Text>
                             </header>
                             <summary>
                                 <VoteInstruction />
