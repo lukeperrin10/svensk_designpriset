@@ -62,6 +62,11 @@ const DpMultipleImageUpload = (props:props) => {
         setShowForm(false)
     }
 
+    const checkShowButton = () => {
+        if (props.uploadedImages) return props.uploadedImages.length < 4
+        else return true
+    }
+
     return (
         <div>
             <div>
@@ -79,7 +84,7 @@ const DpMultipleImageUpload = (props:props) => {
                 limits={props.limits}
                 displayUploadName={false}
                 />}
-            {!showForm &&
+            {!showForm && checkShowButton() &&
             <Button link={true} className={styles.button} preventDefault={true} title={'+ Lägg till fler bilder'} onClick={() => setShowForm(true)}/>
             }
         </div>
