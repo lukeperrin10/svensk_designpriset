@@ -208,8 +208,8 @@
     }
 
     .img_holder, .feature_img {
-        height: 100vw;
-        width: 100vw;
+        height: calc(100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 2));
+        width: calc(100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 2));
     }
 
     .car_img {
@@ -218,7 +218,7 @@
     }
 
     .single_img {
-        max-width: calc(100vw-var(--CONTAINER_MOBILE_PADDING_RIGHT));
+        max-width: calc(100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 2));
     }
 
     .car_container {
