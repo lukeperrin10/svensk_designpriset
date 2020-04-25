@@ -136,6 +136,7 @@
     .container {
         justify-content: center;
         padding: 0px 39px 0px 39px;
+        margin-bottom: 60px;
     }
     .left {
         flex-wrap: wrap;
