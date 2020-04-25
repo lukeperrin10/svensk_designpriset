@@ -10,6 +10,33 @@
     padding: 0px 75px 0px 75px;
 }
 
+.calendar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.calendar > div:nth-child(1) {
+    color: black;
+    margin-right: 35px;
+}
+
+.calendar > div:nth-child(2) {
+    color: white;
+}
+.calendar > div:nth-child(1) > p {
+    /* color: white; */
+    line-height: 100%;
+    font-weight: 700;
+}
+.calendar > div:nth-child(2) > p {
+    color: white;
+    line-height: 100%;
+}
+
 .left {
     display: flex;
     flex-direction: row;

@@ -13,16 +13,17 @@ import {useHistory} from 'react-router-dom'
 interface props {
     variant: 'register' | 'award' | 'vote',
     date: Date,
-    awardPlace: string
+    awardPlace: string,
+    calendar: string
 }
 
 const subject = 'Biljetter till årets prisutdelning'
 
-const Puff = ({variant, date, awardPlace}:props) => {
+const Puff = ({variant, date, awardPlace, calendar}:props) => {
     const history = useHistory()
     const getRegister = (day: string, month: string) => {
         return (
-            <section className={[styles.container].join(' ')}>
+            <section className={[styles.container, styles.gold].join(' ')}>
                 <div className={styles.left}>
                     <div className={styles.text_container}>
                         <Text className={[styles.day, styles.black_text].join(' ')} type={TEXT_TYPES.P}>{day}</Text>
@@ -35,9 +36,10 @@ const Puff = ({variant, date, awardPlace}:props) => {
                     </div>
                 </div>
                 <div className={styles.right}>
-                    <button onClick={onClick} className={styles.right_button}>
+                    {/* <button onClick={onClick} className={styles.right_button}>
                         <img src={triangle} />
-                    </button>
+                    </button> */}
+                    <div className={styles.calendar} dangerouslySetInnerHTML={{__html: calendar}} />
                 </div>
             </section>
         )
@@ -78,9 +80,10 @@ const Puff = ({variant, date, awardPlace}:props) => {
                     </div>
                 </div>
                 <div className={styles.right}>
-                    <button onClick={onClick} className={styles.right_button}>
+                    {/* <button onClick={onClick} className={styles.right_button}>
                         <img src={IS_MOBILE ? voteTriangleMobile : voteTriangle} />
-                    </button>
+                    </button> */}
+                    <div className={styles.calendar} dangerouslySetInnerHTML={{__html: calendar}} />
                 </div>
             </section>
         )

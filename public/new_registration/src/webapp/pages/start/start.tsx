@@ -20,9 +20,10 @@ import Puff from '../../components/puff'
 import { PHASES } from '../../model/constants'
 
 interface props {
-    content?: IContent[]
+    content?: IContent[],
+    calendar: IContent[]
 }
-const Start = ({content}:props) => {
+const Start = ({content, calendar}:props) => {
     const [winners, setWinners] = useState<IEntry[]>([])
     const [featureWinner, setFeatureWinner] = useState<IEntry>()
     const yearConfig = useSelector<IState, IYearConfig>(state => state.yearConfigState.config)
@@ -58,13 +59,14 @@ const Start = ({content}:props) => {
     }
 
     const getPuff = () => {
+        const cal = calendar.length > 0 ? calendar[0].content : ''
         switch(yearConfig.current_phase) {
             case PHASES.ONE:
-                return <Puff variant='register' date={new Date(yearConfig.phase_1_start)} awardPlace={yearConfig.award_place} />
+                return <Puff calendar={cal} variant='register' date={new Date(yearConfig.phase_1_start)} awardPlace={yearConfig.award_place} />
             case PHASES.THREE:
-                return <Puff variant='vote' date={new Date(yearConfig.phase_3_start)} awardPlace={yearConfig.award_place} />
+                return <Puff calendar={cal} variant='vote' date={new Date(yearConfig.phase_3_start)} awardPlace={yearConfig.award_place} />
             case PHASES.FOUR:
-                return <Puff variant='award' date={new Date(yearConfig.phase_4_start)} awardPlace={yearConfig.award_place} />
+                return <Puff calendar={cal} variant='award' date={new Date(yearConfig.phase_4_start)} awardPlace={yearConfig.award_place} />
             default:
                 return null
         }

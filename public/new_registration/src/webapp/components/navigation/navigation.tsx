@@ -37,6 +37,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
     const [registerInfoContent, setRegisterInfoContent] = useState<IContent[]>([])
     const [standardPages, setStandardPages] = useState<IContent[]>([])
     const [startContent, setStartContent] = useState<IContent[]>([])
+    const [calendarContent, setCalendarContent] = useState<IContent[]>([])
     const [footerLinks, setFooterLinks] = useState<ILink[]>([])
     const [footerRightContent, setFooterRightContent] = useState<IContent[]>([])
     const [didFetch, setDidFetch] = useState(false)
@@ -81,6 +82,9 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
         }
         if (CONTENT_TEMPLATES.FOOTER_RIGHT_CONTENT in sortedContent) {
             setFooterRightContent(sortedContent[CONTENT_TEMPLATES.FOOTER_RIGHT_CONTENT])
+        }
+        if (CONTENT_TEMPLATES.START_CALENDAR in sortedContent) {
+            setCalendarContent(sortedContent[CONTENT_TEMPLATES.START_CALENDAR])
         }
     }
 
@@ -227,7 +231,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             <Switch>
                 <Route exact path='/' render={() => {
                     return (
-                        <Start content={startContent}/>
+                        <Start calendar={calendarContent} content={startContent}/>
                     )
                 }}/>
 

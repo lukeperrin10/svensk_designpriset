@@ -127,7 +127,8 @@ export enum CONTENT_TEMPLATES {
     START_DATES = 'start_dates',
     START_CONTENT = 'start_content',
     REGISTER_INFO = 'register_info',
-    FOOTER_RIGHT_CONTENT = 'footer_right_content'
+    FOOTER_RIGHT_CONTENT = 'footer_right_content',
+    START_CALENDAR = 'start_calendar'
 }
 
 export interface IContent {
