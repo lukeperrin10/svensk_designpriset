@@ -18,7 +18,6 @@
 }
 
 .right {
-    position: relative;
     text-align: center;
 }
 
@@ -32,34 +31,37 @@
 
 .day {
     font-size: 270px;
-    line-height: 270px;
-    margin: 0px;
-    position: relative;
-    top: 76px;
+    line-height: 73%;
+    margin: 0;
 }
 
 .month {
     margin: 0px;
-    font-family: ITC Franklin Gothic Std Book;
+    font-family: 'Libre Franklin', sans-serif;
     font-style: normal;
-    font-weight: 500;
-    font-size: 57.9581px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 53px;
+    line-height: 100%;
 }
 
 .text {
     margin: 0px;
-    font-family: ITC Franklin Gothic Std Book;
+    font-family: 'Libre Franklin', sans-serif;
     font-style: normal;
-    font-weight: 500;
-    font-size: 32px;
+    font-weight: 700;
+    font-size: 30px;
     max-width: 250px;
     min-width: 200px;
-    
+    line-height: 100%;
 }
 
 .text_container {
-    position: relative;
-    bottom: 40px;
+    flex-grow: 1;
+}
+
+.text_container_left {
+    margin-left: 15px;
     flex-grow: 1;
 }
 
@@ -87,18 +89,17 @@
 }
 
 .vote_headline {
-    font-family: ITC Franklin Gothic Std Book;
+    font-family: 'Libre Franklin', sans-serif;
     font-style: normal;
-    font-weight: 500;
-    font-size: 200px;
+    font-weight: 700;
+    font-size: 180px;
     letter-spacing: -0.03em;
-    top: 83px;
     margin-right: 5px;
+    line-height: 73%;
 }
 
 .vote_date {
-    position: relative;
-    top: 30px;
+    
 }
 
 .vote_text {
@@ -114,15 +115,15 @@
 
 @media screen and (max-width: 1178px) {
     .vote_headline {
-        font-size: 200px;
-        top: 83px;
+        
     }
     .container {
         padding-bottom: 75px;
         justify-content: center;
     }
     .left {
-        margin-bottom: 20px;
+        margin-top: 50px;
+        margin-bottom: 50px;
     }
     .ticket_button {
         max-width: 407px;
@@ -132,11 +133,16 @@
 }
 
 @media screen and (max-width: 750px) {
+    .container {
+        justify-content: center;
+        padding: 0px 39px 0px 39px;
+    }
     .left {
         flex-wrap: wrap;
     }
     .day {
         font-size: 240px;
+        margin-bottom: 30px;
     }
     .month {
         font-size: 48px;
@@ -157,6 +163,9 @@
         font-size: 107px;
         line-height: 140px;
         top: 40px;
+    }
+    .right {
+        margin-bottom: 67px;
     }
 }
 

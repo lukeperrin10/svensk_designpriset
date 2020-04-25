@@ -29,3 +29,17 @@
         flex-wrap: wrap;
     }
 }
+
+@media screen and (max-width: 415px) {
+    .section h1 {
+        font-size: 46px;
+    }
+    .content p {
+        width: unset;
+        min-width: unset;
+    }
+
+    .content div {
+        margin: 10px 0 10px 0;
+    }
+}

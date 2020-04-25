@@ -65,9 +65,27 @@
     opacity: 1;
 }
 
+.company {
+    font-style: italic;
+    max-width: 80%;
+}
+
 @media screen and (max-width: 415px) {
+    .title {
+        max-width: unset;
+        width: 100%;
+        font-size: 16px;
+        word-break: break-word;
+    }
+    .company {
+        max-width: unset;
+        width: 100%;
+        font-size: 15px;
+        margin-bottom: 7px !important;
+        word-break: break-word;
+    }
     .container {
-        width: 276px;
+        width: unset;
     }
 
     .margin {
@@ -75,13 +93,13 @@
     }
 
     .img_holder {
-        width: 276px;
-        height: 276px;
+        /* width: 276px;
+        height: 276px; */
     }
 
     .overlay {
-        width: 276px;
-        height: 276px;
+        /* width: 276px;
+        height: 276px; */
     }
 
     .container_min {
@@ -95,12 +113,14 @@
     }
 
     .img_holder_min {
-        width: 38vw;
-        height: 38vw;
+        /* width: 38vw;
+        height: 38vw; */
+        width: calc((100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 3)) / 2);
+        height: calc((100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 3)) / 2);
+
     }
 
-    .title {
-        max-width: unset;
-        width: 100%;
+    .bottom {
+        width: calc((100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 3)) / 2);
     }
 }

@@ -27,7 +27,7 @@ const Puff = ({variant, date, awardPlace}:props) => {
                     <div className={styles.text_container}>
                         <Text className={[styles.day, styles.black_text].join(' ')} type={TEXT_TYPES.P}>{day}</Text>
                     </div>
-                    <div className={styles.text_container}>
+                    <div className={styles.text_container_left}>
                         <Text className={[styles.month, styles.black_text].join(' ')} type={TEXT_TYPES.P}>{month}</Text>
                         <Text className={[styles.text, styles.black_text].join(' ')} type={TEXT_TYPES.P}>
                             {'Sista inlämningsdag'}
@@ -50,7 +50,7 @@ const Puff = ({variant, date, awardPlace}:props) => {
                     <div className={styles.text_container}>
                         <Text className={[styles.day, styles.gold_text].join(' ')} type={TEXT_TYPES.P}>{day}</Text>
                     </div>
-                    <div className={styles.text_container}>
+                    <div className={styles.text_container_left}>
                         <Text className={[styles.month, styles.gold_text].join(' ')} type={TEXT_TYPES.P}>{month}</Text>
                         <Text className={[styles.text, styles.gold_text].join(' ')} type={TEXT_TYPES.P}>
                             {`Prisutdelning på ${awardPlace}`}
@@ -71,7 +71,7 @@ const Puff = ({variant, date, awardPlace}:props) => {
                  <div className={styles.text_container}>
                         <Text className={[styles.day, styles.black_text, styles.vote_headline].join(' ')} type={TEXT_TYPES.P}>Rösta</Text>
                     </div>
-                    <div className={styles.text_container}>
+                    <div className={styles.text_container_left}>
                         {/* <Text className={[styles.month, styles.black_text, styles.vote_date].join(' ')} type={TEXT_TYPES.P}></Text> */}
                         <Text className={[styles.text, styles.black_text, styles.vote_text].join(' ')} type={TEXT_TYPES.P}>Från</Text>
                         <Text className={[styles.text, styles.black_text, styles.vote_text].join(' ')} type={TEXT_TYPES.P}>{day} {month}</Text>

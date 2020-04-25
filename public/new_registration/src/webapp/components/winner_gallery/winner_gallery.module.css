@@ -41,8 +41,8 @@
 
 @media screen and (max-width: 415px) {
     .header {
-        margin-bottom: 0px;
-        width: 100%;
+        margin-bottom: 12px;
+        width: calc(100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 2));
     }   
 
     .space {
@@ -57,8 +57,20 @@
 
     .entries {
         flex-wrap: nowrap;
+        justify-content: space-between;
     }
     .singleCat {
+        margin-bottom: 20px;
+        width: unset;
+        min-width: unset;
+    }
 
+    .singleHeader {
+        margin-bottom: 12px;
+        width: calc((100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 3)) / 2);
+    }
+
+    .list {
+        justify-content: space-between;
     }
 }

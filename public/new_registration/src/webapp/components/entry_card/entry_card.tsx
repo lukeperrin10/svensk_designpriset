@@ -51,6 +51,7 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick, noMar
 
             <div className={styles.bottom}>
                 <p className={onlyDisplay ? styles.title : ''}>{entry.entry_name}</p>
+                <p className={onlyDisplay ? styles.company : ''}>{entry.company}</p>
                 {!onlyDisplay ?
                 isVoted ?
                     <Button variant={BUTTON_VARIANTS.PRIMARY} size={BUTTON_SIZES.SMALL} onClick={onVote} title='Din röst' />
