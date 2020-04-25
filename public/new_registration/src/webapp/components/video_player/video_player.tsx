@@ -45,6 +45,16 @@ const VideoPlayer = ({videoUrl, className}:props) => {
         if (isYoutube) {
             return getIframe(`https://www.youtube.com/embed/${extractId(videoUrl)}`)
         }
+
+        const youtubeTwoReg = /\b(\w*youtu.be\w*)\b/
+        const youtubeTwoCheck = videoUrl.match(youtubeTwoReg)
+        const isYoutubeTwo = youtubeTwoCheck && youtubeTwoCheck.length > 0
+        
+        if (isYoutubeTwo) {
+            return getIframe(`https://www.youtube.com/embed/${extractId(videoUrl)}`)
+        }
+
+        
         return null
     }
 

@@ -166,8 +166,8 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 }
             case PHASES.TWO:
                 return {
-                    title: 'Vinnare',
-                    path: '/vinnare'
+                    title: 'Juryarbete',
+                    path: '/juryn'
                 }
             case PHASES.THREE:
                 return {
