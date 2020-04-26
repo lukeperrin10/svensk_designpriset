@@ -6,10 +6,10 @@ import { TEXT_TYPES, HEADLINE_SIZES } from '../text/text'
 import { IS_MOBILE } from '../../config/style'
 
 const instructions = [
-    'Välj de bidrag du tycker om',
+    'Välj bidrag du vill rösta på',
     'Ange din e-postadress',
-    'Bekräfta din e-postadress',
-    'Du har röstat!'
+    'Verifiera din röst',
+    'Klar. Tack för din röst'
 ]
 
 const VoteInstruction = () => {

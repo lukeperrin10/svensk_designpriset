@@ -8,7 +8,7 @@ import AfterPost from './after_post'
 import {Md5} from 'ts-md5/dist/md5';
 import * as queryString from 'query-string'
 import AfterConfirmed from './after_confirmed'
-import Text, { P, H1, H2, H3 } from '../../components/text'
+import Text, { P} from '../../components/text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
 import { getDayWithMonth } from '../../helpers/dates'
 import styles from './vote.module.css'
@@ -22,7 +22,12 @@ enum STAGES {
     CONFIRMED = 'CONFIRMED'
 }
 
-const Vote = () => {
+interface props {
+    awardPlace: string,
+    awardDate: string
+}
+
+const Vote = ({awardDate, awardPlace}:props) => {
 
     const [poll, setPoll] = useState<IPollCollection>() 
     const [didFetchPoll, setDidFetchPoll] = useState(false)
@@ -160,17 +165,10 @@ const Vote = () => {
                         <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>
                     </div>
                 )
-            // case STAGES.SUMMARY:
-            //     return (
-            //         <div>
-            //             {voteEntries.length > 0 &&
-            //             <Summary pollId={poll !== undefined ? poll.id : 0} onChangeVotes={onChangeVotes} entries={voteEntries} onPostVotes={onPostVotes}/>}
-            //         </div>
-            //     )
             case STAGES.DID_SEND:
                 return <AfterPost />
             case STAGES.CONFIRMED:
-                return <AfterConfirmed />
+                return <AfterConfirmed awardPlace={awardPlace} awardDate={awardDate} />
             default:
                 return <div></div>
 

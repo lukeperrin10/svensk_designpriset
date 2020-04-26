@@ -40,18 +40,6 @@ const Summary = ({entries, onPostVotes, onChangeVotes, pollId}: ISummary) => {
             alert('Du måste fylla i en email')
         }
     }
-    // return (
-    //     <div>
-    //         <p>kontrollera dina röster</p>
-    //         <div>
-    //             {entries.map(e => <EntryCard onShowClick={() => {}} key={e.id} entry={e} onlyDisplay={true} />)}
-    //         </div>
-    //         <label>Epost</label>
-    //         <input type='text' onChange={onEmailChange}/>
-    //         <button onClick={onChangeVotes}>Ändra</button>
-    //         <button onClick={onSubmit}>Skicka in</button>
-    //     </div>
-    // )
     return (
         <div className={styles.container}>
             <Text type={TEXT_TYPES.P} className={styles.text}>När du har röstat på de kategorier du vill rösta på, fyll i din e-postadress. Ett mejl kommer skickas till din e-postadress.

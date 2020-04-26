@@ -246,7 +246,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
 
                 {yearConfig.current_phase !== "" &&
                 <Route path={PATHS.VOTE} render={() => {
-                    if (checkIfVoteAllowed()) return <Vote />
+                    if (checkIfVoteAllowed()) return <Vote awardDate={yearConfig.award_date} awardPlace={yearConfig.award_place} />
                     else return redirect()
                 }} />}
 

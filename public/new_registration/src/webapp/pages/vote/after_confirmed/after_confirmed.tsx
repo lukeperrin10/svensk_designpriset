@@ -1,8 +1,18 @@
 import * as React from 'react'
+import { getDayWithMonth } from '../../../helpers/dates'
+import { H2 } from '../../../components/text'
 
-const AfterConfirmed = () => {
+interface props {
+    awardPlace: string,
+    awardDate: string
+}
+
+const AfterConfirmed = ({awardDate, awardPlace}:props) => {
     return (
-        <div>Tack för ditt deltagande! Bekräftad!</div>
+        <div>
+            <H2>Tack för din röst!</H2>
+             Du utvecklar svensk design med ditt deltagande. Vinnarna utses på {awardPlace} den {getDayWithMonth(awardDate)}
+        </div>
     )
 }
 

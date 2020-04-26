@@ -4,7 +4,7 @@ import { P } from '../../../components/text'
 const AfterPost = () => {
     return (
         <div>
-            <P>Tack, ett mail har skickats. Vänligen bekräfta er röst</P>
+            <P>Tack för din röst! Ett mejl har skickats till din mejl. Vänligen verifiera din röst.</P>
         </div>
     )
 }
