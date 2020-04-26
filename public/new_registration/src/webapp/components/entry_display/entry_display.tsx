@@ -27,7 +27,7 @@ interface props {
 }
 
 const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClick, onVoteClick, isVoted, onClose}:props) => {
-
+    console.log(entry)
     const onVote = () => {
         if (onVoteClick) onVoteClick(entry)
     }
@@ -143,8 +143,32 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                         <P><span className={styles.bold}>Designer: </span>{entry.designer}</P>    
                         </div>
                         <div className={styles.contents}>
+                        <P><span className={styles.bold}>Illustratör/fotograf: </span>{entry.illustrator}</P>   
+                        </div>
+                        <div className={styles.contents}>
+                        <P><span className={styles.bold}>Projektledare: </span>{entry.leader}</P>   
+                        </div>
+                        <div className={styles.contents}>
                         <P><span className={styles.bold}>Kund: </span>{entry.customer}</P>   
                         </div>
+                        {entry.motivation !== '' &&
+                        <div className={styles.contents}>
+                        <P><span className={styles.bold}>Motivering: </span>{entry.motivation}</P>   
+                        </div>
+                        }
+                        {entry.source !== '' && entry.source !== null &&
+                        <div className={styles.contents}>
+                        {/* <P>{entry.motivation}</P> */}
+                        <a href={assembleMediaUrl(entry.source)}>Pdf-material</a>   
+                        </div>
+                        }
+                        {entry.webpage !== '' && entry.webpage !== null &&
+                        <div className={styles.contents}>
+                        {/* <P>{entry.motivation}</P> */}
+                        <a href={entry.webpage}>{entry.webpage}</a>   
+                        </div>
+                        }
+                        
                     </article>
                     {!IS_MOBILE && getButtons()}
                 </div>
