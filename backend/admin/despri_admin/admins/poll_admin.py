@@ -1,19 +1,35 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.http import HttpResponse
 from django.utils.translation import ugettext_lazy as _
 from .base_admin import BaseAdmin
 from ..models import Entry, Vote, Poll
 import operator
 from django.urls import reverse
+import csv
 
 class PollAdmin(BaseAdmin):
     change_form_template = 'admin/despri_admin/poll_change_form.html'
     list_display = ('name', 'start', 'stop', 'year')
     # def format_entry(entry):
+    actions = ['export_emails']
 
     def year(self, obj):
         return obj.start.year
 
+    def export_emails(self, request, queryset):
+        response = HttpResponse(content_type='text/csv')
+        writer = csv.writer(response)
+        writer.writerow(['Email'])
+        for poll in queryset.values():
+            writer.writerow([poll['name']])
+            poll_id = poll['id']
+            emails = Vote.objects.values('mail').distinct().filter(poll_id=poll_id)
+            for email in emails:
+                writer.writerow([email['mail']])
+        response['Content-Disposition'] = 'attachment; filename="designpriset_emails.csv"'
+        return response
+    export_emails.short_description = _('Export email adresses')
 
     def get_poll_content(self, id):
         current_poll = Poll.objects.get(id=id)
