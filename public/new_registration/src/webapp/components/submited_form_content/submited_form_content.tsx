@@ -4,6 +4,7 @@ import {H2, P} from '../text/text_semantict'
 import { IProfile , IEntry} from '../../model'
 import Text from '../text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../text/text'
+import { MEDIA_URL, TEMP_AVATAR_URL } from '../../config/host'
 
 export interface textContent {
     label: string,
@@ -17,7 +18,67 @@ interface ISubmitedFormContent {
     profile?: IProfile
 }
 
+const entryItems = [
+    {key: 'entry_name', label: 'Bidragets namn'}, 
+    {key: 'customer', label: 'Uppdragsgivare'}, 
+    {key: 'description', label: 'Beskrivning'}, 
+    {key: 'category', label: 'Kategori'}, 
+    {key: 'format', label: 'Omfång'}, 
+    {key:'size', label: 'Storlek'}, 
+    {key: 'webpage', label: 'Länk'}, 
+    {key: 'video_url', label: 'Länk Video'}]
+
+const workGroup = [
+    {key: 'designer', label: 'Designer'},
+    {key: 'leader', label: 'Projektledare'},
+    {key: 'illustrator', label: 'Fotograf/illustratör'}
+]
+
 const SubmitedFormContent = ({profile, title, entry}:ISubmitedFormContent) => {
+
+    const getItems = (items:{key:string, label:string}[]) => {
+        if (entry) {
+            console.log(entry)
+            const els = items.map(item => {
+                if (item.key in entry && entry[item.key] !== '' && entry[item.key] !== null) {
+                    return (
+                        <div className={styles.item} key={item.key}>
+                            <Text className={styles.label} type={TEXT_TYPES.P}>{item.label}</Text>
+                            <div className={styles.section_content}>
+                                <P>{entry[item.key]}</P>
+                            </div>
+                        </div>
+                    )
+                }
+            })
+            return els
+        }
+        return []
+    }
+
+    const getUrl = (image: string) => {
+        const split = image.split('/')
+        if (split.length > 1) return `${MEDIA_URL}/${image}`
+        return `${TEMP_AVATAR_URL}/${image}`
+    }
+
+    const formatSource = (source: string) => {
+        if (source.split('/').length > 1) return source.split('/')[1]
+        return source
+    }
+
+    const getImages = () => {
+        if (entry) {
+            const images = []
+            images.push(<img key={entry.avatar} src={getUrl(entry.avatar)} className={styles.feature_image}/>)
+            if (entry.entry_images && entry.entry_images.length > 0) {
+                entry.entry_images.forEach(img => images.push(<img key={img.image} className={styles.image} src={getUrl(img.image)} />))
+            }
+            return images
+        }
+        
+        return []
+    }
     return (
         <section className={styles.container}>
             <Text className={styles.headline} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{title}</Text>
@@ -46,18 +107,22 @@ const SubmitedFormContent = ({profile, title, entry}:ISubmitedFormContent) => {
             }
             {entry &&
                 <section className={styles.section}>
-                <div>
-                    <Text className={styles.label} type={TEXT_TYPES.P}>Bidragets namn</Text>
-                    <div className={styles.section_content}>
-                        <P>{entry.entry_name}</P>
+                    {getItems(entryItems)}
+                    <Text className={styles.large_label} type={TEXT_TYPES.LABEL}>Arbetsgrupp</Text>
+                    {getItems(workGroup)}
+                    <Text className={styles.large_label} type={TEXT_TYPES.LABEL}>Media</Text>
+                    <div className={styles.images}>
+                        {getImages()}
                     </div>
-                </div>
-                <div>
-                    <Text className={styles.label} type={TEXT_TYPES.P}>Uppdragsgivare</Text>
-                    <div className={styles.section_content}>
-                        <P>{entry.customer}</P>
+                    {entry.source !== '' && entry.source !== null &&
+                        <div className={styles.item}>
+                        <Text className={styles.label} type={TEXT_TYPES.P}>Printbidrag PDF</Text>
+                        <div className={styles.section_content}>
+                            <P>{formatSource(entry.source)}</P>
+                        </div>
                     </div>
-                </div>
+                    }
+                    
             </section>
             }
         </section>

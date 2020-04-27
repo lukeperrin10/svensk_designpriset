@@ -119,7 +119,8 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
     }
 
     formatSource = (source: string) => {
-        return source.split('/')[1]
+        if (source.split('/').length > 1) return source.split('/')[1]
+        return source
     }
 
     render() {
@@ -138,7 +139,11 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                         }
                         
                     </div>
-                    <Button onClick={() => this.deleteImage()}  variant={BUTTON_VARIANTS.TERTIARY} size={BUTTON_SIZES.SMALL} title='Ta bort bild'/>
+                    <Button 
+                    onClick={() => this.deleteImage()}  
+                    variant={BUTTON_VARIANTS.TERTIARY} 
+                    size={BUTTON_SIZES.SMALL} 
+                    title={displayUploadName ? 'Ta bort PDF' : 'Ta bort bild'}/>
                 </div>
                 :
                 <div>
@@ -148,7 +153,11 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                     </p>
                     :null}
                     <label htmlFor='image-input-drop' className={styles.input_label}>
-                        Tryck eller släpp här för att ladda upp bild
+                        {displayUploadName ? 
+                        'Tryck eller släpp här för att ladda upp PDF'
+                        :
+                        'Tryck eller släpp här för att ladda upp bild'
+                        }
                         <input 
                             name='image-input-drop'
                             className={styles.input}
