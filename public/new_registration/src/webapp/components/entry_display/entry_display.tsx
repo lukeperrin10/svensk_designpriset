@@ -167,11 +167,11 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                         {/* <P>{entry.motivation}</P> */}
                         <a href={entry.webpage}>{entry.webpage}</a>   
                         </div>
-                        }
-                        
+                        }       
                     </article>
                     {!IS_MOBILE && getButtons()}
                 </div>
+                
             </section>
             <hr></hr>
                 <nav className={styles.nav}>
@@ -196,6 +196,7 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                         title={nextEntry.entry_name} />
                     </div>}
                 </nav>
+                
         </div>
     )
 }
