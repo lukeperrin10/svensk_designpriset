@@ -35,10 +35,11 @@
 }
 
 .title {
-    max-width: 80%;
 }
 
-
+.text_container {
+    max-width: 80%;
+}
 
 .overlay {
     display: flex;
@@ -67,7 +68,6 @@
 
 .company {
     font-style: italic;
-    max-width: 80%;
 }
 
 @media screen and (max-width: 415px) {

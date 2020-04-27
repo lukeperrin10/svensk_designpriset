@@ -7,7 +7,7 @@ exports.BACKEND_SITE_URL = process.env.DP_BACKEND_SITE_URL;
 exports.SITE_URL = process.env.DP_FRONTEND_ROOT;
 exports.REGISTER_DEADLINE_DATE = '14 Juni';
 exports.REGISTER_ROOT_URL = `${process.env.DP_FRONTEND_ROOT}${'/anmalan'}`;
-exports.ADMIN_EMAIL = process.env.NODE_ENV === 'production' ? "designpriset@gmail.com" : "johan@wopii.com";
+exports.ADMIN_EMAIL = "designpriset@gmail.com";
 exports.STATIC_MEDIA_URL = `${process.env.DP_API_URL}/media`;
 //Not sure of what this should be in prd yet
 //const ROOT_PATH = isProd ? '/var/www/www.designpriset.se/wwwroot/backend_api' : '.'

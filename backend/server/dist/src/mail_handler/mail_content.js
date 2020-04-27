@@ -1,5 +1,21 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const db = __importStar(require("../db"));
 const temp_contants_1 = require("../constants/temp_contants");
 function getSubjectRegister(profile, update) {
     return update ? `${profile.company} har uppdaterat sitt bidrag` : `Anmälan Designpriset - ${profile.company}`;
@@ -28,27 +44,37 @@ function getProfileContent(profile) {
 }
 exports.getProfileContent = getProfileContent;
 function getEntryContent(entries, categories) {
-    const subheading = "font-family:Arial;Helvetica;font-size:25px;font-weight:bold; margin-bottom:10px; color:#c6a230;";
-    let content = '';
-    let i = 0;
-    content += '<ul style="list-style:none;padding:0;">';
-    entries.forEach(entry => {
-        i++;
-        const avatar = `${temp_contants_1.STATIC_MEDIA_URL}/${entry.avatar}`;
-        content += `<h3 style="${subheading}">Bidrag ${i}</h3>`;
-        content += `<a target="_blank" href="${avatar}"><img height="200px;" src="${avatar}"/></a><br/><br/>`;
-        content += `<li>Namn: ${entry.entry_name}</li>`;
-        content += `<li>Kategori: ${entry.category_id}</li>`;
-        content += `<li>Designer: ${entry.designer}</li>`;
-        content += entry.illustrator ? `<li>Illustratör/fotograf: ${entry.illustrator}</li>` : '';
-        content += `<li>Projektledare: ${entry.leader}</li>`;
-        content += `<li>Uppdragsgivare: ${entry.customer}</li>`;
-        content += entry.webpage ? `<li>Webbplats: ${entry.webpage}</li>` : '';
-        content += entry.format ? `<li>Omfång: ${entry.format}</li>` : '';
-        content += entry.size ? `<li>Storlek: ${entry.size}</li>` : '';
-        content += entry.source ? `<li>Bifogad fil: <a target="_blank" href="${temp_contants_1.STATIC_MEDIA_URL}/${entry.source}">${entry.source}</a></li>` : '';
+    return __awaiter(this, void 0, void 0, function* () {
+        const subheading = "font-family:Arial;Helvetica;font-size:25px;font-weight:bold; margin-bottom:10px; color:#c6a230;";
+        let content = '';
+        let i = 0;
+        content += '<ul style="list-style:none;padding:0;">';
+        for (let i = 0; i < entries.length; i++) {
+            const entry = entries[i];
+            const category = categories.filter(c => c.id === entry.category_id)[0].name;
+            const avatar = `${temp_contants_1.STATIC_MEDIA_URL}/${entry.avatar}`;
+            const extra_images = yield db.query('SELECT image from entry_images where entry_id = ?', [entry.id]);
+            content += `<h3 style="${subheading}">Bidrag ${i + 1}</h3>`;
+            content += `<a target="_blank" href="${avatar}"><img height="200px;" src="${avatar}"/></a><br/><br/>`;
+            content += `<li>Namn: ${entry.entry_name}</li>`;
+            content += `<li>Kategori: ${category}</li>`;
+            content += `<li>Designer: ${entry.designer}</li>`;
+            content += entry.illustrator ? `<li>Illustratör/fotograf: ${entry.illustrator}</li>` : '';
+            content += `<li>Projektledare: ${entry.leader}</li>`;
+            content += `<li>Uppdragsgivare: ${entry.customer}</li>`;
+            content += entry.webpage ? `<li>Webbplats: ${entry.webpage}</li>` : '';
+            content += entry.format ? `<li>Omfång: ${entry.format}</li>` : '';
+            content += entry.size ? `<li>Storlek: ${entry.size}</li>` : '';
+            content += entry.source ? `<li>Bifogad fil: <a target="_blank" href="${temp_contants_1.STATIC_MEDIA_URL}/${entry.source}">${entry.source}</a></li>` : '';
+            content += '<div style="display: flex; margin-top:20px;">';
+            content += extra_images.length > 0 ? extra_images.map(img => {
+                const image = `${temp_contants_1.STATIC_MEDIA_URL}/${img.image}`;
+                return (`<a target="_blank" href="${image}"><img height="80px;" src="${image}"/></a><br/><br/>`);
+            }) : '';
+            content += '</div>';
+        }
+        return content;
     });
-    return content;
 }
 exports.getEntryContent = getEntryContent;
 //# sourceMappingURL=mail_content.js.map

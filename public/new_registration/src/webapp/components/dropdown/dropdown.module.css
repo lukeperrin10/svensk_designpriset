@@ -3,6 +3,8 @@
     border: none;
     color: black;
     font-size: 48px;
+    font-weight: 700;
+    line-height: 120%;
     font-family: var(--PRIMARY_HEADER_FONT);
     padding: 0;
     border-radius: 0;
@@ -26,4 +28,8 @@
 
 .dropdown {
     margin-bottom: 100px;
+}
+
+.dropdown a {
+    text-decoration: none;
 }

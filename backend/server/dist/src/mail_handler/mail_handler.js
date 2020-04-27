@@ -88,10 +88,10 @@ function sendRegisterEmails(profile, entries, update, updatedIds) {
             yield mail(temp_contants_1.ADMIN_EMAIL, adminMailContent.subject, adminMailContent.content, adminMailContent.content);
         }
         else {
-            const includedEntries = exludeEntries(updatedIds, entries);
-            const mailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.ENTRY_UPDATE, undefined, profile, includedEntries);
+            // const includedEntries = exludeEntries(updatedIds, entries)
+            const mailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.ENTRY_UPDATE, undefined, profile, entries);
             yield mail(profile.mail, mailContent.subject, mailContent.content, mailContent.content);
-            const adminMailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.ENTRY_UPDATE_ADMIN, undefined, profile, includedEntries);
+            const adminMailContent = yield mail_content_handler_1.getMailContent(dbtypes_1.MailType.ENTRY_UPDATE_ADMIN, undefined, profile, entries);
             yield mail(temp_contants_1.ADMIN_EMAIL, adminMailContent.subject, adminMailContent.content, adminMailContent.content);
         }
     });
