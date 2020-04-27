@@ -229,11 +229,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             {didFetch && yearConfig.year !== '' &&
             
             <Switch>
-                <Route render={() => {
-                    return (
-                        <Start calendar={calendarContent} content={startContent}/>
-                    )
-                }}/>
+             
                 <Route exact path='/' render={() => {
                     return (
                         <Start calendar={calendarContent} content={startContent}/>
@@ -261,6 +257,11 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 }} />
 
                 {standardPages.length > 0 && getStandardRoutes(standardPages)}
+                <Route render={() => {
+                    return (
+                        <Start calendar={calendarContent} content={startContent}/>
+                    )
+                }}/>
             </Switch> 
             
             }

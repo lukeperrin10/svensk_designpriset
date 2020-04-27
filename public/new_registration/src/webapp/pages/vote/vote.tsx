@@ -77,6 +77,7 @@ const Vote = ({awardDate, awardPlace}:props) => {
                 headers: headers,
                 body: JSON.stringify(addHash(votes))
             })
+            console.log(response)
             if (checkResponse(response)) setCurrentStage(STAGES.DID_SEND)
         } catch (error) {
             console.log('post error')

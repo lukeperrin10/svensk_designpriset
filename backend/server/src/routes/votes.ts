@@ -6,7 +6,6 @@ const valid_params = ['secret']
 class VoteRouter extends DPRouter<model.Vote> {
     post() {
         this.router.post('/', async (req, res) => {
-            console.log(req.body)
             if (Array.isArray(req.body) && req.body.length > 1) {
                 res.json(await (<typeof model>this.model).batchCreate(req.body))
             } else {
