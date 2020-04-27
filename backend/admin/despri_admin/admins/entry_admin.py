@@ -34,10 +34,16 @@ class EntryAdmin(BaseAdmin):
     list_display = ('entry_name', 'profile', 'category', 'customer', 'source', 'image', 'sent_nominee_notification', 'is_nominated', 'is_winner_gold', 'is_winner_silver')
     search_fields = ('entry_name', 'profile__company')
     list_filter = (EntryFilter, 'year')
-    actions = ['send_nominee_action']
+    actions = ['send_nominee_action', 'nominate_action']
     change_list_template = 'admin/despri_admin/entry_change_list.html'
 
     inlines = [ImageInline]
+
+    def nominate_action(self, request, queryset):
+        for entry in queryset.values():
+            entry_id = entry['id']
+            Entry.objects.filter(id=entry_id).update(is_nominated=True)
+    nominate_action.short_description = _('Nominate entries')
     
     def send_nominee_action(self, request, queryset):
         url = 'http://node:8001/mail'
