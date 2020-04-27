@@ -20,12 +20,14 @@ async function makeProfileAndEntriesRequest(amountOfEntries) {
         })
         const profileId = await profile.json()
         console.log('post profile: '+stringify(profileId))
-        const avatar = await postAvatar()
+        const avatar = await postAvatar('./test-avatar-xxxx.jpg')
         console.log('post avatar: '+stringify(avatar))
+        const extraImages = await postExtraImages()
+        console.log('post extra images: '+stringify(extraImages))
         const entries = await fetch(ENTRIES_URL, {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(createEntries(profileId[0]['id'], amountOfEntries, avatar, cat))
+            body: JSON.stringify(createEntries(profileId[0]['id'], amountOfEntries, avatar, cat, extraImages))
         })
         const entriesResult = await entries.json()
         console.log('post entries: '+stringify(entriesResult))
@@ -35,9 +37,9 @@ async function makeProfileAndEntriesRequest(amountOfEntries) {
     
 }
 
-async function postAvatar() {
+async function postAvatar(url) {
     const formdata = new FormData()
-    const img = await fs.createReadStream('./test-avatar-xxxx.jpg', {})
+    const img = await fs.createReadStream(url, {})
     formdata.append('media', img)
     try {
         const req = await fetch(AVATATAR_URL, {
@@ -49,10 +51,19 @@ async function postAvatar() {
     } catch (error) {
         console.log(error)
     }
-
 }
 
-function createEntries(profileId, amountOfEntries, avatar, category) {
+async function postExtraImages() {
+    const images = ['extra-1.jpg', 'extra-2.jpg', 'extra-3.jpg']
+    const res = []
+    for (let i = 0;i<images.length;i++) {
+        const result = await postAvatar(images[i])
+        res.push({is_featured: 0, image: result})
+    }
+    return res
+}
+
+function createEntries(profileId, amountOfEntries, avatar, category, extraImages) {
     const entries = []
     
     console.log(`creating ${amountOfEntries} entries`)
@@ -72,7 +83,7 @@ function createEntries(profileId, amountOfEntries, avatar, category) {
             webpage: 'WOPII_TEST',
             avatar: avatar,
             year: '2019',
-            entry_images: []
+            entry_images: extraImages
         }
         entries.push(entry)
     }

@@ -114,7 +114,7 @@ const SubmitedFormContent = ({profile, title, entry}:ISubmitedFormContent) => {
                     <div className={styles.images}>
                         {getImages()}
                     </div>
-                    {entry.source !== '' && entry.source !== null &&
+                    {entry.source !== '' && entry.source !== null && entry.source !== undefined &&
                         <div className={styles.item}>
                         <Text className={styles.label} type={TEXT_TYPES.P}>Printbidrag PDF</Text>
                         <div className={styles.section_content}>

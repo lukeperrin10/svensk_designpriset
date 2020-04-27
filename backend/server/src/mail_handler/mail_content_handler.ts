@@ -53,7 +53,10 @@ export async function replaceVars(content: string, secret?:string, profile?: Pro
                 if (entries) return entries.length
                 return 'amount of entries not found'
             case MailVarValues.entries_list:
-                if (entries) return getEntryContent(entries)
+                if (entries) {
+                    const cats = await db.query('SELECT * FROM categories')
+                    return getEntryContent(entries, cats)
+                }
                 return 'entries not found'
             case MailVarValues.entry_name_with_category:
                 if (entries) {

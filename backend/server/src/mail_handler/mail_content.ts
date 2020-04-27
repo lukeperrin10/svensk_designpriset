@@ -1,3 +1,4 @@
+import * as db from '../db'
 import { PRICE_PER_ENTRY, SITE_URL, STATIC_MEDIA_URL } from "../constants/temp_contants"
 import { Entry, Profile, Category } from "dbtypes";
 
@@ -29,19 +30,21 @@ export function getProfileContent(profile: Profile) {
     return content
 }
 
-export function getEntryContent(entries: Entry[], categories?: Category[]) {
+export async function getEntryContent(entries: Entry[], categories?: Category[]) {
     const subheading = "font-family:Arial;Helvetica;font-size:25px;font-weight:bold; margin-bottom:10px; color:#c6a230;"
-
+    
     let content = ''
     let i = 0
     content += '<ul style="list-style:none;padding:0;">'
-    entries.forEach(entry => {
-        i++      
+    for (let i=0;i<entries.length;i++) {
+        const entry = entries[i]
+        const category = categories.filter(c => c.id === entry.category_id)[0].name
         const avatar = `${STATIC_MEDIA_URL}/${entry.avatar}`
-        content += `<h3 style="${subheading}">Bidrag ${i}</h3>`
+        const extra_images : {image:string}[] = await db.query('SELECT image from entry_images where entry_id = ?',[entry.id])
+        content += `<h3 style="${subheading}">Bidrag ${i+1}</h3>`
         content += `<a target="_blank" href="${avatar}"><img height="200px;" src="${avatar}"/></a><br/><br/>`
         content += `<li>Namn: ${entry.entry_name}</li>`
-        content += `<li>Kategori: ${entry.category_id}</li>`
+        content += `<li>Kategori: ${category}</li>`
         content += `<li>Designer: ${entry.designer}</li>`
         content += entry.illustrator ? `<li>Illustratör/fotograf: ${entry.illustrator}</li>` : ''
         content += `<li>Projektledare: ${entry.leader}</li>`
@@ -50,6 +53,14 @@ export function getEntryContent(entries: Entry[], categories?: Category[]) {
         content += entry.format ? `<li>Omfång: ${entry.format}</li>` : ''
         content += entry.size ? `<li>Storlek: ${entry.size}</li>` : ''
         content += entry.source ? `<li>Bifogad fil: <a target="_blank" href="${STATIC_MEDIA_URL}/${entry.source}">${entry.source}</a></li>` : ''
-    })   
+        content += '<div style="display: flex; margin-top:20px;">'
+        content += extra_images.length > 0 ? extra_images.map(img => {
+            const image = `${STATIC_MEDIA_URL}/${img.image}`
+            return (
+                `<a target="_blank" href="${image}"><img height="80px;" src="${image}"/></a><br/><br/>`
+            )
+        }) : ''
+        content += '</div>'
+    }  
     return content
 }
