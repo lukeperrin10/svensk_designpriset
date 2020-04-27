@@ -229,6 +229,11 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             {didFetch && yearConfig.year !== '' &&
             
             <Switch>
+                <Route render={() => {
+                    return (
+                        <Start calendar={calendarContent} content={startContent}/>
+                    )
+                }}/>
                 <Route exact path='/' render={() => {
                     return (
                         <Start calendar={calendarContent} content={startContent}/>
