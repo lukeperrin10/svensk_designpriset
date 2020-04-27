@@ -6,7 +6,7 @@ export const BACKEND_SITE_URL = process.env.DP_BACKEND_SITE_URL
 export const SITE_URL = process.env.DP_FRONTEND_ROOT
 export const REGISTER_DEADLINE_DATE = '14 Juni'
 export const REGISTER_ROOT_URL = `${process.env.DP_FRONTEND_ROOT}${'/anmalan'}`
-export const ADMIN_EMAIL = process.env.NODE_ENV === 'production' ? "designpriset@gmail.com" : "johan@wopii.com"
+export const ADMIN_EMAIL = "designpriset@gmail.com"
 export const STATIC_MEDIA_URL = `${process.env.DP_API_URL}/media`
 
 //Not sure of what this should be in prd yet

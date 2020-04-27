@@ -69,10 +69,10 @@ export async function sendRegisterEmails(profile: Profile, entries: Entry[], upd
         const adminMailContent = await getMailContent(MailType.ENTRY_CONFIRM_ADMIN, undefined, profile, entries)
         await mail(ADMIN_EMAIL, adminMailContent.subject, adminMailContent.content, adminMailContent.content)
     } else {
-        const includedEntries = exludeEntries(updatedIds, entries)
-        const mailContent = await getMailContent(MailType.ENTRY_UPDATE, undefined, profile, includedEntries)
+        // const includedEntries = exludeEntries(updatedIds, entries)
+        const mailContent = await getMailContent(MailType.ENTRY_UPDATE, undefined, profile, entries)
         await mail(profile.mail, mailContent.subject, mailContent.content, mailContent.content)
-        const adminMailContent = await getMailContent(MailType.ENTRY_UPDATE_ADMIN, undefined, profile, includedEntries)
+        const adminMailContent = await getMailContent(MailType.ENTRY_UPDATE_ADMIN, undefined, profile, entries)
         await mail(ADMIN_EMAIL, adminMailContent.subject, adminMailContent.content, adminMailContent.content)
     }
 }
