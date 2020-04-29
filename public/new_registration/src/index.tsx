@@ -8,24 +8,14 @@ import './index.css';
 import {unregister} from './registerServiceWorker'
 
 
-/* Without react-snap:  */
+const isProd = process.env.NODE_ENV === "production"
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root') as HTMLElement
-);
-
+const rootElement = document.getElementById("root");
+if (isProd && rootElement && rootElement.hasChildNodes()) {
+	hydrate(<App />, rootElement);
+} else {
+	render(<App />, rootElement);
+}
 
 unregister();
 // registerServiceWorker();
-
-
-
-/* With react-snap:  */
-
-// const rootElement = document.getElementById("root");
-// if (rootElement && rootElement.hasChildNodes()) {
-//   hydrate(<App />, rootElement);
-// } else {
-//   render(<App />, rootElement);
-//}
