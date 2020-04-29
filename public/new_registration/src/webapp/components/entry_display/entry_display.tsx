@@ -126,10 +126,10 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                 </div>
                 <div className={styles.article_container}>
                     {/* {IS_MOBILE &&  */}
-                    <div>
+                    
                         {entry.is_winner_gold ? <img className={styles.crowns} src={gold} alt='Guldkrona'/> :
                         entry.is_winner_silver ? <img className={styles.crowns} src={silver} alt='Silverkrona'/> : null}
-                    </div>
+                    
                     {/* } */}
                     <article className={styles.article}>
                         <Text className={styles.title} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.entry_name}</Text>

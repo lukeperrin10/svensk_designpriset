@@ -173,7 +173,6 @@ class FormContainer extends React.Component<IFormContainer> {
                         tempEntries[key] = values
                     }
                 }
-                console.log(tempEntries)
                 this.setCurrentCategory(values)
                 this.setState({tempEntries: tempEntries})
                 break;
@@ -184,7 +183,6 @@ class FormContainer extends React.Component<IFormContainer> {
 
     setCurrentCategory(values: IEnteredValues) {
         if ('category_id' in values) {
-            console.log(values['category_id'])
             this.setState({selectedCategory: values['category_id']})
         }
     }
@@ -367,7 +365,6 @@ class FormContainer extends React.Component<IFormContainer> {
         const {selectedCategory} = this.state
         const compare = catId ? parseInt(catId) : parseInt(selectedCategory)
         let selected = cat.filter(c => c.id === compare)
-        console.log(selected)
         if (selected && selected.length > 0) {
             return selected[0].type
         }
@@ -399,9 +396,6 @@ class FormContainer extends React.Component<IFormContainer> {
             const uploadedEntryImages = tempEntries[`${i}`] ? tempEntries[`${i}`].entry_images || false : false
             const key = `${i}`
             const editPath = key in editModeNewEntries ? TEMP_AVATAR_URL : AVATAR_URL
-            console.log(tempEntries[key])
-            console.log(this.getCategoryType(cat, tempEntries[key] ? tempEntries[key].category_id : undefined))
-            if (tempEntries[key]) console.log(tempEntries[key].category_id)
             const form = <div key={i} ref={el => {
                 if (!el) return
                 if (this.state.shouldScrollToEntry) {
@@ -502,9 +496,9 @@ class FormContainer extends React.Component<IFormContainer> {
 
     onTrySubmit() {
         this.setState({formError: false}, () => {
-            this.setState({shouldSubmitProfile: true}, () => {
-                this.setState({shouldSubmitProfile: false, shouldSubmitEntries: true}, () => {
-                    this.setState({shouldSubmitEntries: false})
+            this.setState({shouldSubmitEntries: true}, () => {
+                this.setState({shouldSubmitEntries: false, shouldSubmitProfile: true}, () => {
+                    this.setState({shouldSubmitProfile: false})
                 })
             })
         })

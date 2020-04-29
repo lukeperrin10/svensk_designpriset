@@ -163,6 +163,7 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
     if (IS_MOBILE) {
         return (
             <div>
+                <hr className={styles.mobile_line}></hr>
                 {Object.keys(categories).map(cat => {
                     const category = categories[cat]
                     return (

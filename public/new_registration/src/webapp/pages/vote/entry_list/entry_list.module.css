@@ -74,10 +74,20 @@
     display: none;
 }
 
+.mobile_line {
+    margin-bottom: 69px;
+}
+
 .arrow {
     transition: all 500ms;
 }
 
 .arrow_up {
     transform: rotate(180deg);
+}
+
+@media screen and (max-width: 415px) {
+    .section {
+        margin-bottom: 70px;
+    }
 }

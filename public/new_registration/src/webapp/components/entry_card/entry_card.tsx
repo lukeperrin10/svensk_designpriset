@@ -51,8 +51,8 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick, noMar
 
             <div className={styles.bottom}>
                 <div className={styles.text_container}>
-                    <p className={onlyDisplay ? styles.title : ''}>{entry.entry_name}</p>
-                    <p className={onlyDisplay ? styles.company : ''}>{entry.company}</p>
+                    <p className={onlyDisplay ? styles.title : styles.title}>{entry.entry_name}</p>
+                    <p className={onlyDisplay ? styles.company : styles.company}>{entry.company}</p>
                 </div>
                 {!onlyDisplay ?
                 isVoted ?

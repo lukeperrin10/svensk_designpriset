@@ -55,7 +55,13 @@ class DpForm extends React.Component<IDpFormProps> {
     }
 
     onOutsideSubmit() {
+        // if (this.formRef.current) {
+        //     for(let i=0;i<this.formRef.current.length;i++) {
+        //         console.log(this.formRef.current[i])
+        //     }
+        // }
         if (this.formRef.current?.reportValidity()) {
+
             this.props.onSubmit(this.state.formInput)
         } else {
             this.props.onError()
@@ -123,7 +129,6 @@ class DpForm extends React.Component<IDpFormProps> {
                     :null}
                 </header> 
                 <Form
-
                     ref={this.formRef}
                     validated={formValidated}
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) => this.onSubmit(e)}>
@@ -142,7 +147,7 @@ class DpForm extends React.Component<IDpFormProps> {
                                 <div key={key} className={[styles.input_container, 
                                 item.singleRow && styles.single_row, 
                                 item.marginBottom && styles.margin_bottom].join(' ')}>
-                                    <Form.Group >
+                                    <Form.Group>
                                         <Form.Label className={styles.label}>{item.label}</Form.Label>
                                         {item.type === 'select' ?
                                             <Form.Control
@@ -178,6 +183,9 @@ class DpForm extends React.Component<IDpFormProps> {
                                                 defaultValue={this.getDefaultValue(item.key, item.type)}
                                                 onChange={this.onControlChange(key)}/>
                                         }
+                                        <Form.Control.Feedback type="invalid">
+                                        Please choose a username.
+                                        </Form.Control.Feedback>
                                     </Form.Group>  
                                 </div>
                             )
