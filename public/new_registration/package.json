@@ -26,6 +26,7 @@
     "dev": "REACT_APP_IS_DEV='true' react-scripts start",
     "watch": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "react-snap",
     "build-dev": "REACT_APP_IS_DEV='true' react-scripts build",
     "build-test": "REACT_APP_IS_DEV='true' REACT_APP_IS_TEST='true' react-scripts build",
     "test": "react-scripts test",
@@ -46,6 +47,13 @@
     "@types/slug": "^0.9.1",
     "react-snap": "^1.23.0",
     "typescript": "^3.8.2"
+  },
+  "reactSnap": {
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-web-security"
+    ]
   },
   "browserslist": {
     "production": [
