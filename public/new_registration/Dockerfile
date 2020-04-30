@@ -14,4 +14,6 @@ RUN mkdir -p /app/source
 WORKDIR /app/source
 COPY . .
 RUN mkdir -p build
-#RUN npm install 
+
+RUN npm install 
+#RUN npm install -g puppeteer --unsafe-perm=true --allow-root
