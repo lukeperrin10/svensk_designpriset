@@ -2,7 +2,7 @@ from .base_admin import BaseAdmin
 
 class CategoryAdmin(BaseAdmin):
 
-    list_display = ('name', 'type', 'active')
+    list_display = ('name', 'type', 'active', 'order')
 
     def get_actions(self, request):
         actions = super().get_actions(request)

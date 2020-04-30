@@ -9,7 +9,8 @@ export function getName() {
 }
 
 export async function get(): Promise<Array<Category>> {
-    const query = await db.query('SELECT id, name, shorttag, type, active FROM categories')
+    const query = await db.query('SELECT id, name, shorttag, type, active, `order` FROM categories ORDER BY -`order` DESC')
+    console.log(query)
     return query
 }
 

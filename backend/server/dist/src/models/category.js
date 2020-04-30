@@ -22,7 +22,8 @@ function getName() {
 exports.getName = getName;
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
-        const query = yield db.query('SELECT id, name, shorttag, type, active FROM categories');
+        const query = yield db.query('SELECT id, name, shorttag, type, active, `order` FROM categories ORDER BY -`order` DESC');
+        console.log(query);
         return query;
     });
 }
