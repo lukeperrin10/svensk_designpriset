@@ -43,14 +43,14 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick, noMar
             }
             
             {!IS_MOBILE &&
-                <div className={[styles.overlay, onlyDisplay && styles.overlay_min].join(' ')}>
+                <div onClick={onShow} className={[styles.overlay, onlyDisplay && styles.overlay_min].join(' ')}>
                     <Button variant={BUTTON_VARIANTS.TERTIARY} className={styles.overlay_button} onClick={onShow} title="Visa" />    
                 </div>
             }
             
 
             <div className={styles.bottom}>
-                <div className={styles.text_container}>
+                <div className={onVoteClick ? styles.text_container_vote : styles.text_container}>
                     <p className={onlyDisplay ? styles.title : styles.title}>{entry.entry_name}</p>
                     <p className={onlyDisplay ? styles.company : styles.company}>{entry.company}</p>
                 </div>

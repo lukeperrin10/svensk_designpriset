@@ -34,11 +34,10 @@ const VoteInstruction = () => {
                     <div className={styles.instruction_text}>
                         <P>{instruction}</P>
                     </div>
-                    
-                </div>
-                {i !== instructions.length &&
+                    {i !== instructions.length &&
                     <img className={styles.arrow} src={arrow} alt="pil" />
                     }
+                </div>
                 </div>
             )
         })

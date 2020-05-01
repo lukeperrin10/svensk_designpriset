@@ -40,6 +40,8 @@ const ShareButton = ({url, topAlign}:props) => {
         return FRONTEND_URL+history.location.pathname
         // const url = window.location.href
     }
+    console.log(topAlign)
+    console.log(IS_MOBILE)
     return (
         <div>
         <div className={styles.container}>
@@ -61,7 +63,7 @@ const ShareButton = ({url, topAlign}:props) => {
                 </RedditShareButton>
             </div>
         </div>
-        {topAlign || IS_MOBILE && <div className={styles.spacer}></div>}
+        {(IS_MOBILE || topAlign) && <div className={styles.spacer}></div>}
         </div>
         
     )

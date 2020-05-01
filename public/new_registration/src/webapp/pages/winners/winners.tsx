@@ -83,7 +83,7 @@ const Winners = ({ match, currentWinnerYear }:RouteComponentProps<WinnersParams>
     return (
         <PageContainer>
             {getMeta()}
-            <ShareButton />
+            <ShareButton topAlign={true} />
             <DropDown items={getYears(currentWinnerYear)} label={selectedYear ? selectedYear : currentWinnerYear.toString()} onAction={dropDownAction}/>
             {winners.length > 0 &&
             <WinnerGallery entries={winners} />

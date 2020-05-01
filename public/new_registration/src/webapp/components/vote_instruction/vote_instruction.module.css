@@ -4,6 +4,7 @@
     justify-content: space-between;
     margin: 70px 0 120px 0;
     flex-wrap: wrap;
+    cursor: default;
 }
 
 .instruction_container {
@@ -16,12 +17,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-grow: 1;
 }
 
 .instruction_container p, h4 {
-    margin: 0 10px 0 10px;
+    margin: 0 10px 0 0px;
     padding: 0;
 }
 
@@ -32,6 +33,7 @@
 
 .instruction_text {
     padding: 0;
+    margin-left: 25px;
     width: 120px;
 }
 
@@ -41,7 +43,7 @@
 }
 
 .arrow {
-
+    margin-left: 20px;
 }
 
 @media screen and (max-width: 415px) {

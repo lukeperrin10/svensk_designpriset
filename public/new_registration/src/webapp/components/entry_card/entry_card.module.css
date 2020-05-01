@@ -4,7 +4,7 @@
 }
 
 .margin {
-    margin: 10px 30px 10px 0px;
+    margin: 10px 12px 10px 0px;
 }
 
 .img_holder {
@@ -42,6 +42,10 @@
     max-width: 80%;
 }
 
+.text_container_vote {
+    max-width: 70%;
+}
+
 .overlay {
     display: flex;
     width: 297px;
@@ -55,6 +59,7 @@
     visibility: hidden;
     opacity: 0;
     transition: all 0.3s;
+    cursor: pointer;
 }
 
 .overlay_button {
