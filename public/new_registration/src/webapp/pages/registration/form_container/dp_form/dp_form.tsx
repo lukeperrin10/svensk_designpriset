@@ -155,9 +155,7 @@ class DpForm extends React.Component<IDpFormProps> {
                                             className={styles.input}
                                             required
                                             type={item.type}
-                                            placeholder={item.label} 
                                             value={this.getDefaultValue(item.key, item.type) || ''}
-                                            
                                             onChange={this.onControlChange(key)}>
                                             <option value='' disabled>Välj ett alternativ</option>
                                             {item.selectList ? item.selectList.map(listItem => {
@@ -179,7 +177,7 @@ class DpForm extends React.Component<IDpFormProps> {
                                                 type={item.type}
                                                 as={item.largeTextInput? 'textarea' : 'input'}
                                                 rows={item.largeTextInput ? '4' : '1'}
-                                                placeholder={item.label} 
+                                                // placeholder={item.label} 
                                                 defaultValue={this.getDefaultValue(item.key, item.type)}
                                                 onChange={this.onControlChange(key)}/>
                                         }
