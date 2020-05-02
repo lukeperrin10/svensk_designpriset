@@ -58,9 +58,6 @@ const ShareButton = ({url, topAlign}:props) => {
                 <TwitterShareButton url={getUrl()}>
                     <TwitterIcon size={size} />
                 </TwitterShareButton>
-                <RedditShareButton url={getUrl()}>
-                    <RedditIcon size={size} />
-                </RedditShareButton>
             </div>
         </div>
         {(IS_MOBILE || topAlign) && <div className={styles.spacer}></div>}

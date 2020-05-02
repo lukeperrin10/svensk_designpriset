@@ -14,6 +14,7 @@ import arrow from '../../assets/ui/arrow.svg'
 import VideoPlayer from '../video_player'
 import gold from '../../assets/ui/crown_gold.svg'
 import silver from '../../assets/ui/crown_silver.svg'
+import './overrides.css'
 
 interface props {
     entry: IEntry,
@@ -116,7 +117,7 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
             <header className={styles.header}>
                 <div>
                     <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.year}</Text>
-                    <Text type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{categoryName}</Text>
+                    <Text className={styles.category} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{categoryName}</Text>
                 </div>
                 {IS_MOBILE && getButtons()}
             </header>
@@ -133,9 +134,11 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                     {/* } */}
                     <article className={styles.article}>
                         <Text className={styles.title} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.SMALL}>{entry.entry_name}</Text>
+                        {entry.description !== '' && entry.description !== null &&
                         <div className={styles.contents}>
                             <P>{entry.description}</P>
                         </div>
+                        }
                         <div className={styles.contents}>
                             <P><span className={styles.bold}>Byrå:</span> {entry.company}</P>
                         </div>

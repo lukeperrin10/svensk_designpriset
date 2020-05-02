@@ -1,0 +1,5 @@
+.carousel-control-next, .carousel-control-prev {
+    top: unset !important;
+    text-decoration: none !important;
+    border-bottom: none !important;
+}
