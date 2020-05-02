@@ -8,6 +8,7 @@ import { BUTTON_VARIANTS, BUTTON_SIZES } from '../../../../components/button/but
 import Text from '../../../../components/text';
 import { TEXT_TYPES } from '../../../../components/text/text';
 import { H3 } from '../../../../components/text/text_semantict';
+import arrow from '../../../../assets/ui/arrow_down.svg'
 
 export interface IEnteredValues {
     [key: string]: string
@@ -152,15 +153,18 @@ class DpForm extends React.Component<IDpFormProps> {
                                         {item.type === 'select' ?
                                             <Form.Control
                                             as='select'
-                                            className={styles.input}
+                                            className={[styles.input, styles.input_select].join(' ')}
                                             required
                                             type={item.type}
                                             value={this.getDefaultValue(item.key, item.type) || ''}
                                             onChange={this.onControlChange(key)}>
-                                            <option value='' disabled>Välj ett alternativ</option>
+                                            <option className={styles.select_header} value='' disabled>
+                                                Välj ett alternativ
+                                            </option>
                                             {item.selectList ? item.selectList.map(listItem => {
                                                 return (
                                                     <option
+                                                        className={styles.select_option}
                                                         value={listItem.id} 
                                                         key={listItem.id}>{listItem.name}
                                                     </option>

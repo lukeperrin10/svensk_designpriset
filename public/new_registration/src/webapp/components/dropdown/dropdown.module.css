@@ -8,8 +8,8 @@
     font-family: var(--PRIMARY_HEADER_FONT);
     padding: 0;
     border-radius: 0;
-    border-bottom: 1px solid var(--PRIMARY_GOLD);
-    height: 55px;
+    border-bottom: 2px solid var(--PRIMARY_GOLD);
+    height: 67px;
 }
 
 .dropdown button:hover, .dropdown button:focus {
@@ -19,7 +19,7 @@
     border-color: white !important;
     outline: none !important;
     box-shadow: none !important;
-    border-bottom: 1px solid var(--PRIMARY_GOLD) !important;
+    border-bottom: 2px solid var(--PRIMARY_GOLD) !important;
 }
 
 .dropdown .dropdown-toggle::after {
@@ -27,9 +27,17 @@
 }
 
 .dropdown {
-    margin-bottom: 100px;
+    margin-bottom: 100px;   
+}
+
+.dropdown .dropdown-menu.show {
+    border-radius: 0px !important;
 }
 
 .dropdown a {
     text-decoration: none;
+}
+
+.arrow {
+    margin: 0 0 6px 10px;
 }

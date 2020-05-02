@@ -64,7 +64,6 @@
     padding: 0;
     display: flex;
     flex-direction: row;
-    width: 100vw;
     margin: auto;
     -ms-overflow-style: none;
     overflow-x: scroll;

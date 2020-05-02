@@ -6,8 +6,11 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 100vw;
     padding: 0px 75px 0px 75px;
+    max-width: 1400px;
+    position: relative;
+    left: -80px;
 }
 
 .calendar {
@@ -156,6 +159,13 @@
         max-width: 407px;
         width: 407px;
         min-width: 200px;
+    }
+}
+
+@media screen and (max-width: 415px) {
+    .container {
+        position: static;
+        width: 100%;
     }
 }
 

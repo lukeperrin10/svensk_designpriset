@@ -49,8 +49,8 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick, noMar
             }
             
 
-            <div className={styles.bottom}>
-                <div className={onVoteClick ? styles.text_container_vote : styles.text_container}>
+            <div className={[styles.bottom, onlyDisplay && styles.bottom_min].join(' ')}>
+                <div className={onVoteClick ? styles.text_container_vote : [styles.text_container, onlyDisplay && styles.text_container_min].join(' ')}>
                     <p className={onlyDisplay ? styles.title : styles.title}>{entry.entry_name}</p>
                     <p className={onlyDisplay ? styles.company : styles.company}>{entry.company}</p>
                 </div>

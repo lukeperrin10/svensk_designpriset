@@ -7,10 +7,13 @@ import { RouteComponentProps } from 'react-router-dom'
 import Meta from '../../components/meta'
 import PageContainer from '../../components/page_container'
 import DropDown from '../../components/dropdown'
-import { assembleMediaUrl } from '../../helpers'
+import { assembleMediaUrl, getText } from '../../helpers'
 import {useHistory} from 'react-router-dom'
 import VideoPlayer from '../../components/video_player'
 import ShareButton from '../../components/share_button'
+import Text from '../../components/text'
+import { TEXT_TYPES, HEADLINE_SIZES } from '../../components/text/text'
+import styles from './winners.module.css'
 
 
 export type WinnersParams = {
@@ -84,6 +87,7 @@ const Winners = ({ match, currentWinnerYear }:RouteComponentProps<WinnersParams>
         <PageContainer>
             {getMeta()}
             <ShareButton topAlign={true} />
+            <Text className={styles.title} type={TEXT_TYPES.H1} headlineSize={HEADLINE_SIZES.LARGE}>{getText('Alla vinnare')}</Text>
             <DropDown items={getYears(currentWinnerYear)} label={selectedYear ? selectedYear : currentWinnerYear.toString()} onAction={dropDownAction}/>
             {winners.length > 0 &&
             <WinnerGallery entries={winners} />

@@ -127,7 +127,12 @@
 
     }
 
-    .bottom {
+    .bottom_min {
         width: calc((100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 3)) / 2);
+    }
+
+    .text_container_min {
+        max-width: 100%;
+        width: 100%
     }
 }

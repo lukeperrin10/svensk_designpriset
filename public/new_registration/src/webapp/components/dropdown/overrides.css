@@ -1,0 +1,16 @@
+.dropdown-menu.show {
+    border-radius: 0px !important;
+    /* width: 163.2px !important; */
+    margin-top: 0px !important;
+    padding: 0;
+}
+
+.dropdown > .btn::after {
+    display: none;
+}
+
+.dropdown-item {
+    padding: 0px 3px 0 3px;
+    margin: 3px 0px 3px 0px;
+    height: 30px;
+}
