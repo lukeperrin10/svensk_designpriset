@@ -10,8 +10,6 @@ IMAGE=$APP:$VERSION
 
 cd $base_dir
 
-npm install
-
 docker image build -t $IMAGE .
 
 docker tag $IMAGE $REMOTE/$IMAGE
