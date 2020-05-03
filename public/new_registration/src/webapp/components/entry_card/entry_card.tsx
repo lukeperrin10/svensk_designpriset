@@ -56,7 +56,7 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick, noMar
                 </div>
                 {!onlyDisplay ?
                 isVoted ?
-                    <Button variant={BUTTON_VARIANTS.PRIMARY} size={BUTTON_SIZES.SMALL} onClick={onVote} title='Din röst' />
+                    <Button className={styles.button_voted} variant={BUTTON_VARIANTS.PRIMARY} size={BUTTON_SIZES.SMALL} onClick={onVote} title='Din röst' />
                     :                     
                     <Button variant={BUTTON_VARIANTS.TERTIARY} size={BUTTON_SIZES.SMALL} onClick={onVote} title='Rösta' />
                 

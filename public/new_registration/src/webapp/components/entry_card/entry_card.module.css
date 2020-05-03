@@ -31,7 +31,7 @@
 }
 
 .button_voted {
-    background-color: var(--PRIMARY_GOLD) !important;
+    border: 1px solid black;
 }
 
 .title {
@@ -65,6 +65,10 @@
 .overlay_button {
     width: 100px;
     border: none;
+}
+
+.overlay_button:hover {
+    opacity: 1;
 }
 
 .img_holder:hover + .overlay, .overlay:hover {

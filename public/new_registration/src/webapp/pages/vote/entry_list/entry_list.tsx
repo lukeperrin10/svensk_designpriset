@@ -6,9 +6,10 @@ import styles from './entry_list.module.css'
 import Accordion from 'react-bootstrap/Accordion'
 import Button from '../../../components/button'
 import EntryModal from '../../../components/entry_modal'
-import { H2, P, Ingress, Label } from '../../../components/text'
+import Text, { H2, P, Ingress, Label } from '../../../components/text'
 import { IS_MOBILE } from '../../../config/style'
 import arrow from '../../../assets/ui/arrow.svg'
+import { TEXT_TYPES } from '../../../components/text/text'
 
 interface IEntryList {
     categories: IPollCategories
@@ -77,7 +78,7 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
         return (
             <header className={styles.header}>
             <div className={styles.header_left}>
-                <Label>{category.category_name}</Label>
+                <Text type={TEXT_TYPES.LABEL} className={styles.cat_name}>{category.category_name}</Text>
                 <Ingress>{getCountText(category.entries)}</Ingress>
             </div>
             <div className={styles.header_right}>

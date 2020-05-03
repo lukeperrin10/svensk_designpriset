@@ -8,6 +8,10 @@
     
 }
 
+.cat_name {
+    margin-bottom: 5px !important;
+}
+
 .header {
     width: 100%;
     display: flex;
@@ -19,7 +23,7 @@
 .header_left {
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
     flex-wrap: wrap;
 }
 
@@ -88,5 +92,9 @@
 @media screen and (max-width: 415px) {
     .section {
         margin-bottom: 70px;
+    }
+    .header {
+        align-items: flex-end;
+        margin-bottom: 20px;
     }
 }

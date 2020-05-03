@@ -57,11 +57,16 @@
     flex-grow: 1;
 }
 
+.content_container > div:nth-child(1) {
+    margin-bottom: 50px;
+}
+
 .content_container a {
     border-bottom: 1px solid black;
     line-height: 19px;
     margin-bottom: 5px;
     width: fit-content;
+    height: 23px;
 }
 
 @media screen and (max-width: 415px) {

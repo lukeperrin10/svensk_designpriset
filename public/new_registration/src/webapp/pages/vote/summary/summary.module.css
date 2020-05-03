@@ -69,10 +69,10 @@
         justify-content: center;
     }
     .input_container input {
-        width: 80vw;
+        width: calc(100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 2));
     }
     .button {
-        width: 80vw;
+        width: calc(100vw - (var(--CONTAINER_MOBILE_PADDING_RIGHT) * 2));
         margin: 20px 0 0 0;
     }
 

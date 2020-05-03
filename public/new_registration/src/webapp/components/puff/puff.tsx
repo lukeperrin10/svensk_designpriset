@@ -54,7 +54,7 @@ const Puff = ({variant, date, awardPlace, calendar}:props) => {
                     </div>
                     <div className={styles.text_container_left}>
                         <Text className={[styles.month, styles.gold_text].join(' ')} type={TEXT_TYPES.P}>{month}</Text>
-                        <Text className={[styles.text, styles.gold_text].join(' ')} type={TEXT_TYPES.P}>
+                        <Text className={[styles.text, styles.gold_text, styles.award_text].join(' ')} type={TEXT_TYPES.P}>
                             {`Prisutdelning på ${awardPlace}`}
                         </Text>
                     </div>
