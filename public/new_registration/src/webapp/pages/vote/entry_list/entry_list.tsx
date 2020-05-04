@@ -79,7 +79,7 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
             <header className={styles.header}>
             <div className={styles.header_left}>
                 <Text type={TEXT_TYPES.LABEL} className={styles.cat_name}>{category.category_name}</Text>
-                <Ingress>{getCountText(category.entries)}</Ingress>
+                {/* <Ingress>{getCountText(category.entries)}</Ingress> */}
             </div>
             <div className={styles.header_right}>
                 {checkCategoryIsVoted(parseInt(cat)) && <Label>Röstat</Label>}
@@ -174,6 +174,7 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
                                     {getList(category.entries)}
                                 </div>
                                 {getModal(category, cat)}
+                                <hr className={styles.mobile_divider}></hr>
                         </section>
                     )
                 })}

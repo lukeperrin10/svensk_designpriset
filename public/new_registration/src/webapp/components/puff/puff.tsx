@@ -74,9 +74,10 @@ const Puff = ({variant, date, awardPlace, calendar}:props) => {
                         <Text className={[styles.day, styles.black_text, styles.vote_headline].join(' ')} type={TEXT_TYPES.P}>Rösta</Text>
                     </div>
                     <div className={styles.text_container_left}>
-                        {/* <Text className={[styles.month, styles.black_text, styles.vote_date].join(' ')} type={TEXT_TYPES.P}></Text> */}
-                        <Text className={[styles.text, styles.black_text, styles.vote_text].join(' ')} type={TEXT_TYPES.P}>Från</Text>
-                        <Text className={[styles.text, styles.black_text, styles.vote_text].join(' ')} type={TEXT_TYPES.P}>{day} {month}</Text>
+                        {/* <Text className={[styles.month, styles.black_text, styles.vote_date].join(' ')} type={TEXT_TYPES.P}></Text> */}                
+                        {IS_MOBILE && <Text className={[styles.text, styles.black_text, styles.vote_text].join(' ')} type={TEXT_TYPES.P}>Från {day} {month}</Text> }
+                        {!IS_MOBILE && <Text className={[styles.text, styles.black_text, styles.vote_text].join(' ')} type={TEXT_TYPES.P}>Från</Text> }
+                        {!IS_MOBILE && <Text className={[styles.text, styles.black_text, styles.vote_text].join(' ')} type={TEXT_TYPES.P}>{day} {month}</Text> }
                     </div>
                 </div>
                 <div className={styles.right}>

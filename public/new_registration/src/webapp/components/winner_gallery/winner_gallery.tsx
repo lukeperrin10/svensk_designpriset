@@ -82,7 +82,7 @@ const WinnerGallery = ({entries, onEntryClick}:props) => {
             const category = categories[cat]
             return (
                 <div key={cat} className={category.entries.length > 1 ? styles.category : styles.singleCat}>
-                    <div className={styles.entries}>
+                    <div className={[styles.entries, styles.category_header].join(' ')}>
                         <Text className={category.entries.length > 1 ? styles.header : styles.singleHeader} type={TEXT_TYPES.LABEL}>{cat}</Text>
                         <div className={styles.spacer} />
                     </div>

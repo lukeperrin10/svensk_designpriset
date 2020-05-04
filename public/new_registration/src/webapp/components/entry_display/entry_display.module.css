@@ -18,7 +18,7 @@
 .crowns {
     height: 56px;
     position: absolute;
-    top: -85px;
+    top: -75px;
 }
 
 .section {
@@ -45,7 +45,7 @@
 }
 
 .bold {
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: franklin-gothic-urw, sans-serif;
     font-weight: 700;
 }
 
@@ -206,6 +206,7 @@
     margin-bottom: 20px;
     text-align: right;
     margin-top: 10px;
+    height: 24px;
 }
 
 @media screen and (max-width: 415px) {

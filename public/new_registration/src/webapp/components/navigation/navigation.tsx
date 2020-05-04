@@ -90,17 +90,17 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
 
     const sortLinks = () => {
         const links: ILink[] = []
-        links.push({
-            title: 'Vinnare',
-            path: 'vinnare'
-        })
-        content.forEach(cont => {
+        content.sort((a,b) => a.order - b.order).forEach(cont => {
             if (cont.template === CONTENT_TEMPLATES.STANDARD) {
                 links.push({
                     title: cont.title,
                     path: createSlug(cont.title)
                 })
             }
+        })
+        links.splice(1,0,{
+            title: 'Vinnare',
+            path: 'vinnare'
         })
         setFooterLinks(links)
         setDidFetch(true)

@@ -14,20 +14,25 @@
 
 .category {
     /* width: 50%; */
-    width: 611px;
-    margin-bottom: 100px;
+    width: 604px;
+    margin-bottom: 90px;
 }
 
 .singleCat {
     width: 25%;
     min-width: 305px;
-    margin-bottom: 100px;
+    margin-bottom: 90px;
 }
 .entries {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.category_header {
+    align-items: flex-end;
+    min-height: 70px;
 }
 
 .header {

@@ -1,60 +1,6 @@
-/**
- * @license
- * MyFonts Webfont Build ID 3894255, 2020-04-23T05:39:36-0400
- * 
- * The fonts listed in this notice are subject to the End User License
- * Agreement(s) entered into by the website owner. All other parties are 
- * explicitly restricted from using the Licensed Webfonts(s).
- * 
- * You may obtain a valid license at the URLs below.
- * 
- * Webfont: FranklinGothicLTPro-Bk by ITC
- * URL: https://www.myfonts.com/fonts/itc/franklin-gothic/franklin-got/
- * 
- * Webfont: FranklinGothicLTPro-Dm by ITC
- * URL: https://www.myfonts.com/fonts/itc/franklin-gothic/franklin-got-demi/
- * 
- * 
- * Webfonts copyright: Copyright &amp;#x00A9; 2014 Monotype ITC Inc. All rights reserved.
- * 
- * © 2020 MyFonts Inc
-*/
+@import url("https://use.typekit.net/ygb2msd.css");
+/* @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@100&display=swap'); */
 
-
-/* @import must be at top of file, otherwise CSS will not work */
-/* @import url("//hello.myfonts.net/count/3b6bef");
-  
-@font-face {
-  font-family: ITC Franklin Gothic Std Book;
-  src: url(./webapp/assets/fonts/webFonts/FranklinGothicLTPro-Bk/font.woff2) format('woff2'), url(./webapp/assets/fonts/webFonts/FranklinGothicLTPro-Bk/font.woff) format('woff');
-}
-@font-face {
-  font-family: ITC Franklin Gothic Std Demi;
-  src: url(./webapp/assets/fonts/webFonts/FranklinGothicLTPro-Dm/font.woff2) format('woff2'), url(./webapp/assets/fonts/webFonts/FranklinGothicLTPro-Dm/font.woff) format('woff');
-} */
-
-
-
-/* @import url(./norm.css) */
-/* @import url(./reset.css); */
-
-@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:wght@100&display=swap');
-
-
-/* @font-face {
-    font-family: ITC Franklin Gothic Std;
-    src: url(./webapp/assets/fonts/ITCFranklinGothicStd-Med.otf);
-  }
-
-@font-face {
-    font-family: ITC Franklin Gothic Std Book;
-    src: url(./webapp/assets/fonts/ITCFranklinGothicStd-Book.otf);
-}
-
-@font-face {
-    font-family: ITC Franklin Gothic Std Demi;
-    src: url(./webapp/assets/fonts/ITCFranklinGothicStd-Demi.otf);
-} */
 
 :root {
     --TRANSITION_EASE_OUT: cubic-bezier(0.17, 0.67, 0.3, 1.01);
@@ -76,54 +22,13 @@
     --CONTAINER_PADDING_RIGHT: 80px;
     --CONTAINER_MOBILE_PADDING_RIGHT: 20px;
 
-    --PRIMARY_HEADER_FONT: 'Libre Franklin', sans-serif;
-    --PRIMARY_TEXT_FONT: 'Libre Franklin', sans-serif;
+    --PRIMARY_HEADER_FONT: franklin-gothic-urw, sans-serif;
+    --PRIMARY_TEXT_FONT: franklin-gothic-urw, sans-serif;
 }
 
-/* .designpriset_container {
-    padding: var(--CONTAINER_PADDING);
-    width: 100vw;
-}
-
-@media screen and (max-width: 415px) {
-    .designpriset_container {
-        padding: var(--CONTAINER_MOBILE_PADDING);
-    }   
-} */
-
-a {
-    border-bottom: 1px solid var(--PRIMARY_GOLD);
-    height: 27px;
-    /* text-decoration: underline;
-    text-decoration-color: var(--PRIMARY_GOLD); */
-}
-
-a:hover {
-    text-decoration: none;
-    color: inherit;
-    opacity: 0.8;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Libre Franklin', sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    margin-top: 0;
-}
-
-p, span, a {
-    font-family: 'Libre Franklin', sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 150%;
-    letter-spacing: 0.01em;
-    word-spacing: 0.02em;
-    color: var(--SECONDARY_TEXT_COLOR);
-}
 
 hr {
-    border-color: black;
+    border-color: #1C1B19;
 }
 
 body {
@@ -138,9 +43,3 @@ body {
     margin: auto;
 }
 
-/* @media screen and (max-width: 415px) {
-    #root {
-        position: static;
-        max-width: unset;
-    }
-} */
