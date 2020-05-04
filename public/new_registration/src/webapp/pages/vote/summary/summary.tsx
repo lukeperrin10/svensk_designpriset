@@ -47,7 +47,7 @@ const Summary = ({entries, onPostVotes, onChangeVotes, pollId}: ISummary) => {
             <div className={styles.left}>
                 <div className={styles.input_container}>
                     <label><Text className={styles.label} type={TEXT_TYPES.INGRESS}>E-postadress</Text></label>
-                    <input placeholder='name@domain.com' type='text' onChange={onEmailChange}/>
+                    <input type='text' onChange={onEmailChange}/>
                 </div>
                 <div>
                     <Button className={styles.button} onClick={onSubmit} title='Skicka'/>

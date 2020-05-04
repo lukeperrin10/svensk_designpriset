@@ -36,6 +36,7 @@
 
 .title {
     font-size: 16px;
+    margin-bottom: 5px !important;
 }
 
 .text_container {
@@ -79,6 +80,7 @@
 .company {
     font-style: italic;
     font-size: 16px;
+    line-height: 100%;
 }
 
 @media screen and (max-width: 415px) {

@@ -67,11 +67,12 @@
     font-size: 270px;
     line-height: 73%;
     margin: 0;
+    letter-spacing: -0.02em;
 }
 
 .month {
     margin: 0px;
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -82,7 +83,7 @@
 .text {
     margin: 0px;
     margin-right: 10px;
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 30px;
@@ -129,7 +130,7 @@
 }
 
 .vote_headline {
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 180px;

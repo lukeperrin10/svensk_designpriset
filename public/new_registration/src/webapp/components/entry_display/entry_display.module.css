@@ -18,7 +18,7 @@
 .crowns {
     height: 56px;
     position: absolute;
-    top: -85px;
+    top: -75px;
 }
 
 .section {
@@ -45,7 +45,7 @@
 }
 
 .bold {
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: franklin-gothic-urw, sans-serif;
     font-weight: 700;
 }
 

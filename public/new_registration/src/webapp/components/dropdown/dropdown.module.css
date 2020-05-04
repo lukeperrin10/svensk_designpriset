@@ -9,7 +9,7 @@
     padding: 0;
     border-radius: 0;
     border-bottom: 2px solid var(--PRIMARY_GOLD);
-    height: 67px;
+    height: 55px;
 }
 
 .dropdown button:hover, .dropdown button:focus {

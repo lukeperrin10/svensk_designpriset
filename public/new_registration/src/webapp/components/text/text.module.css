@@ -1,74 +1,196 @@
+/* FranklinGothic URW Book
+
+font-family: franklin-gothic-urw, sans-serif;
+
+font-weight: 400;
+
+font-style: normal;
+
+
+FranklinGothic URW Demi
+
+font-family: franklin-gothic-urw, sans-serif;
+
+font-weight: 700;
+
+font-style: normal;
+
+
+FranklinGothic URW Book Italic
+
+font-family: franklin-gothic-urw, sans-serif;
+
+font-weight: 400;
+
+font-style: italic;
+
+
+FranklinGothic URW Demi Italic
+
+font-family: franklin-gothic-urw, sans-serif;
+
+font-weight: 700;
+
+font-style: italic; 
+
+
+
+
+ITCFranklinGothic LT Pro CnBk
+
+font-family: franklin-gothic-condensed, sans-serif;
+
+font-weight: 400;
+
+font-style: normal;
+
+
+ITCFranklinGothic LT Pro CnBkIt
+
+font-family: franklin-gothic-condensed, sans-serif;
+
+font-weight: 400;
+
+font-style: italic;
+
+
+ITCFranklinGothic LT Pro CnDm
+
+font-family: franklin-gothic-condensed, sans-serif;
+
+font-weight: 600;
+
+font-style: normal;
+
+
+ITCFranklinGothic LT Pro CnDmIt
+
+font-family: franklin-gothic-condensed, sans-serif;
+
+font-weight: 600;
+
+font-style: italic;
+
+*/
+
 .large_headline {
-    font-family: 'Libre Franklin', sans-serif;
+    /* font-family: 'Libre Franklin', sans-serif; */
+    /* font-family: 'test'; */
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 60px;
-    line-height: 100%;
+    font-size: 64px;
+    line-height: 90%;
     letter-spacing: -0.02em;
     color: var(--PRIMARY_TEXT_COLOR);
+    /* color: pink; */
 }
 
 .medium_headline {
-    font-family: 'Libre Franklin', sans-serif;
+    /* font-family: 'Libre Franklin', sans-serif; */
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 46px;
-    line-height: 100%;
+    font-size: 48px;
+    line-height: 90%;
     letter-spacing: -0.02em;
     color: var(--PRIMARY_TEXT_COLOR);
     margin-top:10px;
+    /* color: green; */
 }
 
 .small_headline {
-    font-family: 'Libre Franklin', sans-serif;
+    /* font-family: 'Libre Franklin', sans-serif; */
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 31px;
-    line-height: 100%;
+    font-size: 32px;
+    line-height: 90%;
     letter-spacing: -0.02em;
     color: var(--PRIMARY_TEXT_COLOR);
+    /* color: lightcoral; */
 }
 
 .extra_small_headline {
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 24px;
     line-height: 90%;
     letter-spacing: -0.02em;
     color: var(--PRIMARY_TEXT_COLOR);
+    /* color: red; */
 }
 
 .ingress {
-    font-family: 'Libre Franklin', sans-serif;
-    /* font-family: 'Libre Franklin', sans-serif; */
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 19px;
-    line-height: 115%;
+    font-size: 24px;
+    line-height: 110%;
     color: var(--SECONDARY_TEXT_COLOR);
+    /* color: orange; */
 }
 
 .plain_text {
-    /* font-family: ITC Franklin Gothic Std Book; */
-    font-family: 'Libre Franklin', sans-serif;
+    /* font-family: 'Libre Franklin', sans-serif; */
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
-    line-height: 145%;
+    font-size: 19px;
+    line-height: 135%;
     letter-spacing: 0.01em;
     word-spacing: 0.02em;
     color: var(--SECONDARY_TEXT_COLOR);
+    /* color: peru; */
+}
+
+p, span, a {
+    font-family: franklin-gothic-urw, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 135%;
+    letter-spacing: 0.01em;
+    word-spacing: 0.02em;
+    color: var(--SECONDARY_TEXT_COLOR);
+    /* color: brown; */
 }
 
 .label {
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: franklin-gothic-urw, sans-serif;
     font-style: normal;
     font-weight: 800;
     font-size: 19px;
     line-height: 140%;
     letter-spacing: -0.01em;
+    /* color: teal; */
 }
+
+a {
+    border-bottom: 1px solid var(--PRIMARY_GOLD);
+    height: 27px;
+}
+
+a:hover {
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.8;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: franklin-gothic-urw, sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 0;
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    letter-spacing: -0.02em;
+}
+
+
 
 
 @media screen and (max-width: 415px) {
