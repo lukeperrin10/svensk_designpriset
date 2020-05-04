@@ -81,6 +81,10 @@
     margin-bottom: 69px;
 }
 
+.mobile_divider {
+    margin-top: 30px;
+}
+
 .arrow {
     transition: all 500ms;
 }
@@ -91,7 +95,8 @@
 
 @media screen and (max-width: 415px) {
     .section {
-        margin-bottom: 70px;
+        margin-bottom: 40px;
+        
     }
     .header {
         align-items: flex-end;

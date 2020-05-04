@@ -174,6 +174,7 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
                                     {getList(category.entries)}
                                 </div>
                                 {getModal(category, cat)}
+                                <hr className={styles.mobile_divider}></hr>
                         </section>
                     )
                 })}
