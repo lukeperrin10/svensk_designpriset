@@ -62,7 +62,7 @@ const Start = ({content, calendar}:props) => {
         const cal = calendar.length > 0 ? calendar[0].content : ''
         switch(yearConfig.current_phase) {
             case PHASES.ONE:
-                return <Puff calendar={cal} variant='register' date={new Date(yearConfig.phase_1_start)} awardPlace={yearConfig.award_place} />
+                return <Puff calendar={cal} variant='register' date={new Date(yearConfig.register_deadline_date)} awardPlace={yearConfig.award_place} />
             case PHASES.THREE:
                 return <Puff calendar={cal} variant='vote' date={new Date(yearConfig.phase_3_start)} awardPlace={yearConfig.award_place} />
             case PHASES.FOUR:
