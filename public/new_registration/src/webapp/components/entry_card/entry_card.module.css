@@ -1,5 +1,9 @@
+:root {
+    --ENTRY_CARD_SIZE: 287px;
+}
+
 .container {
-    width: 297px;
+    width: var(--ENTRY_CARD_SIZE);
     position: relative;
 }
 
@@ -12,8 +16,10 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 297px;
-    width: 297px;
+    /* height: 297px;
+    width: 297px; */
+    height: var(--ENTRY_CARD_SIZE);
+    width: var(--ENTRY_CARD_SIZE);
 }
 
 .bottom {
@@ -49,8 +55,8 @@
 
 .overlay {
     display: flex;
-    width: 297px;
-    height: 297px;
+    height: var(--ENTRY_CARD_SIZE);
+    width: var(--ENTRY_CARD_SIZE);
     position: absolute;
     top: 0;
     left: 0;

@@ -160,7 +160,7 @@
     }
     .container {
         padding-bottom: 75px;
-        justify-content: center;
+        /* justify-content: sp; */
     }
     .left {
         margin-top: 50px;
@@ -177,6 +177,7 @@
     .container {
         position: static;
         width: 100%;
+        justify-content: flex-start !important;
     }
 
     .calendar > div:nth-child(1) {
@@ -198,6 +199,19 @@
     .calendar > div:nth-child(2) > p {
         margin-bottom: 0.5rem;
         margin-top: 0.5rem;
+    }
+
+    .text_container_left {
+        margin-left: 0px;
+    }
+
+    .vote_headline {
+        position: relative;
+        left: -7px !important;
+    }
+    .day {
+        position: relative;
+        left: -15px;
     }
 }
 
