@@ -7,6 +7,7 @@ import { assembleMediaUrl } from '../../helpers'
 import { IS_MOBILE } from '../../config/style'
 import gold from '../../assets/ui/crown_gold.svg'
 import silver from '../../assets/ui/crown_silver.svg'
+import LazyLoad from 'react-lazyload'
 
 interface IEntryCard {
     entry: IEntry,
@@ -37,9 +38,14 @@ const EntryCard = ({entry, onVoteClick, isVoted, onlyDisplay, onShowClick, noMar
     return (
         <div className={[styles.container, onlyDisplay && styles.container_min, !noMargin && styles.margin].join(' ')}>
             {IS_MOBILE ?
-            <div onClick={onShow} style={imageStyle} className={[styles.img_holder, onlyDisplay && styles.img_holder_min].join(' ')}></div>
+            <LazyLoad>
+                <div onClick={onShow} style={imageStyle} className={[styles.img_holder, onlyDisplay && styles.img_holder_min].join(' ')}></div>
+            </LazyLoad>
+            
             :
-            <div style={imageStyle} className={[styles.img_holder, onlyDisplay && styles.img_holder_min].join(' ')}></div>
+            <LazyLoad>
+                <div style={imageStyle} className={[styles.img_holder, onlyDisplay && styles.img_holder_min].join(' ')}></div>
+            </LazyLoad>
             }
             
             {!IS_MOBILE &&
