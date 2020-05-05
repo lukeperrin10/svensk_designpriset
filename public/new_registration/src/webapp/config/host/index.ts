@@ -1,7 +1,7 @@
 const isProd = process.env.NODE_ENV === "production"
 
-//const PROD_DOMAIN = process.env.REACT_APP_IS_TEST ? 'test.designpriset.se' : "https://designpriset.se"
-const PROD_DOMAIN = process.env.REACT_APP_IS_TEST ? 'http://test.designpriset.se' : "http://185.20.12.59"
+const PROD_DOMAIN = process.env.REACT_APP_IS_TEST ? 'http://test.designpriset.se' : "https://designpriset.se"
+//const PROD_DOMAIN = process.env.REACT_APP_IS_TEST ? 'http://test.designpriset.se' : "http://185.20.12.59"
 
 export const BASE_URL = isProd? `${PROD_DOMAIN}/api/v1` : "http://myown.se:8001"
 export const WINNER_URL = `${BASE_URL}/winners`
