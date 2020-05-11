@@ -94,7 +94,7 @@ function createProfile() {
     return {
         secret: 'secretTest1234',
         contact: 'WOPII_TEST',
-        company: 'WOPII_TEST',
+        company: 'WOPII_TEST COMPANY',
         address: 'WOPII_TEST',
         zip: '12345',
         city: 'WOPII_TEST',

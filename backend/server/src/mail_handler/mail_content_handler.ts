@@ -23,6 +23,9 @@ export async function getMailContent(mailType: MailType, secret?:string, profile
         const query = await db.query('SELECT * FROM `mails` WHERE type = ?', [mailType])
         const mailContent : MailContent = query[0]
         mailContent.content = await replaceVars(mailContent.content, secret, profile, entries)
+        if (mailType === MailType.ENTRY_CONFIRM_ADMIN || mailType === MailType.ENTRY_UPDATE_ADMIN) {
+            mailContent.subject = `${mailContent.subject} - ${profile.company}`
+        }
         return mailContent
     } catch (error) {
         console.log(error)
