@@ -268,7 +268,9 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             
 
             </div>
-            <Footer content={footerRightContent} links={footerLinks}/>
+            {didFetch && yearConfig.year !== '' &&
+                <Footer content={footerRightContent} links={footerLinks}/>
+            }
         </Router>
     )
 }

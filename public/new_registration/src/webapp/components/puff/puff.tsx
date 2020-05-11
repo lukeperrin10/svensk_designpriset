@@ -14,12 +14,13 @@ interface props {
     variant: 'register' | 'award' | 'vote',
     date: Date,
     awardPlace: string,
-    calendar: string
+    calendar: string,
+    placeholder?:boolean
 }
 
 const subject = 'Biljetter till årets prisutdelning'
 
-const Puff = ({variant, date, awardPlace, calendar}:props) => {
+const Puff = ({variant, date, awardPlace, calendar, placeholder}:props) => {
     const history = useHistory()
     const getRegister = (day: string, month: string) => {
         return (
@@ -90,7 +91,14 @@ const Puff = ({variant, date, awardPlace, calendar}:props) => {
         )
     }
 
+    const getPlaceholder = () => {
+        return (
+            <section className={[styles.container, styles.gold].join(' ')}></section>
+        )
+    }
+
     const getVariant = () => {
+        if (placeholder) return getPlaceholder()
         const day = date.getDate().toString()
         const month = getMonth(date.getMonth())
         const firstCap = month.charAt(0).toUpperCase() + month.slice(1);

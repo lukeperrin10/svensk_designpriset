@@ -28,29 +28,29 @@ export interface formItems {
 // }
 
 export const FORM_PROFILE_LABELS: formItems = {
-    company: {label: "Företag", key: "company", required: true, type: "text"},
-    contact: {key: "contact", label: "Namn/Kontakt", required: true, type: "text"},
-    mail: {label: "E-post", key: "mail", required: true, type: "email"},
+    company: {label: "Företag", key: "company", required: true, type: "text", maxLength:511},
+    contact: {key: "contact", label: "Namn/Kontakt", required: true, type: "text", maxLength:511},
+    mail: {label: "E-post", key: "mail", required: true, type: "email", maxLength:63},
     phone: {label: "Telefonnummer", key: "phone", required: true, type: "text", maxLength: 20},
-    address: {label: "Adress", key: "address", required: true, type: "text"},
+    address: {label: "Adress", key: "address", required: true, type: "text", maxLength:511},
     zip: {label: "Postnummer", key: "zip", required: true, type: "text", maxLength: 9, small: true},
-    city: {label: "Ort", key: "city", required: true, type: "text", medium: true},
-    homepage: {label: "Webbplats", key: "homepage", required: false, type: "text"}
+    city: {label: "Ort", key: "city", required: true, type: "text", medium: true, maxLength:63},
+    homepage: {label: "Webbplats", key: "homepage", required: false, type: "text", maxLength:255}
 }
 // WARNING: Se över vilka som ska vara required eller inte
 export const FORM_ENTRY_LABELS: formItems = {
-    entry_name: {key: "entry_name", label: "Bidragets namn", required: true, type: "text"},
+    entry_name: {key: "entry_name", label: "Bidragets namn", required: true, type: "text", maxLength:127},
     customer: {key: 'customer', label: 'Uppdragsgivare', required: true, type: 'text', marginBottom: true},
     description: {key: 'description', label: 'Beskrivning (max 200 tecken)', required: true, type: 'text', marginBottom:true, largeTextInput: true, singleRow: true, maxLength: 200},
     category_id: {key: 'category_id', label: 'Tävlingskategori', required: true, type: 'select', singleRow: true},
-    webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer", required: false, type: "text", singleRow: true, marginBottom: true, categoryType: 'digital'},
-    format: {key: 'format', label: 'Omfång (Gäller trycksaker)', required: false, type: 'text', categoryType: 'print'},
-    size: {key: 'size', label: 'Storlek (Gäller trycksaker)', required: false, type: 'text', marginBottom: true, categoryType: 'print'},
-    video_url: {key: "video_url", label: "Länk video (endast Vimeo/Youtube)", required: false, type: "text", singleRow: true, marginBottom: true},
+    webpage: {key: "webpage", label: "Länk digitala bidrag/casefilmer", required: false, type: "text", singleRow: true, marginBottom: true, categoryType: 'digital', maxLength:255},
+    format: {key: 'format', label: 'Omfång (Gäller trycksaker)', required: false, type: 'text', categoryType: 'print', maxLength:20},
+    size: {key: 'size', label: 'Storlek (Gäller trycksaker)', required: false, type: 'text', marginBottom: true, categoryType: 'print', maxLength:20},
+    video_url: {key: "video_url", label: "Länk video (endast Vimeo/Youtube)", required: false, type: "text", singleRow: true, marginBottom: true, maxLength:511},
     work_force: {key: 'work_force', label: 'Arbetsgrupp', required: false, type:'header'},
-    designer: {key: 'designer', label: 'Designer', required: true, type: 'text'},
-    illustrator: {key: 'illustrator', label: 'Illustratör/fotograf', required: false, type: 'text'},
-    leader: {key: 'leader', label: 'Projektledare', required: true, type: 'text'},
+    designer: {key: 'designer', label: 'Designer', required: true, type: 'text', maxLength:511},
+    illustrator: {key: 'illustrator', label: 'Illustratör/fotograf', required: false, type: 'text', maxLength:511},
+    leader: {key: 'leader', label: 'Projektledare', required: true, type: 'text', maxLength:511},
     
     
 }

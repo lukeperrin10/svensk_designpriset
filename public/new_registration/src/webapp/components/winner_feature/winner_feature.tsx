@@ -6,18 +6,25 @@ import Text, { Ingress } from '../text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../text/text'
 
 interface props {
-    entry: IEntry
+    entry: IEntry | undefined
 }
 
 const WinnerFeature = ({entry}:props) => {
     return (
         <section className={styles.section}>
+            {entry ?
             <img className={styles.img} src={assembleMediaUrl(entry.avatar)} alt={entry.entry_name} />
+            :
+            <div className={styles.img_placeholder}></div> }
+            {entry ?
             <div className={styles.text_container}>
                 <Text className={styles.headline} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.MEDIUM}>{entry.entry_name}</Text>
                 <Ingress>{entry.is_winner_gold ? 'Guld' : 'Silver' } {entry.year}</Ingress>
                 <Ingress>{entry.category_name}</Ingress>
             </div>
+            :
+            <div className={styles.text_placeholder}></div>
+            }
         </section>
     )
 }

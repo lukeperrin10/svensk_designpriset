@@ -59,6 +59,9 @@ const Start = ({content, calendar}:props) => {
     }
 
     const getPuff = () => {
+        if (yearConfig.current_phase === '') {
+            return <Puff placeholder={true} calendar={''} variant='award' date={new Date()} awardPlace={''} />
+        }
         const cal = calendar.length > 0 ? calendar[0].content : ''
         switch(yearConfig.current_phase) {
             case PHASES.ONE:
@@ -68,7 +71,7 @@ const Start = ({content, calendar}:props) => {
             case PHASES.FOUR:
                 return <Puff calendar={cal} variant='award' date={new Date(yearConfig.phase_4_start)} awardPlace={yearConfig.award_place} />
             default:
-                return null
+                return <div></div>
         }
     }
     
@@ -76,9 +79,7 @@ const Start = ({content, calendar}:props) => {
         <main className={styles.main}>
             <Meta />
             <ShareButton/>
-            {featureWinner &&
             <WinnerFeature entry={featureWinner} />
-            }
             {getPuff()}
             {content && content.length > 0 && <StartContent content={content[0]}/>}
             <div className={styles.winner_header}>
