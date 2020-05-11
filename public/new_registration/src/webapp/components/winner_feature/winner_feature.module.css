@@ -83,6 +83,14 @@
         width: unset;
         margin-bottom: 32px;
     }
+
+    .img_placeholder {
+        height: 226px;
+        width: 70%;
+        margin-bottom: 32px;
+    }
+
+    
     .text_container {
         width: unset;
         margin-left: 0;
