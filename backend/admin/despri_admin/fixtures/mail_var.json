@@ -78,6 +78,22 @@
             "name": "Länk för röstverifiering",
             "value": "[#vote_confirm_link]"
         }
+    },
+    {
+        "model": "despri_admin.MailVar",
+        "pk": 11,
+        "fields": {
+            "name": "Bidragsnamn",
+            "value": "[#entry_name]"
+        }
+    },
+    {
+        "model": "despri_admin.MailVar",
+        "pk": 12,
+        "fields": {
+            "name": "Företagsnamn",
+            "value": "[#company_name]"
+        }
     }
   ]
 

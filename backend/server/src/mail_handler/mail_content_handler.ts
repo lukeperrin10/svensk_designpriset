@@ -15,7 +15,9 @@ enum MailVarValues {
     entry_name_with_category = 'entry_name_with_category',
     award_date = 'award_date',
     award_place = 'award_place',
-    vote_confirm_link = 'vote_confirm_link'
+    vote_confirm_link = 'vote_confirm_link',
+    entry_name = 'entry_name',
+    company_name = 'company_name'
 }
 
 export async function getMailContent(mailType: MailType, secret?:string, profile?: Profile, entries?: Entry[]): Promise<MailContent> {
@@ -80,6 +82,12 @@ export async function replaceVars(content: string, secret?:string, profile?: Pro
             case MailVarValues.register_edit_link:
                 if (profile) return `<a href=${generateUserLink(profile.id, profile.secret)}>Redigera bidrag</a>`
                 return 'register edit link not found'
+            case MailVarValues.entry_name:
+                if (entries) return entries[0].entry_name
+                return 'entry name not found'
+            case MailVarValues.company_name:
+                if (profile) return profile.company
+                return 'company name not found'
             default:
                 return 'No valid regex input'
         }
