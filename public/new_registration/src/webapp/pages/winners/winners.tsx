@@ -73,7 +73,7 @@ const Winners = ({ match, currentWinnerYear }:RouteComponentProps<WinnersParams>
 
     const getYears = (current: number) => {
         const years = []
-        for (let i = current;i>=2011;i--) {
+        for (let i = current;i>=2006;i--) {
             years.push(i.toString())
         }
         return years
