@@ -51,6 +51,28 @@ function getYear(year, phase) {
         const todayYear = new Date().getFullYear();
         const argYear = new Date(year).getFullYear();
         const queryYear = todayYear === argYear && currentPhase !== phase_handler_1.PHASES.FIVE ? argYear - 1 : year;
+        if (argYear < 2011) {
+            let res = [];
+            switch (argYear) {
+                case 2006:
+                    res = require('../really_old_winners/2006');
+                    return res.default;
+                case 2007:
+                    res = require('../really_old_winners/2007');
+                    return res.default;
+                case 2008:
+                    res = require('../really_old_winners/2008');
+                    return res.default;
+                case 2009:
+                    res = require('../really_old_winners/2009');
+                    return res.default;
+                case 2010:
+                    res = require('../really_old_winners/2010');
+                    return res.default;
+                default:
+                    return;
+            }
+        }
         const winners = yield db.query('SELECT * FROM winner_view WHERE year = ? AND (is_winner_gold = 1 OR is_winner_silver = 1)', [queryYear]);
         return yield addImages(winners);
     });

@@ -30,8 +30,8 @@ class EntryFilter(admin.SimpleListFilter):
 
 # @admin.register(Entry)
 class EntryAdmin(BaseAdmin):
-    readonly_fields = ('entry_name_preview','entry_preview')
-    list_display = ('entry_name', 'profile', 'category', 'customer', 'source', 'image', 'sent_nominee_notification', 'is_nominated', 'is_winner_gold', 'is_winner_silver')
+    readonly_fields = ('id','entry_name_preview','entry_preview')
+    list_display = ('entry_name', 'id', 'profile', 'category', 'customer', 'source', 'image', 'sent_nominee_notification', 'is_nominated', 'is_winner_gold', 'is_winner_silver')
     search_fields = ('entry_name', 'profile__company')
     list_filter = (EntryFilter, 'year')
     actions = ['send_nominee_action', 'nominate_action']
