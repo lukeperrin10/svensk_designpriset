@@ -56,13 +56,7 @@ class DpForm extends React.Component<IDpFormProps> {
     }
 
     onOutsideSubmit() {
-        // if (this.formRef.current) {
-        //     for(let i=0;i<this.formRef.current.length;i++) {
-        //         console.log(this.formRef.current[i])
-        //     }
-        // }
         if (this.formRef.current?.reportValidity()) {
-
             this.props.onSubmit(this.state.formInput)
         } else {
             this.props.onError()

@@ -26,6 +26,10 @@
     --PRIMARY_TEXT_FONT: franklin-gothic-urw, sans-serif;
 }
 
+html {
+    scroll-padding-top: 200px;
+}
+
 
 hr {
     border-color: #1C1B19;

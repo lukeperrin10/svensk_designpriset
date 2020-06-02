@@ -40,8 +40,6 @@ const ShareButton = ({url, topAlign}:props) => {
         return FRONTEND_URL+history.location.pathname
         // const url = window.location.href
     }
-    console.log(topAlign)
-    console.log(IS_MOBILE)
     return (
         <div>
         <div className={styles.container}>

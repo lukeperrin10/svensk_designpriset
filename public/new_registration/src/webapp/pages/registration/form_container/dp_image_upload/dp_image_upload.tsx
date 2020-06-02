@@ -181,7 +181,7 @@ class DpImageUpload extends React.Component<IDpImageUpload> {
                     {errorUploading ? errorMessage : null}
                 </div>
                 {displayErrorProps ?
-                <div>
+                <div className={styles.error}>
                     {errorMessageProps}
                 </div>
                 :null}

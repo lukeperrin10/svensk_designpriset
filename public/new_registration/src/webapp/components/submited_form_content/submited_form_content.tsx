@@ -38,7 +38,6 @@ const SubmitedFormContent = ({profile, title, entry}:ISubmitedFormContent) => {
 
     const getItems = (items:{key:string, label:string}[]) => {
         if (entry) {
-            console.log(entry)
             const els = items.map(item => {
                 if (item.key in entry && entry[item.key] !== '' && entry[item.key] !== null) {
                     return (

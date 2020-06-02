@@ -190,7 +190,6 @@ class FormContainer extends React.Component<IFormContainer> {
     saveProfile(profile: IEnteredValues) {
         let error = false
         const {tempProfile} = this.state
-
         let savedProfile : INewProfile
         if ('id' in tempProfile) {
             savedProfile = tempProfile
@@ -207,20 +206,16 @@ class FormContainer extends React.Component<IFormContainer> {
                 } else if (key in tempProfile) {
                     savedProfile[key] = tempProfile[key]
                 } else {
-                    error = true
+                    if (!(key === 'homepage')) error = true
                 }
             }
         })
         savedProfile.secret = savedProfile.secret === '' ? `${Md5.hashStr(savedProfile.contact+Date.now())}` : savedProfile.secret
-        
         if (!error) {
             this.setState({savedProfile: savedProfile, profileDisabled: true, didSaveProfile: true})
             localStorage.setItem(CACHED_PROFILE, JSON.stringify(savedProfile))
+            this.onTryEntriesSubmit()
         }
-    }
-
-    saveEntryHandler(entry: IEnteredValues, entryKey: string, delay: number) {
-        
     }
 
     saveEntry(entry: IEnteredValues, entryKey: string) {
@@ -494,37 +489,35 @@ class FormContainer extends React.Component<IFormContainer> {
         }
     }
 
-    onTrySubmit() {
+    onTryProfileSubmit() {
         this.setState({formError: false}, () => {
-            this.setState({shouldSubmitEntries: true}, () => {
-                this.setState({shouldSubmitEntries: false, shouldSubmitProfile: true}, () => {
-                    this.setState({shouldSubmitProfile: false})
-                })
+            this.setState({shouldSubmitProfile: true}, () => {
+                this.setState({shouldSubmitProfile: false})
             })
         })
     }
 
+    onTryEntriesSubmit() {
+        this.setState({formError: false}, () => {
+            this.setState({shouldSubmitEntries: true}, () => {
+                this.setState({shouldSubmitEntries: false})
+            })
+        })
+    }
+
+    onTrySubmit() {
+        this.onTryProfileSubmit()
+        // this.setState({formError: false}, () => {
+        //     this.setState({shouldSubmitEntries: true}, () => {
+        //         this.setState({shouldSubmitEntries: false, shouldSubmitProfile: true}, () => {
+        //             this.setState({shouldSubmitProfile: false})
+        //         })
+        //     })
+        // })
+    }
+
     render() {
-        const {tempProfile, profileDisabled, didSaveProfile, didSaveEntry, tempEntries, displayReview, checkShouldClear, editMode} = this.state 
-        const modalTitle = editMode ? 'Bekräfta uppdatering av uppgifter' : 'Bekräfta uppgifter'
-        const ignoreLabels = [
-            'created', 
-            'id', 
-            'is_winner_gold', 
-            'is_winner_silver', 
-            'is_nominated', 
-            'profile_id', 
-            'secret', 
-            'modified', 
-            'sent_nominee_notification',
-            'created',
-            'year',
-            'motivation',
-            'secret', 
-            'invoice_paid', 
-            'id', 
-            'modified'
-        ]
+        const {tempProfile, tempEntries, displayReview} = this.state 
         return (
             <div className={styles.container}>
             {!this.state.didLoad ?
