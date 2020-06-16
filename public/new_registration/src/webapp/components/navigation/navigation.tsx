@@ -1,17 +1,17 @@
-import * as React from 'react'
+import React, {Suspense} from 'react'
 import {useState, useEffect} from 'react'
 import {BrowserRouter as Router, Route, Switch, Redirect, RouteComponentProps} from 'react-router-dom'
-import Registration from '../../pages/registration'
-import Vote from '../../pages/vote'
+// import Registration from '../../pages/registration'
+// import Vote from '../../pages/vote'
 import Start from '../../pages/start'
+// import Winners from '../../pages/winners'
+// import StandardPage from '../standard_page'
 import * as hosts from '../../config/host'
 import Header from '../header'
 import Footer from '../footer'
 import { CONTENT_TEMPLATES, IContent, ILink, IYearConfig } from '../../model'
 import { createSlug } from '../../helpers'
-import StandardPage from '../standard_page'
 import { PATHS } from '../../config/path'
-import Winners from '../../pages/winners'
 import { IState } from '../../model/state'
 import {getConfig, changePhase} from '../../redux/actions/year_config'
 import { connect } from 'react-redux'
@@ -19,6 +19,13 @@ import DevHeader from '../dev_header'
 import { PHASES } from '../../model/constants'
 import * as queryString from 'query-string'
 import styles from './navigation.module.css'
+// const Start = React.lazy(() => import('../../pages/start'))
+const StandardPage = React.lazy(() => import('../standard_page'))
+const Winners = React.lazy(() => import('../../pages/winners'))
+const Vote = React.lazy(() => import('../../pages/vote'))
+const Registration = React.lazy(() => import('../../pages/registration'));
+
+const fallback = <div></div>
 
 interface ReduxProps {
     yearConfig: IYearConfig
@@ -124,10 +131,12 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                     path={`/${createSlug(cont.title)}`} 
                     render={() => {
                     return (
-                        <StandardPage 
+                        <Suspense fallback={fallback}>
+                            <StandardPage 
                             title={cont.title}
                             content={cont.content}
                             image={cont.image}/>
+                        </Suspense>
                     )
                 }} />
             )
@@ -190,8 +199,8 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
                 }
             default:
                 return {
-                    title: 'Vinnare',
-                    path: '/vinnare'
+                    title: '',
+                    path: ''
                 }
         }
     }
@@ -232,34 +241,53 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
              
                 <Route exact path='/' render={() => {
                     return (
-                        <Start calendar={calendarContent} content={startContent}/>
+                        // <Suspense fallback={fallback}>
+                            <Start calendar={calendarContent} content={startContent}/>
+                        // </Suspense>
+                        
                     )
                 }}/>
 
                 <Route 
                 path={`${PATHS.WINNERS}/:year?`} 
                 render={
-                    ({ match, history, location }:RouteComponentProps<{year:string}>) => <Winners 
-                    history={history} 
-                    location={location} 
-                    match={match} 
-                    currentWinnerYear={currentWinnerYear || new Date('2019').getFullYear()} />}/>
+                    ({ match, history, location }:RouteComponentProps<{year:string}>) => {
+                        return (
+                            <Suspense fallback={fallback}>
+                                <Winners 
+                                history={history} 
+                                location={location} 
+                                match={match} 
+                                currentWinnerYear={currentWinnerYear || new Date('2019').getFullYear()} />
+                            </Suspense>
+                        )
+                    } }/>
 
                 {yearConfig.current_phase !== "" &&
                 <Route path={PATHS.VOTE} render={() => {
-                    if (checkIfVoteAllowed()) return <Vote awardDate={yearConfig.award_date} awardPlace={yearConfig.award_place} />
+                    if (checkIfVoteAllowed()) return (
+                        <Suspense fallback={fallback}>
+                            <Vote awardDate={yearConfig.award_date} awardPlace={yearConfig.award_place} />
+                        </Suspense>
+                    )
                     else return redirect()
                 }} />}
 
                 <Route path={PATHS.REGISTRATION} render={() => {
-                    if (checkIfRegisterAllowed()) return <Registration lastDate={getLastRegisterDate(yearConfig)} registerInfo={registerInfoContent} />
+                    if  (checkIfRegisterAllowed()) return (
+                        <Suspense fallback={fallback}>
+                            <Registration lastDate={getLastRegisterDate(yearConfig)} registerInfo={registerInfoContent} />
+                        </Suspense>
+                    ) 
                     else return redirect()
                 }} />
 
                 {standardPages.length > 0 && getStandardRoutes(standardPages)}
                 <Route render={() => {
                     return (
-                        <Start calendar={calendarContent} content={startContent}/>
+                        <Suspense fallback={fallback}>
+                            <Start calendar={calendarContent} content={startContent}/>    
+                        </Suspense>
                     )
                 }}/>
             </Switch> 

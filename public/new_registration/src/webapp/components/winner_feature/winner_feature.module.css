@@ -7,21 +7,21 @@
     /* max-width: 700px; */
     margin-left: 155px;
     max-height: 544px;
-    animation: fadeIn 3000ms;
+    animation: fadeIn 2000ms;
 }
 
 .img_placeholder {
     margin-left: 155px;
     height: 544px;
     width: 400px;
-    background-color: #F5F5F5;
+    /* background-color: #F5F5F5; */
 }
 
 .text_placeholder {
     width: 300px;
     height: 156px;
     margin-left: 29px;
-    background-color: #F5F5F5;
+    /* background-color: #F5F5F5; */
 }
 
 .section {
@@ -37,6 +37,7 @@
 .text_container {
     margin-left: 29px;
     width: 400px;
+    animation: fadeIn 2000ms;
 }
 
 .text_container p {
