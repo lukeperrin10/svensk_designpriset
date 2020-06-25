@@ -34,6 +34,7 @@ class EntryAdmin(BaseAdmin):
     list_display = ('entry_name', 'id', 'profile', 'category', 'customer', 'source', 'image', 'sent_nominee_notification', 'is_nominated', 'is_winner_gold', 'is_winner_silver')
     search_fields = ('entry_name', 'profile__company')
     list_filter = (EntryFilter, 'year')
+    preserve_filters = False
     actions = ['send_nominee_action', 'nominate_action']
     change_list_template = 'admin/despri_admin/entry_change_list.html'
 
