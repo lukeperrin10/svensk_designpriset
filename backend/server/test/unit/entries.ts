@@ -21,7 +21,7 @@ const test_entry: entries.Entry = {
     is_winner_gold: 0,
     is_winner_silver: 0,
     is_nominated: 0,
-    sent_nominee_notification: new Date().toISOString(),
+    //sent_nominee_notification: new Date().toISOString(),
     motivation: "test motivation",
     year: "2020",
     entry_images: [{image: "extra-x405wf8102k7x74scm.jpg", is_featured: false},{image: "extra-x405wf8102k7x74scr.jpg", is_featured: false}]

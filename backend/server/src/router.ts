@@ -1,5 +1,6 @@
 import {Express, Request, Response, NextFunction} from 'express'
 import * as express from 'express'
+require('express-async-errors')
 import {router as entries} from './routes/entries'
 import {router as profiles} from './routes/profiles'
 import {router as categories} from './routes/category'
