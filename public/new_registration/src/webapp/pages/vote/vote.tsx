@@ -14,6 +14,7 @@ import { getDayWithMonth } from '../../helpers/dates'
 import styles from './vote.module.css'
 import VoteInstruction from '../../components/vote_instruction'
 import ShareButton from '../../components/share_button'
+import ErrorModal from '../registration/error_modal'
 
 enum STAGES {
     LIST = 'LIST',
@@ -116,7 +117,8 @@ const Vote = ({awardDate, awardPlace}:props) => {
             return true
         } else {
             setError(true)
-            setErrorMessage(response.statusText)
+            if (response.status === 409) setErrorMessage('Du har redan röstat med den här emailadressen')
+            else setErrorMessage(response.statusText)
             return false
         }
     }
@@ -192,20 +194,7 @@ const Vote = ({awardDate, awardPlace}:props) => {
                     <P>LADDAR...</P>
                 </div>
             }
-            {error &&
-            <div style={{
-                position: 'absolute', 
-                top: 0, 
-                left: 0, 
-                height: '90vh', 
-                width: '90vw', 
-                textAlign: 'center',
-                backgroundColor: 'rgba(255,255,255,0.9)'}}>
-                    <P>Något gick fel.</P>
-                    <P>{errorMessage}</P>
-                    <button onClick={resetStage}>Försök igen</button>
-                </div>
-            }
+            <ErrorModal show={error} onClose={() => setError(false)} message={errorMessage}/>
         </div>
     )
 }

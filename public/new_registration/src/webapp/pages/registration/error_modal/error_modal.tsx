@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 
 interface IErrorModal {
     show: boolean,
+    message?: string
     onClose: () => void
 }
 class ErrorModal extends React.Component<IErrorModal> {
@@ -13,7 +14,11 @@ class ErrorModal extends React.Component<IErrorModal> {
                 <Modal.Header>
                     <Modal.Title>Fel!</Modal.Title>
                 </Modal.Header>
+                {this.props.message ?
+                <Modal.Body>{this.props.message}</Modal.Body>
+                :
                 <Modal.Body>Något gick fel! Vänligen kontrollera uppgifterna, försök igen eller kontakta info@designpriset.se</Modal.Body>
+                }
                 <Modal.Footer>
                     <Button variant='secondary' onClick={() => this.props.onClose()}>Stäng</Button>
                 </Modal.Footer>
