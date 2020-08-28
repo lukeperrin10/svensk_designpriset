@@ -8,6 +8,7 @@ from .admins.poll_admin import PollAdmin
 from .admins.mail_admin import MailAdmin
 from .admins.content_admin import ContentAdmin
 from .admins.category_admin import CategoryAdmin
+from .admins.profile_admin import ProfileAdmin
 
 
 
@@ -17,7 +18,7 @@ from .admins.category_admin import CategoryAdmin
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Entry, EntryAdmin)
 admin.site.register(Poll, PollAdmin)
-admin.site.register(Profile, BaseAdmin)
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Vote)
 #admin.site.register(Phase, PhaseAdmin)
 admin.site.register(YearConfig, BaseAdmin)
