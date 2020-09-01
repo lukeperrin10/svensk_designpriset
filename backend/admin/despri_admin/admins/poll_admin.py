@@ -43,7 +43,7 @@ class PollAdmin(BaseAdmin):
                 "category": cat,
                 "entries": []
             }
-            for e in Entry.objects.all().filter(category=cat, year=poll_year):
+            for e in Entry.objects.all().filter(category=cat, year=poll_year, is_nominated=True):
                 entry = {
                     "entry": e,
                     "verified_votes": Vote.objects.filter(entry=e, poll=current_poll, verified__isnull=False).count(),
