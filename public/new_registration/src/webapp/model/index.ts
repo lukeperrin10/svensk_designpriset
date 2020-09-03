@@ -164,10 +164,14 @@ export interface IYearConfig {
 }
 
 export interface IPollCategories {
-    [key:number]: {
+    [key:number]: IPollCategory
+}
+
+export interface IPollCategory {
         category_name: string,
+        category_order: number,
+        category_id: number,
         entries: IEntry[]
-    }
 }
 export interface IPollCollection {
     id: number,

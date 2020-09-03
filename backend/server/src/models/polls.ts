@@ -6,7 +6,9 @@ import { Entry } from '../types/dbtypes'
 
 interface PollCategories {
     [key:number]: {
-        category_name: string
+        category_name: string,
+        category_order: number,
+        category_id: number,
         entries: Entry[]
     }
 }
@@ -24,7 +26,8 @@ interface PollQuery  {
     name: string,
     stop: string,
     category_id: number,
-    category_name: string
+    category_name: string,
+    category_order: number
 }
 
 
@@ -37,7 +40,7 @@ export async function get(): Promise<Array<Polls>> {
     const today = new Date()
     try {
         const query = `
-        SELECT p.id as poll_id, p.name, p.stop, pc.category_id, c.name as category_name, c.type as category_type
+        SELECT p.id as poll_id, p.name, p.stop, pc.category_id, c.name as category_name, c.type as category_type, c.order as category_order
         FROM polls p 
         JOIN polls_categories pc on p.id = pc.poll_id
         JOIN categories c on pc.category_id = c.id
@@ -63,7 +66,7 @@ export async function get(): Promise<Array<Polls>> {
                 entry_images: <EntryImages>(await db.query('SELECT image, is_featured FROM entry_images WHERE entry_id = ?', [e.id]))
             })))
         ))
-
+        console.log(pollWithCategories)
         const result = assemblePoll(entriesWithImages, pollWithCategories)
         console.log(result)
         return [result]
@@ -77,8 +80,10 @@ export async function get(): Promise<Array<Polls>> {
 function assemblePoll(cats: Entry[][], polls: PollQuery[]) {
 
     const catNames : {[key:number]: string} = {}
+    const catOrders : {[key:number]: number} = {}
     polls.forEach(poll => {
         catNames[poll.category_id] = poll.category_name
+        catOrders[poll.category_id] = poll.category_order
     })
     const result : PollCollection = {
         id: polls[0].poll_id,
@@ -93,6 +98,8 @@ function assemblePoll(cats: Entry[][], polls: PollQuery[]) {
                 result.categories = {
                     [entry.category_id]: {
                         category_name: getCatName(entry.category_id, catNames),
+                        category_order: catOrders[entry.category_id],
+                        category_id: entry.category_id,
                         entries: [entry]
                     }
                 }
@@ -101,6 +108,8 @@ function assemblePoll(cats: Entry[][], polls: PollQuery[]) {
             } else {
                 result.categories[entry.category_id] = {
                     category_name: getCatName(entry.category_id, catNames),
+                    category_order: catOrders[entry.category_id],
+                    category_id: entry.category_id,
                     entries: [entry]
                 }
             }

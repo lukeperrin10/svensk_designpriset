@@ -11,6 +11,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
+require('express-async-errors');
 const entries_1 = require("./routes/entries");
 const profiles_1 = require("./routes/profiles");
 const category_1 = require("./routes/category");
