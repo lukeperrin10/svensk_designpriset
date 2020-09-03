@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {useState, useEffect} from 'react'
-import { IEntry, IPollCategories } from '../../../model'
+import { IEntry, IPollCategories, IPollCategory } from '../../../model'
 import EntryCard from '../../../components/entry_card'
 import styles from './entry_list.module.css'
 import Accordion from 'react-bootstrap/Accordion'
@@ -74,7 +74,7 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
         setModalEntry(id)
     }
 
-    const getHeader = (category: {category_name: string, entries: IEntry[]}, cat: string, arrowId?: string) => {
+    const getHeader = (category: {category_name: string, entries: IEntry[]}, cat: number, arrowId?: string) => {
         return (
             <header className={styles.header}>
             <div className={styles.header_left}>
@@ -82,7 +82,7 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
                 {/* <Ingress>{getCountText(category.entries)}</Ingress> */}
             </div>
             <div className={styles.header_right}>
-                {checkCategoryIsVoted(parseInt(cat)) && <Label>Röstat</Label>}
+                {checkCategoryIsVoted(cat) && <Label>Röstat</Label>}
                 {arrowId && <img className={[styles.arrow, isFirstCat(cat) && styles.arrow_up].join(' ')} id={arrowId} src={arrow} alt='' />}
                 
             </div>
@@ -108,10 +108,10 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
         )
     }
 
-    const getModal = (category: {category_name: string, entries: IEntry[]}, cat: string) => {
+    const getModal = (category: {category_name: string, entries: IEntry[]}, cat: number) => {
         return (
             <EntryModal 
-            show={showModalCat === parseInt(cat)} 
+            show={showModalCat === cat} 
             onClose={hideModal}
             categoryName={category.category_name}
             currentEntry={modalEntry || 0}
@@ -144,8 +144,8 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
 
     }
 
-    const isFirstCat = (cat: string) => {
-        return Object.keys(categories)[0] === cat
+    const isFirstCat = (cat: number) => {
+        return Object.keys(categories)[0] === cat.toString()
     }
 
     const isExpanded = (arrowId: string) => {
@@ -161,19 +161,27 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
         setArrowIds(ids)
     }
 
+    const sortCategories = (cats: IPollCategories) => {
+        const arr : IPollCategory[]  = Object.keys(cats).map(cat => cats[cat])
+        return arr.sort((a,b) => {
+            if (a.category_order < b.category_order) return -1
+            if (a.category_order > b.category_order) return 1
+            return 0
+        })
+    }
+
     if (IS_MOBILE) {
         return (
             <div>
                 <hr className={styles.mobile_line}></hr>
-                {Object.keys(categories).map(cat => {
-                    const category = categories[cat]
+                {sortCategories(categories).map(category => {
                     return (
-                        <section key={cat} className={styles.section}>
-                            {getHeader(category, cat)}
+                        <section key={category.category_id} className={styles.section}>
+                            {getHeader(category, category.category_id)}
                                 <div>
                                     {getList(category.entries)}
                                 </div>
-                                {getModal(category, cat)}
+                                {getModal(category, category.category_id)}
                                 <hr className={styles.mobile_divider}></hr>
                         </section>
                     )
@@ -184,21 +192,20 @@ const EntryList = ({onVote, voteEntries, onVotesDone, categories}: IEntryList) =
     return (
         <div>
             <Accordion defaultActiveKey={getFirstCatId()}>
-                {Object.keys(categories).map(cat => {
-                    const category = categories[cat]
-                    const arrowId = arrowPrefix+cat
+                {sortCategories(categories).map(category => {
+                    const arrowId = arrowPrefix+category.category_id
                     return (
-                        <section key={cat} className={styles.section}>
+                        <section key={category.category_id} className={styles.section}>
                             <hr></hr>
-                            <Accordion.Toggle as='div' onClick={() => onAccordionToggle(cat, arrowId)} eventKey={cat}>
-                               {getHeader(category, cat, arrowId)}
+                            <Accordion.Toggle as='div' onClick={() => onAccordionToggle(category.category_id.toString(), arrowId)} eventKey={category.category_id.toString()}>
+                               {getHeader(category, category.category_id, arrowId)}
                             </Accordion.Toggle>
-                            <Accordion.Collapse eventKey={cat}>
+                            <Accordion.Collapse eventKey={category.category_id.toString()}>
                                 <div>
                                     {getList(category.entries)}
                                 </div>
                             </Accordion.Collapse>
-                            {getModal(category, cat)}
+                            {getModal(category, category.category_id)}
                         </section>
                     )
                 })}
