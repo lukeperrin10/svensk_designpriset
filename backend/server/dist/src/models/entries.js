@@ -174,6 +174,10 @@ function batch(new_entries, update) {
                 if (images && images.length > 0) {
                     yield createImages(id, images);
                 }
+                else {
+                    console.log('images ELSE');
+                    yield db.query('DELETE FROM `entry_images` WHERE `entry_id` = ?', [entry.id]);
+                }
             }
             sendMails(profileEntries, update, updatedEntrieIds, new_entries[0].id);
             const ids = [...updatedEntrieIds, ...batchInsert.map(i => i.insertId)];

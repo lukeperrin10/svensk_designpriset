@@ -135,6 +135,9 @@ async function batch(new_entries: Array<Entry>, update: boolean): Promise<Entry[
             const images = entry.entry_images
             if (images && images.length > 0) {
                 await createImages(id, images)
+            } else {
+                console.log('images ELSE')
+                await db.query('DELETE FROM `entry_images` WHERE `entry_id` = ?', [entry.id])
             }
 
         }
