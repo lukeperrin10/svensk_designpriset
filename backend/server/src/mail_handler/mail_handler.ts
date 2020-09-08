@@ -23,7 +23,11 @@ export async function mail(to: string, subject: string, message: string, html?: 
         transporter = nodeMailer.createTransport({
             // host: "smtp02.ports.local",
             host: 'mail03.portsit.se',
-            port: 25
+            port: 366,
+            auth: {
+                user: 'info@designpriset.se',
+                pass: '2kb5S2uV'
+            }
         })
     }
 
