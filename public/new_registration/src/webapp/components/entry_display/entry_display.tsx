@@ -162,13 +162,13 @@ const EntryDisplay = ({entry, categoryName, prevEntry, nextEntry, onPrevNextClic
                         {entry.source !== '' && entry.source !== null &&
                         <div className={styles.contents}>
                         {/* <P>{entry.motivation}</P> */}
-                        <a href={assembleMediaUrl(entry.source)}>Pdf-material</a>   
+                        <a href={assembleMediaUrl(entry.source)} target="_blank">Pdf-material</a>   
                         </div>
                         }
                         {entry.webpage !== '' && entry.webpage !== null &&
                         <div className={styles.contents}>
                         {/* <P>{entry.motivation}</P> */}
-                        <a href={entry.webpage}>{entry.webpage}</a>   
+                        <a href={entry.webpage} target="_blank">{entry.webpage}</a>   
                         </div>
                         }       
                     </article>

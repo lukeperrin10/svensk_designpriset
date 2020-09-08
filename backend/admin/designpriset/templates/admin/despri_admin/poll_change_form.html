@@ -6,6 +6,8 @@
     
     <div>
         <h2>Resultat</h2>
+        <p>Antal röster: {{poll_content.votes_total}}</p>
+        <p>Verifierade röster: {{poll_content.votes_verified}}</p>
         {% for category in poll_content.categories %}
             <div class='poll_category'>
                 <h3>{{category.category}}</h3>

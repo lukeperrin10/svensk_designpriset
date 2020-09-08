@@ -34,8 +34,12 @@ class PollAdmin(BaseAdmin):
     def get_poll_content(self, id):
         current_poll = Poll.objects.get(id=id)
         poll_year = current_poll.start.year
+        votes = 0
+        verified_votes = 0
         poll_content = {
             "poll": current_poll,
+            "votes_total": votes,
+            "votes_verified": verified_votes,
             "categories": []
         }
         for cat in current_poll.categories.all():
@@ -44,10 +48,14 @@ class PollAdmin(BaseAdmin):
                 "entries": []
             }
             for e in Entry.objects.all().filter(category=cat, year=poll_year, is_nominated=True):
+                entry_votes = Vote.objects.filter(entry=e, poll=current_poll).count()
+                entry_verified_votes = Vote.objects.filter(entry=e, poll=current_poll, verified__isnull=False).count()
+                votes += entry_votes
+                verified_votes += entry_verified_votes
                 entry = {
                     "entry": e,
-                    "verified_votes": Vote.objects.filter(entry=e, poll=current_poll, verified__isnull=False).count(),
-                    "votes": Vote.objects.filter(entry=e, poll=current_poll).count(),
+                    "verified_votes": entry_verified_votes,
+                    "votes": entry_votes,
                     "link": reverse('admin:{}_{}_change'.format(e._meta.app_label, e._meta.model_name), args=(e.pk,))
                 }
                 entries = category_with_entries['entries']
@@ -57,6 +65,8 @@ class PollAdmin(BaseAdmin):
             categories = poll_content['categories']
             categories.append(category_with_entries)
             poll_content['categories'] = categories
+            poll_content['votes_total'] = votes
+            poll_content['votes_verified'] = verified_votes
         return poll_content
         # for cat in current_poll(categories):
         #     print(cat)
