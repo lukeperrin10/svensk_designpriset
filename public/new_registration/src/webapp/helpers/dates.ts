@@ -9,7 +9,7 @@ const months : {[key:number]:string} = {
     7: 'augusti',
     8: 'september',
     9: 'oktober',
-    10: 'novemeber',
+    10: 'november',
     11: 'december'
 }
 
