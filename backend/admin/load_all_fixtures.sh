@@ -2,6 +2,6 @@
 
 cd "$(dirname "$0")"
 
-for f in ./despri_admin/fixtures/*.json; do
-    ./run_manage.sh loaddata "$f"
-done
+./populate_standard_data.sh
+./populate_content_data.sh
+./populate_dummy_data.sh
