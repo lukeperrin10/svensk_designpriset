@@ -1,6 +1,3 @@
-CREATE TABLE IF NOT EXISTS old_winner_entries LIKE entries;
--- ALTER TABLE old_winner_entries ADD COLUMN category varchar(255);
-CREATE TABLE IF NOT EXISTS old_winner_profiles LIKE profiles;
 CREATE OR REPLACE VIEW winner_view AS 
 SELECT 
     e.id,
