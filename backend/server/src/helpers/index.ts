@@ -31,7 +31,7 @@ export function getDateTime(type: dateTypes = dateTypes.FULL_DATE, customDate?: 
     const date = customDate ? new Date(customDate) : new Date()
     switch (type) {
         case dateTypes.FULL_DATE:
-            return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()+1}-${date.getMinutes()}-${date.getSeconds()}`
+            return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${(date.getHours()+1) % 24}-${date.getMinutes()}-${date.getSeconds()}`
         case dateTypes.YEAR:
             return `${date.getFullYear()}`
         case dateTypes.DAY_AND_MONTH:
