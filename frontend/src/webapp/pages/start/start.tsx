@@ -71,7 +71,7 @@ const Start = ({content, calendar}:props) => {
             case PHASES.THREE:
                 return <Puff calendar={cal} variant='vote' date={new Date(yearConfig.phase_3_start)} awardPlace={yearConfig.award_place} />
             case PHASES.FOUR:
-                return <Puff calendar={cal} variant='award' date={new Date(yearConfig.phase_4_start)} awardPlace={yearConfig.award_place} />
+                return <Puff calendar={cal} variant='award' date={new Date(yearConfig.award_date)} awardPlace={yearConfig.award_place} />
             default:
                 return <div></div>
         }

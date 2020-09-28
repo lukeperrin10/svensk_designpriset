@@ -190,7 +190,7 @@ const Navigation = ({yearConfig, getConfig, changePhase}:props) => {
             case PHASES.FOUR:
                 return {
                     title: 'Prisutdelningen',
-                    path: '/prisutdelning'
+                    path: '/prisutdelningen'
                 }
             case PHASES.FIVE:
                 return {
