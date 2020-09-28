@@ -1,6 +1,6 @@
 # Designpriset
 
-This system is divided in 3 parts: Django admin interface, node server and react frontend.
+This system is divided in 3 parts: Django admin interface, node server and react frontend (see dirs backend and frontend for readme on how to build/run etc).
 THe system is built to handle the competitions different phases as followed:
 
 ### Phase one: 
