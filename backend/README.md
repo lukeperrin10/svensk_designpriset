@@ -51,3 +51,12 @@ Use "run_manage.sh <option>" when you need to use django manage. Example
 ./run_manage.sh makemigrations
 ```
 
+## Testing
+There is an automated test suite for the node server. The tests are located in dir 'test'.
+```bash
+cd server
+./run_test.sh
+```
+
+There is also some independent test for testing post entry and voting in folder root/test scripts.
+

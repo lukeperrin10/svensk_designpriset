@@ -42,3 +42,10 @@ Then run 'build_frontend.sh' in the server enviroment.
 The reason for why we have a build script on the server instead of building localy is because we in the begining used react-snap in post build.
 We have, how ever, chosen to remove that so feel free to choose another way of deploying this.
 
+## Testing
+There is an automated test suite for the node server. The tests are located in dir 'test'.
+```bash
+cd server
+./run_test.sh
+```
+

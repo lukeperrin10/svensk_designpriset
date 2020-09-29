@@ -39,3 +39,9 @@ For example Batteri wants to structure the confirmation email sent to applicants
 Hi, [#company_name]!
 Thanks for entering the competition
 ```
+
+## Old winner entries
+Since this system is new and the model for the entries has changed we've migrated all the old winners from the old system and are treating them slightly different.
+The use their own table (old_winner_entries and old_winner_profiles). This goes for the entries that actually existed in the old database. The really old winner entries from the years 2006-2010 was in the old system only generated as html.
+We've parsed those into json files included in the node backend.
+We recommend not to alter any old entries since the old databse used a different (older) charset and you might be in for a hell of parsing if you're unlucky. =)
