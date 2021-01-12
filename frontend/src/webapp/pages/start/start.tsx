@@ -19,6 +19,7 @@ import ShareButton from '../../components/share_button'
 import Puff from '../../components/puff'
 import { PHASES } from '../../model/constants'
 
+
 interface props {
     content?: IContent[],
     calendar: IContent[]

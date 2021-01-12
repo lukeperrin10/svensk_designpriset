@@ -5,6 +5,9 @@ import { assembleMediaUrl } from '../../helpers'
 import Text, { Ingress } from '../text'
 import { TEXT_TYPES, HEADLINE_SIZES } from '../text/text'
 
+import Placeholder from '../../assets/img/placeholder-img.jpg';
+
+
 interface props {
     entry: IEntry | undefined
 }
@@ -15,7 +18,7 @@ const WinnerFeature = ({entry}:props) => {
             {entry ?
             <img className={styles.img} src={assembleMediaUrl(entry.avatar)} alt={entry.entry_name} />
             :
-            <div className={styles.img_placeholder}></div> }
+            <img className={styles.img_placeholder} src={Placeholder}></img> }
             {entry ?
             <div className={styles.text_container}>
                 <Text className={styles.headline} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.MEDIUM}>{entry.entry_name}</Text>
