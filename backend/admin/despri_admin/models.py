@@ -83,10 +83,10 @@ class Entry(BaseModel):
     
     @classmethod
     def getCount(cls):
-        total = cls.objects.count()
-        nominees = cls.objects.filter(is_nominated=True).count()
-        winner_gold = cls.objects.filter(is_winner_gold=True).count()
-        winner_silver = cls.objects.filter(is_winner_silver=True).count()
+        total = cls.objects.filter(year='2021').count()
+        nominees = cls.objects.filter(is_nominated=False).filter(year='2021').count()
+        winner_gold = cls.objects.filter(is_winner_gold=True).filter(year='2021').count()
+        winner_silver = cls.objects.filter(is_winner_silver=True).filter(year='2021').count()
         count = {'total': total, 'nominees': nominees, 'winner_gold': winner_gold, 'winner_silver': winner_silver}
         return count
     getCount.short_description = _('Total amount of entries:')

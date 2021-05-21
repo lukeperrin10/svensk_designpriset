@@ -18,6 +18,7 @@
   max-height: 544px;
   animation: fadeIn 2000ms;
   background-color: #f5f5f5;
+  cursor: pointer;
 }
 
 .text_placeholder {

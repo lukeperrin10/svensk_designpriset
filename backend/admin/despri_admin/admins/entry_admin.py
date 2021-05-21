@@ -83,6 +83,7 @@ class EntryAdmin(BaseAdmin):
             )
         if (request.method == 'GET'):
             count = Entry.getCount()
+            
             response.context_data['total_count'] = count['total']
             response.context_data['nominees'] = count['nominees']
             response.context_data['winner_gold'] = count['winner_gold']

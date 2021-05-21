@@ -18,7 +18,10 @@ const WinnerFeature = ({entry}:props) => {
             {entry ?
             <img className={styles.img} src={assembleMediaUrl(entry.avatar)} alt={entry.entry_name} />
             :
-            <img className={styles.img_placeholder} src={Placeholder}></img> }
+            <img onClick={(e) => {
+                e.preventDefault();
+                window.location.href='https://designpriset.se/prisutdelningen';
+                }} className={styles.img_placeholder} src={Placeholder}></img> }
             {entry ?
             <div className={styles.text_container}>
                 <Text className={styles.headline} type={TEXT_TYPES.H2} headlineSize={HEADLINE_SIZES.MEDIUM}>{entry.entry_name}</Text>
