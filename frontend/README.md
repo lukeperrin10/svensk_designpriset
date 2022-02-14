@@ -1,6 +1,6 @@
 # Designpriset Frontend
 
-The frontend application is built with React
+The frontend application is built with React, new.
 
 ## Installation
 
