@@ -1,4 +1,0 @@
-* Skapa docker-compose fil med mysql och python (ev i egen Dockerfile)
-* Skapa modeller
-* Simpel admin
-* Koppla node backenden mot db-containern

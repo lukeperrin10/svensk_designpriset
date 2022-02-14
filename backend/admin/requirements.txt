@@ -1,8 +1,0 @@
-Django
-mysqlclient
-Pillow
-django-tinymce
-django-material 
-requests
-gunicorn
-django-summernote

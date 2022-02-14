@@ -1,8 +1,0 @@
-node_modules
-package-lock.json
-package.json
-start.sh
-pid
-node_log.log
-node_error.log
-upload_assets

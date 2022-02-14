@@ -1,4 +1,0 @@
-curl \
-  -F "images=@test.jpg" \
-  -F "images=@test2.jpg" \
-  localhost:8001/temp_entry_images

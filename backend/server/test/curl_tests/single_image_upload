@@ -1,3 +1,0 @@
-curl \
-  -F "media=@test.jpg" \
-  localhost:8001/temp_avatar
