@@ -26,7 +26,7 @@
     "start": "react-scripts start",
     "dev": "REACT_APP_IS_DEV='true' react-scripts start",
     "watch": "react-scripts start",
-    "build": "react-scripts build",    
+    "build": "react-scripts build",
     "build-dev": "REACT_APP_IS_DEV='true' react-scripts build",
     "build-test": "REACT_APP_IS_DEV='true' REACT_APP_IS_TEST='true' react-scripts build",
     "test": "react-scripts test",

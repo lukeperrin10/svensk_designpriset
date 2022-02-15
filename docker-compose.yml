@@ -16,14 +16,14 @@ services:
         ports:
             - "3306:3306"
     apache-server:
-        build: ./public
+        build: ./frontend/public
         # links:
         #     - mysql
         #     - backend
         ports:
             - "8011:80"
         volumes: 
-            - ./public:/app
+            - ./frontend/public:/app
             - temp_avatars:/app/clone/admin/temp_avatars
             
     backend:
